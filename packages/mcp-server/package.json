@@ -1,0 +1,21 @@
+{
+  "name": "@archsmith/mcp-server",
+  "version": "0.1.0",
+  "description": "MCP server exposing ArchSmith's render/validate/registry lookups to any MCP-capable agent. Not yet implemented — see project plan, Phase 5.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "bin": {
+    "archsmith-mcp": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "test": "node --test dist/**/*.test.js"
+  },
+  "dependencies": {
+    "@archsmith/renderer": "^0.1.0",
+    "@archsmith/schema": "^0.1.0"
+  }
+}

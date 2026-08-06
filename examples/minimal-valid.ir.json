@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "0.1.0",
+  "title": "Minimal Example — Architecture",
+  "subtitle": "A minimal fixture proving the validation pipeline end to end",
+  "colorTheme": { "family": "standard" },
+  "columns": {
+    "inboundActors": {
+      "items": [
+        { "title": "Web App", "dotColor": "purple", "descriptionLines": ["React SPA"] }
+      ]
+    },
+    "ingress": {
+      "gateway": { "label": "API Gateway", "sublabel": "Production Runtime" }
+    },
+    "corePlatform": {
+      "deployedIn": "Production Runtime",
+      "subLayers": [
+        {
+          "registryId": "execution-and-capability",
+          "rows": [
+            [{ "title": "Backend Service", "descriptionLines": ["REST APIs"] }]
+          ]
+        }
+      ],
+      "systemsOfRecord": {
+        "items": [
+          { "title": "Primary DB", "descriptionLines": ["PostgreSQL"] }
+        ]
+      }
+    },
+    "egress": {
+      "gateway": { "label": "API Gateway", "sublabel": "Outbound M2M" }
+    },
+    "externalSystems": {
+      "clusters": [
+        {
+          "name": "Shared Internal Services",
+          "items": [
+            { "title": "Email Service", "dotColor": "teal", "descriptionLines": ["Notifications"] }
+          ]
+        }
+      ]
+    }
+  },
+  "legend": {
+    "entries": [
+      { "colorToken": "green", "label": "Execution and Capability Layer" }
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "@archsmith/cli",
+  "version": "0.1.0",
+  "description": "ArchSmith CLI — render and validate layered architecture diagrams",
+  "type": "module",
+  "main": "./dist/index.js",
+  "bin": {
+    "archsmith": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "test": "node --test dist/**/*.test.js"
+  },
+  "dependencies": {
+    "@archsmith/renderer": "^0.1.0",
+    "@archsmith/schema": "^0.1.0",
+    "commander": "^13.1.0"
+  }
+}

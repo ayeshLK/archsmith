@@ -1,0 +1,254 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://archsmith.dev/schema/diagram-schema.json",
+  "title": "ArchSmith Diagram IR",
+  "description": "Structural contract for the intermediate representation (IR) an agent produces from a rough sketch/description, and that a deterministic renderer turns into SVG. Draft v0.1.0 — first pass, expect revision. Governed sub-layer/color/icon catalogs live in registries/ alongside this file and are versioned separately; this schema references them by id but does not enumerate their contents.",
+  "type": "object",
+  "required": ["schemaVersion", "title", "subtitle", "colorTheme", "columns", "legend"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "0.1.0",
+      "description": "Version of this schema (and its paired registries) the IR was generated against. Bump when the schema or a registry gains a governed change."
+    },
+    "title": { "type": "string" },
+    "subtitle": {
+      "type": "string",
+      "description": "Mandatory on every diagram per the styling ruleset — not optional flourish."
+    },
+    "colorTheme": {
+      "type": "object",
+      "required": ["family"],
+      "additionalProperties": false,
+      "properties": {
+        "family": {
+          "type": "string",
+          "enum": ["standard", "accessible"],
+          "default": "standard",
+          "description": "'accessible' is a planned second palette family (secondary priority, not yet populated in registries/colors.json). Both families must map to the same semantic sub-layer assignments so a diagram regenerated in either family stays recognizable as the same architecture."
+        }
+      }
+    },
+    "columns": {
+      "type": "object",
+      "required": ["inboundActors", "ingress", "corePlatform", "egress", "externalSystems"],
+      "additionalProperties": false,
+      "description": "Modeled as named fields for readability in v0.1, but the 5-column order/count is a schema-level assumption, not a hard technical constraint — revisit as an ordered list if a diagram ever legitimately needs a 6th column.",
+      "properties": {
+        "inboundActors": {
+          "type": "object",
+          "required": ["items"],
+          "additionalProperties": false,
+          "description": "Renders inside a full-column-height outer frame (light-gray, same treatment as externalSystems) for visual consistency with the other 4 columns — a fixed rendering constant (like corner radius/stroke width), not authored per-diagram data, so no field for it here. Adopted from arch-diagram-sample-3.png/base-arch-diagram-template.png; samples 1/2 omit it. The frame spans the full lane height regardless of item count — only the items themselves are content-driven.",
+          "properties": {
+            "items": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/item" } }
+          }
+        },
+        "ingress": {
+          "type": "object",
+          "required": ["gateway"],
+          "additionalProperties": false,
+          "properties": {
+            "gateway": { "$ref": "#/$defs/gatewayBox" }
+          }
+        },
+        "corePlatform": {
+          "type": "object",
+          "required": ["deployedIn", "subLayers", "systemsOfRecord"],
+          "additionalProperties": false,
+          "properties": {
+            "deployedIn": {
+              "type": "string",
+              "description": "Label for the solid inner wrapper, e.g. 'Production Runtime'."
+            },
+            "subLayers": {
+              "type": "array",
+              "minItems": 1,
+              "items": { "$ref": "#/$defs/subLayerInstance" },
+              "description": "Ordered top-to-bottom. Each entry's registryId must exist in registries/sub-layers.json — adding a new registry entry is a governed change-request, not a per-diagram decision."
+            },
+            "systemsOfRecord": {
+              "$ref": "#/$defs/systemsOfRecordSection",
+              "description": "A sibling section below the 'deployedIn' wrapper — still inside the Core Platform dashed frame, but outside the wrapper box. This resolves an inconsistency observed between templates (sample-3 visually nests it inside the wrapper; samples 1/2 and the ATS build keep it as a sibling below) in favor of the documented majority pattern."
+            }
+          }
+        },
+        "egress": {
+          "type": "object",
+          "required": ["gateway"],
+          "additionalProperties": false,
+          "properties": {
+            "gateway": { "$ref": "#/$defs/gatewayBox" }
+          }
+        },
+        "externalSystems": {
+          "type": "object",
+          "required": ["clusters"],
+          "additionalProperties": false,
+          "description": "Renders inside a full-column-height outer frame, same fixed rendering constant as inboundActors (see its description) — clusters nest inside that outer frame, each with their own separate inner border.",
+          "properties": {
+            "clusters": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/cluster" } }
+          }
+        }
+      }
+    },
+    "legend": {
+      "type": "object",
+      "required": ["entries"],
+      "additionalProperties": false,
+      "description": "Mandatory on every diagram. Only the color/pattern mapping actually used in this diagram belongs here — the 'dashed border = Core Platform boundary' line is a fixed convention the renderer appends automatically, not authored per diagram.",
+      "properties": {
+        "entries": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["colorToken", "label"],
+            "additionalProperties": false,
+            "properties": {
+              "colorToken": { "type": "string", "description": "Must exist in registries/colors.json for the active colorTheme.family." },
+              "label": { "type": "string" }
+            }
+          }
+        },
+        "abbreviations": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "object",
+            "required": ["acronym", "fullName"],
+            "additionalProperties": false,
+            "properties": {
+              "acronym": { "type": "string" },
+              "fullName": { "type": "string" }
+            }
+          },
+          "description": "One entry per item.acronym actually used in this diagram — a distinct concern from 'entries' (color mapping), living in the same mandatory Legend block. Only present when at least one item's full name didn't fit even wrapped to 2 lines within MAX_INLINE_WIDTH (a renderer/rendering-mechanics concern, not authored here) and a human supplied an acronym in response."
+        }
+      }
+    },
+    "notes": {
+      "type": ["array", "null"],
+      "items": { "type": "string" },
+      "default": null,
+      "description": "Conditional — include only when there's an actual caveat/scope gap to state. Omit (null) otherwise; do not pad with generic disclaimers."
+    },
+    "unclassified": {
+      "type": "array",
+      "default": [],
+      "items": { "$ref": "#/$defs/gapNote" },
+      "description": "Item-level schema mismatches (input content that didn't map to any registry entry) get skipped from their intended location and recorded here, then rendered as a visible flagged note in the diagram itself — never as a silent drop or a chat-only warning. A structural-level mismatch (a whole layer/column type the registry can't represent) is NOT recorded here — it's a hard error and no IR is produced at all."
+    }
+  },
+  "$defs": {
+    "pill": {
+      "type": "object",
+      "required": ["label", "semantic"],
+      "additionalProperties": false,
+      "properties": {
+        "label": { "type": "string" },
+        "semantic": {
+          "type": "string",
+          "enum": ["layer", "viaEgress", "primary", "warning", "highlight"],
+          "description": "'layer' inherits the color of whichever sub-layer/item this pill is attached to (e.g. a layer's own descriptive tag). 'viaEgress' is a deliberate cross-reference exception: it intentionally borrows the Egress lane's own mint color (registries/colors.json layerTokens.mint == semanticPillTokens.viaEgress) rather than an independent color, because it's referring to that lane, not describing a status. The remaining values ('primary', 'warning', 'highlight') are fixed semantic colors independent of the surrounding layer's accent (e.g. a 'warning'/gap tag stays amber even inside a teal-accented layer)."
+        }
+      }
+    },
+    "item": {
+      "type": "object",
+      "required": ["title"],
+      "additionalProperties": false,
+      "description": "Generic box shape shared by actor boxes, execution/entity/systems-of-record boxes, and external-system items. Unifies what the ATS reference build called actor_box/detail_box/simple_box.",
+      "properties": {
+        "eyebrow": { "type": ["string", "null"], "default": null, "description": "Small italic category label above the title, e.g. 'API management'." },
+        "icon": { "type": ["string", "null"], "default": null, "description": "Token from registries/icons.json. Null means no approved icon exists yet for this item type." },
+        "dotColor": { "type": ["string", "null"], "default": null, "description": "Color token used as a plain dot when icon is null — the required fallback, never force a mismatched icon." },
+        "title": { "type": "string", "description": "Full name — always required and always what appears in legend.abbreviations if an acronym is used. Never truncated or silently shortened; wrapping and, as a last resort, acronym are the only sanctioned ways to handle a title too wide for its box." },
+        "descriptionLines": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "pill": { "anyOf": [{ "$ref": "#/$defs/pill" }, { "type": "null" }], "default": null },
+        "acronym": {
+          "type": ["string", "null"],
+          "default": null,
+          "description": "Human-supplied short form, used in the box in place of `title` ONLY when the renderer determines title doesn't fit even wrapped to 2 lines within MAX_INLINE_WIDTH. Never invented by the renderer/generator — that determination is a rendering-mechanics concern (see the ATS build's _item_layout/NEEDS_ACRONYM handling) which surfaces a flag for a human to resolve, the same way a structural schema mismatch does. If set, a matching {acronym, fullName: title} pair belongs in legend.abbreviations."
+        }
+      }
+    },
+    "gatewayBox": {
+      "type": "object",
+      "required": ["label"],
+      "additionalProperties": false,
+      "properties": {
+        "label": { "type": "string", "default": "API Gateway" },
+        "sublabel": { "type": ["string", "null"], "default": null, "description": "e.g. 'Production Runtime' or 'Outbound M2M'." }
+      }
+    },
+    "subLayerInstance": {
+      "type": "object",
+      "required": ["registryId", "rows"],
+      "additionalProperties": false,
+      "properties": {
+        "registryId": { "type": "string" },
+        "tagOverride": {
+          "type": ["string", "null"],
+          "default": null,
+          "description": "Overrides the registry's default tag pill text/semantic for this instance only, e.g. Entity Layer defaulting to no tag but this diagram needing a 'GAP — NOT IMPLEMENTED' warning pill on it."
+        },
+        "rows": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "$ref": "#/$defs/item" }
+          },
+          "description": "Each inner array is one row; boxes within a row share a uniform height computed from the row's tallest natural content — a renderer concern, not authored here."
+        }
+      }
+    },
+    "systemsOfRecordSection": {
+      "type": "object",
+      "required": ["items"],
+      "additionalProperties": false,
+      "properties": {
+        "tagOverride": { "type": ["string", "null"], "default": null },
+        "items": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/item" } }
+      }
+    },
+    "cluster": {
+      "type": "object",
+      "required": ["name", "items"],
+      "additionalProperties": false,
+      "description": "Corrected from an earlier draft description that claimed no bordering box — pixel-verified against the reference templates, the box and divider ARE present. The External Systems column itself also has its own outer frame (see corePlatform's sibling columns note / renderer's OUTER_FRAME_INSET) — clusters render nested inside that, not standalone.",
+      "properties": {
+        "name": { "type": "string", "description": "e.g. 'Shared Internal Services'. Rendered as a bold header inside the cluster's own bordered box." },
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/item" },
+          "description": "Rendered inside a shared rounded-rect box using the fixed 'softDivider' color token (registries/colors.json) for both the box border and, when there is more than one item, a thin horizontal divider between consecutive items. This is a fixed rendering constant like corner radius/stroke width — not a per-diagram or per-item style choice."
+        }
+      }
+    },
+    "gapNote": {
+      "type": "object",
+      "required": ["title", "description", "reason"],
+      "additionalProperties": false,
+      "description": "The honest-gap convention, generalized: used both for a genuinely missing architectural layer (e.g. no Entity Layer exists) and for input that didn't map to the schema. Always rendered as a dashed note box, never fabricated content.",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "reason": {
+          "type": "string",
+          "enum": ["missing-layer", "unmapped-input"],
+          "description": "'missing-layer' = an architecturally real gap (e.g. no entity abstraction). 'unmapped-input' = content the schema/registry couldn't classify (an item-level mismatch, see the top-level 'unclassified' field)."
+        },
+        "location": {
+          "type": ["string", "null"],
+          "default": null,
+          "description": "Where this note renders, e.g. a column or sub-layer id. Null lets the renderer place it sensibly (e.g. near the unmapped content's likely column)."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "registryVersion": "0.1.0",
+  "governance": "Adding a new color token, to either family, is a change-request event — not a per-diagram choice. Per-diagram choice is limited to which already-approved tokens get assigned to which sub-layers/pills (e.g. sample-3 legitimately collapsed 5 layer accents down to 3 without adding new colors).",
+  "families": {
+    "standard": {
+      "status": "active",
+      "description": "Extracted from the most battle-tested validated reference implementation so far.",
+      "layerTokens": {
+        "purple": { "border": "#5B3A9E", "background": "#F4EFFC", "pillBackground": "#E4D9F7" },
+        "green":  { "border": "#2F7D4F", "background": "#EAF7EC", "pillBackground": "#DFF3E4" },
+        "teal":   { "border": "#177F6B", "background": "#E3F5F0", "pillBackground": "#CDEFE6" },
+        "amber":  { "border": "#92600E", "background": "#FDF3D9", "pillBackground": "#F7E4B0" },
+        "navy":   { "border": "#2B3350", "background": "#F8F5FC", "pillBackground": null, "usage": "the 'deployed in' wrapper box, not a sub-layer accent" },
+        "mint":   { "border": "#1E8A73", "background": "#D9F2EC", "pillBackground": null, "iconInner": "#156150", "usage": "Ingress/Egress gateway lanes, and reused (same values) by the 'viaEgress' semantic pill token below — deliberately, not a coincidence: a pill that cross-references the Egress lane should look like that lane, not an unrelated color. 'iconInner' (~70% brightness of 'border') is for the gateway icon specifically: it's a double concentric circle, not a single flat-color one — outer ring uses 'border', the smaller inner circle + its '+' use 'iconInner'. Pixel-measured independently from both arch-diagram-sample-1.png and arch-diagram-sample-2.png, landing on the same ratio both times." }
+      },
+      "neutralTokens": {
+        "ink": { "value": "#1B2333", "usage": "default box border / heading ink" },
+        "titleText": { "value": "#182449" },
+        "bodyText": { "value": "#48506B" },
+        "mutedText": { "value": "#6B7280" },
+        "labelGray": { "value": "#4A5160" },
+        "softDivider": { "value": "#D9DCE7", "usage": "fixed rendering constant, not a per-diagram choice: External Systems cluster box border AND the divider line between items within a multi-item cluster (same color for both). Pixel-sampled from arch-diagram-sample-1.png/-2.png, distinct from 'ink' and from any layer accent." }
+      },
+      "semanticPillTokens": {
+        "viaEgress": { "fg": "#1E8A73", "bg": "#D9F2EC", "usage": "the 'via egress' pill specifically — intentionally the SAME values as layerTokens.mint (not just 'comparable'), so this cross-reference pill visually matches the Egress lane it refers to. Corrected from an earlier draft that used an arbitrary unrelated slate-blue ('info', #3A4D6B/#E7ECF5) for this same pill — removed, no other current usage for a generic 'info' tag exists. If a genuinely generic (non-cross-referencing) informational pill is needed later, add it as its own named+justified token via the change-request process rather than reviving 'info'." },
+        "primary":   { "fg": "#2F7D4F", "bg": "#DFF3E4", "usage": "e.g. 'primary' data source" },
+        "warning":   { "fg": "#92600E", "bg": "#F7E4B0", "usage": "e.g. gap/not-implemented flags" },
+        "highlight": { "fg": "#FFFFFF", "bg": "#1E3D2E", "approximate": true, "usage": "e.g. the 'now' badge seen in arch-diagram-sample-3.png — value is a visual estimate, not extracted from a script; refine when a real asset is available" }
+      }
+    },
+    "accessible": {
+      "status": "planned",
+      "description": "Colorblind/contrast-safe alternative family — secondary priority, not yet designed. Must map to the same sub-layer/semantic assignments as 'standard' (e.g. whatever sub-layer 'purple' represents here must have a corresponding accessible substitute at the same semantic slot) so a diagram regenerated in either family remains recognizable as the same architecture.",
+      "layerTokens": {},
+      "neutralTokens": {},
+      "semanticPillTokens": {}
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "registryVersion": "0.1.0",
+  "status": "incomplete — placeholder categories only, no tokens finalized",
+  "governance": "Adding an icon token is a change-request event, same as a color token. Not yet populated: doing so now would mean inventing bespoke icon shapes on the spot, which is exactly the pattern that produced a hand-drawn DB-cylinder icon in an earlier draft, later reverted as a mistake. Needs a deliberate follow-up task to pick a consistent icon style (stroke weight, viewBox, visual language) before any token gets an actual value.",
+  "fallback": "Any item without an approved icon token renders as a plain colored dot (item.dotColor) instead — never a forced mismatched icon and never a newly hand-drawn one.",
+  "categoriesNeeded": [
+    { "category": "actor", "usage": "Inbound Actors items — human users, applications, browsers", "token": null },
+    { "category": "gateway", "usage": "Ingress/Egress API Gateway boxes", "token": null, "notes": "already has a validated non-icon treatment (circular +/badge glyph drawn directly by the renderer) — may not need a catalog token at all" },
+    { "category": "service", "usage": "Execution and Capability Layer boxes", "token": null },
+    { "category": "entity", "usage": "Entity Layer boxes", "token": null },
+    { "category": "data-store", "usage": "Systems of Record items — must stay a plain box + icon, never a DB-cylinder/file shape", "token": null },
+    { "category": "external", "usage": "External Systems cluster items", "token": null },
+    { "category": "warning", "usage": "Paired with 'warning' semantic pills, not a replacement for them", "token": null }
+  ]
+}

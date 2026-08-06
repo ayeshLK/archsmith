@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "0.1.0",
+  "title": "Broken Example — missing required subtitle",
+  "colorTheme": { "family": "standard" },
+  "columns": {
+    "inboundActors": { "items": [{ "title": "Web App" }] },
+    "ingress": { "gateway": { "label": "API Gateway" } },
+    "corePlatform": {
+      "deployedIn": "Production Runtime",
+      "subLayers": [
+        { "registryId": "execution-and-capability", "rows": [[{ "title": "Backend" }]] }
+      ],
+      "systemsOfRecord": { "items": [{ "title": "DB" }] }
+    },
+    "egress": { "gateway": { "label": "API Gateway" } },
+    "externalSystems": {
+      "clusters": [{ "name": "Cluster", "items": [{ "title": "Item" }] }]
+    }
+  },
+  "legend": { "entries": [{ "colorToken": "green", "label": "Execution" }] }
+}

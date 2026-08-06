@@ -1,0 +1,19 @@
+{
+  "name": "@archsmith/renderer",
+  "version": "0.1.0",
+  "description": "ArchSmith diagram renderer — validated IR in, SVG out. Pure library, no agent/LLM dependency.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "test": "node --test dist/**/*.test.js"
+  },
+  "dependencies": {
+    "@archsmith/schema": "^0.1.0",
+    "ajv": "^8.17.1"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "registryVersion": "0.1.0",
+  "governance": "Adding, removing, or reordering entries here is a change-request event, not a per-diagram or generation-time decision. See the arch-diagram schema-governance project memory / eventual CONTRIBUTING doc for the process. Order below is meaningful — it is the fixed top-to-bottom stacking order inside the Core Platform 'deployed in' wrapper, and follows a semantic flow (control plane -> execution -> domain model). A new entry must declare an explicit insertPosition relative to this flow, not just be appended.",
+  "entries": [
+    {
+      "id": "discovery-and-governance",
+      "order": 1,
+      "label": "Discovery and Governance",
+      "accentColorToken": "purple",
+      "borderStyle": "solid-tinted",
+      "defaultTag": { "label": "CONTROL PLANE", "semantic": "layer" },
+      "sourceEvidence": ["base-arch-diagram-template.png", "arch-diagram-sample-1.png", "arch-diagram-sample-2.png", "validated reference build"]
+    },
+    {
+      "id": "execution-and-capability",
+      "order": 2,
+      "label": "Execution and Capability Layer",
+      "accentColorToken": "green",
+      "borderStyle": "solid-tinted",
+      "defaultTag": null,
+      "sourceEvidence": ["base-arch-diagram-template.png", "arch-diagram-sample-1.png", "arch-diagram-sample-2.png", "validated reference build"]
+    },
+    {
+      "id": "entity-layer",
+      "order": 3,
+      "label": "Entity Layer",
+      "accentColorToken": "teal",
+      "borderStyle": "solid-tinted",
+      "defaultTag": { "label": "DOMAIN ABSTRACTION", "semantic": "layer" },
+      "notes": "May legitimately be empty/missing for a real architecture — render as a gapNote (reason: missing-layer) rather than inventing a fake entity service. See the validated reference build, which has no entity layer.",
+      "sourceEvidence": ["arch-diagram-sample-1.png", "arch-diagram-sample-2.png", "validated reference build (as an honest gap)"]
+    },
+    {
+      "id": "systems-of-record",
+      "order": 4,
+      "label": "Systems of Record and Knowledge",
+      "accentColorToken": "amber",
+      "borderStyle": "solid-tinted",
+      "defaultTag": { "label": "DATA SOURCES", "semantic": "layer" },
+      "notes": "Structurally a sibling section below the 'deployed in' wrapper, not nested inside it — see diagram-schema.json's corePlatform.systemsOfRecord description. Items are always plain rounded-rect boxes; hand-drawn DB/file icons were tried once and reverted as over-engineering.",
+      "sourceEvidence": ["base-arch-diagram-template.png", "arch-diagram-sample-1.png", "arch-diagram-sample-2.png", "validated reference build"]
+    }
+  ]
+}
