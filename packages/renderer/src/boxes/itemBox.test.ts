@@ -50,6 +50,22 @@ test("an inline pill on the title doesn't affect computed height", () => {
   assert.equal(withoutPill.height, withPill.height);
 });
 
+test("a pill that doesn't fit inline with the title drops below it instead of overflowing the box", () => {
+  const pillOpt = { label: "NO LIVE READ", fg: "#92600E", bg: "#F7E4B0" };
+  const withoutPill = itemBox(0, 0, 264, { title: "Legacy Settlement Export", descriptionLines: ["Nightly CSV batch"] });
+  const withPill = itemBox(0, 0, 264, { title: "Legacy Settlement Export", descriptionLines: ["Nightly CSV batch"], pill: pillOpt });
+
+  // Unlike the short-title case above, a pill this box's width can't fit
+  // inline must make the box taller (a below-pill row), not the same
+  // height — if this fails, the pill is silently overflowing again.
+  assert.ok(withPill.height > withoutPill.height);
+
+  const pillNode = withPill.nodes.find((n) => n.tag === "rect" && n.attrs.rx === 10 && n.attrs.fill === pillOpt.bg);
+  assert.ok(pillNode, "expected a pill rect in the rendered nodes");
+  const pillRight = Number(pillNode!.attrs.x) + Number(pillNode!.attrs.width);
+  assert.ok(pillRight <= 264, `pill right edge (${pillRight}) must stay within the box width (264)`);
+});
+
 test("minHeight grows the box without moving content, and never shrinks it below natural height", () => {
   const opts = { title: "Short", descriptionLines: ["One line"] };
   const natural = itemBoxNaturalHeight(260, opts);
