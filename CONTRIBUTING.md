@@ -56,6 +56,10 @@ A few patterns the existing code leans on hard — new box/layout functions shou
 - No comments explaining *what* code does (names should do that); a short comment is fine when it explains a non-obvious *why* (a pixel-measured constant, a workaround, an invariant that would surprise a reader).
 - Don't add error handling, fallbacks, or abstractions for cases that can't happen. Prefer three similar lines over a premature helper.
 
+## Releasing
+
+If your PR changes something version-worthy in a published package, add a changeset: `npx changeset add`. Cutting an actual release (npm publish rights required) is documented in [RELEASING.md](RELEASING.md).
+
 ## Reporting issues
 
 Open a GitHub issue. For a rendering bug, a minimal reproducing IR document (trim it down — don't paste your whole diagram) makes it much faster to fix.

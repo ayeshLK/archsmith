@@ -58,11 +58,13 @@ If an IR is missing something the registry expects (e.g. no Entity Layer), rende
 
 ## Releasing
 
+See [RELEASING.md](RELEASING.md) for the actual step-by-step (it takes two manual workflow runs with a PR merge in between — not obvious from the workflow file alone). The rest of this section is gotchas specific to changing publish-related config, not the normal release flow.
+
 The release workflow (`.github/workflows/release.yml`) runs on `workflow_dispatch` (manual trigger) only, not on every push — publishing is a deliberate action, never a side effect of merging. It's changesets-based (`@changesets/cli`) but the very first release was a manual version bump, not a changeset — changesets only does relative patch/minor/major bumps, not an arbitrary initial version. If you're touching package versions or `publishConfig`, `npm publish --dry-run` per package before trusting it; that caught two real bugs pre-1.0 that would otherwise have shipped silently:
 
 - A `bin` entry with a leading `./` (e.g. `"./dist/index.js"`) gets **silently stripped entirely** by npm's own publish validation — the package would ship with no CLI command at all, no error, no warning short of `npm publish`'s own auto-fix notice. Use a bare path (`"dist/index.js"`).
 - A `.npmignore` has **no effect** once `files` is set in `package.json` — `files` takes precedence completely. To exclude something (e.g. compiled `*.test.js`) from a package that also declares `files`, use `!`-prefixed negation globs directly inside the `files` array.
-- For a `0.x` package, npm's `^0.1.0` caret range means `>=0.1.0 <0.2.0` — the minor version is pinned pre-1.0. Bumping a package's own version without bumping every internal workspace dependency range that points at it (`^0.1.0` → `^0.5.0`, etc.) will break external installs even though the local workspace (which symlinks packages directly) won't show any problem.
+- For a `0.x` package, npm's `^0.1.0` caret range means `>=0.1.0 <0.2.0` — the minor version is pinned pre-1.0. Bumping a package's own version without bumping every internal workspace dependency range that points at it (`^0.1.0` → `^0.5.0`, etc.) will break external installs even though the local workspace (which symlinks packages directly) won't show any problem. The normal changeset-driven flow handles this automatically (verified: a `minor` changeset on `@archsmith/schema` correctly cascaded a `patch` bump + range update to every dependent) — this only bites you if you're editing versions by hand outside that flow.
 
 ## Where to look for more
 
