@@ -37,7 +37,7 @@ npx archsmith validate examples/ticket-booking.ir.json
 npx archsmith render examples/ticket-booking.ir.json -o ticket-booking.svg
 ```
 
-(Not yet published to npm — see [Project status](#project-status) — so for now this only works from a clone, via the workspace-linked `archsmith` bin.)
+(Not yet published to npm — see [What's next](#whats-next) — so for now this only works from a clone, via the workspace-linked `archsmith` bin.)
 
 ## CLI usage
 
@@ -133,14 +133,16 @@ This is an npm workspaces monorepo — each package does one job, and only the l
 | [`@archsmith/cli`](packages/cli) | `archsmith` binary — `validate`, `render`, `registries list\|show`. |
 | [`@archsmith/mcp-server`](packages/mcp-server) | `archsmith-mcp` binary — exposes `render`/`validate`/registry lookups over MCP (stdio transport) so any MCP-capable agent can call them as tools. |
 
-## Project status
+## What's next
 
-- [x] **Phase 0** — schema + registries + `archsmith validate`
-- [x] **Phase 1** — font measurement (bundled Arimo via `fontkit`, no OS-specific font paths)
-- [x] **Phase 2** — SVG primitives and box-drawing functions
-- [x] **Phase 3** — full layout assembly + golden-master regression test
-- [x] **Phase 4** — CLI polish (font embedding by default, `--pretty`, registry filtering)
-- [x] **Phase 5** — MCP server (`render`/`validate`/`list_registries`/`get_registry` tools, schema + registry resources)
+The renderer, CLI, and MCP server all work end to end — this is what's still genuinely open, and where a contribution would help most:
+
+- **Not yet published to npm.** The release workflow (`.github/workflows/release.yml`) is dormant, gated on an `NPM_TOKEN` secret and at least one changeset.
+- **`registries/icons.json` is a placeholder** — categories are listed but no icon tokens are defined yet (deliberately, to avoid inventing bespoke shapes ad hoc). Items without an approved icon just render as a plain colored dot.
+- **The `accessible` color family has no values.** The structure exists in `registries/colors.json`; a colorblind/contrast-safe palette hasn't been designed.
+- **`measureText`'s correction factor (1.07) is carried forward from the original prototype's Arial-based measurement, not re-derived for Arimo.** It's close (a direct comparison showed near-identical advance widths for the same strings) but not empirically recalibrated against the actual embedded-font rendering.
+- **MCP transport is stdio only** — by design, not an oversight; HTTP/SSE was deferred until a real shared-server use case shows up.
+- **No agent/Skill that authors an IR from a sketch or description exists yet.** That's deliberately out of scope for this repo — `@archsmith/renderer` is meant to be the deterministic backend such a thing would call, not contain that logic itself.
 
 ## Contributing
 
