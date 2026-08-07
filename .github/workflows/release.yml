@@ -7,10 +7,12 @@ name: Release
 # doesn't come through a merged version PR — changesets diffs against the
 # last published versions to decide what's actually new.
 #
-# Dormant until:
-#  1. An NPM_TOKEN secret (an npm automation token with publish rights to
-#     the @archsmith scope) is added under this repo's Settings > Secrets.
-#  2. At least one changeset exists (`npx changeset` from a PR branch).
+# Dormant until an NPM_TOKEN secret (an npm automation token with publish
+# rights to the @archsmith scope) is added under this repo's Settings >
+# Secrets — the release step below is skipped entirely without one, rather
+# than running and failing on every push. Once a token exists, this needs
+# at least one changeset (`npx changeset` from a PR branch) to actually
+# version/publish anything.
 
 on:
   push:
@@ -24,6 +26,8 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -37,10 +41,14 @@ jobs:
       - run: npm run build
       - run: npm test
       - name: Create release PR or publish
+        if: env.NPM_TOKEN != ''
         uses: changesets/action@v1
         with:
           publish: npx changeset publish
           version: npx changeset version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN }}
+      - name: Skip (no NPM_TOKEN configured yet)
+        if: env.NPM_TOKEN == ''
+        run: echo "NPM_TOKEN secret not set — skipping release step. Add it under Settings > Secrets when ready to publish."
