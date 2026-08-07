@@ -16,6 +16,7 @@ import { MUTED_C, NAVY_BORDER, NAVY_BG } from "../constants.js";
 const WRAPPER_INSET = 18;
 const WRAPPER_INNER_PAD = 16;
 const WRAPPER_HEADER_H = 44;
+const WRAPPER_BOTTOM_PAD = 14;
 const SUB_LAYER_STACK_GAP = 16;
 const SOR_GAP_BELOW_WRAPPER = 20;
 const MISSING_LAYER_TAG = "GAP — NOT IMPLEMENTED";
@@ -88,7 +89,11 @@ export function renderCorePlatform(ir: DiagramIR, x: number, frameY: number, w: 
     // usage shows whether that's too permissive.)
   }
 
-  const wrapperH = y - SUB_LAYER_STACK_GAP;
+  // Undo the trailing SUB_LAYER_STACK_GAP added after the last sub-layer
+  // (there's no next one to space out from), then add real bottom padding
+  // — without it, the last sub-layer's own bottom border and the wrapper's
+  // bottom border land on the exact same y-coordinate and visibly overlap.
+  const wrapperH = y - SUB_LAYER_STACK_GAP + WRAPPER_BOTTOM_PAD;
 
   const wrapperNodes: SvgNode[] = [
     rect(depX, depY, depW, wrapperH, { fill: NAVY_BG, stroke: NAVY_BORDER, sw: 2, rx: 10 }),
