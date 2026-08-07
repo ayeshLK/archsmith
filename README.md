@@ -1,6 +1,7 @@
 # ArchSmith
 
 <p align="center">
+  <a href="https://www.npmjs.com/package/@archsmith/cli"><img src="https://img.shields.io/npm/v/@archsmith/cli" alt="npm"></a>
   <a href="https://github.com/ayeshLK/archsmith/actions/workflows/ci.yml"><img src="https://github.com/ayeshLK/archsmith/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://github.com/ayeshLK/archsmith/blob/main/LICENSE"><img src="https://img.shields.io/github/license/ayeshLK/archsmith" alt="License"></a>
   <img src="https://img.shields.io/badge/node-%3E%3D20-brightgreen" alt="Node >= 20">
@@ -18,7 +19,7 @@ It's built as a library first, a CLI on top of that, and an MCP server on top of
 <p align="center"><sub>Rendered from <a href="examples/ticket-booking.ir.json"><code>examples/ticket-booking.ir.json</code></a> — a fictional example exercising every schema feature.</sub></p>
 
 > [!NOTE]
-> ArchSmith is pre-1.0 — the schema and API may still change (`diagram-schema.json` itself is marked "first pass, expect revision"), and nothing is published to npm yet ([tracking issue](https://github.com/ayeshLK/archsmith/issues?q=is%3Aissue+is%3Aopen+label%3Arelease)). Clone the repo to try it — see [Quick start](#quick-start).
+> ArchSmith is pre-1.0 — the schema and API may still change (`diagram-schema.json` itself is marked "first pass, expect revision"). See [releases](https://github.com/ayeshLK/archsmith/releases) for what's shipped in each version.
 
 ## Why
 
@@ -53,16 +54,16 @@ If you want a flexible, general-purpose diagramming syntax, Mermaid or PlantUML 
 ## Quick start
 
 ```bash
-git clone https://github.com/ayeshLK/archsmith.git
-cd archsmith
-npm install
-npm run build
+npm install -g @archsmith/cli
 
-npx archsmith validate examples/ticket-booking.ir.json
-npx archsmith render examples/ticket-booking.ir.json -o ticket-booking.svg
+curl -O https://raw.githubusercontent.com/ayeshLK/archsmith/main/examples/ticket-booking.ir.json
+archsmith validate ticket-booking.ir.json
+archsmith render ticket-booking.ir.json -o ticket-booking.svg
 ```
 
-(Only works from a clone right now, via the workspace-linked `archsmith` bin — see the note above about npm publishing.)
+Or without installing anything: `npx @archsmith/cli render ticket-booking.ir.json -o ticket-booking.svg`.
+
+Working on ArchSmith itself rather than just using it? See [CONTRIBUTING.md](CONTRIBUTING.md) for building from a clone.
 
 ## CLI usage
 
