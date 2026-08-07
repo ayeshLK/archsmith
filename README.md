@@ -37,7 +37,7 @@ npx archsmith validate examples/ticket-booking.ir.json
 npx archsmith render examples/ticket-booking.ir.json -o ticket-booking.svg
 ```
 
-(Not yet published to npm — see [What's next](#whats-next) — so for now this only works from a clone, via the workspace-linked `archsmith` bin.)
+(Not yet published to npm — see [Roadmap](#roadmap) — so for now this only works from a clone, via the workspace-linked `archsmith` bin.)
 
 ## CLI usage
 
@@ -133,16 +133,21 @@ This is an npm workspaces monorepo — each package does one job, and only the l
 | [`@archsmith/cli`](packages/cli) | `archsmith` binary — `validate`, `render`, `registries list\|show`. |
 | [`@archsmith/mcp-server`](packages/mcp-server) | `archsmith-mcp` binary — exposes `render`/`validate`/registry lookups over MCP (stdio transport) so any MCP-capable agent can call them as tools. |
 
-## What's next
+## Roadmap
 
-The renderer, CLI, and MCP server all work end to end — this is what's still genuinely open, and where a contribution would help most:
+The renderer, CLI, and MCP server all work end to end for one diagram convention, one house style, one transport. The interesting future work is broadening that:
 
-- **Not yet published to npm.** The release workflow (`.github/workflows/release.yml`) is dormant, gated on an `NPM_TOKEN` secret and at least one changeset.
-- **`registries/icons.json` is a placeholder** — categories are listed but no icon tokens are defined yet (deliberately, to avoid inventing bespoke shapes ad hoc). Items without an approved icon just render as a plain colored dot.
-- **The `accessible` color family has no values.** The structure exists in `registries/colors.json`; a colorblind/contrast-safe palette hasn't been designed.
-- **`measureText`'s correction factor (1.07) is carried forward from the original prototype's Arial-based measurement, not re-derived for Arimo.** It's close (a direct comparison showed near-identical advance widths for the same strings) but not empirically recalibrated against the actual embedded-font rendering.
-- **MCP transport is stdio only** — by design, not an oversight; HTTP/SSE was deferred until a real shared-server use case shows up.
-- **No agent/Skill that authors an IR from a sketch or description exists yet.** That's deliberately out of scope for this repo — `@archsmith/renderer` is meant to be the deterministic backend such a thing would call, not contain that logic itself.
+- **Support additional architecture-diagram notations** — the C4 model (Context/Container/Component diagrams) and sequence diagrams are the obvious candidates — alongside the current layered/swimlane convention. Not a small add: `diagram-schema.json` currently hard-codes the 5-column structure as a given, not a choice, so this means a `kind` discriminator at the IR's top level, with each notation getting its own IR shape, governed registries, and renderer module.
+- **Pluggable/themeable visual styles**, so a diagram can opt into a different look without changing its structure. Right now there's exactly one house style, reverse-engineered from one set of reference templates — the `standard`/`accessible` split in `registries/colors.json` is a palette choice within that one style, not a different style.
+- **A companion agent/Skill that authors an IR from a rough sketch or text description** — the natural "front door" for someone who doesn't want to hand-write JSON. Deliberately out of scope for *this* repo (`@archsmith/renderer` is meant to be the deterministic backend such a thing calls into, not contain that interpretation logic itself), but the ecosystem piece that would make ArchSmith actually easy to use end to end.
+- **HTTP/SSE MCP transport**, if a real shared/remote-server use case shows up — stdio-only today, by design, not an oversight.
+
+Smaller, more mechanical gaps in what already exists:
+
+- Not yet published to npm — the release workflow (`.github/workflows/release.yml`) is dormant, gated on an `NPM_TOKEN` secret and at least one changeset.
+- `registries/icons.json` is a placeholder — no icon tokens are defined yet (deliberately, to avoid inventing bespoke shapes ad hoc); items without one just render as a plain colored dot.
+- The `accessible` color family has no values — a colorblind/contrast-safe palette hasn't been designed.
+- `measureText`'s correction factor (1.07) is carried forward from the original prototype's Arial-based measurement, not yet empirically recalibrated for Arimo specifically.
 
 ## Contributing
 
