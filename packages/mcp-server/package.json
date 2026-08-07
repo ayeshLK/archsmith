@@ -1,7 +1,7 @@
 {
   "name": "@archsmith/mcp-server",
   "version": "0.1.0",
-  "description": "MCP server exposing ArchSmith's render/validate/registry lookups to any MCP-capable agent. Not yet implemented — see project plan, Phase 5.",
+  "description": "MCP server exposing ArchSmith's render/validate/registry lookups to any MCP-capable agent, over stdio.",
   "type": "module",
   "main": "./dist/index.js",
   "bin": {
@@ -16,6 +16,8 @@
   },
   "dependencies": {
     "@archsmith/renderer": "^0.1.0",
-    "@archsmith/schema": "^0.1.0"
+    "@archsmith/schema": "^0.1.0",
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^3.24.1"
   }
 }

@@ -9,7 +9,7 @@
 
 **ArchSmith turns a validated JSON description of a layered system architecture into a clean, consistent SVG diagram.** Feed it a structured document (an IR — intermediate representation), get back a diagram in a fixed, opinionated house style: no per-diagram layout decisions, no hand-drawn boxes, no drift between one architecture doc and the next.
 
-It's built as a library first, a CLI on top of that, and (soon) an MCP server on top of that — so it's just as easy for a human to run `archsmith render` as it is for an AI agent to call it as a tool.
+It's built as a library first, a CLI on top of that, and an MCP server on top of that — so it's just as easy for a human to run `archsmith render` as it is for an AI agent to call it as a tool.
 
 <p align="center">
   <img src="examples/ticket-booking.svg" alt="Example architecture diagram rendered by ArchSmith" width="900">
@@ -64,6 +64,27 @@ if (result.valid) {
 }
 ```
 
+## MCP server
+
+`@archsmith/mcp-server` exposes the same capability as the CLI, over MCP instead of argv — a sibling of the CLI, not a wrapper around it: both call `render()`/`validate()` from `@archsmith/renderer` directly. It communicates over stdio, so an MCP host spawns it as a subprocess and talks JSON-RPC over stdin/stdout, the same way a shell would spawn `archsmith` and read its stdout — except the process stays alive across many calls instead of exiting after one.
+
+**Tools**: `render`, `validate`, `list_registries`, `get_registry` (mirrors the CLI's own commands — same validate-before-render behavior, same `family` filter on `get_registry`). `render` returns the SVG as both plain text and an `image/svg+xml` content block, so a client that renders arbitrary image mime types can show the diagram inline.
+
+**Resources**: `archsmith://schema` and one `archsmith://registries/<name>` per governed registry — lets an agent authoring an IR read the live, current schema/registries directly instead of working from a stale copy baked into a prompt.
+
+To connect it to an MCP host (e.g. Claude Desktop's `claude_desktop_config.json`), point at the built entrypoint:
+
+```json
+{
+  "mcpServers": {
+    "archsmith": {
+      "command": "node",
+      "args": ["/absolute/path/to/archsmith/packages/mcp-server/dist/index.js"]
+    }
+  }
+}
+```
+
 ## The IR shape
 
 An IR document is a JSON object with five columns, a legend, and optional notes. This is the actual minimal valid fixture from `examples/`:
@@ -110,7 +131,7 @@ This is an npm workspaces monorepo — each package does one job, and only the l
 | [`@archsmith/schema`](packages/schema) | The IR schema (JSON Schema draft 2020-12) plus governed registries (sub-layers, colors, icons). Versioned independently — adding a registry entry is a deliberate change-request, not a per-diagram decision. |
 | [`@archsmith/renderer`](packages/renderer) | Validates an IR against the schema/registries and renders it to SVG. Pure function, no I/O beyond reading its own bundled font, no LLM dependency. |
 | [`@archsmith/cli`](packages/cli) | `archsmith` binary — `validate`, `render`, `registries list\|show`. |
-| [`@archsmith/mcp-server`](packages/mcp-server) | Exposes `render`/`validate`/registry lookups over MCP so any MCP-capable agent can call them as tools. **Not yet built.** |
+| [`@archsmith/mcp-server`](packages/mcp-server) | `archsmith-mcp` binary — exposes `render`/`validate`/registry lookups over MCP (stdio transport) so any MCP-capable agent can call them as tools. |
 
 ## Project status
 
@@ -119,7 +140,7 @@ This is an npm workspaces monorepo — each package does one job, and only the l
 - [x] **Phase 2** — SVG primitives and box-drawing functions
 - [x] **Phase 3** — full layout assembly + golden-master regression test
 - [x] **Phase 4** — CLI polish (font embedding by default, `--pretty`, registry filtering)
-- [ ] **Phase 5** — MCP server
+- [x] **Phase 5** — MCP server (`render`/`validate`/`list_registries`/`get_registry` tools, schema + registry resources)
 
 ## Contributing
 

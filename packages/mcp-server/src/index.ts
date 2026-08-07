@@ -1,5 +1,16 @@
 #!/usr/bin/env node
-// Not yet implemented — see project plan, Phase 5. Placeholder so the workspace
-// structure/build graph is complete before the MCP tools/resources are wired up.
-console.error("archsmith-mcp: not implemented yet (project plan Phase 5).");
-process.exit(2);
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { createServer } from "./server.js";
+
+async function main() {
+  const transport = new StdioServerTransport();
+  await createServer().connect(transport);
+}
+
+// Diagnostics only ever go to stderr — stdout is the JSON-RPC channel
+// StdioServerTransport owns, and anything else written there would corrupt
+// the protocol stream from the client's point of view.
+main().catch((err) => {
+  console.error("archsmith-mcp: fatal error:", err);
+  process.exit(1);
+});

@@ -1,6 +1,6 @@
 # Contributing to ArchSmith
 
-Thanks for considering it. This is a young project — small, opinionated, and still missing a whole layer (the MCP server) — so there's real room to shape it, but also a few rules worth understanding before you dive in.
+Thanks for considering it. This is a young project — small and opinionated — so there's real room to shape it, but also a few rules worth understanding before you dive in.
 
 ## Build & test
 
@@ -41,6 +41,12 @@ A few patterns the existing code leans on hard — new box/layout functions shou
 1. Regenerate it: `node packages/cli/dist/index.js render examples/ticket-booking.ir.json -o examples/ticket-booking.svg`.
 2. Actually look at it before committing — there's no automated visual diff yet. Serve the repo locally (`python3 -m http.server`) and open the SVG in a browser, or preview it directly on GitHub. Check for text overflow, overlapping pills, and misaligned rows specifically — these are the recurring failure modes in this codebase.
 3. Commit the regenerated SVG alongside your code change, in the same PR, so a reviewer can see both the diff and its visual effect.
+
+## Working on the MCP server
+
+`packages/mcp-server/src/server.ts` builds the `McpServer` instance (tools, resources); `index.ts` is a thin entrypoint that connects it to `StdioServerTransport` and runs. Keep that split — it's what lets `server.test.ts` connect a real MCP `Client` to the server over an in-memory transport pair and exercise the actual protocol (tool schemas, argument parsing, content-block shapes), instead of only unit-testing handler functions directly.
+
+**Never write to stdout.** `StdioServerTransport` uses stdout as the JSON-RPC channel — a stray `console.log` (even for debugging) corrupts the protocol stream from the client's point of view. Use `console.error` (stderr) for any diagnostics.
 
 ## Code style
 
