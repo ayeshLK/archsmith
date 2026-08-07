@@ -33,7 +33,7 @@
 <text x="393" y="449.5" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="middle">Ticketing Runtime</text>
 <rect x="496" y="118" width="900" height="617" rx="10" ry="10" fill="#FFFFFF" stroke="#6B7280" stroke-width="1.6" stroke-dasharray="6 5"/>
 <rect x="514" y="134" width="864" height="438" rx="10" ry="10" fill="#F8F5FC" stroke="#2B3350" stroke-width="2"/>
-<text x="946" y="162" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#2B3350" text-anchor="middle">DEPLOYED IN TICKETING RUNTIME</text>
+<text x="946" y="162" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#2B3350" text-anchor="middle">DEPLOYED ON WSO2 DEVELOPER PLATFORM</text>
 <rect x="530" y="178" width="832" height="140" rx="10" ry="10" fill="#F4EFFC" stroke="#5B3A9E" stroke-width="1.6"/>
 <text x="546" y="203" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#5B3A9E" text-anchor="start">DISCOVERY AND GOVERNANCE</text>
 <rect x="771.8203125" y="188" width="111.94267578125" height="20" rx="10" ry="10" fill="#E4D9F7"/>

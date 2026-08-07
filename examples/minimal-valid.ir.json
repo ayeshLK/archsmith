@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.1.0",
+  "schemaVersion": "0.2.0",
   "title": "Minimal Example — Architecture",
   "subtitle": "A minimal fixture proving the validation pipeline end to end",
   "colorTheme": { "family": "standard" },
@@ -13,7 +13,7 @@
       "gateway": { "label": "API Gateway", "sublabel": "Production Runtime" }
     },
     "corePlatform": {
-      "deployedIn": "Production Runtime",
+      "deployedOn": "Production Runtime",
       "subLayers": [
         {
           "registryId": "execution-and-capability",

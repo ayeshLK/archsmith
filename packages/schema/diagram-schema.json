@@ -2,14 +2,14 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://archsmith.dev/schema/diagram-schema.json",
   "title": "ArchSmith Diagram IR",
-  "description": "Structural contract for the intermediate representation (IR) an agent produces from a rough sketch/description, and that a deterministic renderer turns into SVG. Draft v0.1.0 — first pass, expect revision. Governed sub-layer/color/icon catalogs live in registries/ alongside this file and are versioned separately; this schema references them by id but does not enumerate their contents.",
+  "description": "Structural contract for the intermediate representation (IR) an agent produces from a rough sketch/description, and that a deterministic renderer turns into SVG. Draft v0.2.0 — first pass, expect revision. Governed sub-layer/color/icon catalogs live in registries/ alongside this file and are versioned separately; this schema references them by id but does not enumerate their contents.",
   "type": "object",
   "required": ["schemaVersion", "title", "subtitle", "colorTheme", "columns", "legend"],
   "additionalProperties": false,
   "properties": {
     "schemaVersion": {
       "type": "string",
-      "const": "0.1.0",
+      "const": "0.2.0",
       "description": "Version of this schema (and its paired registries) the IR was generated against. Bump when the schema or a registry gains a governed change."
     },
     "title": { "type": "string" },
@@ -55,12 +55,12 @@
         },
         "corePlatform": {
           "type": "object",
-          "required": ["deployedIn", "subLayers", "systemsOfRecord"],
+          "required": ["deployedOn", "subLayers", "systemsOfRecord"],
           "additionalProperties": false,
           "properties": {
-            "deployedIn": {
+            "deployedOn": {
               "type": "string",
-              "description": "Label for the solid inner wrapper, e.g. 'Production Runtime'."
+              "description": "Label for the solid inner wrapper, e.g. 'Production Runtime'. Named 'deployedOn' (not 'deployedIn') because its values are platform/infrastructure names ('AWS EKS', 'WSO2 Developer Platform') — 'on' is the idiomatic preposition for a hosting platform, matching how the rendered label itself reads ('DEPLOYED ON ...')."
             },
             "subLayers": {
               "type": "array",
@@ -70,7 +70,7 @@
             },
             "systemsOfRecord": {
               "$ref": "#/$defs/systemsOfRecordSection",
-              "description": "A sibling section below the 'deployedIn' wrapper — still inside the Core Platform dashed frame, but outside the wrapper box. This resolves an inconsistency observed between templates (sample-3 visually nests it inside the wrapper; samples 1/2 and the ATS build keep it as a sibling below) in favor of the documented majority pattern."
+              "description": "A sibling section below the 'deployedOn' wrapper — still inside the Core Platform dashed frame, but outside the wrapper box. This resolves an inconsistency observed between templates (sample-3 visually nests it inside the wrapper; samples 1/2 and the ATS build keep it as a sibling below) in favor of the documented majority pattern."
             }
           }
         },

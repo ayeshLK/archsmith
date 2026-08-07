@@ -29,7 +29,7 @@ export interface CorePlatformResult {
 
 /**
  * Renders the whole Core Platform column: outer dashed frame, the
- * "deployed in" wrapper containing sub-layers stacked in the registry's
+ * "deployed on" wrapper containing sub-layers stacked in the registry's
  * governed order (rendering a real sub-layer if the IR has one, an honest
  * dashed gap note if the registry expects one but the IR has none and
  * flags why, or skipping entirely if neither — see the schema-governance
@@ -98,7 +98,7 @@ export function renderCorePlatform(ir: DiagramIR, x: number, frameY: number, w: 
 
   const wrapperNodes: SvgNode[] = [
     rect(depX, depY, depW, wrapperH, { fill: NAVY_BG, stroke: NAVY_BORDER, sw: 2, rx: 10 }),
-    text(depX + depW / 2, depY + 28, `DEPLOYED IN ${core.deployedIn.toUpperCase()}`, {
+    text(depX + depW / 2, depY + 28, `DEPLOYED ON ${core.deployedOn.toUpperCase()}`, {
       size: 13,
       weight: 700,
       fill: NAVY_BORDER,

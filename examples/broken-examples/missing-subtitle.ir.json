@@ -1,12 +1,12 @@
 {
-  "schemaVersion": "0.1.0",
+  "schemaVersion": "0.2.0",
   "title": "Broken Example — missing required subtitle",
   "colorTheme": { "family": "standard" },
   "columns": {
     "inboundActors": { "items": [{ "title": "Web App" }] },
     "ingress": { "gateway": { "label": "API Gateway" } },
     "corePlatform": {
-      "deployedIn": "Production Runtime",
+      "deployedOn": "Production Runtime",
       "subLayers": [
         { "registryId": "execution-and-capability", "rows": [[{ "title": "Backend" }]] }
       ],

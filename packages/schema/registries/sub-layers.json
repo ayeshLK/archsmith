@@ -1,6 +1,6 @@
 {
   "registryVersion": "0.1.0",
-  "governance": "Adding, removing, or reordering entries here is a change-request event, not a per-diagram or generation-time decision. See the arch-diagram schema-governance project memory / eventual CONTRIBUTING doc for the process. Order below is meaningful — it is the fixed top-to-bottom stacking order inside the Core Platform 'deployed in' wrapper, and follows a semantic flow (control plane -> execution -> domain model). A new entry must declare an explicit insertPosition relative to this flow, not just be appended.",
+  "governance": "Adding, removing, or reordering entries here is a change-request event, not a per-diagram or generation-time decision. See the arch-diagram schema-governance project memory / eventual CONTRIBUTING doc for the process. Order below is meaningful — it is the fixed top-to-bottom stacking order inside the Core Platform 'deployed on' wrapper, and follows a semantic flow (control plane -> execution -> domain model). A new entry must declare an explicit insertPosition relative to this flow, not just be appended.",
   "entries": [
     {
       "id": "discovery-and-governance",
@@ -37,7 +37,7 @@
       "accentColorToken": "amber",
       "borderStyle": "solid-tinted",
       "defaultTag": { "label": "DATA SOURCES", "semantic": "layer" },
-      "notes": "Structurally a sibling section below the 'deployed in' wrapper, not nested inside it — see diagram-schema.json's corePlatform.systemsOfRecord description. Items are always plain rounded-rect boxes; hand-drawn DB/file icons were tried once and reverted as over-engineering.",
+      "notes": "Structurally a sibling section below the 'deployed on' wrapper, not nested inside it — see diagram-schema.json's corePlatform.systemsOfRecord description. Items are always plain rounded-rect boxes; hand-drawn DB/file icons were tried once and reverted as over-engineering.",
       "sourceEvidence": ["base-arch-diagram-template.png", "arch-diagram-sample-1.png", "arch-diagram-sample-2.png", "validated reference build"]
     }
   ]

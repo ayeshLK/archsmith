@@ -66,7 +66,7 @@ export interface DiagramIR {
     inboundActors: { items: ItemIR[] };
     ingress: { gateway: GatewayIR };
     corePlatform: {
-      deployedIn: string;
+      deployedOn: string;
       subLayers: SubLayerInstanceIR[];
       systemsOfRecord: SystemsOfRecordSectionIR;
     };

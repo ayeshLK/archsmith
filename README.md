@@ -70,7 +70,7 @@ An IR document is a JSON object with five columns, a legend, and optional notes.
 
 ```json
 {
-  "schemaVersion": "0.1.0",
+  "schemaVersion": "0.2.0",
   "title": "Minimal Example — Architecture",
   "subtitle": "A minimal fixture proving the validation pipeline end to end",
   "colorTheme": { "family": "standard" },
@@ -82,7 +82,7 @@ An IR document is a JSON object with five columns, a legend, and optional notes.
     },
     "ingress": { "gateway": { "label": "API Gateway", "sublabel": "Production Runtime" } },
     "corePlatform": {
-      "deployedIn": "Production Runtime",
+      "deployedOn": "Production Runtime",
       "subLayers": [
         { "registryId": "execution-and-capability", "rows": [[{ "title": "Backend Service", "descriptionLines": ["REST APIs"] }]] }
       ],

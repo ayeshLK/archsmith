@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.1.0",
+  "schemaVersion": "0.2.0",
   "title": "Broken Example — unknown sub-layer registryId",
   "subtitle": "Should fail semantic validation, not structural",
   "colorTheme": { "family": "standard" },
@@ -7,7 +7,7 @@
     "inboundActors": { "items": [{ "title": "Web App" }] },
     "ingress": { "gateway": { "label": "API Gateway" } },
     "corePlatform": {
-      "deployedIn": "Production Runtime",
+      "deployedOn": "Production Runtime",
       "subLayers": [
         { "registryId": "orchestration-layer-that-does-not-exist", "rows": [[{ "title": "Backend" }]] }
       ],

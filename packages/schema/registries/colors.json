@@ -10,7 +10,7 @@
         "green":  { "border": "#2F7D4F", "background": "#EAF7EC", "pillBackground": "#DFF3E4" },
         "teal":   { "border": "#177F6B", "background": "#E3F5F0", "pillBackground": "#CDEFE6" },
         "amber":  { "border": "#92600E", "background": "#FDF3D9", "pillBackground": "#F7E4B0" },
-        "navy":   { "border": "#2B3350", "background": "#F8F5FC", "pillBackground": null, "usage": "the 'deployed in' wrapper box, not a sub-layer accent" },
+        "navy":   { "border": "#2B3350", "background": "#F8F5FC", "pillBackground": null, "usage": "the 'deployed on' wrapper box, not a sub-layer accent" },
         "mint":   { "border": "#1E8A73", "background": "#D9F2EC", "pillBackground": null, "iconInner": "#156150", "usage": "Ingress/Egress gateway lanes, and reused (same values) by the 'viaEgress' semantic pill token below — deliberately, not a coincidence: a pill that cross-references the Egress lane should look like that lane, not an unrelated color. 'iconInner' (~70% brightness of 'border') is for the gateway icon specifically: it's a double concentric circle, not a single flat-color one — outer ring uses 'border', the smaller inner circle + its '+' use 'iconInner'. Pixel-measured independently from both arch-diagram-sample-1.png and arch-diagram-sample-2.png, landing on the same ratio both times." }
       },
       "neutralTokens": {
