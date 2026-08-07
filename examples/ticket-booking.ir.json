@@ -1,6 +1,6 @@
 {
   "schemaVersion": "0.1.0",
-  "title": "Novera Booking Platform — Architecture",
+  "title": "Event Ticket Booking Platform — Architecture",
   "subtitle": "Reference example exercising every schema feature (fictional platform, no real system)",
   "colorTheme": { "family": "standard" },
   "columns": {
@@ -8,27 +8,27 @@
       "items": [
         {
           "dotColor": "purple",
-          "title": "Novera Web App",
+          "title": "Ticketing Web App",
           "descriptionLines": [
-            "React SPA — customer-facing booking flow",
+            "React SPA — customer-facing browsing and booking flow",
             "OIDC login (IdP) · Bearer ID token"
           ]
         },
         {
           "dotColor": "teal",
-          "title": "Partner Integration Hub",
+          "title": "Box Office Partner Integration",
           "descriptionLines": [
-            "Third-party travel agencies — B2B channel",
+            "Third-party resellers and venue box offices — B2B channel",
             "M2M client-credentials · booking + inventory scopes"
           ]
         }
       ]
     },
     "ingress": {
-      "gateway": { "label": "API Gateway", "sublabel": "Novera Runtime" }
+      "gateway": { "label": "API Gateway", "sublabel": "Ticketing Runtime" }
     },
     "corePlatform": {
-      "deployedIn": "Novera Runtime",
+      "deployedIn": "Ticketing Runtime",
       "subLayers": [
         {
           "registryId": "discovery-and-governance",
@@ -36,12 +36,12 @@
             [
               {
                 "eyebrow": "API management",
-                "title": "Novera API Control Plane",
+                "title": "Booking API Control Plane",
                 "descriptionLines": ["Request routing, lifecycle management, rate limiting for all public APIs."]
               },
               {
                 "eyebrow": "Identity & policy",
-                "title": "Novera Identity Platform",
+                "title": "Ticketing Identity Platform",
                 "descriptionLines": ["OIDC · M2M client-credentials · role-based access control."]
               }
             ]
@@ -53,11 +53,11 @@
             [
               {
                 "title": "Booking Service",
-                "descriptionLines": ["Core reservation lifecycle, availability holds, pricing."]
+                "descriptionLines": ["Core reservation lifecycle, seat holds, dynamic pricing."]
               },
               {
                 "title": "Notification Dispatcher",
-                "descriptionLines": ["Async batch job — confirmation emails, reminder pushes."]
+                "descriptionLines": ["Async batch job — confirmation emails, event reminder pushes."]
               }
             ]
           ]
@@ -67,8 +67,8 @@
           "rows": [
             [
               {
-                "title": "Customer Entity Service",
-                "descriptionLines": ["Canonical customer profile, deduplicated across booking, support, and billing."]
+                "title": "Event & Seat Entity Service",
+                "descriptionLines": ["Canonical event, venue, and seat inventory model, deduplicated across booking, box office, and support systems."]
               }
             ]
           ]
@@ -77,18 +77,18 @@
       "systemsOfRecord": {
         "items": [
           {
-            "title": "Novera DB",
+            "title": "Booking DB",
             "descriptionLines": ["PostgreSQL — shared \"bookings\" schema"],
             "pill": { "label": "PRIMARY", "semantic": "primary" }
           },
           {
-            "title": "Legacy Ledger Export",
+            "title": "Legacy Settlement Export",
             "descriptionLines": ["Nightly CSV batch — finance reconciliation only"],
             "pill": { "label": "NO LIVE READ", "semantic": "warning" }
           },
           {
             "title": "Document Archive",
-            "descriptionLines": ["Signed contracts, invoices — link only"]
+            "descriptionLines": ["Signed venue contracts, invoices — link only"]
           }
         ]
       }
@@ -115,10 +115,10 @@
             },
             {
               "dotColor": "navy",
-              "title": "Customer Relationship Management and Support Ticketing System",
+              "title": "Customer Relationship Management and Support Case Management Platform",
               "descriptionLines": ["OAuth2 M2M — support case sync"],
               "pill": { "label": "via egress", "semantic": "viaEgress" },
-              "acronym": "CRM/Ticketing"
+              "acronym": "CRM/Support"
             }
           ]
         },
@@ -151,12 +151,12 @@
       { "colorToken": "mint", "label": "Ingress / Egress gateways" }
     ],
     "abbreviations": [
-      { "acronym": "CRM/Ticketing", "fullName": "Customer Relationship Management and Support Ticketing System" }
+      { "acronym": "CRM/Support", "fullName": "Customer Relationship Management and Support Case Management Platform" }
     ]
   },
   "notes": [
-    "Note — this is a fictional reference example, not a real system architecture.",
-    "It exists to exercise every schema feature (real Entity Layer, multi-cluster",
-    "External Systems, a supplied acronym) in one document for renderer testing."
+    "Note — this is a fictional reference example (an event ticket booking platform),",
+    "not a real system architecture. It exists to exercise every schema feature (real",
+    "Entity Layer, multi-cluster External Systems, a supplied acronym) in one document."
   ]
 }

@@ -12,10 +12,10 @@
 It's built as a library first, a CLI on top of that, and (soon) an MCP server on top of that — so it's just as easy for a human to run `archsmith render` as it is for an AI agent to call it as a tool.
 
 <p align="center">
-  <img src="examples/novera.svg" alt="Example architecture diagram rendered by ArchSmith" width="900">
+  <img src="examples/ticket-booking.svg" alt="Example architecture diagram rendered by ArchSmith" width="900">
 </p>
 
-<p align="center"><sub>Rendered from <a href="examples/novera.ir.json"><code>examples/novera.ir.json</code></a> — a fictional example exercising every schema feature.</sub></p>
+<p align="center"><sub>Rendered from <a href="examples/ticket-booking.ir.json"><code>examples/ticket-booking.ir.json</code></a> — a fictional example exercising every schema feature.</sub></p>
 
 ## Why
 
@@ -33,8 +33,8 @@ cd archsmith
 npm install
 npm run build
 
-npx archsmith validate examples/novera.ir.json
-npx archsmith render examples/novera.ir.json -o novera.svg
+npx archsmith validate examples/ticket-booking.ir.json
+npx archsmith render examples/ticket-booking.ir.json -o ticket-booking.svg
 ```
 
 (Not yet published to npm — see [Project status](#project-status) — so for now this only works from a clone, via the workspace-linked `archsmith` bin.)
@@ -99,7 +99,7 @@ An IR document is a JSON object with five columns, a legend, and optional notes.
 }
 ```
 
-The full schema (`packages/schema/diagram-schema.json`) and governed registries (`packages/schema/registries/`) define every field and every allowed color/sub-layer token — see `packages/schema/README.md` for the governance model. `examples/novera.ir.json` is a richer, fully-featured reference document.
+The full schema (`packages/schema/diagram-schema.json`) and governed registries (`packages/schema/registries/`) define every field and every allowed color/sub-layer token — see `packages/schema/README.md` for the governance model. `examples/ticket-booking.ir.json` is a richer, fully-featured reference document.
 
 ## Packages
 
