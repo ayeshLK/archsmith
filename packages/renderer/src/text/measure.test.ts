@@ -17,19 +17,26 @@ test("bold measures wider than regular for the same string", () => {
   assert.ok(bold > regular);
 });
 
-test("matches the ATS prototype's own Arial-based measurements closely (same strings, same weight/size)", () => {
-  // These are the prototype's real text_w() outputs (Arial via PIL, *1.07),
-  // pixel-validated against actual Chrome rendering during that project.
-  // Arimo is metric-compatible with Arial by design, so a fontkit-based
-  // measurement here should land close, not just "in the same ballpark".
-  const cases: Array<[string, number]> = [
-    ["Email Notifications Service", 168.96],
-    ["Calendar Event Service", 146.3],
-    ["HR / People GraphQL Service", 184.32],
+test("matches real browser-rendered text width (Chrome getComputedTextLength(), same embedded font)", () => {
+  // Calibration check, not a stand-in for one: these expected values are
+  // Chrome's own getComputedTextLength() on an SVG with the same embedded
+  // Arimo font this function measures against (see embedFontsInSvg),
+  // measured directly rather than assumed. Across 20 such samples (both
+  // weights, sizes 10-24, real punctuation), the ratio to this function's
+  // raw output was 1.0000-1.0001 every time — confirming no correction
+  // factor is needed once measurement and rendering share the same font.
+  // A tight 0.5% tolerance here is deliberate: this is the actual invariant
+  // that matters now (not "close to a different codebase's different font").
+  const cases: Array<[string, number, number, number]> = [
+    ["Email Notifications Service", 12.3, 700, 157.90625],
+    ["Calendar Event Service", 12.3, 700, 136.7421875],
+    ["HR / People GraphQL Service", 12.3, 700, 172.0390625],
+    ["Core reservation lifecycle, seat holds, dynamic pricing.", 11.5, 400, 277.3984375],
+    ["OIDC login (IdP) · Bearer ID token", 11.8, 400, 179.6875],
   ];
-  for (const [text, expected] of cases) {
-    const actual = measureText(text, 12.3, 700);
+  for (const [text, size, weight, expected] of cases) {
+    const actual = measureText(text, size, weight);
     const pctDiff = Math.abs(actual - expected) / expected;
-    assert.ok(pctDiff < 0.02, `${text}: expected ~${expected}, got ${actual.toFixed(2)} (${(pctDiff * 100).toFixed(1)}% off)`);
+    assert.ok(pctDiff < 0.005, `${text}: expected ~${expected}, got ${actual.toFixed(3)} (${(pctDiff * 100).toFixed(2)}% off)`);
   }
 });
