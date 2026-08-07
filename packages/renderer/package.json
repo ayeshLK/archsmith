@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "tsc -b",
-    "test": "node --test \"dist/**/*.test.js\""
+    "test": "cd dist && node --test"
   },
   "dependencies": {
     "@archsmith/schema": "^0.1.0",
