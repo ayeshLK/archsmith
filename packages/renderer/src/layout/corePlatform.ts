@@ -19,6 +19,7 @@ const WRAPPER_HEADER_H = 44;
 const WRAPPER_BOTTOM_PAD = 14;
 const SUB_LAYER_STACK_GAP = 16;
 const SOR_GAP_BELOW_WRAPPER = 20;
+const CORE_BOTTOM_PAD = 16; // mirrors depY's own 16px inset from frameY, so the outer frame gets the same clearance below Systems of Record that it gives above the wrapper
 const MISSING_LAYER_TAG = "GAP — NOT IMPLEMENTED";
 
 export interface CorePlatformResult {
@@ -109,14 +110,19 @@ export function renderCorePlatform(ir: DiagramIR, x: number, frameY: number, w: 
   // the outer dashed Core Platform frame. ---
   const sorEntry = getSubLayerRegistryEntries().find((e) => e.id === "systems-of-record")!;
   const sorAccent = resolveLayerToken(family, sorEntry.accentColorToken);
+  // Same left/right inset from the outer frame as the wrapper above it
+  // (depX/depW) — using the raw column x/w here, like an earlier version of
+  // this code did, made this frame's left/right/bottom borders coincide
+  // exactly with the outer frame's own borders (reported as a visible
+  // overlap). depX + WRAPPER_INNER_PAD also aligns Systems of Record's own
+  // items with the sub-layer rows above them.
   const sorY = depY + wrapperH + SOR_GAP_BELOW_WRAPPER;
-  const sorInnerPad = 16;
   const sorRowY = 42;
   const { height: sorRowH, nodes: sorRowNodes } = renderRow(
     core.systemsOfRecord.items,
-    x + sorInnerPad,
+    innerX,
     sorY + sorRowY,
-    w - sorInnerPad * 2,
+    innerW,
     family,
     sorAccent
   );
@@ -127,7 +133,7 @@ export function renderCorePlatform(ir: DiagramIR, x: number, frameY: number, w: 
     : sorEntry.defaultTag
       ? layerAccentPillColors(sorAccent)
       : null;
-  const sorFrameNodes = layerFrame(x, sorY, w, sorH, {
+  const sorFrameNodes = layerFrame(depX, sorY, depW, sorH, {
     label: sorEntry.label,
     border: sorAccent.border,
     bg: sorAccent.background,
@@ -136,7 +142,7 @@ export function renderCorePlatform(ir: DiagramIR, x: number, frameY: number, w: 
     tagBg: sorTagColors?.bg ?? null,
   });
 
-  const naturalHeight = sorY + sorH - frameY;
+  const naturalHeight = sorY + sorH - frameY + CORE_BOTTOM_PAD;
 
   const outerH = frameHeight ?? naturalHeight;
   const outerFrame = rect(x, frameY, w, outerH, { fill: "#FFFFFF", stroke: MUTED_C, sw: 1.6, rx: 10, dash: "6 5" });
