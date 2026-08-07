@@ -17,6 +17,9 @@ It's built as a library first, a CLI on top of that, and an MCP server on top of
 
 <p align="center"><sub>Rendered from <a href="examples/ticket-booking.ir.json"><code>examples/ticket-booking.ir.json</code></a> — a fictional example exercising every schema feature.</sub></p>
 
+> [!NOTE]
+> ArchSmith is pre-1.0 — the schema and API may still change (`diagram-schema.json` itself is marked "first pass, expect revision"), and nothing is published to npm yet ([tracking issue](https://github.com/ayeshLK/archsmith/issues?q=is%3Aissue+is%3Aopen+label%3Arelease)). Clone the repo to try it — see [Quick start](#quick-start).
+
 ## Why
 
 Drawing an architecture diagram by hand is slow and doesn't scale: every new diagram means re-deciding box shapes, colors, spacing, and layout from scratch, and keeping a whole set of diagrams visually consistent — a real "house style" — is a losing battle once more than one person is producing them. It's harder still now that agents, not just humans, increasingly need to produce these diagrams: an agent can't open a drawing tool and drag boxes around, but it can absolutely produce structured JSON.
@@ -37,6 +40,16 @@ Every color, box shape, spacing rule, and text-wrapping decision in that layout 
 
 Describing an architecture is just picking what goes in each column and writing it down: a title, a short description, and — for items with a role worth flagging, like "the primary database" or "only reached via egress" — a colored dot or a small pill tag. No coordinates, no manual layout, no font-size or spacing decisions to make; the renderer works out box sizes, text wrapping, and alignment from the content alone. See [the IR shape](#the-ir-shape) below for the actual JSON structure, and [Quick start](#quick-start) to render one.
 
+## How it compares
+
+Mermaid, PlantUML, and Structurizr (the C4 model's own tool) are the closest comparisons — text/data in, a rendered diagram out, no manual box-dragging. What's different about ArchSmith:
+
+- **One fixed house style, not a general-purpose diagramming language.** Mermaid/PlantUML give you a flexible syntax and largely leave the visual result up to you (or a theme); ArchSmith's IR has no layout or styling knobs at all. The same title/description/color-token input always produces the same box shapes, spacing, and typography, because there's exactly one house style to conform to, not many to choose between.
+- **MCP-first, not just a CLI.** The same `render`/`validate` capability is a callable MCP tool, with the schema and registries themselves readable as MCP resources — built for an agent to call as part of a larger workflow, not just for a human to paste into a `.mmd` file.
+- **One diagram convention today.** Mermaid/PlantUML/Structurizr all support a broader range of diagram types (sequence diagrams, the full set of C4 levels, state machines) that ArchSmith doesn't attempt yet — see the [`roadmap`-labeled issues](https://github.com/ayeshLK/archsmith/issues?q=is%3Aissue+is%3Aopen+label%3Aroadmap) for where that could go.
+
+If you want a flexible, general-purpose diagramming syntax, Mermaid or PlantUML are probably the better fit. If you want one specific layered-architecture house style enforced consistently across many diagrams — and want an agent to produce them as easily as a human can — that's what ArchSmith is for.
+
 ## Quick start
 
 ```bash
@@ -49,7 +62,7 @@ npx archsmith validate examples/ticket-booking.ir.json
 npx archsmith render examples/ticket-booking.ir.json -o ticket-booking.svg
 ```
 
-(Not yet published to npm — see [issues labeled `release`](https://github.com/ayeshLK/archsmith/issues?q=is%3Aissue+is%3Aopen+label%3Arelease) — so for now this only works from a clone, via the workspace-linked `archsmith` bin.)
+(Only works from a clone right now, via the workspace-linked `archsmith` bin — see the note above about npm publishing.)
 
 ## CLI usage
 
@@ -144,6 +157,10 @@ This is an npm workspaces monorepo — each package does one job, and only the l
 | [`@archsmith/renderer`](packages/renderer) | Validates an IR against the schema/registries and renders it to SVG. Pure function, no I/O beyond reading its own bundled font, no LLM dependency. |
 | [`@archsmith/cli`](packages/cli) | `archsmith` binary — `validate`, `render`, `registries list\|show`. |
 | [`@archsmith/mcp-server`](packages/mcp-server) | `archsmith-mcp` binary — exposes `render`/`validate`/registry lookups over MCP (stdio transport) so any MCP-capable agent can call them as tools. |
+
+## Support
+
+Questions, or something not working the way this README says it should? [Open a GitHub issue](https://github.com/ayeshLK/archsmith/issues) — there's no other support channel yet.
 
 ## Contributing
 
