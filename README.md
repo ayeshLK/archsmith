@@ -178,7 +178,7 @@ Questions, or something not working the way this README says it should? [Open a 
 
 ## Contributing
 
-Contributions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md) for how to build/test locally and, importantly, the governance rules around changing the schema or registries (this is what keeps the output a consistent house style rather than free-form per-diagram layout). Planned work and open directions are tracked as [GitHub issues](https://github.com/ayeshLK/archsmith/issues) — [`roadmap`](https://github.com/ayeshLK/archsmith/issues?q=is%3Aissue+is%3Aopen+label%3Aroadmap) for bigger capability directions (new diagram notations, pluggable styles), narrower labels (`schema`, `mcp-server`, `release`) for everything else.
+Contributions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md) for how to build/test locally and, importantly, the governance rules around changing the schema or registries (this is what keeps the output a consistent house style rather than free-form per-diagram layout). If you're an AI coding agent, see [AGENTS.md](AGENTS.md) too. Planned work and open directions are tracked as [GitHub issues](https://github.com/ayeshLK/archsmith/issues) — [`roadmap`](https://github.com/ayeshLK/archsmith/issues?q=is%3Aissue+is%3Aopen+label%3Aroadmap) for bigger capability directions (new diagram notations, pluggable styles), narrower labels (`schema`, `mcp-server`, `release`) for everything else.
 
 ## License
 
