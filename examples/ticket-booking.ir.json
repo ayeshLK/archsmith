@@ -83,12 +83,11 @@
           },
           {
             "title": "Legacy Settlement Export",
-            "descriptionLines": ["Nightly CSV batch — finance reconciliation only"],
-            "pill": { "label": "NO LIVE READ", "semantic": "warning" }
+            "descriptionLines": ["Nightly CSV batch for finance reconciliation"]
           },
           {
             "title": "Document Archive",
-            "descriptionLines": ["Signed venue contracts, invoices — link only"]
+            "descriptionLines": ["Signed venue contracts and invoices"]
           }
         ]
       }
