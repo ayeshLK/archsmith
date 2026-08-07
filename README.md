@@ -19,11 +19,23 @@ It's built as a library first, a CLI on top of that, and an MCP server on top of
 
 ## Why
 
-The diagram format itself — Inbound Actors → Ingress → Core Platform → Egress → External Systems, with a governed color/sub-layer palette — comes from a hand-tuned prototype whose every rendering rule (text wrapping, box sizing, the gateway icon, column framing, a 3-tier width/wrap/acronym fallback) was pixel-measured against real reference diagrams, not guessed. ArchSmith generalizes that into a reusable renderer.
+Drawing an architecture diagram by hand is slow and doesn't scale: every new diagram means re-deciding box shapes, colors, spacing, and layout from scratch, and keeping a whole set of diagrams visually consistent — a real "house style" — is a losing battle once more than one person is producing them. It's harder still now that agents, not just humans, increasingly need to produce these diagrams: an agent can't open a drawing tool and drag boxes around, but it can absolutely produce structured JSON.
 
-Along the way, rebuilding it surfaced a real bug worth designing around: the prototype measured text width against one font but declared a different one in the output SVG's CSS, so wrapping decisions were correct on the machine that made them and subtly off everywhere else. ArchSmith fixes this at the root — it measures against a bundled font (Arimo, metric-compatible with Arial) and, by default, embeds that exact font into the output SVG, so a diagram looks the same regardless of what's installed on the machine viewing it.
+Just asking an LLM to draw an SVG diagram directly doesn't fix this either — it trades manual inconsistency for a different kind, where the same request can come out looking different depending on the day, the model, or the prompt. ArchSmith separates those two concerns instead: an agent (or a human) does the *interpretation* — turning a sketch or a description into a valid structured document — and hands it to ArchSmith for deterministic rendering. Same input, same output, every time, with the house style (spacing, colors, text wrapping, box shapes) enforced by the renderer rather than re-decided per diagram — down to embedding the exact font text was measured against, so a diagram looks the same on any machine viewing it, not just the one that rendered it.
 
-The renderer itself is a pure function — IR in, SVG out, no LLM call inside it. That's deliberate: an agent (or a human) does the *interpretation* — turning a sketch or a description into a valid IR — and hands it to ArchSmith for deterministic rendering. The registries (which colors, which sub-layer types are allowed) are governed and versioned separately, so extending the format is a reviewable change, not something a generation step decides for itself.
+## How
+
+ArchSmith currently supports one diagram convention: a layered/swimlane style that lays out a system's architecture as five columns, left to right:
+
+1. **Inbound Actors** — who or what calls into the system (end users, other apps, partner integrations).
+2. **Ingress** — the API gateway/edge layer requests come in through.
+3. **Core Platform** — the backend itself: API-management/identity concerns, the actual business-logic services, an optional domain-model layer, and the platform's own databases/files ("Systems of Record").
+4. **Egress** — the gateway layer through which the platform calls *out* to other systems.
+5. **External Systems** — downstream dependencies reached via egress, grouped into named clusters.
+
+Every color, box shape, spacing rule, and text-wrapping decision in that layout was pixel-measured against real reference diagrams, not guessed — see [`packages/schema/README.md`](packages/schema/README.md) for how the sub-layer/color palette is governed as it grows.
+
+Describing an architecture is just picking what goes in each column and writing it down: a title, a short description, and — for items with a role worth flagging, like "the primary database" or "only reached via egress" — a colored dot or a small pill tag. No coordinates, no manual layout, no font-size or spacing decisions to make; the renderer works out box sizes, text wrapping, and alignment from the content alone. See [the IR shape](#the-ir-shape) below for the actual JSON structure, and [Quick start](#quick-start) to render one.
 
 ## Quick start
 
