@@ -19,6 +19,12 @@ export interface ClusterItem {
   title: string;
   sub: string;
   pill?: string | null;
+  /** Human-supplied short form (schema's `item.acronym`). Used in place of
+   * `title` when the full title doesn't fit inline — this is the piece the
+   * ATS prototype never actually wired up (no real content ever hit that
+   * tier), even though the schema always required it: "used in the box in
+   * place of title... a human call, never invented by the renderer." */
+  acronym?: string | null;
 }
 
 interface ItemLayout {
@@ -35,7 +41,7 @@ interface ItemLayout {
  * never a renderer guess. Direct port of the prototype's `_item_layout`.
  */
 function itemLayout(item: ClusterItem, availWidth: number): ItemLayout {
-  const { title } = item;
+  const { title, acronym } = item;
   let singleLineW = measureText(title, 12.3, 700);
   if (item.pill) {
     singleLineW += TITLE_PILL_GAP + pillWidth(item.pill);
@@ -43,6 +49,17 @@ function itemLayout(item: ClusterItem, availWidth: number): ItemLayout {
   if (singleLineW <= availWidth) {
     return { lines: [title], pillMode: "inline", needsAcronym: false };
   }
+
+  // Full title doesn't fit inline. If a human has already supplied an
+  // acronym, use it — that's the whole point of the field, and it takes
+  // priority over wrapping the full title. Not fit-checked against
+  // availWidth: acronyms are expected to be short by construction (that's
+  // the human's job to get right), and re-litigating the human's choice
+  // here (e.g. falling back to wrapping it) isn't the renderer's call.
+  if (acronym) {
+    return { lines: [acronym], pillMode: "inline", needsAcronym: false };
+  }
+
   const wrapped = wrapText(title, availWidth, 12.3, 700);
   const needsAcronym = wrapped.length > 2;
   return {

@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1986" height="908" viewBox="0 0 1986 908">
+<rect x="0" y="0" width="1986" height="908" rx="0" ry="0" fill="#FFFFFF"/>
+<text x="993" y="44" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" font-weight="700" fill="#182449" text-anchor="middle">Novera Booking Platform — Architecture</text>
+<text x="993" y="66" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="400" fill="#6B7280" text-anchor="middle">Reference example exercising every schema feature (fictional platform, no real system)</text>
+<text x="160" y="92" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="middle">INBOUND ACTORS</text>
+<text x="160" y="109" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="400" fill="#6B7280" text-anchor="middle">(Requesters)</text>
+<text x="393" y="92" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="middle">INGRESS</text>
+<text x="946" y="92" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="middle">CORE PLATFORM</text>
+<text x="1499" y="92" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="middle">EGRESS</text>
+<text x="1779" y="92" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="middle">EXTERNAL SYSTEMS</text>
+<rect x="30" y="118" width="260" height="587" rx="10" ry="10" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="1.4"/>
+<rect x="42" y="130" width="236" height="106" rx="10" ry="10" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.4"/>
+<circle cx="62" cy="148" r="4.5" fill="#5B3A9E"/>
+<text x="72" y="152" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Novera Web App</text>
+<text x="58" y="172" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">React SPA — customer-facing</text>
+<text x="58" y="189" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">booking flow</text>
+<text x="58" y="212" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">OIDC login (IdP) · Bearer ID token</text>
+<rect x="42" y="256" width="236" height="123" rx="10" ry="10" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.4"/>
+<circle cx="62" cy="274" r="4.5" fill="#177F6B"/>
+<text x="72" y="278" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Partner Integration Hub</text>
+<text x="58" y="298" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">Third-party travel agencies — B2B</text>
+<text x="58" y="315" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">channel</text>
+<text x="58" y="338" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">M2M client-credentials · booking +</text>
+<text x="58" y="355" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">inventory scopes</text>
+<rect x="318" y="118" width="150" height="587" rx="10" ry="10" fill="#D9F2EC" stroke="#1E8A73" stroke-width="1.6"/>
+<rect x="330" y="361.5" width="126" height="100" rx="10" ry="10" fill="#FFFFFF" stroke="#1E8A73" stroke-width="1.6"/>
+<circle cx="393" cy="387.5" r="13" fill="none" stroke="#1E8A73" stroke-width="1.8"/>
+<circle cx="393" cy="387.5" r="6" fill="none" stroke="#156150" stroke-width="1.5"/>
+<line x1="390" y1="387.5" x2="396" y2="387.5" stroke="#156150" stroke-width="1.5"/>
+<line x1="393" y1="384.5" x2="393" y2="390.5" stroke="#156150" stroke-width="1.5"/>
+<text x="393" y="417.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#182449" text-anchor="middle">API Gateway</text>
+<text x="393" y="434.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="middle">Novera Runtime</text>
+<rect x="496" y="118" width="900" height="587" rx="10" ry="10" fill="#FFFFFF" stroke="#6B7280" stroke-width="1.6" stroke-dasharray="6 5"/>
+<rect x="514" y="134" width="864" height="424" rx="10" ry="10" fill="#F8F5FC" stroke="#2B3350" stroke-width="2"/>
+<text x="946" y="162" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#2B3350" text-anchor="middle">DEPLOYED IN NOVERA RUNTIME</text>
+<rect x="530" y="178" width="832" height="140" rx="10" ry="10" fill="#F4EFFC" stroke="#5B3A9E" stroke-width="1.6"/>
+<text x="546" y="203" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#5B3A9E" text-anchor="start">DISCOVERY AND GOVERNANCE</text>
+<rect x="771.8203125" y="188" width="111.94267578125" height="20" rx="10" ry="10" fill="#E4D9F7"/>
+<text x="827.791650390625" y="202" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#5B3A9E" text-anchor="middle">CONTROL PLANE</text>
+<rect x="546" y="214" width="390" height="90" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
+<text x="561" y="233" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start" font-style="italic">API management</text>
+<text x="561" y="252" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Novera API Control Plane</text>
+<text x="561" y="272" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Request routing, lifecycle management, rate limiting for all public</text>
+<text x="561" y="289" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">APIs.</text>
+<rect x="956" y="214" width="390" height="90" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
+<text x="971" y="233" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start" font-style="italic">Identity &amp; policy</text>
+<text x="971" y="252" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Novera Identity Platform</text>
+<text x="971" y="272" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">OIDC · M2M client-credentials · role-based access control.</text>
+<rect x="530" y="334" width="832" height="104" rx="10" ry="10" fill="#EAF7EC" stroke="#2F7D4F" stroke-width="1.6"/>
+<text x="546" y="359" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#2F7D4F" text-anchor="start">EXECUTION AND CAPABILITY LAYER</text>
+<rect x="546" y="370" width="390" height="54" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
+<text x="561" y="389" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Booking Service</text>
+<text x="561" y="409" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Core reservation lifecycle, availability holds, pricing.</text>
+<rect x="956" y="370" width="390" height="54" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
+<text x="971" y="389" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Notification Dispatcher</text>
+<text x="971" y="409" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Async batch job — confirmation emails, reminder pushes.</text>
+<rect x="530" y="454" width="832" height="104" rx="10" ry="10" fill="#E3F5F0" stroke="#177F6B" stroke-width="1.6"/>
+<text x="546" y="479" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#177F6B" text-anchor="start">ENTITY LAYER</text>
+<rect x="657.1336059570312" y="464" width="143.83369140625" height="20" rx="10" ry="10" fill="#CDEFE6"/>
+<text x="729.0504516601562" y="478" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#177F6B" text-anchor="middle">DOMAIN ABSTRACTION</text>
+<rect x="546" y="490" width="800" height="54" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
+<text x="561" y="509" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Customer Entity Service</text>
+<text x="561" y="529" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Canonical customer profile, deduplicated across booking, support, and billing.</text>
+<rect x="496" y="578" width="900" height="127" rx="10" ry="10" fill="#FDF3D9" stroke="#92600E" stroke-width="1.6"/>
+<text x="512" y="603" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#92600E" text-anchor="start">SYSTEMS OF RECORD AND KNOWLEDGE</text>
+<rect x="800.2152099609375" y="588" width="103.619873046875" height="20" rx="10" ry="10" fill="#F7E4B0"/>
+<text x="852.025146484375" y="602" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#92600E" text-anchor="middle">DATA SOURCES</text>
+<rect x="512" y="620" width="276" height="71" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
+<text x="527" y="639" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Novera DB</text>
+<rect x="605.8542944335937" y="625" width="68.944140625" height="20" rx="10" ry="10" fill="#DFF3E4"/>
+<text x="640.3263647460938" y="639" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#2F7D4F" text-anchor="middle">PRIMARY</text>
+<text x="527" y="659" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">PostgreSQL — shared "bookings" schema</text>
+<rect x="808" y="620" width="276" height="71" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
+<text x="823" y="639" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Legacy Ledger Export</text>
+<rect x="979.7148193359375" y="625" width="96.096435546875" height="20" rx="10" ry="10" fill="#F7E4B0"/>
+<text x="1027.763037109375" y="639" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#92600E" text-anchor="middle">NO LIVE READ</text>
+<text x="823" y="659" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Nightly CSV batch — finance reconciliation</text>
+<text x="823" y="676" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">only</text>
+<rect x="1104" y="620" width="276" height="71" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
+<text x="1119" y="639" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Document Archive</text>
+<text x="1119" y="659" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Signed contracts, invoices — link only</text>
+<rect x="1424" y="118" width="150" height="587" rx="10" ry="10" fill="#D9F2EC" stroke="#1E8A73" stroke-width="1.6"/>
+<rect x="1436" y="361.5" width="126" height="100" rx="10" ry="10" fill="#FFFFFF" stroke="#1E8A73" stroke-width="1.6"/>
+<circle cx="1499" cy="387.5" r="13" fill="none" stroke="#1E8A73" stroke-width="1.8"/>
+<circle cx="1499" cy="387.5" r="6" fill="none" stroke="#156150" stroke-width="1.5"/>
+<line x1="1496" y1="387.5" x2="1502" y2="387.5" stroke="#156150" stroke-width="1.5"/>
+<line x1="1499" y1="384.5" x2="1499" y2="390.5" stroke="#156150" stroke-width="1.5"/>
+<text x="1499" y="417.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#182449" text-anchor="middle">API Gateway</text>
+<text x="1499" y="434.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="middle">Outbound M2M</text>
+<rect x="1602" y="118" width="354" height="587" rx="10" ry="10" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="1.4"/>
+<rect x="1614" y="130" width="330" height="220" rx="10" ry="10" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="1.5"/>
+<text x="1630" y="156" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Shared Internal Services</text>
+<circle cx="1634" cy="178" r="4.5" fill="#5B3A9E"/>
+<text x="1646" y="182" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Billing Service</text>
+<rect x="1741.7003681640624" y="168" width="72.3505859375" height="20" rx="10" ry="10" fill="#D9F2EC"/>
+<text x="1777.8756611328124" y="182" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
+<text x="1646" y="199" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">OAuth2 M2M — invoice generation, refunds</text>
+<line x1="1630" y1="210" x2="1928" y2="210" stroke="#D9DCE7" stroke-width="1.3"/>
+<circle cx="1634" cy="230" r="4.5" fill="#177F6B"/>
+<text x="1646" y="234" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Analytics Pipeline</text>
+<rect x="1763.63965234375" y="220" width="72.3505859375" height="20" rx="10" ry="10" fill="#D9F2EC"/>
+<text x="1799.8149453125" y="234" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
+<text x="1646" y="251" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Event stream — booking + engagement telemetry</text>
+<line x1="1630" y1="262" x2="1928" y2="262" stroke="#D9DCE7" stroke-width="1.3"/>
+<circle cx="1634" cy="282" r="4.5" fill="#2B3350"/>
+<text x="1646" y="286" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">CRM/Ticketing</text>
+<rect x="1742.1630595703125" y="272" width="72.3505859375" height="20" rx="10" ry="10" fill="#D9F2EC"/>
+<text x="1778.3383525390625" y="286" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
+<text x="1646" y="303" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">OAuth2 M2M — support case sync</text>
+<rect x="1614" y="370" width="330" height="168" rx="10" ry="10" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="1.5"/>
+<text x="1630" y="396" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Payments Network</text>
+<circle cx="1634" cy="418" r="4.5" fill="#92600E"/>
+<text x="1646" y="422" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Card Processor</text>
+<rect x="1749.0198891601563" y="408" width="72.3505859375" height="20" rx="10" ry="10" fill="#D9F2EC"/>
+<text x="1785.1951821289063" y="422" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
+<text x="1646" y="439" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">PCI-scoped M2M — authorization + capture</text>
+<line x1="1630" y1="450" x2="1928" y2="450" stroke="#D9DCE7" stroke-width="1.3"/>
+<circle cx="1634" cy="470" r="4.5" fill="#92600E"/>
+<text x="1646" y="474" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Fraud Detection Service</text>
+<rect x="1801.6703154296874" y="460" width="72.3505859375" height="20" rx="10" ry="10" fill="#D9F2EC"/>
+<text x="1837.8456083984374" y="474" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
+<text x="1646" y="491" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Real-time risk scoring on checkout</text>
+<rect x="30" y="729" width="886" height="149" rx="10" ry="10" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.4"/>
+<text x="48" y="755" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#182449" text-anchor="start">LEGEND</text>
+<rect x="48" y="767" width="16" height="16" rx="4" ry="4" fill="#F4EFFC" stroke="#5B3A9E" stroke-width="1.3"/>
+<text x="72" y="780" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Discovery and Governance</text>
+<rect x="471" y="767" width="16" height="16" rx="4" ry="4" fill="#EAF7EC" stroke="#2F7D4F" stroke-width="1.3"/>
+<text x="495" y="780" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Execution and Capability Layer</text>
+<rect x="48" y="793" width="16" height="16" rx="4" ry="4" fill="#E3F5F0" stroke="#177F6B" stroke-width="1.3"/>
+<text x="72" y="806" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Entity Layer</text>
+<rect x="471" y="793" width="16" height="16" rx="4" ry="4" fill="#FDF3D9" stroke="#92600E" stroke-width="1.3"/>
+<text x="495" y="806" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Systems of Record and Knowledge</text>
+<rect x="48" y="819" width="16" height="16" rx="4" ry="4" fill="#D9F2EC" stroke="#1E8A73" stroke-width="1.3"/>
+<text x="72" y="832" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Ingress / Egress gateways</text>
+<line x1="471" y1="825" x2="487" y2="825" stroke="#6B7280" stroke-width="1.6" stroke-dasharray="4 3"/>
+<text x="495" y="832" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Dashed border = Core Platform boundary</text>
+<text x="48" y="861" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">CRM/Ticketing — Customer Relationship Management and Support Ticketing System</text>
+<rect x="926" y="729" width="1030" height="70" rx="10" ry="10" fill="#FFFFFF" stroke="#6B7280" stroke-width="1.2" stroke-dasharray="4 4"/>
+<text x="942" y="755" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.3" font-weight="400" fill="#6B7280" text-anchor="start" font-style="italic">Note — this is a fictional reference example, not a real system architecture.</text>
+<text x="942" y="772" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.3" font-weight="400" fill="#6B7280" text-anchor="start" font-style="italic">It exists to exercise every schema feature (real Entity Layer, multi-cluster</text>
+<text x="942" y="789" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.3" font-weight="400" fill="#6B7280" text-anchor="start" font-style="italic">External Systems, a supplied acronym) in one document for renderer testing.</text>
+</svg>

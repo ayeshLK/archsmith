@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { Command } from "commander";
-import { validate } from "@archsmith/renderer";
+import { render, validate, type DiagramIR } from "@archsmith/renderer";
 import { getRegistry, listRegistryNames, type RegistryName } from "@archsmith/schema";
 
 const program = new Command();
@@ -43,10 +43,20 @@ program
 
 program
   .command("render <input>")
-  .description("Render an IR document to SVG (not yet implemented — coming once the layout engine lands)")
-  .action(() => {
-    console.error("archsmith render: not implemented yet. The renderer's layout/box-drawing engine is still being built (see project plan, Phase 3).");
-    process.exit(2);
+  .description("Render an IR document to SVG")
+  .requiredOption("-o, --out <path>", "output SVG file path")
+  .action((input: string, opts: { out: string }) => {
+    const ir = readIr(input);
+    let svg: string;
+    try {
+      svg = render(ir as DiagramIR);
+    } catch (err) {
+      console.error(`archsmith render: ${(err as Error).message}`);
+      process.exit(1);
+    }
+    writeFileSync(opts.out, svg, "utf-8");
+    console.log(`wrote ${opts.out}`);
+    process.exit(0);
   });
 
 const registries = program.command("registries").description("Inspect the governed registries (sub-layers, colors, icons)");

@@ -1,0 +1,162 @@
+{
+  "schemaVersion": "0.1.0",
+  "title": "Novera Booking Platform — Architecture",
+  "subtitle": "Reference example exercising every schema feature (fictional platform, no real system)",
+  "colorTheme": { "family": "standard" },
+  "columns": {
+    "inboundActors": {
+      "items": [
+        {
+          "dotColor": "purple",
+          "title": "Novera Web App",
+          "descriptionLines": [
+            "React SPA — customer-facing booking flow",
+            "OIDC login (IdP) · Bearer ID token"
+          ]
+        },
+        {
+          "dotColor": "teal",
+          "title": "Partner Integration Hub",
+          "descriptionLines": [
+            "Third-party travel agencies — B2B channel",
+            "M2M client-credentials · booking + inventory scopes"
+          ]
+        }
+      ]
+    },
+    "ingress": {
+      "gateway": { "label": "API Gateway", "sublabel": "Novera Runtime" }
+    },
+    "corePlatform": {
+      "deployedIn": "Novera Runtime",
+      "subLayers": [
+        {
+          "registryId": "discovery-and-governance",
+          "rows": [
+            [
+              {
+                "eyebrow": "API management",
+                "title": "Novera API Control Plane",
+                "descriptionLines": ["Request routing, lifecycle management, rate limiting for all public APIs."]
+              },
+              {
+                "eyebrow": "Identity & policy",
+                "title": "Novera Identity Platform",
+                "descriptionLines": ["OIDC · M2M client-credentials · role-based access control."]
+              }
+            ]
+          ]
+        },
+        {
+          "registryId": "execution-and-capability",
+          "rows": [
+            [
+              {
+                "title": "Booking Service",
+                "descriptionLines": ["Core reservation lifecycle, availability holds, pricing."]
+              },
+              {
+                "title": "Notification Dispatcher",
+                "descriptionLines": ["Async batch job — confirmation emails, reminder pushes."]
+              }
+            ]
+          ]
+        },
+        {
+          "registryId": "entity-layer",
+          "rows": [
+            [
+              {
+                "title": "Customer Entity Service",
+                "descriptionLines": ["Canonical customer profile, deduplicated across booking, support, and billing."]
+              }
+            ]
+          ]
+        }
+      ],
+      "systemsOfRecord": {
+        "items": [
+          {
+            "title": "Novera DB",
+            "descriptionLines": ["PostgreSQL — shared \"bookings\" schema"],
+            "pill": { "label": "PRIMARY", "semantic": "primary" }
+          },
+          {
+            "title": "Legacy Ledger Export",
+            "descriptionLines": ["Nightly CSV batch — finance reconciliation only"],
+            "pill": { "label": "NO LIVE READ", "semantic": "warning" }
+          },
+          {
+            "title": "Document Archive",
+            "descriptionLines": ["Signed contracts, invoices — link only"]
+          }
+        ]
+      }
+    },
+    "egress": {
+      "gateway": { "label": "API Gateway", "sublabel": "Outbound M2M" }
+    },
+    "externalSystems": {
+      "clusters": [
+        {
+          "name": "Shared Internal Services",
+          "items": [
+            {
+              "dotColor": "purple",
+              "title": "Billing Service",
+              "descriptionLines": ["OAuth2 M2M — invoice generation, refunds"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            },
+            {
+              "dotColor": "teal",
+              "title": "Analytics Pipeline",
+              "descriptionLines": ["Event stream — booking + engagement telemetry"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            },
+            {
+              "dotColor": "navy",
+              "title": "Customer Relationship Management and Support Ticketing System",
+              "descriptionLines": ["OAuth2 M2M — support case sync"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" },
+              "acronym": "CRM/Ticketing"
+            }
+          ]
+        },
+        {
+          "name": "Payments Network",
+          "items": [
+            {
+              "dotColor": "amber",
+              "title": "Card Processor",
+              "descriptionLines": ["PCI-scoped M2M — authorization + capture"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            },
+            {
+              "dotColor": "amber",
+              "title": "Fraud Detection Service",
+              "descriptionLines": ["Real-time risk scoring on checkout"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "legend": {
+    "entries": [
+      { "colorToken": "purple", "label": "Discovery and Governance" },
+      { "colorToken": "green", "label": "Execution and Capability Layer" },
+      { "colorToken": "teal", "label": "Entity Layer" },
+      { "colorToken": "amber", "label": "Systems of Record and Knowledge" },
+      { "colorToken": "mint", "label": "Ingress / Egress gateways" }
+    ],
+    "abbreviations": [
+      { "acronym": "CRM/Ticketing", "fullName": "Customer Relationship Management and Support Ticketing System" }
+    ]
+  },
+  "notes": [
+    "Note — this is a fictional reference example, not a real system architecture.",
+    "It exists to exercise every schema feature (real Entity Layer, multi-cluster",
+    "External Systems, a supplied acronym) in one document for renderer testing."
+  ]
+}
