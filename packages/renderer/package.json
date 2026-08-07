@@ -1,19 +1,26 @@
 {
   "name": "@archsmith/renderer",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "description": "ArchSmith diagram renderer — validated IR in, SVG out. Pure library, no agent/LLM dependency.",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
-    "dist"
+    "dist",
+    "!dist/**/*.test.js",
+    "!dist/**/*.test.js.map",
+    "!dist/**/*.test.d.ts",
+    "!dist/**/*.test.d.ts.map"
   ],
   "scripts": {
     "build": "tsc -b",
     "test": "cd dist && node --test"
   },
   "dependencies": {
-    "@archsmith/schema": "^0.1.0",
+    "@archsmith/schema": "^0.5.0",
     "ajv": "^8.17.1",
     "@fontsource/arimo": "^5.1.0",
     "fontkit": "^2.0.4"

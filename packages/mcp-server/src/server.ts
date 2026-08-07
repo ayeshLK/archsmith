@@ -17,7 +17,7 @@ import { getDiagramSchema, getRegistry, listRegistryNames, type RegistryName } f
 const REGISTRY_NAMES = listRegistryNames();
 
 export function createServer(): McpServer {
-  const server = new McpServer({ name: "archsmith-mcp", version: "0.1.0" });
+  const server = new McpServer({ name: "archsmith-mcp", version: "0.5.0" });
 
   server.registerTool(
     "validate",

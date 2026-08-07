@@ -97,7 +97,20 @@ if (result.valid) {
 
 **Resources**: `archsmith://schema` and one `archsmith://registries/<name>` per governed registry — lets an agent authoring an IR read the live, current schema/registries directly instead of working from a stale copy baked into a prompt.
 
-To connect it to an MCP host (e.g. Claude Desktop's `claude_desktop_config.json`), point at the built entrypoint:
+To connect it to an MCP host (e.g. Claude Desktop's `claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "archsmith": {
+      "command": "npx",
+      "args": ["-y", "@archsmith/mcp-server"]
+    }
+  }
+}
+```
+
+Working from a clone instead (e.g. to test a local change)? Point at the built entrypoint directly:
 
 ```json
 {

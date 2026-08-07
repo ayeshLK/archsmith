@@ -1,23 +1,34 @@
-# ArchSmith schema — v0.1.0 (draft)
+# @archsmith/schema
 
-This is the first draft of the structural half of the ruleset: **schema + governed registries + (later) a deterministic renderer**. No `SKILL.md` or renderer exists yet — this directory only defines what a valid diagram description looks like.
+The IR schema and governed registries for [ArchSmith](https://github.com/ayeshLK/archsmith) — the structural contract a diagram intermediate representation (IR) must satisfy, and the catalog of colors/sub-layer types it's allowed to reference.
+
+See the [root README](https://github.com/ayeshLK/archsmith#readme) for what ArchSmith is and how the pieces fit together; this package is the schema layer only, consumed by `@archsmith/renderer` for validation.
 
 ## Files
 
-- `diagram-schema.json` — JSON Schema for the IR (intermediate representation): the structured document an LLM should produce from a rough sketch/text description, and that a future renderer consumes to emit SVG. Fixed shape: 5 columns, Core Platform sub-layers stacked in order, systems-of-record as a sibling section below the "deployed on" wrapper.
-- `registries/sub-layers.json` — the governed, extensible list of Core Platform sub-layer types. Seeded with the 4 observed across all sources: Discovery and Governance, Execution and Capability Layer, Entity Layer, Systems of Record and Knowledge.
-- `registries/colors.json` — the governed color catalog. `standard` family is populated from a validated reference build's actual hex values. `accessible` family is a planned second palette (secondary priority) — structure is present, values are not yet chosen.
-- `registries/icons.json` — placeholder only. Categories that will need icons are listed; no actual icon tokens are defined yet, deliberately, to avoid inventing bespoke icon shapes ad hoc (an earlier draft's DB-cylinder-icon mistake documents why).
+- `diagram-schema.json` — JSON Schema (draft 2020-12) for the IR: the document a human or agent produces describing a layered architecture, and that `@archsmith/renderer` validates and renders to SVG. Fixed shape: 5 columns, Core Platform sub-layers stacked in order, systems-of-record as a sibling section below the "deployed on" wrapper.
+- `registries/sub-layers.json` — the governed, extensible list of Core Platform sub-layer types (Discovery and Governance, Execution and Capability Layer, Entity Layer, Systems of Record and Knowledge).
+- `registries/colors.json` — the governed color catalog. The `standard` family is fully populated; `accessible` (a colorblind/contrast-safe palette) has the right structure but no values yet — [tracked here](https://github.com/ayeshLK/archsmith/issues/7).
+- `registries/icons.json` — placeholder only. Categories that will need icons are listed; no actual icon tokens are defined yet, deliberately, to avoid inventing bespoke icon shapes ad hoc — [tracked here](https://github.com/ayeshLK/archsmith/issues/6). Items without an icon render as a plain colored dot.
+
+## Usage
+
+```ts
+import { getDiagramSchema, getRegistry, listRegistryNames } from "@archsmith/schema";
+
+const schema = getDiagramSchema(); // the parsed diagram-schema.json
+const colors = getRegistry("colors"); // one governed registry, parsed
+listRegistryNames(); // ["sub-layers", "colors", "icons"]
+```
+
+In practice you'll rarely call this package directly — `@archsmith/renderer`'s `validate()`/`render()` already do, and `@archsmith/mcp-server` exposes the schema and each registry as MCP resources for an agent to read live.
 
 ## Governance model
 
-Changing `diagram-schema.json`'s structure, or adding an entry to any registry, is a **deliberate change-request event** — never a decision made by the generation-time LLM or by an end user mid-diagram. This is what keeps the format a "house style" rather than free-form AI diagramming as it scales toward being a published plugin. Bump `schemaVersion`/`registryVersion` on any such change.
+Changing `diagram-schema.json`'s structure, or adding an entry to any registry, is a **deliberate change-request event** — never a decision made by a generation step or an end user mid-diagram. This is what keeps the format a consistent house style rather than free-form per-diagram layout. Bump `schemaVersion`/`registryVersion` on any such change.
 
 What stays free per diagram (no change request needed): which already-approved sub-layers/colors/icons a given diagram uses, how many rows of boxes a layer has, whether a notes callout is included, which color family is active.
 
-## Open items not yet resolved in this draft
+## License
 
-- Icon catalog contents (`registries/icons.json` is a placeholder — needs a follow-up design pass on visual style before any token gets a real value).
-- `accessible` color family values.
-- The IR-authoring step itself: how an LLM should turn a rough sketch or text description into a document conforming to `diagram-schema.json` isn't specified yet — this schema only defines the target shape, not the extraction process.
-- No renderer exists yet. This schema is deliberately renderer-agnostic — rendering mechanics (text wrapping, pill-width measurement, uniform row height, `rect rx/ry` not `clip-path`) belong in that future renderer's code, not in this schema.
+Apache-2.0

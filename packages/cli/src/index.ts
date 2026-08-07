@@ -5,7 +5,7 @@ import { render, validate, type DiagramIR } from "@archsmith/renderer";
 import { getRegistry, listRegistryNames, type RegistryName } from "@archsmith/schema";
 
 const program = new Command();
-program.name("archsmith").description("ArchSmith — layered architecture diagram tool").version("0.1.0");
+program.name("archsmith").description("ArchSmith — layered architecture diagram tool").version("0.5.0");
 
 function readIr(inputPath: string): unknown {
   let text: string;

@@ -1,22 +1,29 @@
 {
   "name": "@archsmith/mcp-server",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "description": "MCP server exposing ArchSmith's render/validate/registry lookups to any MCP-capable agent, over stdio.",
   "type": "module",
   "main": "./dist/index.js",
   "bin": {
-    "archsmith-mcp": "./dist/index.js"
+    "archsmith-mcp": "dist/index.js"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "files": [
-    "dist"
+    "dist",
+    "!dist/**/*.test.js",
+    "!dist/**/*.test.js.map",
+    "!dist/**/*.test.d.ts",
+    "!dist/**/*.test.d.ts.map"
   ],
   "scripts": {
     "build": "tsc -b",
     "test": "cd dist && node --test"
   },
   "dependencies": {
-    "@archsmith/renderer": "^0.1.0",
-    "@archsmith/schema": "^0.1.0",
+    "@archsmith/renderer": "^0.5.0",
+    "@archsmith/schema": "^0.5.0",
     "@modelcontextprotocol/sdk": "^1.30.0",
     "zod": "^3.24.1"
   }
