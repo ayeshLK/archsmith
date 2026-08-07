@@ -16,9 +16,13 @@ const ARIMO_FILES = {
   bold: "arimo-latin-700-normal.woff",
 } as const;
 
-type Weight = keyof typeof ARIMO_FILES;
+export type Weight = keyof typeof ARIMO_FILES;
 
-function resolveArimoFile(weight: Weight): string {
+/** Exported so callers that need the actual font bytes (e.g. embedding the
+ * font into an output SVG via a base64 @font-face) can locate the same
+ * bundled files this module measures against, without duplicating the
+ * @fontsource/arimo path-resolution trick. */
+export function resolveArimoFile(weight: Weight): string {
   // @fontsource/arimo ships font files under files/ but doesn't expose that
   // subpath via its package.json "exports" map — anchor on package.json,
   // which every package does export, then walk to the sibling files/ dir.

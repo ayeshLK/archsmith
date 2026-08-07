@@ -29,3 +29,20 @@ test("render(novera.ir.json) matches the visually-QA'd golden master", () => {
   const golden = readFileSync(path.join(examplesDir, "novera.svg"), "utf-8");
   assert.equal(svg, golden);
 });
+
+test("embedFonts defaults to on: the golden master itself carries an embedded @font-face", () => {
+  const golden = readFileSync(path.join(examplesDir, "novera.svg"), "utf-8");
+  assert.ok(golden.includes("@font-face"));
+  assert.ok(golden.includes("data:font/woff;base64,"));
+});
+
+test("embedFonts: false opts out of the embedded font, producing a smaller SVG with no @font-face", () => {
+  const ir = loadFixture("novera.ir.json") as DiagramIR;
+  const svg = render(ir, { embedFonts: false });
+  assert.ok(!svg.includes("@font-face"));
+  assert.ok(!svg.includes("data:font/woff"));
+  // otherwise geometrically identical — same nodes, just without the
+  // <defs><style> block prepended by embedFontsInSvg.
+  const golden = readFileSync(path.join(examplesDir, "novera.svg"), "utf-8");
+  assert.ok(golden.length > svg.length);
+});

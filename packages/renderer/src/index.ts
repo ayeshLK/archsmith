@@ -7,6 +7,7 @@ export type { SvgNode } from "./svg/node.js";
 export { serializeNode, serializeNodes, escapeXml } from "./svg/node.js";
 export { text, rect, circle, line, dot, pill, pillWidth } from "./svg/primitives.js";
 export type { TextOptions, RectOptions, CircleOptions, Pill } from "./svg/primitives.js";
+export { embedFontsInSvg } from "./svg/embedFonts.js";
 
 export { labelTag, colHeader } from "./boxes/labels.js";
 export { layerFrame } from "./boxes/layerFrame.js";

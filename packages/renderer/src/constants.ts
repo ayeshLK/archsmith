@@ -6,7 +6,14 @@
 // on regardless of which accent theme is active. Ported verbatim from the
 // ATS prototype, including original rationale comments.
 
-export const FONT = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif";
+// "Arimo" first closes the measure-vs-render gap this project's TypeScript
+// rewrite exists to fix: text() is measured against the bundled Arimo font
+// (see text/measure.ts), and render() embeds that same font by default (see
+// svg/embedFonts.ts) — so what's measured is what actually paints, on any
+// machine, not just one where the system font happens to match. The
+// original fallback stack stays after it for the (opt-out) case where fonts
+// aren't embedded and Arimo isn't installed locally.
+export const FONT = "Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif";
 
 export const INK = "#1B2333"; // primary border / heading ink
 export const TITLE_C = "#182449";

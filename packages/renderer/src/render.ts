@@ -2,6 +2,7 @@ import type { DiagramIR } from "./ir.js";
 import { validate } from "./validate.js";
 import { rect, text } from "./svg/primitives.js";
 import { serializeNodes, type SvgNode } from "./svg/node.js";
+import { embedFontsInSvg } from "./svg/embedFonts.js";
 import { colHeader } from "./boxes/labels.js";
 import { renderInboundActors } from "./layout/inboundActors.js";
 import { renderCorePlatform } from "./layout/corePlatform.js";
@@ -35,6 +36,12 @@ export interface RenderOptions {
    * broken geometry (e.g. a missing registryId throwing deep inside a
    * layout function) instead of one clear, upfront error. */
   skipValidate?: boolean;
+  /** Embeds the bundled Arimo font (the same one text is measured against)
+   * into the output SVG as a base64 @font-face. On by default — this is
+   * the actual fix for the measure-vs-render font mismatch that motivated
+   * this project's TypeScript rewrite; opt out only if a caller has its
+   * own font pipeline or genuinely needs a smaller file. */
+  embedFonts?: boolean;
 }
 
 /**
@@ -128,5 +135,6 @@ export function render(ir: DiagramIR, opts: RenderOptions = {}): string {
     ...(notes?.nodes ?? []),
   ];
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${canvasW}" height="${canvasH}" viewBox="0 0 ${canvasW} ${canvasH}">\n${serializeNodes(allNodes)}\n</svg>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${canvasW}" height="${canvasH}" viewBox="0 0 ${canvasW} ${canvasH}">\n${serializeNodes(allNodes)}\n</svg>`;
+  return opts.embedFonts ?? true ? embedFontsInSvg(svg) : svg;
 }
