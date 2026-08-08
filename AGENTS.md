@@ -8,6 +8,21 @@ Guidance for AI coding agents (Claude Code, Cursor, Copilot, Codex, etc.) workin
 
 A renderer, CLI, and MCP server that turn a validated JSON IR (intermediate representation) into an SVG diagram, in one fixed layered/swimlane house style. See [README.md](README.md) for the full pitch and [the IR shape](README.md#the-ir-shape). The short version: `@archsmith/renderer` is a pure function (IR in, SVG out, no LLM call inside it) — interpretation (sketch/description → IR) is deliberately someone else's job, not this repo's.
 
+## Architecture at a glance
+
+npm workspaces monorepo. Four packages, strict one-way dependency chain — each package only knows about the one directly below it:
+
+```
+@archsmith/cli  ─┐
+                 ├──▶ @archsmith/renderer ──▶ @archsmith/schema
+@archsmith/mcp-server  ─┘
+```
+
+- `packages/schema` — the JSON Schema (`diagram-schema.json`) plus governed registries (`registries/{colors,icons,sub-layers}.json`). Registry entries are house-style contracts, not per-diagram decisions.
+- `packages/renderer` — pure function: validated IR in, SVG string out. No I/O beyond reading its own bundled font. No LLM call anywhere inside it. Layout is organized as `layout/` (per-column assembly), `boxes/` (individual shapes), `text/` (font measurement + wrapping via the embedded Arimo font, using `fontkit`), and `svg/` (node model + serialization + font embedding). TypeScript project references (`tsc -b`) handle inter-package build order — no manual ordering needed.
+- `packages/cli` — the `archsmith` binary. Thin `commander`-based wrapper around `render()` / `validate()`. `render` exits 1 on validation errors, 2 on rendering errors.
+- `packages/mcp-server` — the `archsmith-mcp` binary. A **sibling** of the CLI, not a wrapper: calls `render()` / `validate()` from `@archsmith/renderer` directly. `server.ts` builds the `McpServer` while `index.ts` is a thin entrypoint that wires it to `StdioServerTransport`; the split exists so `server.test.ts` can connect a real MCP `Client` over an in-memory transport pair. **Never write to stdout** — stdout is the JSON-RPC channel and a stray `console.log` (even for debugging) corrupts the protocol stream. Use `console.error` for diagnostics.
+
 ## Build & test
 
 ```bash
@@ -23,6 +38,15 @@ for v in 20 22 24; do
   docker run --rm -v "$PWD":/repo -w /repo "node:$v" bash -c "npm ci && npm run build && npm test"
 done
 ```
+
+Running a **single test file** — `node --test` doesn't accept a source-tree path, so build the package first and invoke Node's test runner against the compiled file inside `dist/`:
+
+```bash
+npm run build --workspace=@archsmith/renderer
+node --test packages/renderer/dist/text/wrap.test.js
+```
+
+`npm run lint` is wired up at the root (`--workspaces --if-present`) but no package currently implements a `lint` script — it's a no-op today, not a broken linter.
 
 ## The one rule that matters most: registries are governed, not per-diagram
 
