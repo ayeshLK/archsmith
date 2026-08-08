@@ -56,7 +56,7 @@ test("lists the schema resource plus one resource per registry", async () => {
 
 test("validate tool reports a valid IR as valid", async () => {
   const client = await connectedClient();
-  const ir = loadFixture("minimal-valid.ir.json");
+  const ir = loadFixture("minimal-valid/ir.json");
   const result = await client.callTool({ name: "validate", arguments: { ir } });
   const parsed = JSON.parse(textOf(result as any));
   assert.equal(parsed.valid, true);
@@ -74,7 +74,7 @@ test("validate tool reports a broken IR as invalid, with the real error", async 
 
 test("render tool returns SVG as both text and an image content block", async () => {
   const client = await connectedClient();
-  const ir = loadFixture("minimal-valid.ir.json");
+  const ir = loadFixture("minimal-valid/ir.json");
   const result = (await client.callTool({ name: "render", arguments: { ir } })) as any;
   assert.equal(result.isError, undefined);
   const svg = textOf(result);
