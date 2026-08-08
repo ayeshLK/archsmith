@@ -1,4 +1,5 @@
 {
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.0/diagram-schema.json",
   "schemaVersion": "0.3.0",
   "title": "Nightly Data Pipeline — Architecture",
   "subtitle": "Batch ingestion, transformation, and load path with light inbound and heavier egress",

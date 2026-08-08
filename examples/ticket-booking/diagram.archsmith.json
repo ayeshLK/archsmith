@@ -1,4 +1,5 @@
 {
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.0/diagram-schema.json",
   "schemaVersion": "0.3.0",
   "title": "Event Ticket Booking Platform — Architecture",
   "subtitle": "Reference example exercising every schema feature (fictional platform, no real system)",

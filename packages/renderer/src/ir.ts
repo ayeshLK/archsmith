@@ -58,6 +58,7 @@ export interface AbbreviationIR {
 }
 
 export interface DiagramIR {
+  "$schema"?: string;
   schemaVersion: string;
   title: string;
   subtitle: string;

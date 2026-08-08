@@ -11,6 +11,7 @@ npm install
 npm run build   # tsc -b across all packages, via project references
 npm test        # Node's built-in test runner, per package
 npm run check:examples  # regenerate every gallery SVG and fail on drift
+npm run build:pages  # verify and assemble the versioned schema site
 ```
 
 Each package builds and tests independently (`npm run build --workspace=@archsmith/renderer`, etc.), but `npm run build`/`npm test` from the repo root run all of them via npm workspaces.
@@ -26,6 +27,8 @@ CI (`.github/workflows/ci.yml`) runs the same build, test, and gallery verificat
 - A PR that adds a registry entry just to unblock one diagram, instead of arguing the entry belongs in the catalog generally, will likely get pushback.
 
 See [`packages/schema/README.md`](packages/schema/README.md) for the full governance model.
+
+Published schemas in `pages/schema/<schemaVersion>/` are immutable. For a schema-version bump, update the canonical schema's `$id`, copy the completed schema into a new versioned directory, and run `npm run build:pages`. The build fails if the current versioned copy differs and generates `schema/latest/` only in the deployment artifact.
 
 ## Working on the renderer
 

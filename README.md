@@ -133,6 +133,7 @@ An IR document is a JSON object with five columns, a legend, and optional notes.
 
 ```json
 {
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.0/diagram-schema.json",
   "schemaVersion": "0.3.0",
   "title": "Minimal Example — Architecture",
   "subtitle": "A minimal fixture proving the validation pipeline end to end",

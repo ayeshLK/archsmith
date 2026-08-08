@@ -23,6 +23,19 @@ listRegistryNames(); // ["sub-layers", "colors", "icons"]
 
 In practice you'll rarely call this package directly — `@archsmith/renderer`'s `validate()`/`render()` already do, and `@archsmith/mcp-server` exposes the schema and each registry as MCP resources for an agent to read live.
 
+## Editor support
+
+Use the stable, versioned schema URL in an ArchSmith document to enable JSON autocomplete and inline validation in compatible editors:
+
+```json
+{
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.0/diagram-schema.json",
+  "schemaVersion": "0.3.0"
+}
+```
+
+Versioned URLs remain immutable. `https://ayeshlk.github.io/archsmith/schema/latest/diagram-schema.json` follows the newest schema and is useful for discovery, but committed diagrams should use the versioned URL for reproducibility.
+
 ## Governance model
 
 Changing `diagram-schema.json`'s structure, or adding an entry to any registry, is a **deliberate change-request event** — never a decision made by a generation step or an end user mid-diagram. This is what keeps the format a consistent house style rather than free-form per-diagram layout. Bump `schemaVersion`/`registryVersion` on any such change.

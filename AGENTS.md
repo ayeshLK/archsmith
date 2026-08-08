@@ -30,6 +30,7 @@ npm install
 npm run build   # tsc -b across all packages, via project references
 npm test        # Node's built-in test runner, per package
 npm run check:examples  # regenerate every gallery SVG and fail on drift
+npm run build:pages  # verify and assemble the versioned schema site
 ```
 
 If you touch anything version-sensitive (test runner invocation, glob handling, anything in `package.json` `scripts`), verify across Node 20/22/24 via Docker before trusting it — CI runs that matrix for a reason. A `node --test "dist/**/*.test.js"` glob that worked locally silently broke on Node 20 in exactly this repo (Node 20 doesn't expand CLI glob arguments at all; the eventual fix was `cd dist && node --test` with no path argument):
@@ -52,6 +53,8 @@ node --test packages/renderer/dist/text/wrap.test.js
 ## The one rule that matters most: registries are governed, not per-diagram
 
 `packages/schema/registries/*.json` define the *only* colors and sub-layer types a diagram may use. Adding an entry is a deliberate, reviewable change-request — never something a generation step or a single diagram's needs decide on the fly. Full model in [CONTRIBUTING.md](CONTRIBUTING.md#the-one-rule-that-matters-most-registries-are-governed-not-per-diagram).
+
+Published schemas under `pages/schema/<schemaVersion>/` are immutable archives. When bumping `schemaVersion`, add the new schema at its versioned path and update `$id`; never overwrite an older version. `npm run build:pages` verifies the current archive and generates the floating `schema/latest/` copy.
 
 ## Renderer conventions
 

@@ -1,4 +1,5 @@
 {
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.0/diagram-schema.json",
   "schemaVersion": "0.3.0",
   "title": "API Gateway Front Door — Architecture",
   "subtitle": "Ingress and external dependencies dominate, with minimal core business logic",

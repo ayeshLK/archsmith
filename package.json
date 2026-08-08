@@ -12,7 +12,8 @@
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
-    "check:examples": "bash scripts/check-examples.sh"
+    "check:examples": "bash scripts/check-examples.sh",
+    "build:pages": "node scripts/build-schema-pages.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.1",
