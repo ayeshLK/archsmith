@@ -16,5 +16,20 @@
   "scripts": {
     "build": "tsc -b",
     "test": "cd dist && node --test"
-  }
+  },
+  "homepage": "https://github.com/ayeshLK/archsmith#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ayeshLK/archsmith.git",
+    "directory": "packages/schema"
+  },
+  "bugs": {
+    "url": "https://github.com/ayeshLK/archsmith/issues"
+  },
+  "keywords": [
+    "json-schema",
+    "architecture",
+    "diagram",
+    "ir"
+  ]
 }

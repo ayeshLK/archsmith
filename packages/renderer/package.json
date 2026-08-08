@@ -27,5 +27,21 @@
   },
   "devDependencies": {
     "@types/fontkit": "^2.0.8"
-  }
+  },
+  "homepage": "https://github.com/ayeshLK/archsmith#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ayeshLK/archsmith.git",
+    "directory": "packages/renderer"
+  },
+  "bugs": {
+    "url": "https://github.com/ayeshLK/archsmith/issues"
+  },
+  "keywords": [
+    "architecture",
+    "diagram",
+    "svg",
+    "renderer",
+    "layered-architecture"
+  ]
 }
