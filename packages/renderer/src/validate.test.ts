@@ -14,21 +14,21 @@ function loadFixture(relPath: string): unknown {
   return JSON.parse(readFileSync(path.join(examplesDir, relPath), "utf-8"));
 }
 
-test("minimal-valid/ir.json passes full validation", () => {
-  const result = validate(loadFixture("minimal-valid/ir.json"));
+test("minimal-valid/diagram.archsmith.json passes full validation", () => {
+  const result = validate(loadFixture("minimal-valid/diagram.archsmith.json"));
   assert.equal(result.valid, true);
   assert.deepEqual(result.errors, []);
 });
 
-test("missing-subtitle.ir.json fails structural validation with a clear message", () => {
-  const ir = loadFixture("broken-examples/missing-subtitle.ir.json");
+test("missing-subtitle.archsmith.json fails structural validation with a clear message", () => {
+  const ir = loadFixture("broken-examples/missing-subtitle.archsmith.json");
   const structural = validateStructure(ir);
   assert.equal(structural.valid, false);
   assert.ok(structural.errors.some((e) => e.includes("subtitle")));
 });
 
-test("unknown-registry-id.ir.json passes structural but fails semantic (registry-reference) validation", () => {
-  const ir = loadFixture("broken-examples/unknown-registry-id.ir.json");
+test("unknown-registry-id.archsmith.json passes structural but fails semantic (registry-reference) validation", () => {
+  const ir = loadFixture("broken-examples/unknown-registry-id.archsmith.json");
   const structural = validateStructure(ir);
   assert.equal(structural.valid, true);
 

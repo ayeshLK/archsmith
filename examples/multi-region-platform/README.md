@@ -10,11 +10,11 @@ Regional clusters with shared services and mirrored downstream dependencies.
 
 ## Files
 - Diagram: [`diagram.svg`](./diagram.svg)
-- IR: [`ir.json`](./ir.json)
+- IR: [`diagram.archsmith.json`](./diagram.archsmith.json)
 
 ## Regenerate
 From the repo root, run:
 
 ```bash
-node packages/cli/dist/index.js render examples/multi-region-platform/ir.json -o examples/multi-region-platform/diagram.svg
+node packages/cli/dist/index.js render examples/multi-region-platform/diagram.archsmith.json -o examples/multi-region-platform/diagram.svg
 ```

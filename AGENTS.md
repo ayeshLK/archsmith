@@ -67,9 +67,9 @@ node --test packages/renderer/dist/text/wrap.test.js
 
 Before considering a rendering change done:
 
-1. Regenerate the golden master: `node packages/cli/dist/index.js render examples/ticket-booking.ir.json -o examples/ticket-booking.svg`.
+1. Regenerate the golden master: `node packages/cli/dist/index.js render examples/ticket-booking/diagram.archsmith.json -o examples/ticket-booking/diagram.svg`.
 2. Actually look at it — serve the repo locally (`python3 -m http.server`) and open the SVG in a browser (or use a browser-automation tool if you have one), or preview it on GitHub. Check specifically for text overflow, overlapping pills, borders coinciding with a parent frame, and misaligned rows — the recurring failure modes here.
-3. If you changed something structural (a shared layout constant, a box function used by multiple columns), render a *second*, unrelated fixture too (e.g. `examples/minimal-valid.ir.json`) and check it there as well — a fix that only happens to look right on one example isn't verified as general.
+3. If you changed something structural (a shared layout constant, a box function used by multiple columns), render a *second*, unrelated fixture too (e.g. `examples/minimal-valid/diagram.archsmith.json`) and check it there as well — a fix that only happens to look right on one example isn't verified as general.
 4. Commit the regenerated SVG alongside the code change in the same commit, so a reviewer sees the diff and its visual effect together.
 5. If you restructure `examples/` (move folders, rename example files, or change gallery URLs), sweep the renderer tests, example docs, and root README links in the same change — stale paths will fail CI even when the new files render correctly.
 
@@ -79,7 +79,7 @@ If an IR is missing something the registry expects (e.g. no Entity Layer), rende
 
 ## Example content stays fictional and generic
 
-`examples/*.ir.json` should never reference a real company, product, or internal system by name — use plain descriptive names ("Booking Service," "Ticketing Identity Platform") rather than reaching for an invented "cool platform name." This project once had to walk back a supposedly-fictional example name after realizing it was actually lifted from a real internal reference source — the safer default is no invented brand at all, not "as long as it sounds made up."
+`examples/**/*.archsmith.json` should never reference a real company, product, or internal system by name — use plain descriptive names ("Booking Service," "Ticketing Identity Platform") rather than reaching for an invented "cool platform name." This project once had to walk back a supposedly-fictional example name after realizing it was actually lifted from a real internal reference source — the safer default is no invented brand at all, not "as long as it sounds made up."
 
 ## Releasing
 

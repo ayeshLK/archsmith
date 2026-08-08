@@ -16,7 +16,7 @@ It's built as a library first, a CLI on top of that, and an MCP server on top of
   <img src="examples/ticket-booking/diagram.svg" alt="Example architecture diagram rendered by ArchSmith" width="900">
 </p>
 
-<p align="center"><sub>Rendered from <a href="examples/ticket-booking/ir.json"><code>examples/ticket-booking/ir.json</code></a> — a fictional example exercising every schema feature.</sub></p>
+<p align="center"><sub>Rendered from <a href="examples/ticket-booking/diagram.archsmith.json"><code>examples/ticket-booking/diagram.archsmith.json</code></a> — a fictional example exercising every schema feature.</sub></p>
 
 > [!NOTE]
 > ArchSmith is pre-1.0 — the schema and API may still change (`diagram-schema.json` itself is marked "first pass, expect revision"). See [releases](https://github.com/ayeshLK/archsmith/releases) for what's shipped in each version.
@@ -53,24 +53,26 @@ If you want a flexible, general-purpose diagramming syntax, Mermaid or PlantUML 
 
 ## Quick start
 
+Name IR documents `*.archsmith.json` so editors and integrations can identify them without colliding with other JSON-based intermediate representations. The CLI remains filename-agnostic and accepts any JSON file path.
+
 ```bash
 npm install -g @archsmith/cli
 
 mkdir -p ticket-booking
-curl -o ticket-booking/ir.json https://raw.githubusercontent.com/ayeshLK/archsmith/main/examples/ticket-booking/ir.json
-archsmith validate ticket-booking/ir.json
-archsmith render ticket-booking/ir.json -o ticket-booking/diagram.svg
+curl -o ticket-booking/diagram.archsmith.json https://raw.githubusercontent.com/ayeshLK/archsmith/main/examples/ticket-booking/diagram.archsmith.json
+archsmith validate ticket-booking/diagram.archsmith.json
+archsmith render ticket-booking/diagram.archsmith.json -o ticket-booking/diagram.svg
 ```
 
-Or without installing anything: `npx @archsmith/cli render ticket-booking/ir.json -o ticket-booking/diagram.svg`.
+Or without installing anything: `npx @archsmith/cli render ticket-booking/diagram.archsmith.json -o ticket-booking/diagram.svg`.
 
 Working on ArchSmith itself rather than just using it? See [CONTRIBUTING.md](CONTRIBUTING.md) for building from a clone.
 
 ## CLI usage
 
 ```bash
-archsmith validate <input.json> [--json]
-archsmith render <input.json> -o <out.svg> [--no-embed-fonts] [--pretty]
+archsmith validate <input.archsmith.json> [--json]
+archsmith render <input.archsmith.json> -o <out.svg> [--no-embed-fonts] [--pretty]
 archsmith registries list
 archsmith registries show <sub-layers|colors|icons> [--family standard|accessible]
 ```

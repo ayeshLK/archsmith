@@ -10,11 +10,11 @@ Fictional reference example that exercises every schema feature and acts as the 
 
 ## Files
 - Diagram: [`diagram.svg`](./diagram.svg)
-- IR: [`ir.json`](./ir.json)
+- IR: [`diagram.archsmith.json`](./diagram.archsmith.json)
 
 ## Regenerate
 From the repo root, run:
 
 ```bash
-node packages/cli/dist/index.js render examples/ticket-booking/ir.json -o examples/ticket-booking/diagram.svg
+node packages/cli/dist/index.js render examples/ticket-booking/diagram.archsmith.json -o examples/ticket-booking/diagram.svg
 ```

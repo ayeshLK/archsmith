@@ -12,9 +12,11 @@ npm install -g @archsmith/cli
 
 ## Usage
 
+The recommended filename pattern is `*.archsmith.json`, which allows editors and integrations to recognize ArchSmith documents reliably. The CLI accepts any JSON file path.
+
 ```bash
-archsmith validate <input.json> [--json]
-archsmith render <input.json> -o <out.svg> [--no-embed-fonts] [--pretty]
+archsmith validate <input.archsmith.json> [--json]
+archsmith render <input.archsmith.json> -o <out.svg> [--no-embed-fonts] [--pretty]
 archsmith registries list
 archsmith registries show <sub-layers|colors|icons> [--family standard|accessible]
 ```

@@ -1,6 +1,6 @@
 # Example Gallery
 
-A set of fictional, generic fixtures that exercise different architecture shapes. Each example lives in its own folder with a `README.md`, `ir.json`, and rendered `diagram.svg` when applicable.
+A set of fictional, generic fixtures that exercise different architecture shapes. Each example lives in its own folder with a `README.md`, `diagram.archsmith.json`, and rendered `diagram.svg` when applicable.
 
 ## Reference Fixtures
 
@@ -19,16 +19,16 @@ A set of fictional, generic fixtures that exercise different architecture shapes
 ## Broken Fixtures
 
 - [Broken Fixtures README](./broken-examples/README.md)
-- [`broken-examples/missing-subtitle.ir.json`](./broken-examples/missing-subtitle.ir.json)
-- [`broken-examples/unknown-registry-id.ir.json`](./broken-examples/unknown-registry-id.ir.json)
+- [`broken-examples/missing-subtitle.archsmith.json`](./broken-examples/missing-subtitle.archsmith.json)
+- [`broken-examples/unknown-registry-id.archsmith.json`](./broken-examples/unknown-registry-id.archsmith.json)
 
 ## Regeneration
 
 Render all gallery diagrams from the repo root with:
 
 ```bash
-for example in examples/*/ir.json; do
+for example in examples/*/diagram.archsmith.json; do
   [ -f "$example" ] || continue
-  node packages/cli/dist/index.js render "$example" -o "${example%/ir.json}/diagram.svg"
+  node packages/cli/dist/index.js render "$example" -o "${example%/diagram.archsmith.json}/diagram.svg"
 done
 ```

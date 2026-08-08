@@ -56,7 +56,7 @@ test("lists the schema resource plus one resource per registry", async () => {
 
 test("validate tool reports a valid IR as valid", async () => {
   const client = await connectedClient();
-  const ir = loadFixture("minimal-valid/ir.json");
+  const ir = loadFixture("minimal-valid/diagram.archsmith.json");
   const result = await client.callTool({ name: "validate", arguments: { ir } });
   const parsed = JSON.parse(textOf(result as any));
   assert.equal(parsed.valid, true);
@@ -65,7 +65,7 @@ test("validate tool reports a valid IR as valid", async () => {
 
 test("validate tool reports a broken IR as invalid, with the real error", async () => {
   const client = await connectedClient();
-  const ir = loadFixture("broken-examples/missing-subtitle.ir.json");
+  const ir = loadFixture("broken-examples/missing-subtitle.archsmith.json");
   const result = await client.callTool({ name: "validate", arguments: { ir } });
   const parsed = JSON.parse(textOf(result as any));
   assert.equal(parsed.valid, false);
@@ -74,7 +74,7 @@ test("validate tool reports a broken IR as invalid, with the real error", async 
 
 test("render tool returns SVG as both text and an image content block", async () => {
   const client = await connectedClient();
-  const ir = loadFixture("minimal-valid/ir.json");
+  const ir = loadFixture("minimal-valid/diagram.archsmith.json");
   const result = (await client.callTool({ name: "render", arguments: { ir } })) as any;
   assert.equal(result.isError, undefined);
   const svg = textOf(result);
@@ -87,7 +87,7 @@ test("render tool returns SVG as both text and an image content block", async ()
 
 test("render tool refuses to render an invalid IR, returning isError instead of broken SVG", async () => {
   const client = await connectedClient();
-  const ir = loadFixture("broken-examples/unknown-registry-id.ir.json");
+  const ir = loadFixture("broken-examples/unknown-registry-id.archsmith.json");
   const result = (await client.callTool({ name: "render", arguments: { ir } })) as any;
   assert.equal(result.isError, true);
   assert.ok(textOf(result).includes("orchestration-layer-that-does-not-exist"));

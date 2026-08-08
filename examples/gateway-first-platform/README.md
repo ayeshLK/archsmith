@@ -10,11 +10,11 @@ Ingress and external dependencies dominate, with minimal core business logic.
 
 ## Files
 - Diagram: [`diagram.svg`](./diagram.svg)
-- IR: [`ir.json`](./ir.json)
+- IR: [`diagram.archsmith.json`](./diagram.archsmith.json)
 
 ## Regenerate
 From the repo root, run:
 
 ```bash
-node packages/cli/dist/index.js render examples/gateway-first-platform/ir.json -o examples/gateway-first-platform/diagram.svg
+node packages/cli/dist/index.js render examples/gateway-first-platform/diagram.archsmith.json -o examples/gateway-first-platform/diagram.svg
 ```

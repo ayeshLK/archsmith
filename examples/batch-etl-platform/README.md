@@ -10,11 +10,11 @@ Batch ingestion, transformation, and load path with a stronger downstream emphas
 
 ## Files
 - Diagram: [`diagram.svg`](./diagram.svg)
-- IR: [`ir.json`](./ir.json)
+- IR: [`diagram.archsmith.json`](./diagram.archsmith.json)
 
 ## Regenerate
 From the repo root, run:
 
 ```bash
-node packages/cli/dist/index.js render examples/batch-etl-platform/ir.json -o examples/batch-etl-platform/diagram.svg
+node packages/cli/dist/index.js render examples/batch-etl-platform/diagram.archsmith.json -o examples/batch-etl-platform/diagram.svg
 ```

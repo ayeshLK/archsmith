@@ -9,11 +9,11 @@ Smallest valid fixture in the repo. It exists as a smoke test for validation and
 
 ## Files
 - Diagram: [`diagram.svg`](./diagram.svg)
-- IR: [`ir.json`](./ir.json)
+- IR: [`diagram.archsmith.json`](./diagram.archsmith.json)
 
 ## Regenerate
 From the repo root, run:
 
 ```bash
-node packages/cli/dist/index.js render examples/minimal-valid/ir.json -o examples/minimal-valid/diagram.svg
+node packages/cli/dist/index.js render examples/minimal-valid/diagram.archsmith.json -o examples/minimal-valid/diagram.svg
 ```

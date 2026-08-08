@@ -10,11 +10,11 @@ Pub/sub-heavy backend with async workers and downstream consumers.
 
 ## Files
 - Diagram: [`diagram.svg`](./diagram.svg)
-- IR: [`ir.json`](./ir.json)
+- IR: [`diagram.archsmith.json`](./diagram.archsmith.json)
 
 ## Regenerate
 From the repo root, run:
 
 ```bash
-node packages/cli/dist/index.js render examples/event-driven-platform/ir.json -o examples/event-driven-platform/diagram.svg
+node packages/cli/dist/index.js render examples/event-driven-platform/diagram.archsmith.json -o examples/event-driven-platform/diagram.svg
 ```
