@@ -1,6 +1,6 @@
 {
   "name": "@archsmith/cli",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "ArchSmith CLI — render and validate layered architecture diagrams",
   "type": "module",
   "main": "./dist/index.js",
@@ -18,8 +18,8 @@
     "test": "cd dist && node --test"
   },
   "dependencies": {
-    "@archsmith/renderer": "^0.5.0",
-    "@archsmith/schema": "^0.5.0",
+    "@archsmith/renderer": "^0.5.1",
+    "@archsmith/schema": "^0.5.1",
     "commander": "^13.1.0"
   },
   "homepage": "https://github.com/ayeshLK/archsmith#readme",
