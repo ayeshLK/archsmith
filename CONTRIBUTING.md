@@ -9,12 +9,13 @@ If you're an AI coding agent working in this repo, also read [AGENTS.md](AGENTS.
 ```bash
 npm install
 npm run build   # tsc -b across all packages, via project references
-npm test        # node's built-in test runner, per package
+npm test        # Node's built-in test runner, per package
+npm run check:examples  # regenerate every gallery SVG and fail on drift
 ```
 
 Each package builds and tests independently (`npm run build --workspace=@archsmith/renderer`, etc.), but `npm run build`/`npm test` from the repo root run all of them via npm workspaces.
 
-CI (`.github/workflows/ci.yml`) runs the same build+test on Linux across Node 20/22/24 — Linux specifically, not just whatever you developed on, since portability across machines (not just OSes) is the whole reason the renderer measures against a bundled font instead of a system one.
+CI (`.github/workflows/ci.yml`) runs the same build, test, and gallery verification on Linux across Node 20/22/24 — Linux specifically, not just whatever you developed on, since portability across machines (not just OSes) is the whole reason the renderer measures against a bundled font instead of a system one.
 
 ## The one rule that matters most: registries are governed, not per-diagram
 

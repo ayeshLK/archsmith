@@ -28,14 +28,15 @@ npm workspaces monorepo. Four packages, strict one-way dependency chain — each
 ```bash
 npm install
 npm run build   # tsc -b across all packages, via project references
-npm test        # node's built-in test runner, per package
+npm test        # Node's built-in test runner, per package
+npm run check:examples  # regenerate every gallery SVG and fail on drift
 ```
 
 If you touch anything version-sensitive (test runner invocation, glob handling, anything in `package.json` `scripts`), verify across Node 20/22/24 via Docker before trusting it — CI runs that matrix for a reason. A `node --test "dist/**/*.test.js"` glob that worked locally silently broke on Node 20 in exactly this repo (Node 20 doesn't expand CLI glob arguments at all; the eventual fix was `cd dist && node --test` with no path argument):
 
 ```bash
 for v in 20 22 24; do
-  docker run --rm -v "$PWD":/repo -w /repo "node:$v" bash -c "npm ci && npm run build && npm test"
+  docker run --rm -v "$PWD":/repo -w /repo "node:$v" bash -c "npm ci && npm run build && npm test && npm run check:examples"
 done
 ```
 
