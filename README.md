@@ -13,10 +13,10 @@
 It's built as a library first, a CLI on top of that, and an MCP server on top of that — so it's just as easy for a human to run `archsmith render` as it is for an AI agent to call it as a tool.
 
 <p align="center">
-  <img src="examples/ticket-booking.svg" alt="Example architecture diagram rendered by ArchSmith" width="900">
+  <img src="examples/ticket-booking/diagram.svg" alt="Example architecture diagram rendered by ArchSmith" width="900">
 </p>
 
-<p align="center"><sub>Rendered from <a href="examples/ticket-booking.ir.json"><code>examples/ticket-booking.ir.json</code></a> — a fictional example exercising every schema feature.</sub></p>
+<p align="center"><sub>Rendered from <a href="examples/ticket-booking/ir.json"><code>examples/ticket-booking/ir.json</code></a> — a fictional example exercising every schema feature.</sub></p>
 
 > [!NOTE]
 > ArchSmith is pre-1.0 — the schema and API may still change (`diagram-schema.json` itself is marked "first pass, expect revision"). See [releases](https://github.com/ayeshLK/archsmith/releases) for what's shipped in each version.
@@ -56,12 +56,13 @@ If you want a flexible, general-purpose diagramming syntax, Mermaid or PlantUML 
 ```bash
 npm install -g @archsmith/cli
 
-curl -O https://raw.githubusercontent.com/ayeshLK/archsmith/main/examples/ticket-booking.ir.json
-archsmith validate ticket-booking.ir.json
-archsmith render ticket-booking.ir.json -o ticket-booking.svg
+mkdir -p ticket-booking
+curl -o ticket-booking/ir.json https://raw.githubusercontent.com/ayeshLK/archsmith/main/examples/ticket-booking/ir.json
+archsmith validate ticket-booking/ir.json
+archsmith render ticket-booking/ir.json -o ticket-booking/diagram.svg
 ```
 
-Or without installing anything: `npx @archsmith/cli render ticket-booking.ir.json -o ticket-booking.svg`.
+Or without installing anything: `npx @archsmith/cli render ticket-booking/ir.json -o ticket-booking/diagram.svg`.
 
 Working on ArchSmith itself rather than just using it? See [CONTRIBUTING.md](CONTRIBUTING.md) for building from a clone.
 
@@ -159,7 +160,7 @@ An IR document is a JSON object with five columns, a legend, and optional notes.
 }
 ```
 
-The full schema (`packages/schema/diagram-schema.json`) and governed registries (`packages/schema/registries/`) define every field and every allowed color/sub-layer token — see `packages/schema/README.md` for the governance model. `examples/ticket-booking.ir.json` is a richer, fully-featured reference document, and [`examples/README.md`](examples/README.md) is the gallery index for additional fictional fixtures.
+The full schema (`packages/schema/diagram-schema.json`) and governed registries (`packages/schema/registries/`) define every field and every allowed color/sub-layer token — see `packages/schema/README.md` for the governance model. `examples/ticket-booking/README.md` is a richer, fully-featured reference document, and [`examples/README.md`](examples/README.md) is the gallery index for additional fictional fixtures.
 
 ## Packages
 

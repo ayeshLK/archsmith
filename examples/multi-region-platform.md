@@ -1,1 +1,0 @@
-This example demonstrates a deployment that spans multiple regions and clusters, so the gallery covers a system where geography matters as much as service boundaries. It is useful for showing how ArchSmith groups downstream dependencies by region without changing the diagram language.
