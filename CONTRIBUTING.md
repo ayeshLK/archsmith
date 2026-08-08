@@ -38,11 +38,13 @@ A few patterns the existing code leans on hard — new box/layout functions shou
 
 ## Changing rendering output
 
-`packages/renderer/src/render.test.ts` pins an exact-string-match "golden master" (`examples/ticket-booking.svg`) against `examples/ticket-booking.ir.json`. If your change legitimately alters rendered output:
+`packages/renderer/src/render.test.ts` pins an exact-string-match "golden master" (`examples/ticket-booking/diagram.svg`) against `examples/ticket-booking/ir.json`. If your change legitimately alters rendered output:
 
 1. Regenerate it: `node packages/cli/dist/index.js render examples/ticket-booking.ir.json -o examples/ticket-booking.svg`.
 2. Actually look at it before committing — there's no automated visual diff yet. Serve the repo locally (`python3 -m http.server`) and open the SVG in a browser, or preview it directly on GitHub. Check for text overflow, overlapping pills, and misaligned rows specifically — these are the recurring failure modes in this codebase.
 3. Commit the regenerated SVG alongside your code change, in the same PR, so a reviewer can see both the diff and its visual effect.
+
+If you move or rename example fixtures under `examples/`, update the matching tests, gallery index, and any README links in the same PR; stale paths will fail CI even if the new diagram renders are correct.
 
 ## Working on the MCP server
 

@@ -13,9 +13,9 @@ function loadFixture(relPath: string): unknown {
 }
 
 /**
- * Golden-master regression test: ticket-booking.svg is the exact,
+ * Golden-master regression test: ticket-booking/diagram.svg is the exact,
  * visually-QA'd (Chrome MCP screenshot + zoom, checked for
- * overflow/overlap/uniform row heights) output for ticket-booking.ir.json —
+ * overflow/overlap/uniform row heights) output for ticket-booking/ir.json —
  * a fictional example exercising every schema feature (real Entity Layer,
  * multi-cluster External Systems, a supplied acronym, systems-of-record
  * pills). Any future change to a layout constant, box function, or color
@@ -24,26 +24,26 @@ function loadFixture(relPath: string): unknown {
  * hand-tuned script played during its original pixel-measurement session,
  * now automated.
  */
-test("render(ticket-booking.ir.json) matches the visually-QA'd golden master", () => {
-  const ir = loadFixture("ticket-booking.ir.json") as DiagramIR;
+test("render(ticket-booking/ir.json) matches the visually-QA'd golden master", () => {
+  const ir = loadFixture("ticket-booking/ir.json") as DiagramIR;
   const svg = render(ir);
-  const golden = readFileSync(path.join(examplesDir, "ticket-booking.svg"), "utf-8");
+  const golden = readFileSync(path.join(examplesDir, "ticket-booking/diagram.svg"), "utf-8");
   assert.equal(svg, golden);
 });
 
 test("embedFonts defaults to on: the golden master itself carries an embedded @font-face", () => {
-  const golden = readFileSync(path.join(examplesDir, "ticket-booking.svg"), "utf-8");
+  const golden = readFileSync(path.join(examplesDir, "ticket-booking/diagram.svg"), "utf-8");
   assert.ok(golden.includes("@font-face"));
   assert.ok(golden.includes("data:font/woff;base64,"));
 });
 
 test("embedFonts: false opts out of the embedded font, producing a smaller SVG with no @font-face", () => {
-  const ir = loadFixture("ticket-booking.ir.json") as DiagramIR;
+  const ir = loadFixture("ticket-booking/ir.json") as DiagramIR;
   const svg = render(ir, { embedFonts: false });
   assert.ok(!svg.includes("@font-face"));
   assert.ok(!svg.includes("data:font/woff"));
   // otherwise geometrically identical — same nodes, just without the
   // <defs><style> block prepended by embedFontsInSvg.
-  const golden = readFileSync(path.join(examplesDir, "ticket-booking.svg"), "utf-8");
+  const golden = readFileSync(path.join(examplesDir, "ticket-booking/diagram.svg"), "utf-8");
   assert.ok(golden.length > svg.length);
 });

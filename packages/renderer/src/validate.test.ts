@@ -14,8 +14,8 @@ function loadFixture(relPath: string): unknown {
   return JSON.parse(readFileSync(path.join(examplesDir, relPath), "utf-8"));
 }
 
-test("minimal-valid.ir.json passes full validation", () => {
-  const result = validate(loadFixture("minimal-valid.ir.json"));
+test("minimal-valid/ir.json passes full validation", () => {
+  const result = validate(loadFixture("minimal-valid/ir.json"));
   assert.equal(result.valid, true);
   assert.deepEqual(result.errors, []);
 });

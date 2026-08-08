@@ -71,6 +71,7 @@ Before considering a rendering change done:
 2. Actually look at it — serve the repo locally (`python3 -m http.server`) and open the SVG in a browser (or use a browser-automation tool if you have one), or preview it on GitHub. Check specifically for text overflow, overlapping pills, borders coinciding with a parent frame, and misaligned rows — the recurring failure modes here.
 3. If you changed something structural (a shared layout constant, a box function used by multiple columns), render a *second*, unrelated fixture too (e.g. `examples/minimal-valid.ir.json`) and check it there as well — a fix that only happens to look right on one example isn't verified as general.
 4. Commit the regenerated SVG alongside the code change in the same commit, so a reviewer sees the diff and its visual effect together.
+5. If you restructure `examples/` (move folders, rename example files, or change gallery URLs), sweep the renderer tests, example docs, and root README links in the same change — stale paths will fail CI even when the new files render correctly.
 
 ## Never invent content
 
