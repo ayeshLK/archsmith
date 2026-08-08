@@ -4,8 +4,10 @@ import { Command } from "commander";
 import { render, validate, type DiagramIR } from "@archsmith/renderer";
 import { getRegistry, listRegistryNames, type RegistryName } from "@archsmith/schema";
 
+const packageManifest = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf-8")) as { version: string };
+
 const program = new Command();
-program.name("archsmith").description("ArchSmith — layered architecture diagram tool").version("0.5.0");
+program.name("archsmith").description("ArchSmith — layered architecture diagram tool").version(packageManifest.version);
 
 function readIr(inputPath: string): unknown {
   let text: string;
