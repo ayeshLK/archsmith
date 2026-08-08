@@ -24,7 +24,7 @@ archsmith registries show <sub-layers|colors|icons> [--family standard|accessibl
 - `render` validates the IR first and fails the same way `validate` would (exit 1) if it's invalid; a rendering-time error exits 2.
 - `--no-embed-fonts` skips embedding the bundled font, producing a smaller file.
 - `--pretty` indents the output SVG's element lines for readability (default is one element per line, unindented).
-- `registries show colors --family standard` prints just that color family instead of the whole registry.
+- `registries show colors --family standard` prints just that color family instead of the whole registry. The planned `accessible` registry can be inspected, but diagrams cannot select it until its complete palette is designed and tested.
 
 ## License
 

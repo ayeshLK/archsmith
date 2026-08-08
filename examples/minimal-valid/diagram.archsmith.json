@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.2.0",
+  "schemaVersion": "0.3.0",
   "title": "Minimal Example — Architecture",
   "subtitle": "A minimal fixture proving the validation pipeline end to end",
   "colorTheme": { "family": "standard" },

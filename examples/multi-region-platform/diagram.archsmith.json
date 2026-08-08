@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.2.0",
+  "schemaVersion": "0.3.0",
   "title": "Retail Commerce Platform — Multi-Region Architecture",
   "subtitle": "Regional clusters with shared services and mirrored downstream dependencies",
   "colorTheme": { "family": "standard" },

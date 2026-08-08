@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.2.0",
+  "schemaVersion": "0.3.0",
   "title": "Customer Portal Web App — Architecture",
   "subtitle": "Small three-tier web application close to the schema floor",
   "colorTheme": { "family": "standard" },

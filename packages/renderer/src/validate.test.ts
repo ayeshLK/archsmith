@@ -20,6 +20,15 @@ test("minimal-valid/diagram.archsmith.json passes full validation", () => {
   assert.deepEqual(result.errors, []);
 });
 
+test("accessible color family is rejected until its palette is complete", () => {
+  const ir = loadFixture("minimal-valid/diagram.archsmith.json") as { colorTheme: { family: string } };
+  ir.colorTheme.family = "accessible";
+
+  const result = validateStructure(ir);
+  assert.equal(result.valid, false);
+  assert.ok(result.errors.some((error) => error.includes("/colorTheme/family")));
+});
+
 test("missing-subtitle.archsmith.json fails structural validation with a clear message", () => {
   const ir = loadFixture("broken-examples/missing-subtitle.archsmith.json");
   const structural = validateStructure(ir);

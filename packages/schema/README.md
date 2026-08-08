@@ -27,7 +27,7 @@ In practice you'll rarely call this package directly — `@archsmith/renderer`'s
 
 Changing `diagram-schema.json`'s structure, or adding an entry to any registry, is a **deliberate change-request event** — never a decision made by a generation step or an end user mid-diagram. This is what keeps the format a consistent house style rather than free-form per-diagram layout. Bump `schemaVersion`/`registryVersion` on any such change.
 
-What stays free per diagram (no change request needed): which already-approved sub-layers/colors/icons a given diagram uses, how many rows of boxes a layer has, whether a notes callout is included, which color family is active.
+What stays free per diagram (no change request needed): which already-approved sub-layers/colors/icons a given diagram uses, how many rows of boxes a layer has, and whether a notes callout is included. Only the `standard` color family is currently selectable; `accessible` remains a governed placeholder until its palette is complete.
 
 ## License
 

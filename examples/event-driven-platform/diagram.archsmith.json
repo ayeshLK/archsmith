@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.2.0",
+  "schemaVersion": "0.3.0",
   "title": "Order Fulfillment Event Platform — Architecture",
   "subtitle": "Pub/sub-heavy backend with multiple async workers and downstream consumers",
   "colorTheme": { "family": "standard" },

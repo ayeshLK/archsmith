@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.2.0",
+  "schemaVersion": "0.3.0",
   "title": "Broken Example — missing required subtitle",
   "colorTheme": { "family": "standard" },
   "columns": {

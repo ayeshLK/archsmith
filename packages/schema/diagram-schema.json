@@ -2,14 +2,14 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://archsmith.dev/schema/diagram-schema.json",
   "title": "ArchSmith Diagram IR",
-  "description": "Structural contract for the intermediate representation (IR) an agent produces from a rough sketch/description, and that a deterministic renderer turns into SVG. Draft v0.2.0 — first pass, expect revision. Governed sub-layer/color/icon catalogs live in registries/ alongside this file and are versioned separately; this schema references them by id but does not enumerate their contents.",
+  "description": "Structural contract for the intermediate representation (IR) an agent produces from a rough sketch/description, and that a deterministic renderer turns into SVG. Draft v0.3.0 — first pass, expect revision. Governed sub-layer/color/icon catalogs live in registries/ alongside this file and are versioned separately; this schema references them by id but does not enumerate their contents.",
   "type": "object",
   "required": ["schemaVersion", "title", "subtitle", "colorTheme", "columns", "legend"],
   "additionalProperties": false,
   "properties": {
     "schemaVersion": {
       "type": "string",
-      "const": "0.2.0",
+      "const": "0.3.0",
       "description": "Version of this schema (and its paired registries) the IR was generated against. Bump when the schema or a registry gains a governed change."
     },
     "title": { "type": "string" },
@@ -24,9 +24,9 @@
       "properties": {
         "family": {
           "type": "string",
-          "enum": ["standard", "accessible"],
+          "enum": ["standard"],
           "default": "standard",
-          "description": "'accessible' is a planned second palette family (secondary priority, not yet populated in registries/colors.json). Both families must map to the same semantic sub-layer assignments so a diagram regenerated in either family stays recognizable as the same architecture."
+          "description": "Only the fully populated standard family is currently selectable. The accessible family remains a governed registry placeholder until its complete palette is designed and tested."
         }
       }
     },

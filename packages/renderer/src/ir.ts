@@ -61,7 +61,7 @@ export interface DiagramIR {
   schemaVersion: string;
   title: string;
   subtitle: string;
-  colorTheme: { family?: "standard" | "accessible" };
+  colorTheme: { family: "standard" };
   columns: {
     inboundActors: { items: ItemIR[] };
     ingress: { gateway: GatewayIR };

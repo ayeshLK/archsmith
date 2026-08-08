@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "0.2.0",
+  "schemaVersion": "0.3.0",
   "title": "Nightly Data Pipeline — Architecture",
   "subtitle": "Batch ingestion, transformation, and load path with light inbound and heavier egress",
   "colorTheme": { "family": "standard" },
