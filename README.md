@@ -159,7 +159,7 @@ An IR document is a JSON object with five columns, a legend, and optional notes.
 }
 ```
 
-The full schema (`packages/schema/diagram-schema.json`) and governed registries (`packages/schema/registries/`) define every field and every allowed color/sub-layer token — see `packages/schema/README.md` for the governance model. `examples/ticket-booking.ir.json` is a richer, fully-featured reference document.
+The full schema (`packages/schema/diagram-schema.json`) and governed registries (`packages/schema/registries/`) define every field and every allowed color/sub-layer token — see `packages/schema/README.md` for the governance model. `examples/ticket-booking.ir.json` is a richer, fully-featured reference document, and [`examples/README.md`](examples/README.md) is the gallery index for additional fictional fixtures.
 
 ## Packages
 

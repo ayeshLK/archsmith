@@ -1,0 +1,164 @@
+{
+  "schemaVersion": "0.2.0",
+  "title": "Retail Commerce Platform — Multi-Region Architecture",
+  "subtitle": "Regional clusters with shared services and mirrored downstream dependencies",
+  "colorTheme": { "family": "standard" },
+  "columns": {
+    "inboundActors": {
+      "items": [
+        {
+          "title": "Web Storefront",
+          "dotColor": "purple",
+          "descriptionLines": ["Customer shopping and checkout traffic"]
+        },
+        {
+          "title": "Mobile App",
+          "dotColor": "teal",
+          "descriptionLines": ["Mobile ordering and order tracking"]
+        },
+        {
+          "title": "Retail Ops Portal",
+          "dotColor": "navy",
+          "descriptionLines": ["Operations and merchandising support"]
+        }
+      ]
+    },
+    "ingress": {
+      "gateway": { "label": "Global API Gateway", "sublabel": "Regional Traffic" }
+    },
+    "corePlatform": {
+      "deployedOn": "Kubernetes Fleet",
+      "subLayers": [
+        {
+          "registryId": "discovery-and-governance",
+          "rows": [
+            [
+              {
+                "title": "Traffic Policy Control Plane",
+                "descriptionLines": ["Routing rules, rate limiting, and release toggles"]
+              },
+              {
+                "title": "Identity Service",
+                "descriptionLines": ["Customer login and operator access checks"]
+              }
+            ]
+          ]
+        },
+        {
+          "registryId": "execution-and-capability",
+          "rows": [
+            [
+              {
+                "title": "Catalog Service",
+                "descriptionLines": ["Browse, pricing, and product search"]
+              },
+              {
+                "title": "Order Service",
+                "descriptionLines": ["Cart, checkout, and order lifecycle"]
+              }
+            ],
+            [
+              {
+                "title": "Inventory Service",
+                "descriptionLines": ["Regional stock visibility and reservation"]
+              },
+              {
+                "title": "Pricing Service",
+                "descriptionLines": ["Regional and campaign price calculation"]
+              }
+            ]
+          ]
+        },
+        {
+          "registryId": "entity-layer",
+          "rows": [
+            [
+              {
+                "title": "Product Catalog Model",
+                "descriptionLines": ["Shared product, offer, and availability abstractions"]
+              }
+            ]
+          ]
+        }
+      ],
+      "systemsOfRecord": {
+        "items": [
+          {
+            "title": "Catalog DB",
+            "descriptionLines": ["Primary product and pricing state"],
+            "pill": { "label": "PRIMARY", "semantic": "primary" }
+          },
+          {
+            "title": "Regional Order Store",
+            "descriptionLines": ["Orders and reservations replicated per region"]
+          },
+          {
+            "title": "Change Feed Archive",
+            "descriptionLines": ["Replication logs and rebuild inputs"]
+          }
+        ]
+      }
+    },
+    "egress": {
+      "gateway": { "label": "Global API Gateway", "sublabel": "Outbound M2M" }
+    },
+    "externalSystems": {
+      "clusters": [
+        {
+          "name": "North America",
+          "items": [
+            {
+              "title": "US Payments",
+              "dotColor": "amber",
+              "descriptionLines": ["Domestic payment authorization and capture"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            },
+            {
+              "title": "US Shipping",
+              "dotColor": "amber",
+              "descriptionLines": ["Parcel label generation and tracking"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            }
+          ]
+        },
+        {
+          "name": "Europe",
+          "items": [
+            {
+              "title": "EU Payments",
+              "dotColor": "green",
+              "descriptionLines": ["EU payment routing and settlement"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            },
+            {
+              "title": "EU Shipping",
+              "dotColor": "green",
+              "descriptionLines": ["Regional carrier integrations"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            }
+          ]
+        },
+        {
+          "name": "Shared Internal Services",
+          "items": [
+            {
+              "title": "Notifications Bus",
+              "dotColor": "mint",
+              "descriptionLines": ["Shared alerts and order-event fan-out"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "legend": {
+    "entries": [
+      { "colorToken": "purple", "label": "Discovery and Governance" },
+      { "colorToken": "green", "label": "Execution and Capability Layer" },
+      { "colorToken": "teal", "label": "Entity Layer" },
+      { "colorToken": "amber", "label": "Regional downstream services" },
+      { "colorToken": "mint", "label": "Ingress / Egress gateways" }
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+This example is the opposite of the compliance-heavy one: a thin core with strong ingress and outbound dependency emphasis. It belongs in the gallery because it shows how ArchSmith handles a front-door-first platform where the interesting structure sits around the edges.

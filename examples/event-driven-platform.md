@@ -1,0 +1,1 @@
+This example shows a brokered, event-driven backend where the execution middle is shaped by workers and message flow rather than a single request/response service. It belongs in the gallery because it is the clearest contrast to the ticket-booking reference and helps readers see how ArchSmith handles pub/sub-heavy systems.

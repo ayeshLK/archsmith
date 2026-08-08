@@ -1,0 +1,150 @@
+{
+  "schemaVersion": "0.2.0",
+  "title": "Order Fulfillment Event Platform — Architecture",
+  "subtitle": "Pub/sub-heavy backend with multiple async workers and downstream consumers",
+  "colorTheme": { "family": "standard" },
+  "columns": {
+    "inboundActors": {
+      "items": [
+        {
+          "title": "Checkout App",
+          "dotColor": "purple",
+          "descriptionLines": ["Customer checkout and order submission flow"]
+        },
+        {
+          "title": "Partner Integration Hub",
+          "dotColor": "teal",
+          "descriptionLines": ["Resellers and fulfillment partners sending order events"]
+        }
+      ]
+    },
+    "ingress": {
+      "gateway": { "label": "API Gateway", "sublabel": "Event Runtime" }
+    },
+    "corePlatform": {
+      "deployedOn": "Container Platform",
+      "subLayers": [
+        {
+          "registryId": "discovery-and-governance",
+          "rows": [
+            [
+              {
+                "eyebrow": "Control plane",
+                "title": "Event Catalog Control Plane",
+                "descriptionLines": ["Registers topics, schemas, and routing rules."]
+              },
+              {
+                "eyebrow": "Identity",
+                "title": "AuthZ Policy Service",
+                "descriptionLines": ["Scopes, grants, and partner access policies."]
+              }
+            ]
+          ]
+        },
+        {
+          "registryId": "execution-and-capability",
+          "rows": [
+            [
+              {
+                "title": "Order Intake Service",
+                "descriptionLines": ["Accepts placed orders and emits canonical order events."]
+              },
+              {
+                "title": "Event Router",
+                "descriptionLines": ["Fan-out, retries, and routing to downstream consumers."]
+              }
+            ],
+            [
+              {
+                "title": "Projection Worker",
+                "descriptionLines": ["Builds read models and materialized views from streams."]
+              },
+              {
+                "title": "Notification Worker",
+                "descriptionLines": ["Batch fan-out for confirmations and follow-up messages."]
+              }
+            ]
+          ]
+        },
+        {
+          "registryId": "entity-layer",
+          "rows": [
+            [
+              {
+                "title": "Order & Shipment Model",
+                "descriptionLines": ["Canonical order, shipment, and inventory state model."]
+              }
+            ]
+          ]
+        }
+      ],
+      "systemsOfRecord": {
+        "items": [
+          {
+            "title": "Order Database",
+            "descriptionLines": ["Primary PostgreSQL store for order state and routing metadata"],
+            "pill": { "label": "PRIMARY", "semantic": "primary" }
+          },
+          {
+            "title": "Event Archive",
+            "descriptionLines": ["Immutable stream retention and replay history"]
+          },
+          {
+            "title": "Shipment Ledger",
+            "descriptionLines": ["Fulfillment tracking and reconciliation records"]
+          }
+        ]
+      }
+    },
+    "egress": {
+      "gateway": { "label": "API Gateway", "sublabel": "Outbound Events" }
+    },
+    "externalSystems": {
+      "clusters": [
+        {
+          "name": "Streaming Backbone",
+          "items": [
+            {
+              "title": "Message Bus",
+              "dotColor": "mint",
+              "descriptionLines": ["Topic transport for order, payment, and shipment events"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            },
+            {
+              "title": "Analytics Sink",
+              "dotColor": "navy",
+              "descriptionLines": ["Telemetry and reporting stream destination"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            }
+          ]
+        },
+        {
+          "name": "Fulfillment Partners",
+          "items": [
+            {
+              "title": "Warehouse API",
+              "dotColor": "amber",
+              "descriptionLines": ["Stock reservation, pick, and pack updates"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            },
+            {
+              "title": "Shipping API",
+              "dotColor": "amber",
+              "descriptionLines": ["Carrier handoff, label generation, and tracking"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "legend": {
+    "entries": [
+      { "colorToken": "purple", "label": "Discovery and Governance" },
+      { "colorToken": "green", "label": "Execution and Capability Layer" },
+      { "colorToken": "teal", "label": "Entity Layer" },
+      { "colorToken": "amber", "label": "Systems of Record and Knowledge" },
+      { "colorToken": "mint", "label": "Ingress / Egress gateways" }
+    ]
+  }
+}

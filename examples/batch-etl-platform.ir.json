@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "0.2.0",
+  "title": "Nightly Data Pipeline — Architecture",
+  "subtitle": "Batch ingestion, transformation, and load path with light inbound and heavier egress",
+  "colorTheme": { "family": "standard" },
+  "columns": {
+    "inboundActors": {
+      "items": [
+        {
+          "title": "Nightly Scheduler",
+          "dotColor": "purple",
+          "descriptionLines": ["Triggers the pipeline on a fixed cadence"]
+        },
+        {
+          "title": "File Drop",
+          "dotColor": "navy",
+          "descriptionLines": ["Partner-delivered flat files and extracts"]
+        }
+      ]
+    },
+    "ingress": {
+      "gateway": { "label": "Ingestion Gateway", "sublabel": "Batch Runtime" }
+    },
+    "corePlatform": {
+      "deployedOn": "Data Platform",
+      "subLayers": [
+        {
+          "registryId": "execution-and-capability",
+          "rows": [
+            [
+              {
+                "title": "Ingest Job",
+                "descriptionLines": ["Pulls, validates, and stages inbound datasets"]
+              },
+              {
+                "title": "Transform Job",
+                "descriptionLines": ["Cleanses, joins, and normalizes records"]
+              }
+            ],
+            [
+              {
+                "title": "Validation Job",
+                "descriptionLines": ["Schema checks, thresholds, and data quality gates"]
+              },
+              {
+                "title": "Load Job",
+                "descriptionLines": ["Publishes curated outputs to analytics targets"]
+              }
+            ]
+          ]
+        },
+        {
+          "registryId": "entity-layer",
+          "rows": [
+            [
+              {
+                "title": "Canonical Dataset Model",
+                "descriptionLines": ["Shared record definitions used across all pipeline stages"]
+              }
+            ]
+          ]
+        }
+      ],
+      "systemsOfRecord": {
+        "items": [
+          {
+            "title": "Raw Landing Zone",
+            "descriptionLines": ["Unmodified source extracts kept for audit and replay"],
+            "pill": { "label": "PRIMARY", "semantic": "primary" }
+          },
+          {
+            "title": "Processed Warehouse",
+            "descriptionLines": ["Curated analytical tables and aggregates"]
+          },
+          {
+            "title": "Job Manifest Archive",
+            "descriptionLines": ["Run metadata, lineage, and failure history"]
+          }
+        ]
+      }
+    },
+    "egress": {
+      "gateway": { "label": "API Gateway", "sublabel": "Outbound Sync" }
+    },
+    "externalSystems": {
+      "clusters": [
+        {
+          "name": "Business Consumers",
+          "items": [
+            {
+              "title": "Analytics Warehouse",
+              "dotColor": "green",
+              "descriptionLines": ["Curated warehouse loads and snapshots"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            },
+            {
+              "title": "Finance Dashboard",
+              "dotColor": "teal",
+              "descriptionLines": ["Executive reporting and reconciliation views"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            }
+          ]
+        },
+        {
+          "name": "Retention Targets",
+          "items": [
+            {
+              "title": "Compliance Vault",
+              "dotColor": "amber",
+              "descriptionLines": ["Long-term archive of pipeline artifacts and extracts"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            },
+            {
+              "title": "Alerting Service",
+              "dotColor": "purple",
+              "descriptionLines": ["Failure alerts and SLA notifications"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "legend": {
+    "entries": [
+      { "colorToken": "purple", "label": "Inbound / control cues" },
+      { "colorToken": "green", "label": "Execution and Capability Layer" },
+      { "colorToken": "teal", "label": "Entity Layer" },
+      { "colorToken": "amber", "label": "Systems of Record and Knowledge" },
+      { "colorToken": "mint", "label": "Ingress / Egress gateways" }
+    ]
+  }
+}

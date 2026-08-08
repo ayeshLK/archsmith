@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "0.2.0",
+  "title": "Customer Portal Web App — Architecture",
+  "subtitle": "Small three-tier web application close to the schema floor",
+  "colorTheme": { "family": "standard" },
+  "columns": {
+    "inboundActors": {
+      "items": [
+        {
+          "title": "Customer Browser",
+          "dotColor": "purple",
+          "descriptionLines": ["Browser-based customer portal"]
+        }
+      ]
+    },
+    "ingress": {
+      "gateway": { "label": "API Gateway", "sublabel": "Production Runtime" }
+    },
+    "corePlatform": {
+      "deployedOn": "App Runtime",
+      "subLayers": [
+        {
+          "registryId": "execution-and-capability",
+          "rows": [
+            [
+              {
+                "title": "Web Application Service",
+                "descriptionLines": ["Presentation logic, routing, and form handling"]
+              }
+            ]
+          ]
+        }
+      ],
+      "systemsOfRecord": {
+        "items": [
+          {
+            "title": "Application Database",
+            "descriptionLines": ["User profiles, sessions, and persisted state"],
+            "pill": { "label": "PRIMARY", "semantic": "primary" }
+          },
+          {
+            "title": "Session Store",
+            "descriptionLines": ["Short-lived login and workflow state"]
+          }
+        ]
+      }
+    },
+    "egress": {
+      "gateway": { "label": "API Gateway", "sublabel": "Outbound M2M" }
+    },
+    "externalSystems": {
+      "clusters": [
+        {
+          "name": "Shared SaaS",
+          "items": [
+            {
+              "title": "Email Service",
+              "dotColor": "teal",
+              "descriptionLines": ["Account notifications and password resets"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            },
+            {
+              "title": "Payment Provider",
+              "dotColor": "amber",
+              "descriptionLines": ["Checkout authorization and capture"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "legend": {
+    "entries": [
+      { "colorToken": "purple", "label": "Inbound actors" },
+      { "colorToken": "green", "label": "Execution and Capability Layer" },
+      { "colorToken": "amber", "label": "Systems of Record and Knowledge" },
+      { "colorToken": "teal", "label": "External services" },
+      { "colorToken": "mint", "label": "Ingress / Egress gateways" }
+    ]
+  }
+}

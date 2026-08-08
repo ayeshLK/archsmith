@@ -1,0 +1,1 @@
+This fixture is intentionally small and near the minimum practical shape for a production web app. It helps visitors see what ArchSmith looks like when the architecture is simple rather than platform-heavy.

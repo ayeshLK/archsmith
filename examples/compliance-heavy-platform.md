@@ -1,0 +1,1 @@
+This example is deliberately dense: long names, several pills, and an abbreviation to exercise the renderer paths that tend to fail when text or tags get crowded. It gives contributors a fixture that looks very different from the other gallery entries and is likely to expose wrapping regressions.

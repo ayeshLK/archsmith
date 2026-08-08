@@ -1,0 +1,162 @@
+{
+  "schemaVersion": "0.2.0",
+  "title": "Compliance Oversight Platform — Architecture",
+  "subtitle": "Dense controls, long names, and many pills to stress wrapping and tag rendering",
+  "colorTheme": { "family": "standard" },
+  "columns": {
+    "inboundActors": {
+      "items": [
+        {
+          "title": "Audit Officer Portal",
+          "dotColor": "purple",
+          "descriptionLines": ["Internal audit and assurance workflows"]
+        },
+        {
+          "title": "Operations Console",
+          "dotColor": "teal",
+          "descriptionLines": ["Control review and exception handling"]
+        }
+      ]
+    },
+    "ingress": {
+      "gateway": { "label": "Policy Gateway", "sublabel": "Compliance Runtime" }
+    },
+    "corePlatform": {
+      "deployedOn": "Governed Runtime",
+      "subLayers": [
+        {
+          "registryId": "discovery-and-governance",
+          "rows": [
+            [
+              {
+                "eyebrow": "Policy",
+                "title": "Policy Control Plane",
+                "descriptionLines": ["Approval routing, retention rules, and access gates"]
+              },
+              {
+                "eyebrow": "Identity",
+                "title": "Access Review Service",
+                "descriptionLines": ["Privileged access checks and periodic recertification"]
+              }
+            ]
+          ]
+        },
+        {
+          "registryId": "execution-and-capability",
+          "rows": [
+            [
+              {
+                "title": "Continuous Control and Evidence Review Service",
+                "acronym": "CCER",
+                "descriptionLines": ["Collects attestations, exceptions, and audit traces."],
+                "pill": { "label": "REVIEW", "semantic": "highlight" }
+              },
+              {
+                "title": "Retention and Legal Hold Coordinator",
+                "descriptionLines": ["Applies retention windows and legal holds."],
+                "pill": { "label": "HOLD", "semantic": "warning" }
+              }
+            ],
+            [
+              {
+                "title": "Case Management and Remediation Tracker",
+                "descriptionLines": ["Tracks findings from intake to closure."],
+                "pill": { "label": "PRIMARY", "semantic": "primary" }
+              }
+            ]
+          ]
+        },
+        {
+          "registryId": "entity-layer",
+          "rows": [
+            [
+              {
+                "title": "Control Finding Aggregate",
+                "acronym": "CFA",
+                "descriptionLines": ["Normalized model for findings, owners, deadlines, and evidence."]
+              }
+            ]
+          ]
+        }
+      ],
+      "systemsOfRecord": {
+        "items": [
+          {
+            "title": "Evidence Vault",
+            "descriptionLines": ["Immutable attachments, screenshots, and auditor exports"],
+            "pill": { "label": "PRIMARY", "semantic": "primary" }
+          },
+          {
+            "title": "Policy Archive",
+            "descriptionLines": ["Versioned control framework documents and approvals"]
+          },
+          {
+            "title": "Remediation Register",
+            "descriptionLines": ["Open findings, assigned owners, and due dates"],
+            "pill": { "label": "ATTN", "semantic": "warning" }
+          }
+        ]
+      }
+    },
+    "egress": {
+      "gateway": { "label": "Policy Gateway", "sublabel": "Outbound Compliance" }
+    },
+    "externalSystems": {
+      "clusters": [
+        {
+          "name": "Audit Partners",
+          "items": [
+            {
+              "title": "External Audit API",
+              "dotColor": "amber",
+              "descriptionLines": ["Third-party review and evidence exchange"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            },
+            {
+              "title": "Assurance Reporting Service",
+              "dotColor": "amber",
+              "descriptionLines": ["Formal review packs and sign-off summaries"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            }
+          ]
+        },
+        {
+          "name": "Regulators and Archives",
+          "items": [
+            {
+              "title": "Regulatory Reporting API",
+              "dotColor": "navy",
+              "descriptionLines": ["Jurisdiction-specific compliance filings"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            },
+            {
+              "title": "Long-Term Storage",
+              "dotColor": "navy",
+              "descriptionLines": ["Immutable archive for retained control evidence"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "legend": {
+    "entries": [
+      { "colorToken": "purple", "label": "Discovery and Governance" },
+      { "colorToken": "green", "label": "Execution and Capability Layer" },
+      { "colorToken": "teal", "label": "Entity Layer" },
+      { "colorToken": "amber", "label": "Systems of Record and Knowledge" },
+      { "colorToken": "mint", "label": "Ingress / Egress gateways" }
+    ],
+    "abbreviations": [
+      {
+        "acronym": "CCER",
+        "fullName": "Continuous Control and Evidence Review Service"
+      },
+      {
+        "acronym": "CFA",
+        "fullName": "Control Finding Aggregate"
+      }
+    ]
+  }
+}

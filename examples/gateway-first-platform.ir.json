@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "0.2.0",
+  "title": "API Gateway Front Door — Architecture",
+  "subtitle": "Ingress and external dependencies dominate, with minimal core business logic",
+  "colorTheme": { "family": "standard" },
+  "columns": {
+    "inboundActors": {
+      "items": [
+        {
+          "title": "Mobile App",
+          "dotColor": "purple",
+          "descriptionLines": ["Primary customer entry point"]
+        },
+        {
+          "title": "Partner Widget",
+          "dotColor": "teal",
+          "descriptionLines": ["Embedded partner experience"]
+        },
+        {
+          "title": "Support Desk",
+          "dotColor": "navy",
+          "descriptionLines": ["Internal assistance and account operations"]
+        }
+      ]
+    },
+    "ingress": {
+      "gateway": { "label": "API Gateway", "sublabel": "Edge Runtime" }
+    },
+    "corePlatform": {
+      "deployedOn": "Cloud Runtime",
+      "subLayers": [
+        {
+          "registryId": "discovery-and-governance",
+          "rows": [
+            [
+              {
+                "title": "API Policy Control Plane",
+                "descriptionLines": ["Route governance, throttling, and service exposure"]
+              }
+            ]
+          ]
+        },
+        {
+          "registryId": "execution-and-capability",
+          "rows": [
+            [
+              {
+                "title": "Thin Facade Service",
+                "descriptionLines": ["Minimal orchestration and request translation"]
+              }
+            ]
+          ]
+        }
+      ],
+      "systemsOfRecord": {
+        "items": [
+          {
+            "title": "Config Store",
+            "descriptionLines": ["Feature flags, routes, and environment config"],
+            "pill": { "label": "PRIMARY", "semantic": "primary" }
+          },
+          {
+            "title": "Request Log",
+            "descriptionLines": ["Operational access logs and request history"]
+          }
+        ]
+      }
+    },
+    "egress": {
+      "gateway": { "label": "API Gateway", "sublabel": "Outbound M2M" }
+    },
+    "externalSystems": {
+      "clusters": [
+        {
+          "name": "Downstream SaaS",
+          "items": [
+            {
+              "title": "Identity Provider",
+              "dotColor": "amber",
+              "descriptionLines": ["Authentication and token issuance"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            },
+            {
+              "title": "Search API",
+              "dotColor": "amber",
+              "descriptionLines": ["Query, discovery, and autocomplete"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            },
+            {
+              "title": "Recommendations API",
+              "dotColor": "amber",
+              "descriptionLines": ["Personalized suggestions and ranking"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            }
+          ]
+        },
+        {
+          "name": "Shared Platform Services",
+          "items": [
+            {
+              "title": "Feature Flags",
+              "dotColor": "mint",
+              "descriptionLines": ["Operational toggles and rollout control"],
+              "pill": { "label": "via egress", "semantic": "viaEgress" }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "legend": {
+    "entries": [
+      { "colorToken": "purple", "label": "Inbound actors" },
+      { "colorToken": "green", "label": "Execution and Capability Layer" },
+      { "colorToken": "amber", "label": "Downstream dependencies" },
+      { "colorToken": "mint", "label": "Ingress / Egress gateways" }
+    ]
+  }
+}

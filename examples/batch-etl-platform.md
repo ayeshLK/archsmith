@@ -1,0 +1,1 @@
+This fixture represents a batch-oriented ETL pipeline with a small number of entry points and a stronger emphasis on downstream loads. It is included to show that ArchSmith can describe data movement systems, not only service-oriented web backends.
