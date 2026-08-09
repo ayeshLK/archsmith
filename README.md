@@ -13,6 +13,10 @@
 It's built as a library first, a CLI on top of that, and an MCP server on top of that — so it's just as easy for a human to run `archsmith render` as it is for an AI agent to call it as a tool.
 
 <p align="center">
+  <img src="docs/demo/cli-demo.gif" alt="Terminal recording: archsmith validate, then archsmith render, producing an SVG diagram" width="600">
+</p>
+
+<p align="center">
   <img src="examples/ticket-booking/diagram.svg" alt="Example architecture diagram rendered by ArchSmith" width="900">
 </p>
 
