@@ -35,6 +35,12 @@ function textOf(result: { content: Array<{ type: string; text?: string }> }): st
   return block!.text!;
 }
 
+test("advertises the installed package version, not a hard-coded constant", async () => {
+  const packageManifest = JSON.parse(readFileSync(path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../package.json"), "utf-8"));
+  const client = await connectedClient();
+  assert.equal(client.getServerVersion()?.version, packageManifest.version);
+});
+
 test("lists all four tools", async () => {
   const client = await connectedClient();
   const { tools } = await client.listTools();
