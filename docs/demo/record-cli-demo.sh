@@ -19,10 +19,13 @@ type_cmd() {
 
 cd /tmp/archsmith-demo || exit 1
 
-type_cmd "archsmith validate web-app.archsmith.json"
-archsmith validate web-app.archsmith.json
+# Mirrors the Quick Start section in README.md exactly, so the GIF, the
+# rendered diagram shown next to it, and the copy-pasteable commands all
+# point at the same fixture instead of three different examples.
+type_cmd "archsmith validate ticket-booking/diagram.archsmith.json"
+archsmith validate ticket-booking/diagram.archsmith.json
 sleep 1.4
 
-type_cmd "archsmith render web-app.archsmith.json -o web-app.svg"
-archsmith render web-app.archsmith.json -o web-app.svg
+type_cmd "archsmith render ticket-booking/diagram.archsmith.json -o ticket-booking/diagram.svg"
+archsmith render ticket-booking/diagram.archsmith.json -o ticket-booking/diagram.svg
 sleep 2.2
