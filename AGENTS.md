@@ -57,6 +57,26 @@ node --test packages/renderer/dist/text/wrap.test.js
 
 Published schemas under `pages/schema/<schemaVersion>/` are immutable archives. When bumping `schemaVersion`, add the new schema at its versioned path and update `$id`; never overwrite an older version. `npm run build:pages` verifies the current archive and generates the floating `schema/latest/` copy.
 
+## Active proposal handoff
+
+These proposals have been discussed with the maintainer but are not blanket authorization to start implementation. Read the linked issue first and preserve the decisions below when work resumes.
+
+### Icon registry and rendering — issue [#6](https://github.com/ayeshLK/archsmith/issues/6)
+
+- The agreed scope is end-to-end icon support: governed registry data, semantic validation, rendering, tests, documentation, licensing, and migration of every valid example.
+- Icon sources must be Apache-2.0 only. Vendor the small approved geometry subset; do not add a runtime icon dependency. Use one external visual system as the baseline and add original Apache-2.0 ArchSmith icons only where that system has no suitable match.
+- Initial semantic tokens are `actor`, `governance`, `service`, `entity`, `data-store`, and `external`. Keep the gateway's existing renderer-specific glyph. Warning remains a pill/status concern, not an item icon or overlay in this issue.
+- `item.icon` stays explicit — never infer it from a title, column, sub-layer, or pill. Actor/external icons replace their existing dot; a missing icon retains that dot. Core items show an icon only when explicitly supplied; iconless core items stay marker-free so existing layouts remain compatible.
+- Geometry is color-free and normalized to a 24×24 monochrome outline language for rendering around 16×16. Actor/external icons use the item's `dotColor`; core icons use their containing layer accent.
+- Before production implementation, compare Apache-2.0 candidates and original alternatives in an SVG gallery and obtain explicit design approval. Prototype the approved design on `ticket-booking` first, then migrate, regenerate, and visually inspect every example before completion. The full proposal is recorded in the issue comment.
+
+### MCP schema discoverability — issue [#43](https://github.com/ayeshLK/archsmith/issues/43)
+
+- Registries expose governed vocabulary, not the structural IR contract. The full schema currently exists as the `archsmith://schema` MCP resource, while `render` and `validate` advertise `ir` only as a generic record; tool-oriented clients may therefore never discover the schema.
+- The proposed minimum improvement is a `get_schema` MCP tool plus CLI parity through `archsmith schema show`, with tool descriptions that direct agents to inspect the schema and registries before authoring IR. Keep `diagram-schema.json` as the only source of truth and preserve the existing MCP resource.
+- A combined `get_authoring_context` tool and native use of the real JSON Schema in MCP tool input definitions are evaluation/follow-up options, not yet approved initial scope.
+- This proposal is awaiting maintainer offline review. Do not implement it until that review is complete.
+
 ## Renderer conventions
 
 - **Content-driven sizing, always.** Box height/width comes from measuring actual content, never a caller-supplied number.
