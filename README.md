@@ -132,7 +132,7 @@ Working from a clone instead (e.g. to test a local change)? Point at the built e
 ```
 
 <p align="center">
-  <img src="docs/demo/mcp-demo.gif" alt="A user describing an architecture in plain English, the agent asking clarifying questions grounded in the archsmith schema and registries, then calling validate and render to produce the diagram" width="700">
+  <img src="docs/demo/mcp-demo.gif" alt="A user describing an architecture in plain English, the agent asking clarifying questions grounded in the archsmith schema and registries, then calling validate and render to produce the diagram" width="900">
 </p>
 
 <p align="center"><sub>Because the schema and registries are themselves MCP resources (not a copy baked into a prompt), an agent can turn a plain-English requirement straight into IR — reading them live, asking about whatever the description leaves ambiguous, then calling <code>validate</code> and <code>render</code> once it has enough to draft a schema-conformant document. No archsmith-side LLM call involved: the interpretation happens in the connected agent, archsmith stays a deterministic renderer.</sub></p>
