@@ -24,7 +24,7 @@
   "dependencies": {
     "@archsmith/renderer": "^0.6.0",
     "@archsmith/schema": "^0.6.0",
-    "commander": "^13.1.0"
+    "commander": "^15.0.0"
   },
   "homepage": "https://github.com/ayeshLK/archsmith#readme",
   "repository": {
