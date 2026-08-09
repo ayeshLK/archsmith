@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { render, validate, type DiagramIR } from "@archsmith/renderer";
@@ -16,8 +17,10 @@ import { getDiagramSchema, getRegistry, listRegistryNames, type RegistryName } f
 
 const REGISTRY_NAMES = listRegistryNames();
 
+const packageManifest = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf-8")) as { version: string };
+
 export function createServer(): McpServer {
-  const server = new McpServer({ name: "archsmith-mcp", version: "0.5.0" });
+  const server = new McpServer({ name: "archsmith-mcp", version: packageManifest.version });
 
   server.registerTool(
     "validate",
