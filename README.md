@@ -131,6 +131,12 @@ Working from a clone instead (e.g. to test a local change)? Point at the built e
 }
 ```
 
+<p align="center">
+  <img src="docs/demo/mcp-demo.gif" alt="An agent calling the archsmith MCP server's validate and render tools on the ticket-booking example, then reporting success" width="700">
+</p>
+
+<p align="center"><sub>An MCP-capable agent (here, Claude Code) calling <code>validate</code> then <code>render</code> on the same <code>ticket-booking</code> example — same tools the CLI demo above runs from argv, called over MCP instead.</sub></p>
+
 ## The IR shape
 
 An IR document is a JSON object with five columns, a legend, and optional notes. The schema is published at [`schema/latest/diagram-schema.json`](https://ayeshlk.github.io/archsmith/schema/latest/diagram-schema.json), with immutable versioned copies such as [`schema/0.3.0/diagram-schema.json`](https://ayeshlk.github.io/archsmith/schema/0.3.0/diagram-schema.json). Use a versioned URL in committed documents for reproducible editor validation; the `latest` URL is intended for tooling that should follow the newest schema.
