@@ -12,6 +12,7 @@ npm run build   # tsc -b across all packages, via project references
 npm test        # Node's built-in test runner, per package
 npm run check:examples  # regenerate every gallery SVG and fail on drift
 npm run build:pages  # verify and assemble the versioned schema site
+npm run security:audit  # fail on high/critical production dependency advisories
 ```
 
 Each package builds and tests independently (`npm run build --workspace=@archsmith/renderer`, etc.), but `npm run build`/`npm test` from the repo root run all of them via npm workspaces.
@@ -26,7 +27,7 @@ Report suspected vulnerabilities privately through the process in [SECURITY.md](
 - Preserve the MCP stdio JSON-RPC channel: never write diagnostics or debug output to stdout.
 - Pass untrusted values as process arguments rather than interpolating them into shell commands.
 - Never place credentials, tokens, private system names, or sensitive inputs in logs, fixtures, examples, snapshots, generated diagrams, or recorded demos.
-- Review dependency changes, workflow action updates, token permissions, and release configuration as supply-chain-sensitive changes.
+- Review dependency changes, workflow action updates, token permissions, and release configuration as supply-chain-sensitive changes. Run `npm run security:audit`; CI applies the same high-severity production threshold, while Dependabot and dependency review provide continuous coverage.
 
 ## The one rule that matters most: registries are governed, not per-diagram
 

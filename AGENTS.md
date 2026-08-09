@@ -31,6 +31,7 @@ npm run build   # tsc -b across all packages, via project references
 npm test        # Node's built-in test runner, per package
 npm run check:examples  # regenerate every gallery SVG and fail on drift
 npm run build:pages  # verify and assemble the versioned schema site
+npm run security:audit  # fail on high/critical production dependency advisories
 ```
 
 If you touch anything version-sensitive (test runner invocation, glob handling, anything in `package.json` `scripts`), verify across Node 20/22/24 via Docker before trusting it — CI runs that matrix for a reason. A `node --test "dist/**/*.test.js"` glob that worked locally silently broke on Node 20 in exactly this repo (Node 20 doesn't expand CLI glob arguments at all; the eventual fix was `cd dist && node --test` with no path argument):
