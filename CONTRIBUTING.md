@@ -28,6 +28,7 @@ Report suspected vulnerabilities privately through the process in [SECURITY.md](
 - Pass untrusted values as process arguments rather than interpolating them into shell commands.
 - Never place credentials, tokens, private system names, or sensitive inputs in logs, fixtures, examples, snapshots, generated diagrams, or recorded demos.
 - Review dependency changes, workflow action updates, token permissions, and release configuration as supply-chain-sensitive changes. Run `npm run security:audit`; CI applies the same high-severity production threshold, while Dependabot and dependency review provide continuous coverage.
+- CodeQL ([.github/workflows/codeql.yml](.github/workflows/codeql.yml)) statically analyzes the npm workspace on every pull request, on pushes to `main`, and weekly on a schedule. Findings show up under the repo's Security → Code scanning alerts; pull request runs also annotate the diff directly. To reproduce one locally, install the [CodeQL CLI](https://docs.github.com/en/code-security/codeql-cli/getting-started-with-the-codeql-cli) (or use the VS Code CodeQL extension), build a `javascript-typescript` database at the repo root, and analyze it with the default query suite — the same one the workflow runs. Don't suppress a finding without a written reason (a code comment or PR note explaining why it's a false positive or an accepted risk).
 
 ## The one rule that matters most: registries are governed, not per-diagram
 
