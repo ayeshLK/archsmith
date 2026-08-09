@@ -4,7 +4,7 @@
 
 ## What it shows
 
-Using `examples/simple-3-tier-web-app/diagram.archsmith.json` — compact enough to read in a few seconds of playback, per [#16](https://github.com/ayeshLK/archsmith/issues/16). The MCP/agent flow described in that issue isn't in this GIF; it needs a real screen recording of a desktop MCP client and is tracked separately.
+The exact two commands from the root README's [Quick start](../../README.md#quick-start), run against `examples/ticket-booking/diagram.archsmith.json` — the same fixture as the static hero SVG shown right below the GIF, so the recording, the rendered diagram, and the copy-pasteable Quick Start commands all point at one example instead of three different ones. The MCP/agent flow described in [#16](https://github.com/ayeshLK/archsmith/issues/16) isn't in this GIF; it needs a real screen recording of a desktop MCP client and is tracked separately.
 
 ## Regenerate
 
@@ -13,9 +13,9 @@ Requires [asciinema](https://asciinema.org/) and [agg](https://github.com/asciin
 From the repo root:
 
 ```bash
-mkdir -p /tmp/archsmith-demo
-cp examples/simple-3-tier-web-app/diagram.archsmith.json /tmp/archsmith-demo/web-app.archsmith.json
-asciinema rec --headless --overwrite --window-size 90x6 --title "ArchSmith CLI demo" --idle-time-limit 2 \
+mkdir -p /tmp/archsmith-demo/ticket-booking
+cp examples/ticket-booking/diagram.archsmith.json /tmp/archsmith-demo/ticket-booking/diagram.archsmith.json
+asciinema rec --headless --overwrite --window-size 100x6 --title "ArchSmith CLI demo" --idle-time-limit 2 \
   -c "bash docs/demo/record-cli-demo.sh" /tmp/archsmith-demo/cli-demo.cast
 agg --font-size 18 --theme monokai --idle-time-limit 2 /tmp/archsmith-demo/cli-demo.cast docs/demo/cli-demo.gif
 ```

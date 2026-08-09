@@ -13,14 +13,14 @@
 It's built as a library first, a CLI on top of that, and an MCP server on top of that — so it's just as easy for a human to run `archsmith render` as it is for an AI agent to call it as a tool.
 
 <p align="center">
-  <img src="docs/demo/cli-demo.gif" alt="Terminal recording: archsmith validate, then archsmith render, producing an SVG diagram" width="600">
+  <img src="docs/demo/cli-demo.gif" alt="Terminal recording: archsmith validate, then archsmith render, on the ticket-booking example, producing the diagram below" width="900">
 </p>
 
 <p align="center">
   <img src="examples/ticket-booking/diagram.svg" alt="Example architecture diagram rendered by ArchSmith" width="900">
 </p>
 
-<p align="center"><sub>Rendered from <a href="examples/ticket-booking/diagram.archsmith.json"><code>examples/ticket-booking/diagram.archsmith.json</code></a> — a fictional example exercising every schema feature.</sub></p>
+<p align="center"><sub>The commands above render <a href="examples/ticket-booking/diagram.archsmith.json"><code>examples/ticket-booking/diagram.archsmith.json</code></a> into the diagram below it — a fictional example exercising every schema feature.</sub></p>
 
 > [!NOTE]
 > ArchSmith is pre-1.0 — the schema and API may still change (`diagram-schema.json` itself is marked "first pass, expect revision"). See [releases](https://github.com/ayeshLK/archsmith/releases) for what's shipped in each version.
