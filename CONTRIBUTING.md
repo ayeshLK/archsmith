@@ -18,6 +18,16 @@ Each package builds and tests independently (`npm run build --workspace=@archsmi
 
 CI (`.github/workflows/ci.yml`) runs the same build, test, and gallery verification on Linux across Node 20/22/24 — Linux specifically, not just whatever you developed on, since portability across machines (not just OSes) is the whole reason the renderer measures against a bundled font instead of a system one.
 
+## Security
+
+Report suspected vulnerabilities privately through the process in [SECURITY.md](SECURITY.md), not through public issues. When contributing code or automation:
+
+- Treat IR documents, CLI arguments, MCP tool inputs, and external registry responses as untrusted data.
+- Preserve the MCP stdio JSON-RPC channel: never write diagnostics or debug output to stdout.
+- Pass untrusted values as process arguments rather than interpolating them into shell commands.
+- Never place credentials, tokens, private system names, or sensitive inputs in logs, fixtures, examples, snapshots, generated diagrams, or recorded demos.
+- Review dependency changes, workflow action updates, token permissions, and release configuration as supply-chain-sensitive changes.
+
 ## The one rule that matters most: registries are governed, not per-diagram
 
 `packages/schema/registries/*.json` (sub-layers, colors, icons) define the *only* colors and sub-layer types a diagram is allowed to use. This is deliberate: it's what keeps ArchSmith's output a consistent house style instead of every diagram inventing its own palette. Concretely:
@@ -68,4 +78,4 @@ If your PR changes something version-worthy in a published package, add a change
 
 ## Reporting issues
 
-Open a GitHub issue. For a rendering bug, a minimal reproducing IR document (trim it down — don't paste your whole diagram) makes it much faster to fix.
+Open a GitHub issue for ordinary bugs and feature requests. For a rendering bug, a minimal reproducing IR document (trim it down — don't paste your whole diagram) makes it much faster to fix. Report suspected vulnerabilities privately as described in [SECURITY.md](SECURITY.md).

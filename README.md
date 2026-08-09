@@ -180,7 +180,7 @@ This is an npm workspaces monorepo — each package does one job, and only the l
 
 ## Support
 
-Questions, or something not working the way this README says it should? [Open a GitHub issue](https://github.com/ayeshLK/archsmith/issues) — there's no other support channel yet.
+Questions, or something not working the way this README says it should? [Open a GitHub issue](https://github.com/ayeshLK/archsmith/issues). Report suspected vulnerabilities privately through the [security policy](SECURITY.md), not through public issues.
 
 ## Contributing
 
