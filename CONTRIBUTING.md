@@ -1,6 +1,6 @@
 # Contributing to ArchSmith
 
-Thanks for considering it. This is a young project — small and opinionated — so there's real room to shape it, but also a few rules worth understanding before you dive in.
+Thanks for considering it. This is a young project — small and opinionated — so there's real room to shape it, but also a few rules worth understanding before you dive in. Participation in ArchSmith community spaces is governed by the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 If you're an AI coding agent working in this repo, also read [AGENTS.md](AGENTS.md) — it covers agent-specific pitfalls (why the golden-master test alone isn't proof a rendering change is correct, real npm-publish gotchas) that this file doesn't repeat.
 
