@@ -70,12 +70,11 @@ These proposals have been discussed with the maintainer but are not blanket auth
 - Geometry is color-free and normalized to a 24×24 monochrome outline language for rendering around 16×16. Actor/external icons use the item's `dotColor`; core icons use their containing layer accent.
 - Before production implementation, compare Apache-2.0 candidates and original alternatives in an SVG gallery and obtain explicit design approval. Prototype the approved design on `ticket-booking` first, then migrate, regenerate, and visually inspect every example before completion. The full proposal is recorded in the issue comment.
 
-### MCP schema discoverability — issue [#43](https://github.com/ayeshLK/archsmith/issues/43)
+## MCP server conventions
 
-- Registries expose governed vocabulary, not the structural IR contract. The full schema currently exists as the `archsmith://schema` MCP resource, while `render` and `validate` advertise `ir` only as a generic record; tool-oriented clients may therefore never discover the schema.
-- The proposed minimum improvement is a `get_schema` MCP tool plus CLI parity through `archsmith schema show`, with tool descriptions that direct agents to inspect the schema and registries before authoring IR. Keep `diagram-schema.json` as the only source of truth and preserve the existing MCP resource.
-- A combined `get_authoring_context` tool and native use of the real JSON Schema in MCP tool input definitions are evaluation/follow-up options, not yet approved initial scope.
-- This proposal is awaiting maintainer offline review. Do not implement it until that review is complete.
+MCP's three primitives differ in *who decides to use them*, and that should drive which one a new capability gets, not convenience: tools are model-controlled (the connected agent can call one on its own initiative, mid-task, in every compliant client); resources are application-controlled (the host client decides whether/when to surface one, often gated on a human manually attaching it); prompts are user-controlled (reachable only if a human explicitly invokes one, in a client that surfaces a picker at all). This is why `get_schema` was added as a tool ([issue #43](https://github.com/ayeshLK/archsmith/issues/43), closed) even though `archsmith://schema` already existed as a resource with the identical content — the resource fully serves a human curating context by hand, but nothing about it is guaranteed reachable by the model itself. Before adding a new tool/resource/prompt, ask who needs to decide to use it, and whether the primitive picked actually guarantees reachability for that actor.
+
+Don't add a new MCP surface speculatively just because it's cheap to build. A `get_example` tool (bundling the minimal-valid fixture) and an `author_diagram` prompt were both designed in detail during the #43 discussion and deliberately not built: `get_schema` plus `validate`'s existing structured, path-specific errors already give an agent a targeted feedback loop, and neither addition had a demonstrated gap to justify it — "cheap to add" was explicitly rejected as sufficient reason. Build the next one only once there's a concrete signal (e.g. agents reliably finding `get_schema` but still failing to construct a valid IR) that the existing tools aren't enough.
 
 ## Renderer conventions
 
