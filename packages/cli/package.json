@@ -1,6 +1,6 @@
 {
   "name": "@archsmith/cli",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "description": "ArchSmith CLI — render and validate layered architecture diagrams",
   "type": "module",
   "main": "./dist/index.js",
