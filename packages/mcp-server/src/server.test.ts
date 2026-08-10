@@ -41,11 +41,21 @@ test("advertises the installed package version, not a hard-coded constant", asyn
   assert.equal(client.getServerVersion()?.version, packageManifest.version);
 });
 
-test("lists all four tools", async () => {
+test("lists all five tools", async () => {
   const client = await connectedClient();
   const { tools } = await client.listTools();
   const names = tools.map((t) => t.name).sort();
-  assert.deepEqual(names, ["get_registry", "list_registries", "render", "validate"]);
+  assert.deepEqual(names, ["get_registry", "get_schema", "list_registries", "render", "validate"]);
+});
+
+test("validate and render tool descriptions direct agents to get_schema and get_registry", async () => {
+  const client = await connectedClient();
+  const { tools } = await client.listTools();
+  for (const name of ["validate", "render"]) {
+    const tool = tools.find((t) => t.name === name);
+    assert.ok(tool?.description?.includes("get_schema"), `${name} description should mention get_schema`);
+    assert.ok(tool?.description?.includes("get_registry"), `${name} description should mention get_registry`);
+  }
 });
 
 test("lists the schema resource plus one resource per registry", async () => {
@@ -60,22 +70,25 @@ test("lists the schema resource plus one resource per registry", async () => {
   ]);
 });
 
-test("validate tool reports a valid IR as valid", async () => {
+test("validate tool reports a valid IR as valid, with no discovery hint", async () => {
   const client = await connectedClient();
   const ir = loadFixture("minimal-valid/diagram.archsmith.json");
-  const result = await client.callTool({ name: "validate", arguments: { ir } });
-  const parsed = JSON.parse(textOf(result as any));
+  const result = (await client.callTool({ name: "validate", arguments: { ir } })) as any;
+  const parsed = JSON.parse(textOf(result));
   assert.equal(parsed.valid, true);
   assert.deepEqual(parsed.errors, []);
+  assert.equal(result.content.length, 1);
 });
 
-test("validate tool reports a broken IR as invalid, with the real error", async () => {
+test("validate tool reports a broken IR as invalid, with the real error and a get_schema hint", async () => {
   const client = await connectedClient();
   const ir = loadFixture("broken-examples/missing-subtitle.archsmith.json");
-  const result = await client.callTool({ name: "validate", arguments: { ir } });
-  const parsed = JSON.parse(textOf(result as any));
+  const result = (await client.callTool({ name: "validate", arguments: { ir } })) as any;
+  const parsed = JSON.parse(textOf(result));
   assert.equal(parsed.valid, false);
   assert.ok(parsed.errors.some((e: string) => e.includes("subtitle")));
+  assert.equal(result.content.length, 2);
+  assert.ok(result.content[1].text.includes("get_schema"));
 });
 
 test("render tool returns SVG as both text and an image content block", async () => {
@@ -91,12 +104,13 @@ test("render tool returns SVG as both text and an image content block", async ()
   assert.equal(Buffer.from(image.data, "base64").toString("utf-8"), svg);
 });
 
-test("render tool refuses to render an invalid IR, returning isError instead of broken SVG", async () => {
+test("render tool refuses to render an invalid IR, returning isError and a get_schema hint instead of broken SVG", async () => {
   const client = await connectedClient();
   const ir = loadFixture("broken-examples/unknown-registry-id.archsmith.json");
   const result = (await client.callTool({ name: "render", arguments: { ir } })) as any;
   assert.equal(result.isError, true);
   assert.ok(textOf(result).includes("orchestration-layer-that-does-not-exist"));
+  assert.ok(result.content.some((c: any) => c.text?.includes("get_schema")));
 });
 
 test("list_registries returns the three governed registry names", async () => {
@@ -123,6 +137,16 @@ test("get_registry rejects family for a registry that doesn't have families", as
   const result = (await client.callTool({ name: "get_registry", arguments: { name: "sub-layers", family: "standard" } })) as any;
   assert.equal(result.isError, true);
   assert.ok(textOf(result).includes("only applies to"));
+});
+
+test("get_schema returns the same schema as the archsmith://schema resource", async () => {
+  const client = await connectedClient();
+  const toolResult = await client.callTool({ name: "get_schema", arguments: {} });
+  const toolSchema = JSON.parse(textOf(toolResult as any));
+  const { contents } = await client.readResource({ uri: "archsmith://schema" });
+  const resourceSchema = JSON.parse((contents[0] as any).text);
+  assert.deepEqual(toolSchema, resourceSchema);
+  assert.equal(toolSchema.title, "ArchSmith Diagram IR");
 });
 
 test("reads the diagram-schema resource", async () => {

@@ -79,12 +79,14 @@ archsmith validate <input.archsmith.json> [--json]
 archsmith render <input.archsmith.json> -o <out.svg> [--no-embed-fonts] [--pretty]
 archsmith registries list
 archsmith registries show <sub-layers|colors|icons> [--family standard|accessible]
+archsmith schema show
 ```
 
 - `render` validates the IR first and fails the same way `validate` would (exit 1) if it's invalid; a rendering-time error exits 2.
 - `--no-embed-fonts` skips embedding the bundled font, producing a smaller file.
 - `--pretty` indents the output SVG's element lines for readability (default is one element per line, unindented).
 - `registries show colors --family standard` prints just that color family instead of the whole registry. The planned `accessible` registry can be inspected, but diagrams cannot select it until its complete palette is designed and tested.
+- `schema show` prints the raw `diagram-schema.json` contents — the structural contract an IR document must satisfy, as distinct from the governed vocabulary `registries` exposes.
 
 ## Using it as a library
 
@@ -101,7 +103,7 @@ if (result.valid) {
 
 `@archsmith/mcp-server` exposes the same capability as the CLI, over MCP instead of argv — a sibling of the CLI, not a wrapper around it: both call `render()`/`validate()` from `@archsmith/renderer` directly. It communicates over stdio, so an MCP host spawns it as a subprocess and talks JSON-RPC over stdin/stdout, the same way a shell would spawn `archsmith` and read its stdout — except the process stays alive across many calls instead of exiting after one.
 
-**Tools**: `render`, `validate`, `list_registries`, `get_registry` (mirrors the CLI's own commands — same validate-before-render behavior, same `family` filter on `get_registry`). `render` returns the SVG as both plain text and an `image/svg+xml` content block, so a client that renders arbitrary image mime types can show the diagram inline.
+**Tools**: `get_schema`, `render`, `validate`, `list_registries`, `get_registry` (mirrors the CLI's own commands — same validate-before-render behavior, same `family` filter on `get_registry`). `render` returns the SVG as both plain text and an `image/svg+xml` content block, so a client that renders arbitrary image mime types can show the diagram inline. `get_schema` returns the same JSON Schema as the `archsmith://schema` resource below, as a tool — the connected model can call it on its own initiative before authoring an IR, without depending on the host client to surface a resource; `validate`/`render` point at it and at `get_registry` in their own descriptions, and again in the response when the IR is invalid.
 
 **Resources**: `archsmith://schema` and one `archsmith://registries/<name>` per governed registry — lets an agent authoring an IR read the live, current schema/registries directly instead of working from a stale copy baked into a prompt.
 
@@ -185,8 +187,8 @@ This is an npm workspaces monorepo — each package does one job, and only the l
 |---|---|
 | [`@archsmith/schema`](packages/schema) | The IR schema (JSON Schema draft 2020-12) plus governed registries (sub-layers, colors, icons). Versioned independently — adding a registry entry is a deliberate change-request, not a per-diagram decision. |
 | [`@archsmith/renderer`](packages/renderer) | Validates an IR against the schema/registries and renders it to SVG. Pure function, no I/O beyond reading its own bundled font, no LLM dependency. |
-| [`@archsmith/cli`](packages/cli) | `archsmith` binary — `validate`, `render`, `registries list\|show`. |
-| [`@archsmith/mcp-server`](packages/mcp-server) | `archsmith-mcp` binary — exposes `render`/`validate`/registry lookups over MCP (stdio transport) so any MCP-capable agent can call them as tools. |
+| [`@archsmith/cli`](packages/cli) | `archsmith` binary — `validate`, `render`, `registries list\|show`, `schema show`. |
+| [`@archsmith/mcp-server`](packages/mcp-server) | `archsmith-mcp` binary — exposes `render`/`validate`/`get_schema`/registry lookups over MCP (stdio transport) so any MCP-capable agent can call them as tools. |
 
 ## Support
 

@@ -2,7 +2,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { Command } from "commander";
 import { render, validate, type DiagramIR } from "@archsmith/renderer";
-import { getRegistry, listRegistryNames, type RegistryName } from "@archsmith/schema";
+import { getDiagramSchema, getRegistry, listRegistryNames, type RegistryName } from "@archsmith/schema";
 
 const packageManifest = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf-8")) as { version: string };
 
@@ -124,6 +124,15 @@ registries
       process.exit(2);
     }
     console.log(JSON.stringify(families[opts.family], null, 2));
+  });
+
+const schema = program.command("schema").description("Inspect the diagram IR JSON Schema");
+
+schema
+  .command("show")
+  .description("Print the raw contents of diagram-schema.json")
+  .action(() => {
+    console.log(JSON.stringify(getDiagramSchema(), null, 2));
   });
 
 program.parse();
