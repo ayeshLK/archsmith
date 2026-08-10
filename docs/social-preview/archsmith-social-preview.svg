@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="640" viewBox="0 0 1280 640" role="img" aria-labelledby="title description">
+  <title id="title">ArchSmith</title>
+  <desc id="description">Validated JSON to consistent SVG architecture diagrams, illustrated with the ticket-booking example.</desc>
+  <defs>
+    <pattern id="grid" width="96" height="96" patternUnits="userSpaceOnUse">
+      <path d="M 96 0 L 0 0 0 96" fill="none" stroke="#2B3350" stroke-width="1"/>
+      <circle cx="0" cy="0" r="3" fill="#48506B"/>
+    </pattern>
+    <filter id="card-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#182449" flood-opacity="0.38"/>
+    </filter>
+  </defs>
+
+  <rect width="1280" height="640" fill="#182449"/>
+  <rect width="1280" height="640" fill="url(#grid)" opacity="0.7"/>
+
+  <g aria-label="ArchSmith name and description">
+    <rect x="64" y="186" width="68" height="8" rx="4" fill="#D9F2EC"/>
+    <rect x="142" y="186" width="68" height="8" rx="4" fill="#5B3A9E"/>
+    <rect x="220" y="186" width="68" height="8" rx="4" fill="#177F6B"/>
+    <rect x="298" y="186" width="68" height="8" rx="4" fill="#92600E"/>
+    <text x="60" y="300" fill="#FFFFFF" font-family="Arimo, Arial, sans-serif" font-size="92" font-weight="700">ArchSmith</text>
+    <text x="66" y="358" fill="#D9F2EC" font-family="Arimo, Arial, sans-serif" font-size="25" font-weight="700">
+      <tspan x="66" dy="0">Validated JSON → consistent SVG</tspan>
+      <tspan x="66" dy="36">architecture diagrams</tspan>
+    </text>
+  </g>
+
+  <g filter="url(#card-shadow)" aria-label="Real ArchSmith-rendered ticket-booking architecture diagram">
+    <rect x="568" y="92" width="652" height="456" rx="18" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="2"/>
+    <image href="../../examples/ticket-booking/diagram.svg" x="590" y="174" width="608" height="277" preserveAspectRatio="xMidYMid meet"/>
+  </g>
+</svg>
