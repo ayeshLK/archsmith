@@ -22,19 +22,35 @@ const packageManifest = JSON.parse(readFileSync(new URL("../package.json", impor
 export function createServer(): McpServer {
   const server = new McpServer({ name: "archsmith-mcp", version: packageManifest.version });
 
+  const schemaDiscoveryHint = {
+    type: "text" as const,
+    text: "Call get_schema for the full IR structural contract, and get_registry for governed vocabulary (colors, sub-layers), before retrying.",
+  };
+
+  server.registerTool(
+    "get_schema",
+    {
+      title: "Get the diagram IR JSON Schema",
+      description:
+        "Returns the ArchSmith diagram IR JSON Schema (draft 2020-12) — the structural contract a diagram IR document must satisfy. Call this, and get_registry for governed vocabulary, before authoring an IR.",
+    },
+    async () => ({ content: [{ type: "text", text: JSON.stringify(getDiagramSchema(), null, 2) }] })
+  );
+
   server.registerTool(
     "validate",
     {
       title: "Validate a diagram IR",
       description:
-        "Validates an ArchSmith diagram IR document against the schema and governed registries (sub-layers, colors). Returns { valid, errors }.",
+        "Validates an ArchSmith diagram IR document against the schema and governed registries (sub-layers, colors). Call get_schema and get_registry first to learn the required structure and governed vocabulary before authoring an IR. Returns { valid, errors }.",
       inputSchema: {
         ir: z.record(z.string(), z.unknown()).describe("The diagram IR document to validate."),
       },
     },
     async ({ ir }) => {
       const result = validate(ir);
-      return { content: [{ type: "text", text: JSON.stringify(result, null, 2) }] };
+      const resultBlock = { type: "text" as const, text: JSON.stringify(result, null, 2) };
+      return { content: result.valid ? [resultBlock] : [resultBlock, schemaDiscoveryHint] };
     }
   );
 
@@ -43,7 +59,7 @@ export function createServer(): McpServer {
     {
       title: "Render a diagram IR to SVG",
       description:
-        "Validates then renders an ArchSmith diagram IR to a complete SVG document. Fails with the validation errors (isError: true) instead of rendering if the IR is invalid — never renders broken geometry from an invalid document.",
+        "Validates then renders an ArchSmith diagram IR to a complete SVG document. Call get_schema and get_registry first to learn the required IR structure and governed vocabulary before authoring a document. Fails with the validation errors (isError: true) instead of rendering if the IR is invalid — never renders broken geometry from an invalid document.",
       inputSchema: {
         ir: z.record(z.string(), z.unknown()).describe("The diagram IR document to render."),
         embedFonts: z
@@ -57,7 +73,7 @@ export function createServer(): McpServer {
       if (!result.valid) {
         return {
           isError: true,
-          content: [{ type: "text", text: `Invalid diagram IR:\n${result.errors.join("\n")}` }],
+          content: [{ type: "text", text: `Invalid diagram IR:\n${result.errors.join("\n")}` }, schemaDiscoveryHint],
         };
       }
       const svg = render(ir as unknown as DiagramIR, { skipValidate: true, embedFonts });
@@ -84,7 +100,7 @@ export function createServer(): McpServer {
     {
       title: "Get a governed registry's contents",
       description:
-        "Returns the raw, current contents of a governed registry — the live source of truth for which colors/sub-layer types a diagram IR may use. For 'colors' specifically, pass family to get just one color family instead of the whole registry.",
+        "Returns the raw, current contents of a governed registry — the live source of truth for which colors/sub-layer types a diagram IR may use. This is governed vocabulary, not the IR's structural document contract; see get_schema for that. For 'colors' specifically, pass family to get just one color family instead of the whole registry.",
       inputSchema: {
         name: z.enum(REGISTRY_NAMES as [RegistryName, ...RegistryName[]]),
         family: z.string().optional().describe("For the 'colors' registry only: restrict to a single family, e.g. 'standard'."),
