@@ -107,6 +107,8 @@ if (result.valid) {
 
 **Resources**: `archsmith://schema` and one `archsmith://registries/<name>` per governed registry — lets an agent authoring an IR read the live, current schema/registries directly instead of working from a stale copy baked into a prompt.
 
+**Recommended authoring workflow for a connected agent:** read the schema (`get_schema`) → read the relevant registries (`get_registry`) → construct an IR → `validate` → `render`.
+
 To connect it to an MCP host (e.g. Claude Desktop's `claude_desktop_config.json`):
 
 ```json
