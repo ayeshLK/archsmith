@@ -6,6 +6,7 @@ A set of fictional, generic fixtures that exercise different architecture shapes
 
 - [Event Ticket Booking Platform — Architecture](./ticket-booking/README.md)
 - [Minimal Example — Architecture](./minimal-valid/README.md)
+- [Agent-authored Document Processing Platform — reproducible MCP-to-CI dogfood run](./agent-authored-architecture-diagram/README.md)
 
 ## Gallery Fixtures
 

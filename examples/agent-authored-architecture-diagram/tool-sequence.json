@@ -1,0 +1,207 @@
+{
+  "evidenceVersion": 1,
+  "recordedAt": "2026-08-11",
+  "host": {
+    "name": "Claude Code",
+    "version": "2.1.153",
+    "model": "claude-haiku-4-5-20251001"
+  },
+  "archsmith": {
+    "mcpPackage": "@archsmith/mcp-server@0.6.0",
+    "schemaVersion": "0.3.0",
+    "renderOption": {
+      "embedFonts": false,
+      "reason": "Published MCP 0.6.0 predates the compact-default fix from ArchSmith issue #50."
+    }
+  },
+  "privacyReview": {
+    "status": "reviewed",
+    "retained": [
+      "tool names",
+      "selected opaque tool-call ids",
+      "timestamps",
+      "non-sensitive tool arguments",
+      "success or error status"
+    ],
+    "removed": [
+      "credentials and authentication metadata",
+      "absolute host paths",
+      "system prompts and model reasoning",
+      "token and cost accounting",
+      "full schema, registry, and SVG payloads",
+      "an unrelated resume diagnostic"
+    ]
+  },
+  "events": [
+    {
+      "phase": "clarification",
+      "timestamp": "2026-08-11T16:51:10.713Z",
+      "toolCallId": "toolu_019jEUjBGVMLf48U1DESpk94",
+      "operation": "Read",
+      "input": "requirement.md",
+      "result": "success"
+    },
+    {
+      "phase": "clarification",
+      "timestamp": "2026-08-11T16:51:12.706Z",
+      "toolCallId": "toolu_012XYMQzY2p6Teb172m7xejA",
+      "operation": "get_schema",
+      "input": {},
+      "result": "success"
+    },
+    {
+      "phase": "clarification",
+      "timestamp": "2026-08-11T16:51:12.717Z",
+      "toolCallId": "toolu_01XfqACPVXxTykiWKVunDZzA",
+      "operation": "list_registries",
+      "input": {},
+      "result": "success"
+    },
+    {
+      "phase": "clarification",
+      "timestamp": "2026-08-11T16:51:15.675Z",
+      "operation": "get_registry",
+      "input": {
+        "name": "sub-layers"
+      },
+      "result": "success"
+    },
+    {
+      "phase": "clarification",
+      "timestamp": "2026-08-11T16:51:15.684Z",
+      "operation": "get_registry",
+      "input": {
+        "name": "colors",
+        "family": "standard"
+      },
+      "result": "success"
+    },
+    {
+      "phase": "clarification",
+      "timestamp": "2026-08-11T16:51:15.685Z",
+      "operation": "get_registry",
+      "input": {
+        "name": "icons"
+      },
+      "result": "success"
+    },
+    {
+      "phase": "authoring",
+      "timestamp": "2026-08-11T16:53:52.453Z",
+      "operation": "Read",
+      "input": "requirement.md",
+      "result": "success"
+    },
+    {
+      "phase": "authoring",
+      "timestamp": "2026-08-11T16:53:54.861Z",
+      "operation": "get_schema",
+      "input": {},
+      "result": "success"
+    },
+    {
+      "phase": "authoring",
+      "timestamp": "2026-08-11T16:53:54.876Z",
+      "operation": "list_registries",
+      "input": {},
+      "result": "success"
+    },
+    {
+      "phase": "authoring",
+      "timestamp": "2026-08-11T16:53:57.122Z",
+      "operation": "get_registry",
+      "input": {
+        "name": "sub-layers"
+      },
+      "result": "success"
+    },
+    {
+      "phase": "authoring",
+      "timestamp": "2026-08-11T16:53:57.475Z",
+      "operation": "get_registry",
+      "input": {
+        "name": "colors",
+        "family": "standard"
+      },
+      "result": "success"
+    },
+    {
+      "phase": "authoring",
+      "timestamp": "2026-08-11T16:53:57.484Z",
+      "operation": "get_registry",
+      "input": {
+        "name": "icons"
+      },
+      "result": "success"
+    },
+    {
+      "phase": "first-draft",
+      "timestamp": "2026-08-11T16:54:57.067Z",
+      "operation": "validate",
+      "input": "first draft",
+      "result": {
+        "valid": true,
+        "errors": []
+      }
+    },
+    {
+      "phase": "first-draft",
+      "timestamp": "2026-08-11T16:55:02.396Z",
+      "operation": "render",
+      "input": {
+        "ir": "first draft",
+        "embedFonts": false
+      },
+      "result": "success"
+    },
+    {
+      "phase": "human-review",
+      "timestamp": "2026-08-11T17:08:29.889Z",
+      "operation": "validate",
+      "input": "corrected draft",
+      "result": {
+        "valid": true,
+        "errors": []
+      }
+    },
+    {
+      "phase": "human-review",
+      "timestamp": "2026-08-11T17:08:36.492Z",
+      "operation": "render",
+      "input": {
+        "ir": "corrected draft",
+        "embedFonts": false
+      },
+      "result": "success"
+    },
+    {
+      "phase": "final-review",
+      "timestamp": "2026-08-11T17:17:33.167Z",
+      "operation": "validate",
+      "input": "final IR",
+      "result": "host reported MCP tool unavailable while the server was still connecting"
+    },
+    {
+      "phase": "final-review",
+      "timestamp": "2026-08-11T17:17:40.293Z",
+      "toolCallId": "toolu_01FtwVcoJx6VrZCwbuHUJpYw",
+      "operation": "validate",
+      "input": "diagram.archsmith.json",
+      "result": {
+        "valid": true,
+        "errors": []
+      }
+    },
+    {
+      "phase": "final-review",
+      "timestamp": "2026-08-11T17:17:42.177Z",
+      "toolCallId": "toolu_01HQhedYznWKujQBXnUFVJbB",
+      "operation": "render",
+      "input": {
+        "ir": "diagram.archsmith.json",
+        "embedFonts": false
+      },
+      "result": "success"
+    }
+  ]
+}
