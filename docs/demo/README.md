@@ -24,7 +24,7 @@ Unlike the CLI GIF, `docs/demo/record-mcp-demo.sh` doesn't run a live agent — 
 
 - `claude -p` (print mode) doesn't render tool-call activity to the terminal the way the interactive TUI does, and driving the actual interactive TUI from a non-interactive recording is unreliable (it expects a real terminal, not scripted input).
 - The real clarifying-question turn came back as 7 numbered points (schema fields the one-line prompt genuinely left open: gateway naming, `deployedOn`, sub-layers, `systemsOfRecord`, the external notification provider, actor granularity, title/subtitle). That's real and correct agent behavior, but too long to read comfortably in a 30-60s GIF — the displayed version keeps 3 representative asks and answers them together in the next line, same as the real second turn did.
-- Getting a *clean* run at all took one fix: the naive prompt made the agent call `render` with its default `embedFonts: true`, and the embedded-font SVG (65K+ characters) blew past the MCP tool-result size limit, sending the agent into a visibly messy recovery path (a failed `jq` call, two blocked `Bash` calls) trying to confirm the oversized result actually contained an SVG. Passing `embedFonts: false` avoids that entirely.
+- The original run exposed an MCP transport bug: `render` embedded fonts by default and returned the SVG twice, producing an oversized tool result and a noisy agent recovery path. The MCP server now defaults to one unembedded SVG text block, so the normal call needs no hidden workaround; font-portable output remains available with an explicit `embedFonts: true`.
 
 To capture a fresh transcript (costs real API usage — this is a live Claude Code + MCP session, not a mock; two turns, roughly $0.50 total in the original capture):
 
@@ -49,7 +49,7 @@ cd /tmp/archsmith-draft-demo && claude -p "I want an architecture diagram for a 
 
 # Turn 2: answer whatever it asked, and let it draft + validate + render.
 # --continue resumes the same session in the same cwd.
-cd /tmp/archsmith-draft-demo && claude -p --continue "<answers to whatever it asked — see turn1.jsonl>. Go ahead and draft the IR, then call validate, and once it's valid call render with embedFonts set to false. Report in 1-2 short sentences whether it validated and rendered successfully." \
+cd /tmp/archsmith-draft-demo && claude -p --continue "<answers to whatever it asked — see turn1.jsonl>. Go ahead and draft the IR, then call validate, and once it's valid call render. Report in 1-2 short sentences whether it validated and rendered successfully." \
   --mcp-config /tmp/archsmith-draft-demo/mcp-config.json --strict-mcp-config \
   --allowedTools "ListMcpResourcesTool,ReadMcpResourceTool,mcp__archsmith__list_registries,mcp__archsmith__get_registry,mcp__archsmith__validate,mcp__archsmith__render" \
   --output-format stream-json --verbose > /tmp/archsmith-draft-demo/turn2.jsonl

@@ -48,7 +48,7 @@ type_cmd 'claude -c "Postgres for orders, confirmations via SendGrid email, gene
 sleep 0.6
 
 print_step 'mcp__archsmith__validate(ir)' '{"valid": true, "errors": []}'
-print_step 'mcp__archsmith__render(embedFonts: false)' '<svg xmlns="http://www.w3.org/2000/svg" width="1916" height="715" ...>'
+print_step 'mcp__archsmith__render(ir)' '<svg xmlns="http://www.w3.org/2000/svg" width="1916" height="715" ...>'
 
 sleep 0.3
 print_line ""
