@@ -1,6 +1,6 @@
 {
   "name": "@archsmith/mcp-server",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "MCP server exposing ArchSmith's render/validate/registry lookups to any MCP-capable agent, over stdio.",
   "type": "module",
   "main": "./dist/index.js",
