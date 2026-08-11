@@ -56,6 +56,11 @@ test("validate and render tool descriptions direct agents to get_schema and get_
     assert.ok(tool?.description?.includes("get_schema"), `${name} description should mention get_schema`);
     assert.ok(tool?.description?.includes("get_registry"), `${name} description should mention get_registry`);
   }
+  const renderTool = tools.find((tool) => tool.name === "render");
+  assert.ok(renderTool?.description?.includes("defaults to false"));
+  assert.ok(
+    ((renderTool?.inputSchema as any).properties.embedFonts.description as string).includes("Default: false")
+  );
 });
 
 test("lists the schema resource plus one resource per registry", async () => {
@@ -91,17 +96,34 @@ test("validate tool reports a broken IR as invalid, with the real error and a ge
   assert.ok(result.content[1].text.includes("get_schema"));
 });
 
-test("render tool returns SVG as both text and an image content block", async () => {
+test("render tool returns one compact SVG text block by default", async () => {
   const client = await connectedClient();
   const ir = loadFixture("minimal-valid/diagram.archsmith.json");
   const result = (await client.callTool({ name: "render", arguments: { ir } })) as any;
   assert.equal(result.isError, undefined);
   const svg = textOf(result);
   assert.ok(svg.startsWith("<svg"));
-  const image = result.content.find((c: any) => c.type === "image");
-  assert.ok(image, "expected an image content block");
-  assert.equal(image.mimeType, "image/svg+xml");
-  assert.equal(Buffer.from(image.data, "base64").toString("utf-8"), svg);
+  assert.ok(!svg.includes("@font-face"));
+  assert.equal(result.content.length, 1);
+});
+
+test("render tool honors explicit font embedding opt-in and opt-out", async () => {
+  const client = await connectedClient();
+  const ir = loadFixture("minimal-valid/diagram.archsmith.json");
+  const embedded = (await client.callTool({ name: "render", arguments: { ir, embedFonts: true } })) as any;
+  const unembedded = (await client.callTool({ name: "render", arguments: { ir, embedFonts: false } })) as any;
+  assert.ok(textOf(embedded).includes("@font-face"));
+  assert.ok(!textOf(unembedded).includes("@font-face"));
+  assert.equal(embedded.content.length, 1);
+  assert.equal(unembedded.content.length, 1);
+});
+
+test("default full-featured render stays below the compact MCP response budget", async () => {
+  const client = await connectedClient();
+  const ir = loadFixture("ticket-booking/diagram.archsmith.json");
+  const result = await client.callTool({ name: "render", arguments: { ir } });
+  const jsonRpcResponse = JSON.stringify({ jsonrpc: "2.0", id: 1, result });
+  assert.ok(Buffer.byteLength(jsonRpcResponse) < 30_000, `response was ${Buffer.byteLength(jsonRpcResponse)} bytes`);
 });
 
 test("render tool refuses to render an invalid IR, returning isError and a get_schema hint instead of broken SVG", async () => {

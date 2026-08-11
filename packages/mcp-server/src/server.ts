@@ -59,13 +59,13 @@ export function createServer(): McpServer {
     {
       title: "Render a diagram IR to SVG",
       description:
-        "Validates then renders an ArchSmith diagram IR to a complete SVG document. Call get_schema and get_registry first to learn the required IR structure and governed vocabulary before authoring a document. Fails with the validation errors (isError: true) instead of rendering if the IR is invalid — never renders broken geometry from an invalid document.",
+        "Validates then renders an ArchSmith diagram IR to a complete SVG document returned as one text content block. Call get_schema and get_registry first to learn the required IR structure and governed vocabulary before authoring a document. Font embedding defaults to false to keep MCP responses compact; opt in only when the SVG must render portably without installed fonts. Fails with the validation errors (isError: true) instead of rendering if the IR is invalid — never renders broken geometry from an invalid document.",
       inputSchema: {
         ir: z.record(z.string(), z.unknown()).describe("The diagram IR document to render."),
         embedFonts: z
           .boolean()
           .optional()
-          .describe("Embed the bundled Arimo font in the output SVG so it renders identically everywhere. Default: true."),
+          .describe("Embed the bundled Arimo font for portable rendering. This adds about 40 KB to the SVG. Default: false."),
       },
     },
     async ({ ir, embedFonts }) => {
@@ -76,13 +76,8 @@ export function createServer(): McpServer {
           content: [{ type: "text", text: `Invalid diagram IR:\n${result.errors.join("\n")}` }, schemaDiscoveryHint],
         };
       }
-      const svg = render(ir as unknown as DiagramIR, { skipValidate: true, embedFonts });
-      return {
-        content: [
-          { type: "text", text: svg },
-          { type: "image", data: Buffer.from(svg, "utf-8").toString("base64"), mimeType: "image/svg+xml" },
-        ],
-      };
+      const svg = render(ir as unknown as DiagramIR, { skipValidate: true, embedFonts: embedFonts ?? false });
+      return { content: [{ type: "text", text: svg }] };
     }
   );
 

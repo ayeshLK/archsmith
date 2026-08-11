@@ -21,7 +21,22 @@ Point the host at the built entrypoint, e.g. in Claude Desktop's `claude_desktop
 
 ## Tools
 
-`get_schema`, `render`, `validate`, `list_registries`, `get_registry` — mirror the CLI's own commands (same validate-before-render behavior, same `family` filter on `get_registry`). `render` returns the SVG as both plain text and an `image/svg+xml` content block, so a client that renders arbitrary image mime types can show the diagram inline.
+`get_schema`, `render`, `validate`, `list_registries`, `get_registry` — mirror the CLI's own commands (same validate-before-render behavior, same `family` filter on `get_registry`). `render` returns the complete SVG as one text content block. It defaults to `embedFonts: false` so the normal agent workflow stays compact; pass `embedFonts: true` deliberately when the exported SVG must include the bundled Arimo font and render identically without installed fonts. The renderer library and CLI still embed fonts by default.
+
+### Render response sizes
+
+Measured against the current fixtures as UTF-8 bytes, including a serialized JSON-RPC `{ jsonrpc, id, result }` response envelope:
+
+| Fixture | Fonts | SVG | MCP response |
+|---|---:|---:|---:|
+| `minimal-valid` | omitted (default) | 9,014 B | 9,989 B |
+| `minimal-valid` | embedded | 48,849 B | 49,825 B |
+| `ticket-booking` | omitted (default) | 23,441 B | 25,639 B |
+| `ticket-booking` | embedded | 63,276 B | 65,475 B |
+
+Before this contract changed, the server returned both SVG text and a base64 image block and embedded fonts by default. That made the `ticket-booking` response 149,897 B. The server now avoids duplicate payloads and keeps font embedding as an explicit portability tradeoff instead of hard-coding a particular client's result-size limit.
+
+Real-host smoke test: Claude Code 2.1.153 with Claude Haiku 4.5 successfully rendered the full `ticket-booking` fixture through the stdio MCP server with `embedFonts` omitted. It received the SVG without an embedded `@font-face`.
 
 `get_schema` returns the diagram IR JSON Schema — the same document as the `archsmith://schema` resource below, but as a tool the connected model can call on its own initiative before authoring an IR, rather than depending on the host client to surface a resource. `validate` and `render` name it (and `get_registry`) in their own descriptions, and again in their response content whenever the IR turns out to be invalid.
 
