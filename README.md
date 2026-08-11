@@ -109,6 +109,8 @@ if (result.valid) {
 
 **Recommended authoring workflow for a connected agent:** read the schema (`get_schema`) → read the relevant registries (`get_registry`) → construct an IR → `validate` → `render`.
 
+For an inspectable real run of that complete workflow—including the original plain-English requirement, clarification exchange, published MCP configuration, privacy-reviewed tool sequence, final IR/SVG, and a published-action CI consumer—see the [agent-authored architecture diagram example](examples/agent-authored-architecture-diagram/README.md).
+
 To connect it to an MCP host (e.g. Claude Desktop's `claude_desktop_config.json`):
 
 ```json
@@ -140,6 +142,8 @@ Working from a clone instead (e.g. to test a local change)? Point at the built e
 </p>
 
 <p align="center"><sub>Because the schema and registries are themselves MCP resources (not a copy baked into a prompt), an agent can turn a plain-English requirement straight into IR — reading them live, asking about whatever the description leaves ambiguous, then calling <code>validate</code> and <code>render</code> once it has enough to draft a schema-conformant document. No archsmith-side LLM call involved: the interpretation happens in the connected agent, archsmith stays a deterministic renderer.</sub></p>
+
+The GIF is a condensed presentation. The [agent-authored example](examples/agent-authored-architecture-diagram/README.md) is the reproducible, inspectable evidence; any edited demo derived from such a run should link back to its retained artifacts.
 
 ## The IR shape
 

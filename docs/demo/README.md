@@ -20,6 +20,8 @@ agg --font-size 18 --theme monokai --idle-time-limit 2 /tmp/archsmith-demo/cli-d
 
 Shown in the "MCP server" section. Demonstrates the thing the schema/registries-as-MCP-resources design actually enables: a user describes an architecture in plain English, the agent reads the live schema + registries, asks about whatever the description leaves ambiguous relative to what the schema requires, then drafts an IR, `validate`s it, and `render`s it — all over MCP, no archsmith-side LLM call.
 
+This GIF remains a condensed presentation, not the source of truth for a reproducible run. The separately recorded [`examples/agent-authored-architecture-diagram/`](../../examples/agent-authored-architecture-diagram/README.md) artifact retains its requirement, clarification and review turns, pinned host/package configuration, privacy-reviewed tool sequence, final IR/SVG, and consumer CI workflow. The current GIF predates that artifact and is not presented as a replay of it.
+
 Unlike the CLI GIF, `docs/demo/record-mcp-demo.sh` doesn't run a live agent — it replays a **fixed, real transcript** (condensed for length, but not fabricated — see below) as typed-out terminal lines. Three things forced that:
 
 - `claude -p` (print mode) doesn't render tool-call activity to the terminal the way the interactive TUI does, and driving the actual interactive TUI from a non-interactive recording is unreliable (it expects a real terminal, not scripted input).

@@ -1,0 +1,131 @@
+{
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.0/diagram-schema.json",
+  "schemaVersion": "0.3.0",
+  "title": "Document Processing Platform — Architecture",
+  "subtitle": "Agent-authored example from a fictional plain-English requirement",
+  "colorTheme": {
+    "family": "standard"
+  },
+  "columns": {
+    "inboundActors": {
+      "items": [
+        {
+          "title": "Employee Web App",
+          "eyebrow": "Internal Browser SPA",
+          "dotColor": "green",
+          "descriptionLines": [
+            "Employee document upload interface"
+          ]
+        }
+      ]
+    },
+    "ingress": {
+      "gateway": {
+        "label": "API Gateway"
+      }
+    },
+    "corePlatform": {
+      "deployedOn": "Managed Application Runtime",
+      "subLayers": [
+        {
+          "registryId": "execution-and-capability",
+          "rows": [
+            [
+              {
+                "title": "Document Intake Service",
+                "dotColor": "green",
+                "descriptionLines": [
+                  "Receives document uploads"
+                ]
+              },
+              {
+                "title": "Malware Scan Coordinator",
+                "dotColor": "green",
+                "descriptionLines": [
+                  "Coordinates malware scanning"
+                ]
+              },
+              {
+                "title": "Metadata Extraction Service",
+                "dotColor": "green",
+                "descriptionLines": [
+                  "Extracts document metadata"
+                ]
+              }
+            ]
+          ]
+        }
+      ],
+      "systemsOfRecord": {
+        "items": [
+          {
+            "title": "Document Object Store",
+            "dotColor": "amber",
+            "descriptionLines": [
+              "Persists original documents"
+            ]
+          },
+          {
+            "title": "Metadata Database",
+            "dotColor": "amber",
+            "descriptionLines": [
+              "Persists extracted metadata"
+            ]
+          }
+        ]
+      }
+    },
+    "egress": {
+      "gateway": {
+        "label": "API Gateway"
+      }
+    },
+    "externalSystems": {
+      "clusters": [
+        {
+          "name": "Notification Services",
+          "items": [
+            {
+              "title": "Notification Delivery Service",
+              "dotColor": "mint",
+              "descriptionLines": [
+                "Sends status email notifications"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Malware Scanning",
+          "items": [
+            {
+              "title": "Malware Scanning Service",
+              "dotColor": "mint",
+              "descriptionLines": [
+                "Scans uploaded documents for malware"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "legend": {
+    "entries": [
+      {
+        "colorToken": "green",
+        "label": "Execution and Capability"
+      },
+      {
+        "colorToken": "amber",
+        "label": "Systems of Record"
+      },
+      {
+        "colorToken": "mint",
+        "label": "External Services"
+      }
+    ]
+  },
+  "notes": [
+    "Fictional example produced by the recorded agent and ArchSmith MCP workflow."
+  ]
+}
