@@ -65,7 +65,9 @@ export function createServer(): McpServer {
         embedFonts: z
           .boolean()
           .optional()
-          .describe("Embed the bundled Arimo font for portable rendering. This adds about 40 KB to the SVG. Default: false."),
+          .describe(
+            "Embed the bundled Arimo font for portable rendering, subset to just the glyphs this diagram's text needs. Default: false."
+          ),
       },
     },
     async ({ ir, embedFonts }) => {

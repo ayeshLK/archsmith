@@ -21,7 +21,7 @@ Point the host at the built entrypoint, e.g. in Claude Desktop's `claude_desktop
 
 ## Tools
 
-`get_schema`, `render`, `validate`, `list_registries`, `get_registry` — mirror the CLI's own commands (same validate-before-render behavior, same `family` filter on `get_registry`). `render` returns the complete SVG as one text content block. It defaults to `embedFonts: false` so the normal agent workflow stays compact; pass `embedFonts: true` deliberately when the exported SVG must include the bundled Arimo font and render identically without installed fonts. The renderer library and CLI still embed fonts by default.
+`get_schema`, `render`, `validate`, `list_registries`, `get_registry` — mirror the CLI's own commands (same validate-before-render behavior, same `family` filter on `get_registry`). `render` returns the complete SVG as one text content block. It defaults to `embedFonts: false` so the normal agent workflow stays compact; pass `embedFonts: true` deliberately when the exported SVG must include the bundled Arimo font and render identically without installed fonts. The embedded font is subset to just the glyphs that diagram's own text needs (see issue #55) rather than the whole font, so its size scales with the diagram instead of a fixed cost. The renderer library and CLI still embed fonts by default.
 
 ### Render response sizes
 
@@ -30,11 +30,15 @@ Measured against the current fixtures as UTF-8 bytes, including a serialized JSO
 | Fixture | Fonts | SVG | MCP response |
 |---|---:|---:|---:|
 | `minimal-valid` | omitted (default) | 9,014 B | 9,989 B |
-| `minimal-valid` | embedded | 48,849 B | 49,825 B |
+| `minimal-valid` | embedded (subset) | 22,313 B | 23,289 B |
+| `simple-3-tier-web-app` | omitted (default) | 12,555 B | 13,857 B |
+| `simple-3-tier-web-app` | embedded (subset) | 26,130 B | 27,433 B |
 | `ticket-booking` | omitted (default) | 23,441 B | 25,639 B |
-| `ticket-booking` | embedded | 63,276 B | 65,475 B |
+| `ticket-booking` | embedded (subset) | 38,328 B | 40,527 B |
 
-Before this contract changed, the server returned both SVG text and a base64 image block and embedded fonts by default. That made the `ticket-booking` response 149,897 B. The server now avoids duplicate payloads and keeps font embedding as an explicit portability tradeoff instead of hard-coding a particular client's result-size limit.
+Before subsetting, embedding cost a fixed ~40 KB regardless of fixture (two complete font weights) — enough to exceed common MCP client result limits even on a modest, everyday diagram like `simple-3-tier-web-app`, not just a maximal one (issue #55). Subsetting to each diagram's own text cuts that by roughly 40-55%, scaling with content instead of being a flat tax.
+
+Before the response-shape fix in #50, the server also returned both SVG text and a duplicate base64 image block and embedded fonts by default; that made the `ticket-booking` response 149,897 B. The server now avoids duplicate payloads and keeps font embedding as an explicit, size-proportional portability tradeoff instead of hard-coding a particular client's result-size limit.
 
 Real-host smoke test: Claude Code 2.1.153 with Claude Haiku 4.5 successfully rendered the full `ticket-booking` fixture through the stdio MCP server with `embedFonts` omitted. It received the SVG without an embedded `@font-face`.
 
