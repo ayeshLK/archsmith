@@ -31,6 +31,7 @@ export interface SubLayerInstanceIR {
 }
 
 export interface SystemsOfRecordSectionIR {
+  registryId: string;
   tagOverride?: string | null;
   items: ItemIR[];
 }

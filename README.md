@@ -147,14 +147,14 @@ The GIF is a condensed presentation. The [agent-authored example](examples/agent
 
 ## The IR shape
 
-An IR document is a JSON object with five columns, a legend, and optional notes. The schema is published at [`schema/latest/diagram-schema.json`](https://ayeshlk.github.io/archsmith/schema/latest/diagram-schema.json), with immutable versioned copies such as [`schema/0.3.1/diagram-schema.json`](https://ayeshlk.github.io/archsmith/schema/0.3.1/diagram-schema.json). Use a versioned URL in committed documents for reproducible editor validation; the `latest` URL is intended for tooling that should follow the newest schema.
+An IR document is a JSON object with five columns, a legend, and optional notes. The schema is published at [`schema/latest/diagram-schema.json`](https://ayeshlk.github.io/archsmith/schema/latest/diagram-schema.json), with immutable versioned copies such as [`schema/0.3.2/diagram-schema.json`](https://ayeshlk.github.io/archsmith/schema/0.3.2/diagram-schema.json). Use a versioned URL in committed documents for reproducible editor validation; the `latest` URL is intended for tooling that should follow the newest schema.
 
 This is the actual minimal valid fixture from `examples/`:
 
 ```json
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.1/diagram-schema.json",
-  "schemaVersion": "0.3.1",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.2/diagram-schema.json",
+  "schemaVersion": "0.3.2",
   "title": "Minimal Example — Architecture",
   "subtitle": "A minimal fixture proving the validation pipeline end to end",
   "colorTheme": { "family": "standard" },
@@ -170,7 +170,7 @@ This is the actual minimal valid fixture from `examples/`:
       "subLayers": [
         { "registryId": "execution-and-capability", "rows": [[{ "title": "Backend Service", "descriptionLines": ["REST APIs"] }]] }
       ],
-      "systemsOfRecord": { "items": [{ "title": "Primary DB", "descriptionLines": ["PostgreSQL"] }] }
+      "systemsOfRecord": { "registryId": "systems-of-record", "items": [{ "title": "Primary DB", "descriptionLines": ["PostgreSQL"] }] }
     },
     "egress": { "gateway": { "label": "API Gateway", "sublabel": "Outbound M2M" } },
     "externalSystems": {

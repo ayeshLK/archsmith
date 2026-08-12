@@ -1,6 +1,6 @@
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.1/diagram-schema.json",
-  "schemaVersion": "0.3.1",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.2/diagram-schema.json",
+  "schemaVersion": "0.3.2",
   "title": "Broken Example — missing required subtitle",
   "colorTheme": { "family": "standard" },
   "columns": {
@@ -11,7 +11,7 @@
       "subLayers": [
         { "registryId": "execution-and-capability", "rows": [[{ "title": "Backend" }]] }
       ],
-      "systemsOfRecord": { "items": [{ "title": "DB" }] }
+      "systemsOfRecord": { "registryId": "systems-of-record", "items": [{ "title": "DB" }] }
     },
     "egress": { "gateway": { "label": "API Gateway" } },
     "externalSystems": {

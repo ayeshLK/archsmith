@@ -50,6 +50,22 @@ test("embedFonts: false opts out of the embedded font, producing a smaller SVG w
   assert.ok(golden.length > svg.length);
 });
 
+test("corePlatform.systemsOfRecord.registryId genuinely drives the styling lookup, not just a decorative field (issue #57)", () => {
+  // Confirms the field is wired to the actual render, not merely validated
+  // and ignored: pointing it at a different real registry entry (bypassing
+  // validation, which would normally reject this) changes the rendered
+  // accent color/tag to that entry's, proving corePlatform.ts reads
+  // core.systemsOfRecord.registryId rather than a hardcoded literal.
+  const ir = loadFixture("minimal-valid/diagram.archsmith.json") as DiagramIR;
+  const defaultSvg = render(ir, { skipValidate: true, embedFonts: false });
+  assert.ok(defaultSvg.includes("SYSTEMS OF RECORD"));
+
+  ir.columns.corePlatform.systemsOfRecord.registryId = "entity-layer";
+  const retitledSvg = render(ir, { skipValidate: true, embedFonts: false });
+  assert.ok(retitledSvg.includes("ENTITY LAYER"), "expected the section label to follow the registryId to entity-layer");
+  assert.ok(!retitledSvg.includes("SYSTEMS OF RECORD"));
+});
+
 function extractEmbeddedRegularFont(svg: string): Font {
   const match = svg.match(/@font-face\{font-family:'Arimo';src:url\(data:font\/woff;base64,([^)]+)\) format\('woff'\);font-weight:400;/);
   assert.ok(match, "expected an embedded regular-weight @font-face");

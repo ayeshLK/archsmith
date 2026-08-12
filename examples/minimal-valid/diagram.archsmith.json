@@ -1,6 +1,6 @@
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.1/diagram-schema.json",
-  "schemaVersion": "0.3.1",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.2/diagram-schema.json",
+  "schemaVersion": "0.3.2",
   "title": "Minimal Example — Architecture",
   "subtitle": "A minimal fixture proving the validation pipeline end to end",
   "colorTheme": { "family": "standard" },
@@ -24,6 +24,7 @@
         }
       ],
       "systemsOfRecord": {
+        "registryId": "systems-of-record",
         "items": [
           { "title": "Primary DB", "descriptionLines": ["PostgreSQL"] }
         ]
