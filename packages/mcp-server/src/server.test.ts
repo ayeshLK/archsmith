@@ -126,6 +126,28 @@ test("default full-featured render stays below the compact MCP response budget",
   assert.ok(Buffer.byteLength(jsonRpcResponse) < 30_000, `response was ${Buffer.byteLength(jsonRpcResponse)} bytes`);
 });
 
+test("embedFonts: true costs a fixed ~40KB even on a modest, everyday fixture — not just a maximal stress case", async () => {
+  // Issue #55: the font-embedding tax is a fixed cost (two base64 font
+  // weights spliced in), not proportional to diagram content, so it blows
+  // past the compact-path budget even for a fixture far smaller than
+  // ticket-booking. This pins the known cost as a regression guard — the
+  // point isn't to keep this under budget (embedding is an intentional,
+  // documented trade-off), it's to catch the cost silently growing further
+  // (e.g. an extra font weight, or the pre-#50 dual-block response
+  // reappearing).
+  const client = await connectedClient();
+  const ir = loadFixture("simple-3-tier-web-app/diagram.archsmith.json");
+  const compact = await client.callTool({ name: "render", arguments: { ir } });
+  const embedded = await client.callTool({ name: "render", arguments: { ir, embedFonts: true } });
+  const compactBytes = Buffer.byteLength(JSON.stringify({ jsonrpc: "2.0", id: 1, result: compact }));
+  const embeddedBytes = Buffer.byteLength(JSON.stringify({ jsonrpc: "2.0", id: 1, result: embedded }));
+  assert.ok(compactBytes < 30_000, `compact response was ${compactBytes} bytes`);
+  assert.ok(
+    embeddedBytes > compactBytes + 35_000 && embeddedBytes < compactBytes + 45_000,
+    `expected the embedded response to cost ~40KB more than compact (${compactBytes}); got ${embeddedBytes}`
+  );
+});
+
 test("render tool refuses to render an invalid IR, returning isError and a get_schema hint instead of broken SVG", async () => {
   const client = await connectedClient();
   const ir = loadFixture("broken-examples/unknown-registry-id.archsmith.json");
