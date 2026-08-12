@@ -1,6 +1,6 @@
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.2/diagram-schema.json",
-  "schemaVersion": "0.3.2",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.3/diagram-schema.json",
+  "schemaVersion": "0.3.3",
   "title": "Minimal Example — Architecture",
   "subtitle": "A minimal fixture proving the validation pipeline end to end",
   "colorTheme": { "family": "standard" },

@@ -1,6 +1,6 @@
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.2/diagram-schema.json",
-  "schemaVersion": "0.3.2",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.3/diagram-schema.json",
+  "schemaVersion": "0.3.3",
   "title": "Order Fulfillment Event Platform — Architecture",
   "subtitle": "Pub/sub-heavy backend with multiple async workers and downstream consumers",
   "colorTheme": { "family": "standard" },
