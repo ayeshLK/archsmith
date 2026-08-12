@@ -1,8 +1,10 @@
 import { readFileSync } from "node:fs";
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { McpError } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 import { render, validate, type DiagramIR } from "@archsmith/renderer";
 import { getDiagramSchema, getRegistry, listRegistryNames, type RegistryName } from "@archsmith/schema";
+import { saveRender, getRender, INLINE_THRESHOLD_BYTES } from "./renderStore.js";
 
 // Sibling of @archsmith/cli, not a wrapper around it: both import
 // @archsmith/renderer/@archsmith/schema directly and call render()/
@@ -59,7 +61,7 @@ export function createServer(): McpServer {
     {
       title: "Render a diagram IR to SVG",
       description:
-        "Validates then renders an ArchSmith diagram IR to a complete SVG document returned as one text content block. Call get_schema and get_registry first to learn the required IR structure and governed vocabulary before authoring a document. Font embedding defaults to false to keep MCP responses compact; only opt in if the SVG must render portably without installed fonts — embedding adds a font subset sized to this diagram's own text, not a fixed cost, but it's still an added cost worth opting into deliberately. Fails with the validation errors (isError: true) instead of rendering if the IR is invalid — never renders broken geometry from an invalid document.",
+        `Validates then renders an ArchSmith diagram IR to a complete SVG document. Call get_schema and get_registry first to learn the required IR structure and governed vocabulary before authoring a document. Font embedding defaults to false to keep MCP responses compact; only opt in if the SVG must render portably without installed fonts — embedding adds a font subset sized to this diagram's own text, not a fixed cost, but it's still an added cost worth opting into deliberately. A render under ${INLINE_THRESHOLD_BYTES.toLocaleString()} bytes is returned as one text content block; a larger one (e.g. a big diagram, or embedFonts:true on one) is returned as a resource_link instead, fetchable via resources/read, so the tool result itself never grows unbounded. Fails with the validation errors (isError: true) instead of rendering if the IR is invalid — never renders broken geometry from an invalid document.`,
       inputSchema: {
         ir: z.record(z.string(), z.unknown()).describe("The diagram IR document to render."),
         embedFonts: z
@@ -79,7 +81,24 @@ export function createServer(): McpServer {
         };
       }
       const svg = render(ir as unknown as DiagramIR, { skipValidate: true, embedFonts: embedFonts ?? false });
-      return { content: [{ type: "text", text: svg }] };
+      const svgBytes = Buffer.byteLength(svg, "utf-8");
+      if (svgBytes <= INLINE_THRESHOLD_BYTES) {
+        return { content: [{ type: "text", text: svg }] };
+      }
+      const id = saveRender(svg);
+      return {
+        content: [
+          {
+            type: "resource_link",
+            uri: `archsmith://render/${id}`,
+            name: "diagram.svg",
+            mimeType: "image/svg+xml",
+            size: svgBytes,
+            description: `Rendered diagram SVG (${svgBytes.toLocaleString()} bytes) — too large to inline in the tool result; fetch via resources/read.`,
+            annotations: { audience: ["user"] },
+          },
+        ],
+      };
     }
   );
 
@@ -152,6 +171,24 @@ export function createServer(): McpServer {
       })
     );
   }
+
+  server.registerResource(
+    "rendered-diagram",
+    new ResourceTemplate("archsmith://render/{id}", { list: undefined }),
+    {
+      title: "Rendered diagram SVG",
+      description: "A diagram render too large to inline in the render tool's own result. See renderStore.ts — bounded, not persisted across server restarts.",
+      mimeType: "image/svg+xml",
+    },
+    async (uri, { id }) => {
+      const renderId = Array.isArray(id) ? id[0] : id;
+      const svg = getRender(renderId);
+      if (svg === undefined) {
+        throw new McpError(-32002, "Resource not found", { uri: uri.href });
+      }
+      return { contents: [{ uri: uri.href, mimeType: "image/svg+xml", text: svg }] };
+    }
+  );
 
   return server;
 }
