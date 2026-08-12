@@ -1,6 +1,6 @@
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.0/diagram-schema.json",
-  "schemaVersion": "0.3.0",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.1/diagram-schema.json",
+  "schemaVersion": "0.3.1",
   "title": "Compliance Oversight Platform — Architecture",
   "subtitle": "Dense controls, long names, and many pills to stress wrapping and tag rendering",
   "colorTheme": { "family": "standard" },

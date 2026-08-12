@@ -29,8 +29,8 @@ Use the stable, versioned schema URL in an ArchSmith document to enable JSON aut
 
 ```json
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.0/diagram-schema.json",
-  "schemaVersion": "0.3.0"
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.1/diagram-schema.json",
+  "schemaVersion": "0.3.1"
 }
 ```
 

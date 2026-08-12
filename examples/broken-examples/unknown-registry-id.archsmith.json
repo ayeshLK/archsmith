@@ -1,6 +1,6 @@
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.0/diagram-schema.json",
-  "schemaVersion": "0.3.0",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.1/diagram-schema.json",
+  "schemaVersion": "0.3.1",
   "title": "Broken Example — unknown sub-layer registryId",
   "subtitle": "Should fail semantic validation, not structural",
   "colorTheme": { "family": "standard" },
