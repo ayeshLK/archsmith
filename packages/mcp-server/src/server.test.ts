@@ -126,15 +126,16 @@ test("default full-featured render stays below the compact MCP response budget",
   assert.ok(Buffer.byteLength(jsonRpcResponse) < 30_000, `response was ${Buffer.byteLength(jsonRpcResponse)} bytes`);
 });
 
-test("embedFonts: true costs a fixed ~40KB even on a modest, everyday fixture — not just a maximal stress case", async () => {
-  // Issue #55: the font-embedding tax is a fixed cost (two base64 font
-  // weights spliced in), not proportional to diagram content, so it blows
-  // past the compact-path budget even for a fixture far smaller than
-  // ticket-booking. This pins the known cost as a regression guard — the
-  // point isn't to keep this under budget (embedding is an intentional,
-  // documented trade-off), it's to catch the cost silently growing further
-  // (e.g. an extra font weight, or the pre-#50 dual-block response
-  // reappearing).
+test("embedFonts: true now costs proportionally less than the old fixed ~40KB, even on a modest fixture (issue #55)", async () => {
+  // Issue #55 originally found the font-embedding tax was a fixed cost
+  // (two complete base64 font weights spliced in) regardless of diagram
+  // content, blowing past the compact-path budget even for a fixture far
+  // smaller than ticket-booking. @archsmith/renderer now subsets the
+  // embedded font to just the glyphs this diagram's text needs, so the
+  // added cost scales with content instead of being a flat ~40KB tax.
+  // This asserts the fix actually holds for a representative fixture, and
+  // guards against the subsetting silently regressing back to full-font
+  // embedding (which would blow the delta back out to ~40KB).
   const client = await connectedClient();
   const ir = loadFixture("simple-3-tier-web-app/diagram.archsmith.json");
   const compact = await client.callTool({ name: "render", arguments: { ir } });
@@ -142,10 +143,9 @@ test("embedFonts: true costs a fixed ~40KB even on a modest, everyday fixture �
   const compactBytes = Buffer.byteLength(JSON.stringify({ jsonrpc: "2.0", id: 1, result: compact }));
   const embeddedBytes = Buffer.byteLength(JSON.stringify({ jsonrpc: "2.0", id: 1, result: embedded }));
   assert.ok(compactBytes < 30_000, `compact response was ${compactBytes} bytes`);
-  assert.ok(
-    embeddedBytes > compactBytes + 35_000 && embeddedBytes < compactBytes + 45_000,
-    `expected the embedded response to cost ~40KB more than compact (${compactBytes}); got ${embeddedBytes}`
-  );
+  assert.ok(embeddedBytes < 30_000, `expected embedding to stay compact on this fixture after subsetting; got ${embeddedBytes} bytes`);
+  const delta = embeddedBytes - compactBytes;
+  assert.ok(delta < 20_000, `expected the subset font's added cost to be well under the old fixed ~40KB tax; got ${delta} bytes`);
 });
 
 test("render tool refuses to render an invalid IR, returning isError and a get_schema hint instead of broken SVG", async () => {

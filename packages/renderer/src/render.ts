@@ -37,10 +37,12 @@ export interface RenderOptions {
    * layout function) instead of one clear, upfront error. */
   skipValidate?: boolean;
   /** Embeds the bundled Arimo font (the same one text is measured against)
-   * into the output SVG as a base64 @font-face. On by default — this is
-   * the actual fix for the measure-vs-render font mismatch that motivated
-   * this project's TypeScript rewrite; opt out only if a caller has its
-   * own font pipeline or genuinely needs a smaller file. */
+   * into the output SVG as a base64 @font-face, subset to the glyphs this
+   * diagram's own text actually needs (see embedFonts.ts/subsetFont.ts).
+   * On by default — this is the actual fix for the measure-vs-render font
+   * mismatch that motivated this project's TypeScript rewrite; opt out
+   * only if a caller has its own font pipeline or genuinely needs a
+   * smaller file. */
   embedFonts?: boolean;
 }
 
@@ -136,5 +138,16 @@ export function render(ir: DiagramIR, opts: RenderOptions = {}): string {
   ];
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${canvasW}" height="${canvasH}" viewBox="0 0 ${canvasW} ${canvasH}">\n${serializeNodes(allNodes)}\n</svg>`;
-  return opts.embedFonts ?? true ? embedFontsInSvg(svg) : svg;
+  if (!(opts.embedFonts ?? true)) return svg;
+
+  // Every rendered character comes from primitives.ts's text() (the only
+  // place that creates a "text" node), so this is the complete, correct
+  // set of glyphs this specific diagram needs — collected from the actual
+  // node data rather than re-parsing the serialized string, consistent
+  // with nodes being the source of truth until serialization.
+  const renderedText = allNodes
+    .filter((node) => node.tag === "text" && node.text !== undefined)
+    .map((node) => node.text)
+    .join(" ");
+  return embedFontsInSvg(svg, renderedText);
 }

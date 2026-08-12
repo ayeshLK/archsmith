@@ -15,7 +15,7 @@ if (result.valid) {
 }
 ```
 
-`render()` validates the IR itself before rendering (pass `{ skipValidate: true }` to skip, e.g. if you've already validated). By default it embeds the bundled Arimo font into the output SVG so a diagram renders identically regardless of what's installed on the machine viewing it — pass `{ embedFonts: false }` to skip that and get a smaller file.
+`render()` validates the IR itself before rendering (pass `{ skipValidate: true }` to skip, e.g. if you've already validated). By default it embeds the bundled Arimo font into the output SVG so a diagram renders identically regardless of what's installed on the machine viewing it — subset to just the glyphs that diagram's own text needs, not the whole font, so the size added scales with the diagram rather than a fixed cost. Pass `{ embedFonts: false }` to skip embedding entirely and get a smaller file still.
 
 ## What's in here
 
