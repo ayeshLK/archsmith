@@ -1,5 +1,17 @@
 # @archsmith/cli
 
+## 0.6.1
+
+### Patch Changes
+
+- Updated dependencies [a69a384]
+- Updated dependencies [5dc31e1]
+- Updated dependencies [9b3203f]
+- Updated dependencies [4e45a4e]
+- Updated dependencies [4e45a4e]
+  - @archsmith/schema@0.7.0
+  - @archsmith/renderer@0.7.0
+
 ## 0.6.0
 
 ### Minor Changes
