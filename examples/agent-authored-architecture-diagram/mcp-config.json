@@ -2,7 +2,7 @@
   "mcpServers": {
     "archsmith": {
       "command": "npx",
-      "args": ["-y", "@archsmith/mcp-server@0.6.0"]
+      "args": ["-y", "@archsmith/mcp-server@0.6.1"]
     }
   }
 }

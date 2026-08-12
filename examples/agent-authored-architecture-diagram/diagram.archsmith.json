@@ -11,11 +11,11 @@
       "items": [
         {
           "title": "Employee Web App",
-          "eyebrow": "Internal Browser SPA",
-          "dotColor": "green",
           "descriptionLines": [
-            "Employee document upload interface"
-          ]
+            "Internal browser SPA",
+            "for document uploads"
+          ],
+          "dotColor": "green"
         }
       ]
     },
@@ -33,23 +33,27 @@
             [
               {
                 "title": "Document Intake Service",
-                "dotColor": "green",
                 "descriptionLines": [
-                  "Receives document uploads"
+                  "Receives and accepts",
+                  "document uploads"
                 ]
-              },
+              }
+            ],
+            [
               {
                 "title": "Malware Scan Coordinator",
-                "dotColor": "green",
                 "descriptionLines": [
-                  "Coordinates malware scanning"
+                  "Coordinates external",
+                  "malware scanning"
                 ]
-              },
+              }
+            ],
+            [
               {
                 "title": "Metadata Extraction Service",
-                "dotColor": "green",
                 "descriptionLines": [
-                  "Extracts document metadata"
+                  "Extracts metadata",
+                  "from documents"
                 ]
               }
             ]
@@ -60,16 +64,16 @@
         "items": [
           {
             "title": "Document Object Store",
-            "dotColor": "amber",
             "descriptionLines": [
-              "Persists original documents"
+              "Stores original",
+              "documents"
             ]
           },
           {
             "title": "Metadata Database",
-            "dotColor": "amber",
             "descriptionLines": [
-              "Persists extracted metadata"
+              "Stores extracted",
+              "document metadata"
             ]
           }
         ]
@@ -83,25 +87,25 @@
     "externalSystems": {
       "clusters": [
         {
-          "name": "Notification Services",
+          "name": "Security Services",
           "items": [
             {
-              "title": "Notification Delivery Service",
-              "dotColor": "mint",
+              "title": "Malware Scanning Service",
               "descriptionLines": [
-                "Sends status email notifications"
+                "External malware",
+                "scanning capability"
               ]
             }
           ]
         },
         {
-          "name": "Malware Scanning",
+          "name": "Communication Services",
           "items": [
             {
-              "title": "Malware Scanning Service",
-              "dotColor": "mint",
+              "title": "Notification Delivery Service",
               "descriptionLines": [
-                "Scans uploaded documents for malware"
+                "Delivers status",
+                "notifications to users"
               ]
             }
           ]
@@ -113,19 +117,12 @@
     "entries": [
       {
         "colorToken": "green",
-        "label": "Execution and Capability"
+        "label": "Execution and Capability Layer"
       },
       {
         "colorToken": "amber",
         "label": "Systems of Record"
-      },
-      {
-        "colorToken": "mint",
-        "label": "External Services"
       }
     ]
-  },
-  "notes": [
-    "Fictional example produced by the recorded agent and ArchSmith MCP workflow."
-  ]
+  }
 }
