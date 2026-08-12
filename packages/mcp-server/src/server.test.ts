@@ -5,7 +5,9 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
+import { render, type DiagramIR } from "@archsmith/renderer";
 import { createServer } from "./server.js";
+import { MAX_ENTRIES } from "./renderStore.js";
 
 const examplesDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../../examples");
 
@@ -146,6 +148,64 @@ test("embedFonts: true now costs proportionally less than the old fixed ~40KB, e
   assert.ok(embeddedBytes < 30_000, `expected embedding to stay compact on this fixture after subsetting; got ${embeddedBytes} bytes`);
   const delta = embeddedBytes - compactBytes;
   assert.ok(delta < 20_000, `expected the subset font's added cost to be well under the old fixed ~40KB tax; got ${delta} bytes`);
+});
+
+test("render tool returns a resource_link, not inline text, once the SVG crosses the inline threshold", async () => {
+  const client = await connectedClient();
+  const ir = loadFixture("ticket-booking/diagram.archsmith.json") as DiagramIR;
+  const result = (await client.callTool({ name: "render", arguments: { ir, embedFonts: true } })) as any;
+  assert.equal(result.isError, undefined);
+  assert.equal(result.content.length, 1);
+  const link = result.content[0];
+  assert.equal(link.type, "resource_link");
+  assert.ok(link.uri.startsWith("archsmith://render/"), `expected an archsmith://render/ uri, got ${link.uri}`);
+  assert.equal(link.mimeType, "image/svg+xml");
+  assert.deepEqual(link.annotations, { audience: ["user"] });
+
+  const expectedSvg = render(ir, { skipValidate: true, embedFonts: true });
+  assert.equal(link.size, Buffer.byteLength(expectedSvg, "utf-8"), "reported size should be the real SVG byte length");
+});
+
+test("resources/read on a render resource_link returns the exact SVG, byte-for-byte", async () => {
+  const client = await connectedClient();
+  const ir = loadFixture("ticket-booking/diagram.archsmith.json") as DiagramIR;
+  const result = (await client.callTool({ name: "render", arguments: { ir, embedFonts: true } })) as any;
+  const link = result.content[0];
+
+  const { contents } = await client.readResource({ uri: link.uri });
+  const expectedSvg = render(ir, { skipValidate: true, embedFonts: true });
+  assert.equal((contents[0] as any).text, expectedSvg);
+  assert.equal(contents[0].mimeType, "image/svg+xml");
+});
+
+test("a resource_link render doesn't leak into resources/list — it's only reachable via the uri render returned", async () => {
+  const client = await connectedClient();
+  const ir = loadFixture("ticket-booking/diagram.archsmith.json") as DiagramIR;
+  await client.callTool({ name: "render", arguments: { ir, embedFonts: true } });
+  const { resources } = await client.listResources();
+  assert.ok(!resources.some((r) => r.uri.startsWith("archsmith://render/")));
+});
+
+test("evicts the oldest stored render once the bounded store exceeds capacity", async () => {
+  const client = await connectedClient();
+  const ir = loadFixture("ticket-booking/diagram.archsmith.json") as DiagramIR;
+  const uris: string[] = [];
+  for (let i = 0; i < MAX_ENTRIES + 5; i++) {
+    const result = (await client.callTool({ name: "render", arguments: { ir, embedFonts: true } })) as any;
+    uris.push(result.content[0].uri);
+  }
+
+  await assert.rejects(
+    () => client.readResource({ uri: uris[0] }),
+    (err: any) => {
+      assert.match(String(err.message ?? err), /Resource not found/);
+      return true;
+    },
+    "expected the earliest, now-evicted render to be unreadable"
+  );
+
+  const latest = await client.readResource({ uri: uris[uris.length - 1] });
+  assert.ok((latest.contents[0] as any).text.length > 0, "the most recently stored render should still be readable");
 });
 
 test("render tool refuses to render an invalid IR, returning isError and a get_schema hint instead of broken SVG", async () => {
