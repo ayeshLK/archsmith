@@ -108,7 +108,7 @@ export function renderCorePlatform(ir: DiagramIR, x: number, frameY: number, w: 
 
   // --- Systems of Record: sibling section below the wrapper, still inside
   // the outer dashed Core Platform frame. ---
-  const sorEntry = getSubLayerRegistryEntries().find((e) => e.id === "systems-of-record")!;
+  const sorEntry = getSubLayerRegistryEntries().find((e) => e.id === core.systemsOfRecord.registryId)!;
   const sorAccent = resolveLayerToken(family, sorEntry.accentColorToken);
   // Same left/right inset from the outer frame as the wrapper above it
   // (depX/depW) — using the raw column x/w here, like an earlier version of

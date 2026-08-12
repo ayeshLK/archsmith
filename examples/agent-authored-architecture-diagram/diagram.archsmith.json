@@ -1,6 +1,6 @@
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.1/diagram-schema.json",
-  "schemaVersion": "0.3.1",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.2/diagram-schema.json",
+  "schemaVersion": "0.3.2",
   "title": "Document Processing Platform — Architecture",
   "subtitle": "Agent-authored example from a fictional plain-English requirement",
   "colorTheme": {
@@ -61,6 +61,7 @@
         }
       ],
       "systemsOfRecord": {
+        "registryId": "systems-of-record",
         "items": [
           {
             "title": "Document Object Store",

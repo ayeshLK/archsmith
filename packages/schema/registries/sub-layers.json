@@ -37,7 +37,7 @@
       "accentColorToken": "amber",
       "borderStyle": "solid-tinted",
       "defaultTag": { "label": "DATA SOURCES", "semantic": "layer" },
-      "notes": "Structurally a sibling section below the 'deployed on' wrapper, not nested inside it — see diagram-schema.json's corePlatform.systemsOfRecord description. Items are always plain rounded-rect boxes; hand-drawn DB/file icons were tried once and reverted as over-engineering.",
+      "notes": "Structurally a sibling section below the 'deployed on' wrapper, not nested inside it — see diagram-schema.json's corePlatform.systemsOfRecord description. Referenced explicitly via systemsOfRecordSection.registryId (issue #57), not just this breadcrumb. Items are always plain rounded-rect boxes; hand-drawn DB/file icons were tried once and reverted as over-engineering.",
       "sourceEvidence": ["base-arch-diagram-template.png", "arch-diagram-sample-1.png", "arch-diagram-sample-2.png", "validated reference build"]
     }
   ]

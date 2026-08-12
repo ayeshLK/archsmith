@@ -1,6 +1,6 @@
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.1/diagram-schema.json",
-  "schemaVersion": "0.3.1",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.2/diagram-schema.json",
+  "schemaVersion": "0.3.2",
   "title": "Customer Portal Web App — Architecture",
   "subtitle": "Small three-tier web application close to the schema floor",
   "colorTheme": { "family": "standard" },
@@ -33,6 +33,7 @@
         }
       ],
       "systemsOfRecord": {
+        "registryId": "systems-of-record",
         "items": [
           {
             "title": "Application Database",

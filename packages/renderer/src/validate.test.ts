@@ -48,3 +48,31 @@ test("unknown-registry-id.archsmith.json passes structural but fails semantic (r
   const full = validate(ir);
   assert.equal(full.valid, false);
 });
+
+test("systemsOfRecord.registryId is required (issue #57)", () => {
+  const ir = loadFixture("minimal-valid/diagram.archsmith.json") as {
+    columns: { corePlatform: { systemsOfRecord: { registryId?: string } } };
+  };
+  delete ir.columns.corePlatform.systemsOfRecord.registryId;
+
+  const result = validateStructure(ir);
+  assert.equal(result.valid, false);
+  assert.ok(result.errors.some((e) => e.includes("systemsOfRecord") && e.includes("registryId")));
+});
+
+test("systemsOfRecord.registryId must be exactly 'systems-of-record', not just any known sub-layer id", () => {
+  const ir = loadFixture("minimal-valid/diagram.archsmith.json") as {
+    columns: { corePlatform: { systemsOfRecord: { registryId: string } } };
+  };
+  // "entity-layer" is a real, governed sub-layer id -- structurally valid
+  // for subLayers[].registryId, but not for this field, which has exactly
+  // one correct value (see corePlatform.ts's lookup).
+  ir.columns.corePlatform.systemsOfRecord.registryId = "entity-layer";
+
+  const structural = validateStructure(ir);
+  assert.equal(structural.valid, true, "a real registry id should pass structural validation");
+
+  const semantic = validateRegistryReferences(ir);
+  assert.equal(semantic.valid, false);
+  assert.ok(semantic.errors.some((e) => e.includes("systemsOfRecord.registryId") && e.includes("systems-of-record")));
+});

@@ -51,7 +51,10 @@ export function validateRegistryReferences(ir: unknown): ValidationResult {
   const doc = ir as {
     colorTheme?: { family?: string };
     columns?: {
-      corePlatform?: { subLayers?: Array<{ registryId?: string }> };
+      corePlatform?: {
+        subLayers?: Array<{ registryId?: string }>;
+        systemsOfRecord?: { registryId?: string };
+      };
     };
   };
 
@@ -67,6 +70,18 @@ export function validateRegistryReferences(ir: unknown): ValidationResult {
         `columns.corePlatform.subLayers[${i}].registryId "${subLayer.registryId}" is not in registries/sub-layers.json — adding a new sub-layer type is a change-request event, not a per-diagram choice`
       );
     }
+  }
+
+  // Unlike subLayers[].registryId, which may legitimately be any of several
+  // governed entries, systemsOfRecord.registryId (see issue #57) has exactly
+  // one correct value: the corePlatform.systemsOfRecord field always renders
+  // via the sub-layers registry's single "systems-of-record" entry (see
+  // corePlatform.ts), so anything else is a mismatch, not just an unknown id.
+  const sorRegistryId = doc.columns?.corePlatform?.systemsOfRecord?.registryId;
+  if (sorRegistryId && sorRegistryId !== "systems-of-record") {
+    errors.push(
+      `columns.corePlatform.systemsOfRecord.registryId "${sorRegistryId}" must be "systems-of-record" — that section always renders via registries/sub-layers.json's single "systems-of-record" entry, unlike subLayers[].registryId which may reference any governed sub-layer`
+    );
   }
 
   return { valid: errors.length === 0, errors };

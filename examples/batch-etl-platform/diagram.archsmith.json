@@ -1,6 +1,6 @@
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.1/diagram-schema.json",
-  "schemaVersion": "0.3.1",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.2/diagram-schema.json",
+  "schemaVersion": "0.3.2",
   "title": "Nightly Data Pipeline — Architecture",
   "subtitle": "Batch ingestion, transformation, and load path with light inbound and heavier egress",
   "colorTheme": { "family": "standard" },
@@ -63,6 +63,7 @@
         }
       ],
       "systemsOfRecord": {
+        "registryId": "systems-of-record",
         "items": [
           {
             "title": "Raw Landing Zone",
