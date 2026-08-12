@@ -1,5 +1,23 @@
 # @archsmith/mcp-server
 
+## 0.7.0
+
+### Minor Changes
+
+- cb0e8b4: `render` now returns a `resource_link` instead of inline text once the SVG exceeds 25,000 bytes (a large diagram, or `embedFonts: true` pushing an already-sizeable one over the line), fetchable via `resources/read` on the returned `archsmith://render/<id>` URI. Unlike font subsetting (issue #55), which only shrinks a cost that still scales with diagram content, this removes the ceiling on render size entirely — the tool result itself never grows unbounded. Renders below the threshold are unaffected. Backed by a small in-memory store bounded to the most recent 20 renders; reading an evicted or unknown id returns a standard `-32002` ("Resource not found") JSON-RPC error.
+
+### Patch Changes
+
+- 5dc31e1: Update the `render` tool's `embedFonts` description now that embedding uses a font subset sized to the diagram's own text (see the `@archsmith/renderer` changeset) rather than a fixed ~40 KB regardless of content.
+- 4fbf2d9: Clarify that `render`'s `embedFonts: true` adds a fixed ~40 KB regardless of diagram size — not a size-proportional cost — since that alone can exceed common MCP client result limits even for small diagrams. Add a regression test pinning this cost against a modest, everyday fixture (not just the maximal stress case), so it's caught if it grows further.
+- Updated dependencies [a69a384]
+- Updated dependencies [5dc31e1]
+- Updated dependencies [9b3203f]
+- Updated dependencies [4e45a4e]
+- Updated dependencies [4e45a4e]
+  - @archsmith/schema@0.7.0
+  - @archsmith/renderer@0.7.0
+
 ## 0.6.1
 
 ### Patch Changes
