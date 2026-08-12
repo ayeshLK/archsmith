@@ -21,7 +21,7 @@ Point the host at the built entrypoint, e.g. in Claude Desktop's `claude_desktop
 
 ## Tools
 
-`get_schema`, `render`, `validate`, `list_registries`, `get_registry` — mirror the CLI's own commands (same validate-before-render behavior, same `family` filter on `get_registry`). `render` returns the complete SVG as one text content block. It defaults to `embedFonts: false` so the normal agent workflow stays compact; pass `embedFonts: true` deliberately when the exported SVG must include the bundled Arimo font and render identically without installed fonts. The embedded font is subset to just the glyphs that diagram's own text needs (see issue #55) rather than the whole font, so its size scales with the diagram instead of a fixed cost. The renderer library and CLI still embed fonts by default.
+`get_schema`, `render`, `validate`, `list_registries`, `get_registry` — mirror the CLI's own commands (same validate-before-render behavior, same `family` filter on `get_registry`). `render` returns the complete SVG as one text content block. It defaults to `embedFonts: false` so the normal agent workflow stays compact; pass `embedFonts: true` deliberately when the exported SVG must include the bundled Arimo font and render identically without installed fonts. The embedded font is subset to just the glyphs that diagram's own text needs (see issue #55) rather than the whole font, so its size scales with the diagram instead of a fixed cost — still worth opting into deliberately, but no longer a blind tax regardless of content. The renderer library and CLI still embed fonts by default.
 
 ### Render response sizes
 

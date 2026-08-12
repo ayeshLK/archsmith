@@ -126,6 +126,28 @@ test("default full-featured render stays below the compact MCP response budget",
   assert.ok(Buffer.byteLength(jsonRpcResponse) < 30_000, `response was ${Buffer.byteLength(jsonRpcResponse)} bytes`);
 });
 
+test("embedFonts: true now costs proportionally less than the old fixed ~40KB, even on a modest fixture (issue #55)", async () => {
+  // Issue #55 originally found the font-embedding tax was a fixed cost
+  // (two complete base64 font weights spliced in) regardless of diagram
+  // content, blowing past the compact-path budget even for a fixture far
+  // smaller than ticket-booking. @archsmith/renderer now subsets the
+  // embedded font to just the glyphs this diagram's text needs, so the
+  // added cost scales with content instead of being a flat ~40KB tax.
+  // This asserts the fix actually holds for a representative fixture, and
+  // guards against the subsetting silently regressing back to full-font
+  // embedding (which would blow the delta back out to ~40KB).
+  const client = await connectedClient();
+  const ir = loadFixture("simple-3-tier-web-app/diagram.archsmith.json");
+  const compact = await client.callTool({ name: "render", arguments: { ir } });
+  const embedded = await client.callTool({ name: "render", arguments: { ir, embedFonts: true } });
+  const compactBytes = Buffer.byteLength(JSON.stringify({ jsonrpc: "2.0", id: 1, result: compact }));
+  const embeddedBytes = Buffer.byteLength(JSON.stringify({ jsonrpc: "2.0", id: 1, result: embedded }));
+  assert.ok(compactBytes < 30_000, `compact response was ${compactBytes} bytes`);
+  assert.ok(embeddedBytes < 30_000, `expected embedding to stay compact on this fixture after subsetting; got ${embeddedBytes} bytes`);
+  const delta = embeddedBytes - compactBytes;
+  assert.ok(delta < 20_000, `expected the subset font's added cost to be well under the old fixed ~40KB tax; got ${delta} bytes`);
+});
+
 test("render tool refuses to render an invalid IR, returning isError and a get_schema hint instead of broken SVG", async () => {
   const client = await connectedClient();
   const ir = loadFixture("broken-examples/unknown-registry-id.archsmith.json");

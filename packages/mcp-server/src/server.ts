@@ -59,14 +59,14 @@ export function createServer(): McpServer {
     {
       title: "Render a diagram IR to SVG",
       description:
-        "Validates then renders an ArchSmith diagram IR to a complete SVG document returned as one text content block. Call get_schema and get_registry first to learn the required IR structure and governed vocabulary before authoring a document. Font embedding defaults to false to keep MCP responses compact; opt in only when the SVG must render portably without installed fonts. Fails with the validation errors (isError: true) instead of rendering if the IR is invalid — never renders broken geometry from an invalid document.",
+        "Validates then renders an ArchSmith diagram IR to a complete SVG document returned as one text content block. Call get_schema and get_registry first to learn the required IR structure and governed vocabulary before authoring a document. Font embedding defaults to false to keep MCP responses compact; only opt in if the SVG must render portably without installed fonts — embedding adds a font subset sized to this diagram's own text, not a fixed cost, but it's still an added cost worth opting into deliberately. Fails with the validation errors (isError: true) instead of rendering if the IR is invalid — never renders broken geometry from an invalid document.",
       inputSchema: {
         ir: z.record(z.string(), z.unknown()).describe("The diagram IR document to render."),
         embedFonts: z
           .boolean()
           .optional()
           .describe(
-            "Embed the bundled Arimo font for portable rendering, subset to just the glyphs this diagram's text needs. Default: false."
+            "Embed the bundled Arimo font for portable rendering, subset to just the glyphs this diagram's text needs (not the whole font). Default: false."
           ),
       },
     },
