@@ -12,20 +12,24 @@ jobs:
   validate-and-render:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 20
       - id: archsmith
-        uses: ayeshLK/setup-archsmith@v0
+        uses: ayeshLK/setup-archsmith@4e72a6a4adb59013ca992094007410564d061b90 # v0.1.0
         with:
           version: "0.6.0"
       - name: Assert published CLI version and PATH
         shell: bash
+        env:
+          ARCHSMITH_STEP_VERSION: ${{ steps.archsmith.outputs.version }}
         run: |
           command -v archsmith
           test "$(archsmith --version)" = "0.6.0"
-          test "${{ steps.archsmith.outputs.version }}" = "0.6.0"
+          test "$ARCHSMITH_STEP_VERSION" = "0.6.0"
       - name: Validate committed IR
         run: archsmith validate examples/agent-authored-architecture-diagram/diagram.archsmith.json
       - name: Render and compare committed SVG
@@ -34,7 +38,7 @@ jobs:
           archsmith render examples/agent-authored-architecture-diagram/diagram.archsmith.json -o "$RUNNER_TEMP/agent-authored-architecture-diagram.svg"
           cmp examples/agent-authored-architecture-diagram/diagram.svg "$RUNNER_TEMP/agent-authored-architecture-diagram.svg"
       - name: Upload rendered SVG
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: agent-authored-architecture-diagram
           path: ${{ runner.temp }}/agent-authored-architecture-diagram.svg
