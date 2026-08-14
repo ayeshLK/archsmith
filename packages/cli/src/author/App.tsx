@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Box, Text, useInput } from "ink";
 import type { DraftIR } from "./draftIr.js";
 import { initialNavigation, advance } from "./navigation.js";
+import { ingressGatewayDescriptors } from "./scalarDescriptors.js";
 import { IntroScreen } from "./screens/IntroScreen.js";
 import { InboundActorsScreen } from "./screens/InboundActorsScreen.js";
+import { GatewayScreen } from "./screens/GatewayScreen.js";
 
 export interface AppProps {
   onExit: (draft: DraftIR | null) => void;
@@ -51,10 +53,16 @@ export function App({ onExit }: AppProps): React.JSX.Element {
     return <InboundActorsScreen draft={draft} onComplete={advanceFrom} />;
   }
 
-  // Every later section (ingress, corePlatform, egress, externalSystems,
-  // review) is still ahead — stop here for now rather than pretend a
-  // screen exists that doesn't yet. useEffect, not a direct call during
-  // render, so this fires exactly once when this branch is first reached.
+  if (nav.current === "ingress") {
+    return <GatewayScreen draft={draft} descriptors={ingressGatewayDescriptors} title="Ingress" onComplete={advanceFrom} />;
+  }
+
+  // corePlatform comes next in the real section order (see navigation.ts)
+  // and isn't built yet — egress isn't wired into this live sequence
+  // until it is, since it'd otherwise be unreachable dead code (advance()
+  // from ingress goes to corePlatform, not egress). GatewayScreen itself
+  // is already generic and tested against both gateways' descriptors
+  // directly (see GatewayScreen.test.tsx) — only the wiring here waits.
   return <NotYetBuilt draft={draft} onExit={onExit} />;
 }
 
@@ -64,7 +72,7 @@ function NotYetBuilt({ draft, onExit }: { draft: DraftIR; onExit: (draft: DraftI
   }, [draft, onExit]);
   return (
     <Box flexDirection="column">
-      <Text dimColor>(everything past Inbound Actors is still being built)</Text>
+      <Text dimColor>(everything past Ingress is still being built)</Text>
     </Box>
   );
 }
