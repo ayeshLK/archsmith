@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Text, useInput } from "ink";
 import type { DraftIR } from "./draftIr.js";
+import { initialNavigation, advance } from "./navigation.js";
 import { IntroScreen } from "./screens/IntroScreen.js";
+import { InboundActorsScreen } from "./screens/InboundActorsScreen.js";
 
 export interface AppProps {
   onExit: (draft: DraftIR | null) => void;
@@ -18,6 +20,7 @@ export interface AppProps {
  */
 export function App({ onExit }: AppProps): React.JSX.Element {
   const [draft, setDraft] = useState<DraftIR>({});
+  const [nav, setNav] = useState(initialNavigation());
   const [cancelled, setCancelled] = useState(false);
 
   useInput((input, key) => {
@@ -35,5 +38,33 @@ export function App({ onExit }: AppProps): React.JSX.Element {
     );
   }
 
-  return <IntroScreen draft={draft} onComplete={(updated) => { setDraft(updated); onExit(updated); }} />;
+  const advanceFrom = (updatedDraft: DraftIR): void => {
+    setDraft(updatedDraft);
+    setNav(advance(nav));
+  };
+
+  if (nav.current === "intro") {
+    return <IntroScreen draft={draft} onComplete={advanceFrom} />;
+  }
+
+  if (nav.current === "inboundActors") {
+    return <InboundActorsScreen draft={draft} onComplete={advanceFrom} />;
+  }
+
+  // Every later section (ingress, corePlatform, egress, externalSystems,
+  // review) is still ahead — stop here for now rather than pretend a
+  // screen exists that doesn't yet. useEffect, not a direct call during
+  // render, so this fires exactly once when this branch is first reached.
+  return <NotYetBuilt draft={draft} onExit={onExit} />;
+}
+
+function NotYetBuilt({ draft, onExit }: { draft: DraftIR; onExit: (draft: DraftIR) => void }): React.JSX.Element {
+  useEffect(() => {
+    onExit(draft);
+  }, [draft, onExit]);
+  return (
+    <Box flexDirection="column">
+      <Text dimColor>(everything past Inbound Actors is still being built)</Text>
+    </Box>
+  );
 }
