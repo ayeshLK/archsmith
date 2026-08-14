@@ -1,0 +1,42 @@
+{
+  "registryVersion": "0.1.0",
+  "governance": "Plain-English hints for a first-time or occasional diagram author — architecture concepts, never IR mechanics (no registryId, no enum values, no field names). Distinct from sub-layers.json/colors.json/icons.json: those are governed vocabulary validate.ts checks against; this is descriptive copy, never validated, never referenced by the schema itself. Column ids match diagram-schema.json's own columns.* property names; sub-layer ids reuse sub-layers.json's own governed ids directly rather than inventing a second naming scheme. Adding a new column or sub-layer to the schema should add its matching entry here too.",
+  "entries": [
+    {
+      "id": "inboundActors",
+      "hint": "Whoever or whatever originates a request from outside the system — a person, a device, another service calling in. Not part of the platform itself."
+    },
+    {
+      "id": "ingress",
+      "hint": "The single entry gateway inbound traffic passes through before reaching Core Platform."
+    },
+    {
+      "id": "corePlatform",
+      "hint": "The system being described. Organized into up to four sub-layers below — use only the ones that apply."
+    },
+    {
+      "id": "discovery-and-governance",
+      "hint": "Infrastructure-level concerns: request routing, API management, policy enforcement. Not business logic."
+    },
+    {
+      "id": "execution-and-capability",
+      "hint": "The actual business logic — the services doing the work described in the requirement."
+    },
+    {
+      "id": "entity-layer",
+      "hint": "Named domain concepts (e.g. \"Order\") modeled as their own thing, distinct from the services above. Most diagrams skip this — only include it if the requirement calls for modeling data concepts separately."
+    },
+    {
+      "id": "systems-of-record",
+      "hint": "The durable stores of truth — databases, object storage — that Core Platform reads from and writes to."
+    },
+    {
+      "id": "egress",
+      "hint": "The outbound boundary Core Platform calls through to reach anything external."
+    },
+    {
+      "id": "externalSystems",
+      "hint": "Things outside this platform's ownership — third-party or otherwise-owned services it calls out to."
+    }
+  ]
+}

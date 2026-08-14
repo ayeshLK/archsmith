@@ -15,8 +15,14 @@ const REGISTRY_FILES: Record<RegistryName, string> = {
   icons: "icons.json",
 };
 
+export interface AuthoringGlossaryEntry {
+  id: string;
+  hint: string;
+}
+
 let schemaCache: unknown | undefined;
 const registryCache = new Map<RegistryName, unknown>();
+let glossaryCache: AuthoringGlossaryEntry[] | undefined;
 
 /** Raw diagram-schema.json contents (parsed). Cached after first read. */
 export function getDiagramSchema(): unknown {
@@ -40,6 +46,34 @@ export function getRegistry(name: RegistryName): unknown {
 /** All registry names this package knows about. */
 export function listRegistryNames(): RegistryName[] {
   return Object.keys(REGISTRY_FILES) as RegistryName[];
+}
+
+/**
+ * Plain-English authoring hints, keyed by column id (diagram-schema.json's
+ * own columns.* property names) or sub-layer id (sub-layers.json's own
+ * governed ids) — for a guided authoring UI (e.g. archsmith author) to
+ * show before its first question about that section. Deliberately not a
+ * RegistryName/getRegistry() entry: this is descriptive copy, never
+ * governed vocabulary the schema validates against. Cached after first
+ * read.
+ */
+export function getAuthoringGlossary(): AuthoringGlossaryEntry[] {
+  if (glossaryCache === undefined) {
+    const text = readFileSync(path.join(packageRoot, "registries", "authoring-glossary.json"), "utf-8");
+    glossaryCache = (JSON.parse(text) as { entries: AuthoringGlossaryEntry[] }).entries;
+  }
+  return glossaryCache;
+}
+
+/** Convenience lookup over getAuthoringGlossary() — throws if `id` has no
+ * entry, since a guided-authoring UI showing no hint at all for a real
+ * section is exactly the silent gap this glossary exists to avoid. */
+export function getAuthoringHint(id: string): string {
+  const entry = getAuthoringGlossary().find((e) => e.id === id);
+  if (!entry) {
+    throw new Error(`archsmith/schema: no authoring-glossary entry for "${id}"`);
+  }
+  return entry.hint;
 }
 
 /** Absolute path to the schema/registry directory — for tooling that wants the raw files. */
