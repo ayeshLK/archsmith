@@ -1,5 +1,12 @@
 # @archsmith/cli
 
+## 0.6.3
+
+### Patch Changes
+
+- Updated dependencies [37f316f]
+  - @archsmith/renderer@0.9.0
+
 ## 0.6.2
 
 ### Patch Changes
