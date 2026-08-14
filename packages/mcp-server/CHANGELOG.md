@@ -1,5 +1,12 @@
 # @archsmith/mcp-server
 
+## 0.7.2
+
+### Patch Changes
+
+- Updated dependencies [37f316f]
+  - @archsmith/renderer@0.9.0
+
 ## 0.7.1
 
 ### Patch Changes
