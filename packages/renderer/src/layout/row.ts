@@ -29,6 +29,7 @@ export function renderRow(items: ItemIR[], x: number, y: number, w: number, fami
     title: item.title,
     descriptionLines: item.descriptionLines ?? [],
     pill: resolveItemPill(item.pill, family, layerAccent),
+    acronym: item.acronym ?? null,
   }));
 
   const rowHeight = Math.max(...itemOpts.map((opts) => itemBoxNaturalHeight(boxW, opts)));

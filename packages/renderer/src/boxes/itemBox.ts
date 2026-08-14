@@ -1,8 +1,9 @@
 import type { SvgNode } from "../svg/node.js";
-import { rect, text, pill, pillWidth } from "../svg/primitives.js";
+import { rect, text, pill } from "../svg/primitives.js";
 import { measureText } from "../text/measure.js";
 import { wrapText } from "../text/wrap.js";
-import { BODY_C, GROUP_GAP, INK, LINE_H, MUTED_C, PILL_ROW_H, TITLE_C, TITLE_PILL_GAP } from "../constants.js";
+import { layoutItemTitle } from "./titleLayout.js";
+import { AMBER, AMBER_PILL_BG, BODY_C, GROUP_GAP, INK, LINE_H, MUTED_C, PILL_ROW_H, TITLE_C, TITLE_PILL_GAP } from "../constants.js";
 import type { BoxResult } from "./actorBox.js";
 
 export interface ItemBoxPill {
@@ -21,6 +22,16 @@ export interface ItemBoxOptions {
    * because one of them happened to wrap. */
   descriptionLines: string[];
   pill?: ItemBoxPill | null;
+  /** Human-supplied short form (schema's `item.acronym`) — see titleLayout.ts
+   * and #68: itemBox previously wrapped a long title with no line cap at
+   * all, growing the box without bound instead of ever falling back to
+   * this field. */
+  acronym?: string | null;
+  /** Colors for the mandatory "ACRONYM NEEDED" flag when a title still
+   * doesn't fit after wrapping to 2 lines and no acronym was supplied —
+   * same default as clusterBox.ts's own acronymFg/acronymBg. */
+  acronymFg?: string;
+  acronymBg?: string;
   /** Forces the box to render at least this tall, growing the bounding
    * rect without moving any content — never shrinks below the natural
    * height. Exists for uniform-row-height layout: per this project's own
@@ -38,44 +49,25 @@ const TITLE_SIZE = 13.5;
 const TITLE_TO_DESC_GAP = 3;
 const BOTTOM_PAD = 15;
 
-interface TitleLayout {
-  lines: string[];
-  /** True when a pill was supplied but the full title + pill didn't fit on
-   * one line within availW, so the pill drops to its own row below the
-   * (now wrapped) title instead of overlapping past the box's edge. Same
-   * fit-check clusterBox.ts already does for its own items — itemBox never
-   * inherited it when it "unified" detail_box/simple_box, which is why a
-   * long title with a pill (e.g. "Legacy Settlement Export" + "NO LIVE
-   * READ") could spill the pill past the box's right border. */
-  pillBelow: boolean;
-}
-
-function layoutTitle(title: string, pillOpt: ItemBoxPill | null | undefined, availW: number): TitleLayout {
-  if (pillOpt) {
-    const singleLineW = measureText(title, TITLE_SIZE, 700) + TITLE_PILL_GAP + pillWidth(pillOpt.label);
-    if (singleLineW <= availW) {
-      return { lines: [title], pillBelow: false };
-    }
-    return { lines: wrapText(title, availW, TITLE_SIZE, 700), pillBelow: true };
-  }
-  return { lines: wrapText(title, availW, TITLE_SIZE, 700), pillBelow: false };
-}
-
 /** Pure height computation, no rendering — lets row-layout code learn every
  * item's natural height first (to find the row's max) before committing to
  * final positions. Kept in exact lockstep with itemBox's own cursor-advance
  * logic below (same constants, same steps) rather than a separately
  * hand-derived formula. */
-export function itemBoxNaturalHeight(w: number, opts: Pick<ItemBoxOptions, "eyebrow" | "title" | "descriptionLines" | "pill">): number {
-  const { eyebrow, title, descriptionLines, pill: pillOpt } = opts;
+export function itemBoxNaturalHeight(
+  w: number,
+  opts: Pick<ItemBoxOptions, "eyebrow" | "title" | "descriptionLines" | "pill" | "acronym">
+): number {
+  const { eyebrow, title, descriptionLines, pill: pillOpt, acronym } = opts;
   const availW = w - PAD - PAD;
-  const { lines: titleLines, pillBelow } = layoutTitle(title, pillOpt, availW);
+  const { lines: titleLines, pillMode, needsAcronym } = layoutItemTitle(title, acronym, pillOpt?.label, TITLE_SIZE, 700, availW);
   const descGroups = descriptionLines.map((line) => wrapText(line, availW, 11.5, 400));
 
   let cursorY = PAD + 4;
   if (eyebrow) cursorY += EYEBROW_H;
   cursorY += titleLines.length * LINE_H;
-  if (pillBelow) cursorY += PILL_ROW_H;
+  if (pillMode === "below") cursorY += PILL_ROW_H;
+  if (needsAcronym) cursorY += PILL_ROW_H;
   if (descGroups.length > 0) {
     cursorY += TITLE_TO_DESC_GAP;
     descGroups.forEach((group, gi) => {
@@ -105,10 +97,10 @@ export function itemBoxNaturalHeight(w: number, opts: Pick<ItemBoxOptions, "eyeb
  * what's actually drawn).
  */
 export function itemBox(x: number, y: number, w: number, opts: ItemBoxOptions): BoxResult {
-  const { eyebrow, title, descriptionLines, pill: pillOpt, minHeight = 0 } = opts;
+  const { eyebrow, title, descriptionLines, pill: pillOpt, acronym, acronymFg = AMBER, acronymBg = AMBER_PILL_BG, minHeight = 0 } = opts;
   const availW = w - PAD - PAD;
 
-  const { lines: titleLines, pillBelow } = layoutTitle(title, pillOpt, availW);
+  const { lines: titleLines, pillMode, needsAcronym } = layoutItemTitle(title, acronym, pillOpt?.label, TITLE_SIZE, 700, availW);
   const descGroups = descriptionLines.map((line) => wrapText(line, availW, 11.5, 400));
   const h = Math.max(itemBoxNaturalHeight(w, opts), minHeight);
 
@@ -124,7 +116,7 @@ export function itemBox(x: number, y: number, w: number, opts: ItemBoxOptions): 
 
   titleLines.forEach((line, i) => {
     nodes.push(text(tx, ty, line, { size: TITLE_SIZE, weight: 700, fill: TITLE_C }));
-    if (i === 0 && pillOpt && !pillBelow) {
+    if (i === 0 && pillOpt && pillMode === "inline") {
       const pillX = tx + measureText(line, TITLE_SIZE, 700) + TITLE_PILL_GAP;
       const { nodes: pillNodes } = pill(pillX, ty - 14, pillOpt.label, pillOpt.fg, pillOpt.bg);
       nodes.push(...pillNodes);
@@ -132,9 +124,15 @@ export function itemBox(x: number, y: number, w: number, opts: ItemBoxOptions): 
     ty += LINE_H;
   });
 
-  if (pillBelow && pillOpt) {
+  if (pillMode === "below" && pillOpt) {
     const { nodes: pillNodes } = pill(tx, ty - 14, pillOpt.label, pillOpt.fg, pillOpt.bg);
     nodes.push(...pillNodes);
+    ty += PILL_ROW_H;
+  }
+
+  if (needsAcronym) {
+    const { nodes: acronymNodes } = pill(tx, ty - 14, "ACRONYM NEEDED", acronymFg, acronymBg);
+    nodes.push(...acronymNodes);
     ty += PILL_ROW_H;
   }
 
