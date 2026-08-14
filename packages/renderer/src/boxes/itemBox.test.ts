@@ -77,3 +77,54 @@ test("minHeight grows the box without moving content, and never shrinks it below
   const shrunkAttempt = itemBox(0, 0, 260, { ...opts, minHeight: 1 });
   assert.equal(shrunkAttempt.height, natural);
 });
+
+// Same three-tier scenario as clusterBox.test.ts's TIER_ITEMS (#68: itemBox
+// previously had no wrap cap at all — a title this long would just keep
+// growing the box, never flagging anything).
+test("a title that wraps to only 2 lines renders in full, no ACRONYM NEEDED flag", () => {
+  const { nodes } = itemBox(0, 0, 260, {
+    title: "Enterprise Directory and Provisioning Integration Service",
+    descriptionLines: [],
+  });
+  assert.equal(nodes.filter((n) => n.text === "ACRONYM NEEDED").length, 0);
+  const titleLines = nodes.filter((n) => n.tag === "text" && n.attrs["font-size"] === 13.5);
+  assert.equal(titleLines.length, 2);
+});
+
+test("a title that still doesn't fit after wrapping to 2 lines is flagged ACRONYM NEEDED, capped at 2 lines", () => {
+  const { nodes } = itemBox(0, 0, 260, {
+    title: "Extremely Long Hypothetical Organization Wide Directory And Employee Provisioning Synchronization Service",
+    descriptionLines: [],
+  });
+  assert.equal(nodes.filter((n) => n.text === "ACRONYM NEEDED").length, 1);
+  const titleLines = nodes.filter((n) => n.tag === "text" && n.attrs["font-size"] === 13.5);
+  assert.equal(titleLines.length, 2);
+});
+
+test("a supplied acronym is used instead of wrapping, and suppresses the ACRONYM NEEDED flag", () => {
+  const longTitle = "Extremely Long Hypothetical Organization Wide Directory And Employee Provisioning Synchronization Service";
+  const { nodes } = itemBox(0, 0, 260, { title: longTitle, acronym: "EWDPS", descriptionLines: [] });
+  assert.equal(nodes.filter((n) => n.text === "ACRONYM NEEDED").length, 0);
+  const titleLines = nodes.filter((n) => n.tag === "text" && n.attrs["font-size"] === 13.5);
+  assert.equal(titleLines.length, 1);
+  assert.equal(titleLines[0]!.text, "EWDPS");
+});
+
+test("the ACRONYM NEEDED flag adds exactly one PILL_ROW_H to the box height, accounted for by itemBoxNaturalHeight", () => {
+  // Both titles display as 2 lines (needsAcronym caps display at 2, same as
+  // the tier-2 case) — isolates the flag row's own height contribution from
+  // any difference in title line count.
+  const twoLineNoFlag = itemBoxNaturalHeight(260, {
+    title: "Enterprise Directory and Provisioning Integration Service",
+    descriptionLines: [],
+  });
+  const twoLineFlagged = itemBoxNaturalHeight(260, {
+    title: "Extremely Long Hypothetical Organization Wide Directory And Employee Provisioning Synchronization Service",
+    descriptionLines: [],
+  });
+  assert.equal(twoLineFlagged - twoLineNoFlag, 20); // PILL_ROW_H
+
+  const longTitle = "Extremely Long Hypothetical Organization Wide Directory And Employee Provisioning Synchronization Service";
+  const { height } = itemBox(0, 0, 260, { title: longTitle, descriptionLines: [] });
+  assert.equal(height, twoLineFlagged);
+});

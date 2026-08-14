@@ -35,6 +35,7 @@ export function renderInboundActors(ir: DiagramIR, x: number, frameY: number, w:
       dotColor: resolveDotColor(item, family),
       title: item.title,
       lines: item.descriptionLines ?? [],
+      acronym: item.acronym ?? null,
     });
     nodes.push(...boxNodes);
     by += height + ITEM_GAP;

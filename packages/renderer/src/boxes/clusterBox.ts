@@ -1,7 +1,7 @@
 import type { SvgNode } from "../svg/node.js";
 import { rect, text, dot, pill, pillWidth, line } from "../svg/primitives.js";
 import { measureText } from "../text/measure.js";
-import { wrapText } from "../text/wrap.js";
+import { layoutItemTitle, type TitleLayoutResult } from "./titleLayout.js";
 import {
   AMBER,
   AMBER_PILL_BG,
@@ -27,50 +27,18 @@ export interface ClusterItem {
   acronym?: string | null;
 }
 
-interface ItemLayout {
-  lines: string[];
-  pillMode: "inline" | "below" | "none";
-  needsAcronym: boolean;
-}
-
 /**
  * Decide how one item's title+pill renders within availWidth (content
- * width, padding already excluded). Three tiers: single line inline;
- * wrapped to <=2 lines with the pill moved below; or a hard-limit flag if
- * even 2 lines can't fit — that last case needs a human-supplied acronym,
- * never a renderer guess. Direct port of the prototype's `_item_layout`.
+ * width, padding already excluded) — see titleLayout.ts (#68) for the
+ * shared 3-tier logic (inline / wrapped-with-pill-below / acronym-needed),
+ * now also used by itemBox.ts and actorBox.ts rather than duplicated here.
  */
-function itemLayout(item: ClusterItem, availWidth: number): ItemLayout {
-  const { title, acronym } = item;
-  let singleLineW = measureText(title, 12.3, 700);
-  if (item.pill) {
-    singleLineW += TITLE_PILL_GAP + pillWidth(item.pill);
-  }
-  if (singleLineW <= availWidth) {
-    return { lines: [title], pillMode: "inline", needsAcronym: false };
-  }
-
-  // Full title doesn't fit inline. If a human has already supplied an
-  // acronym, use it — that's the whole point of the field, and it takes
-  // priority over wrapping the full title. Not fit-checked against
-  // availWidth: acronyms are expected to be short by construction (that's
-  // the human's job to get right), and re-litigating the human's choice
-  // here (e.g. falling back to wrapping it) isn't the renderer's call.
-  if (acronym) {
-    return { lines: [acronym], pillMode: "inline", needsAcronym: false };
-  }
-
-  const wrapped = wrapText(title, availWidth, 12.3, 700);
-  const needsAcronym = wrapped.length > 2;
-  return {
-    lines: needsAcronym ? wrapped.slice(0, 2) : wrapped,
-    pillMode: item.pill ? "below" : "none",
-    needsAcronym,
-  };
+function itemLayout(item: ClusterItem, availWidth: number): TitleLayoutResult {
+  return layoutItemTitle(item.title, item.acronym, item.pill, 12.3, 700, availWidth);
 }
 
 /** Direct port of the prototype's `_item_height`. */
-function itemHeight(layout: ItemLayout): number {
+function itemHeight(layout: TitleLayoutResult): number {
   const linesH = layout.lines.length * TITLE_LINE_H;
   const pillH = layout.pillMode === "below" ? PILL_ROW_H : 0;
   const acronymH = layout.needsAcronym ? PILL_ROW_H : 0;
