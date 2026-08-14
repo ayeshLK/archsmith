@@ -65,4 +65,4 @@ export { renderLegend } from "./layout/legend.js";
 export { renderNotes } from "./layout/notes.js";
 
 export { render } from "./render.js";
-export type { RenderOptions } from "./render.js";
+export type { RenderOptions, RenderMeta } from "./render.js";

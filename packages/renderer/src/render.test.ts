@@ -83,6 +83,54 @@ test("embedded font is subset to the diagram's own text (issue #55) — smaller 
   );
 });
 
+// #68/#67 Phase 0: render()'s returnMeta option, aggregating needsAcronym
+// from every item across all three columns (Inbound Actors, Core Platform,
+// External Systems) — the actual prerequisite for archsmith author's
+// acronym-fixup flow.
+const LONG_TITLE = "Extremely Long Hypothetical Organization Wide Directory And Employee Provisioning Synchronization Service";
+// Core Platform's single-item row is far wider than Inbound Actors' column
+// (roughly 800px vs. 230px available) — LONG_TITLE alone wraps to exactly 2
+// lines there, not >2, so it needs real repetition to actually overflow.
+const LONG_TITLE_CORE = `${LONG_TITLE} ${LONG_TITLE} ${LONG_TITLE}`;
+
+test("render() without returnMeta still returns a plain string (default, unaffected by this option existing)", () => {
+  const ir = loadFixture("minimal-valid/diagram.archsmith.json") as DiagramIR;
+  const result = render(ir);
+  assert.equal(typeof result, "string");
+});
+
+test("returnMeta: true returns { svg, needsAcronym }, with needsAcronym empty when nothing overflows", () => {
+  const ir = loadFixture("minimal-valid/diagram.archsmith.json") as DiagramIR;
+  const result = render(ir, { returnMeta: true });
+  assert.equal(typeof result.svg, "string");
+  assert.deepEqual(result.needsAcronym, []);
+});
+
+test("a title too long even after wrapping (Core Platform) is surfaced in needsAcronym", () => {
+  const ir = loadFixture("minimal-valid/diagram.archsmith.json") as DiagramIR;
+  ir.columns.corePlatform.subLayers[0]!.rows[0]![0]!.title = LONG_TITLE_CORE;
+  const { svg, needsAcronym } = render(ir, { returnMeta: true });
+  assert.deepEqual(needsAcronym, [LONG_TITLE_CORE]);
+  assert.ok(svg.includes("ACRONYM NEEDED"));
+});
+
+test("needsAcronym aggregates across columns, not just one — Inbound Actors and Core Platform together", () => {
+  const ir = loadFixture("minimal-valid/diagram.archsmith.json") as DiagramIR;
+  const inboundLongTitle = LONG_TITLE + " (Inbound)";
+  ir.columns.inboundActors.items[0]!.title = inboundLongTitle;
+  ir.columns.corePlatform.subLayers[0]!.rows[0]![0]!.title = LONG_TITLE_CORE;
+  const { needsAcronym } = render(ir, { returnMeta: true });
+  assert.deepEqual(new Set(needsAcronym), new Set([inboundLongTitle, LONG_TITLE_CORE]));
+});
+
+test("a supplied item.acronym resolves the overflow — no longer in needsAcronym", () => {
+  const ir = loadFixture("minimal-valid/diagram.archsmith.json") as DiagramIR;
+  ir.columns.corePlatform.subLayers[0]!.rows[0]![0]!.title = LONG_TITLE_CORE;
+  ir.columns.corePlatform.subLayers[0]!.rows[0]![0]!.acronym = "EWDPS";
+  const { needsAcronym } = render(ir, { returnMeta: true });
+  assert.deepEqual(needsAcronym, []);
+});
+
 test("the embedded subset font actually has real glyphs for every character in the diagram's title and subtitle", () => {
   const ir = loadFixture("ticket-booking/diagram.archsmith.json") as DiagramIR;
   const svg = render(ir);

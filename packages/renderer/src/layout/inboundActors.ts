@@ -13,6 +13,7 @@ export interface InboundActorsResult {
    * shared FRAME_H it computes across all three variable-height columns. */
   height: number;
   nodes: SvgNode[];
+  needsAcronym: string[];
 }
 
 /**
@@ -29,15 +30,17 @@ export function renderInboundActors(ir: DiagramIR, x: number, frameY: number, w:
   const bw = w - OUTER_FRAME_INSET * 2;
 
   const nodes: SvgNode[] = [];
+  const needsAcronym: string[] = [];
   let by = frameY + OUTER_FRAME_INSET;
   for (const item of ir.columns.inboundActors.items) {
-    const { height, nodes: boxNodes } = actorBox(bx, by, bw, {
+    const { height, nodes: boxNodes, needsAcronym: boxAcronym } = actorBox(bx, by, bw, {
       dotColor: resolveDotColor(item, family),
       title: item.title,
       lines: item.descriptionLines ?? [],
       acronym: item.acronym ?? null,
     });
     nodes.push(...boxNodes);
+    needsAcronym.push(...boxAcronym);
     by += height + ITEM_GAP;
   }
   const naturalHeight = by - ITEM_GAP + OUTER_FRAME_INSET - frameY;
@@ -45,5 +48,5 @@ export function renderInboundActors(ir: DiagramIR, x: number, frameY: number, w:
   const outerH = frameHeight ?? naturalHeight;
   const outerFrame = rect(x, frameY, w, outerH, { fill: "#FFFFFF", stroke: SOFT_DIVIDER, sw: 1.4, rx: 10 });
 
-  return { height: naturalHeight, nodes: [outerFrame, ...nodes] };
+  return { height: naturalHeight, nodes: [outerFrame, ...nodes], needsAcronym };
 }

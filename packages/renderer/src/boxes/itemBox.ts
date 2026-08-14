@@ -100,7 +100,7 @@ export function itemBox(x: number, y: number, w: number, opts: ItemBoxOptions): 
   const { eyebrow, title, descriptionLines, pill: pillOpt, acronym, acronymFg = AMBER, acronymBg = AMBER_PILL_BG, minHeight = 0 } = opts;
   const availW = w - PAD - PAD;
 
-  const { lines: titleLines, pillMode, needsAcronym } = layoutItemTitle(title, acronym, pillOpt?.label, TITLE_SIZE, 700, availW);
+  const { lines: titleLines, pillMode, needsAcronym: needsAcronymFlag } = layoutItemTitle(title, acronym, pillOpt?.label, TITLE_SIZE, 700, availW);
   const descGroups = descriptionLines.map((line) => wrapText(line, availW, 11.5, 400));
   const h = Math.max(itemBoxNaturalHeight(w, opts), minHeight);
 
@@ -130,7 +130,7 @@ export function itemBox(x: number, y: number, w: number, opts: ItemBoxOptions): 
     ty += PILL_ROW_H;
   }
 
-  if (needsAcronym) {
+  if (needsAcronymFlag) {
     const { nodes: acronymNodes } = pill(tx, ty - 14, "ACRONYM NEEDED", acronymFg, acronymBg);
     nodes.push(...acronymNodes);
     ty += PILL_ROW_H;
@@ -147,5 +147,5 @@ export function itemBox(x: number, y: number, w: number, opts: ItemBoxOptions): 
     });
   }
 
-  return { height: h, nodes };
+  return { height: h, nodes, needsAcronym: needsAcronymFlag ? [title] : [] };
 }

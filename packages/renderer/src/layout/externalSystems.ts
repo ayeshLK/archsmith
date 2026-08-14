@@ -35,6 +35,7 @@ export function computeExternalSystemsWidth(ir: DiagramIR, family: string): numb
 export interface ExternalSystemsResult {
   height: number;
   nodes: SvgNode[];
+  needsAcronym: string[];
 }
 
 /**
@@ -52,15 +53,17 @@ export function renderExternalSystems(ir: DiagramIR, x: number, frameY: number, 
   const viaEgress = resolveSemanticPill(family, "viaEgress");
 
   const nodes: SvgNode[] = [];
+  const needsAcronym: string[] = [];
   let cy = frameY + OUTER_FRAME_INSET;
   for (const cluster of ir.columns.externalSystems.clusters as ClusterIR[]) {
-    const { height, nodes: clusterNodes } = clusterBox(innerX, cy, innerW, {
+    const { height, nodes: clusterNodes, needsAcronym: clusterAcronym } = clusterBox(innerX, cy, innerW, {
       title: cluster.name,
       items: toClusterItems(cluster.items, family),
       pillFg: viaEgress.fg,
       pillBg: viaEgress.bg,
     });
     nodes.push(...clusterNodes);
+    needsAcronym.push(...clusterAcronym);
     cy += height + CLUSTER_GAP;
   }
   const naturalHeight = cy - CLUSTER_GAP + OUTER_FRAME_INSET - frameY;
@@ -68,5 +71,5 @@ export function renderExternalSystems(ir: DiagramIR, x: number, frameY: number, 
   const outerH = frameHeight ?? naturalHeight;
   const outerFrame = rect(x, frameY, w, outerH, { fill: "#FFFFFF", stroke: SOFT_DIVIDER, sw: 1.4, rx: 10 });
 
-  return { height: naturalHeight, nodes: [outerFrame, ...nodes] };
+  return { height: naturalHeight, nodes: [outerFrame, ...nodes], needsAcronym };
 }
