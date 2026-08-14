@@ -135,4 +135,15 @@ schema
     console.log(JSON.stringify(getDiagramSchema(), null, 2));
   });
 
+program
+  .command("author")
+  .description("Guided, deterministic wizard for authoring a new diagram IR — no hand-written JSON")
+  .action(async () => {
+    // Dynamically imported so Ink/React only load when this subcommand
+    // actually runs — every other command here stays as light as it's
+    // always been.
+    const { runAuthorCommand } = await import("./author/cli.js");
+    await runAuthorCommand();
+  });
+
 program.parse();
