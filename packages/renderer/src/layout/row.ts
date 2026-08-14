@@ -9,6 +9,7 @@ const ROW_GAP = 20; // matches the prototype's consistent gap between side-by-si
 export interface RowResult {
   height: number;
   nodes: SvgNode[];
+  needsAcronym: string[];
 }
 
 /**
@@ -35,11 +36,13 @@ export function renderRow(items: ItemIR[], x: number, y: number, w: number, fami
   const rowHeight = Math.max(...itemOpts.map((opts) => itemBoxNaturalHeight(boxW, opts)));
 
   const nodes: SvgNode[] = [];
+  const needsAcronym: string[] = [];
   itemOpts.forEach((opts, i) => {
     const boxX = x + i * (boxW + ROW_GAP);
-    const { nodes: boxNodes } = itemBox(boxX, y, boxW, { ...opts, minHeight: rowHeight });
+    const { nodes: boxNodes, needsAcronym: boxAcronym } = itemBox(boxX, y, boxW, { ...opts, minHeight: rowHeight });
     nodes.push(...boxNodes);
+    needsAcronym.push(...boxAcronym);
   });
 
-  return { height: rowHeight, nodes };
+  return { height: rowHeight, nodes, needsAcronym };
 }

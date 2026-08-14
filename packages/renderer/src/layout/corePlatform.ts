@@ -25,6 +25,7 @@ const MISSING_LAYER_TAG = "GAP — NOT IMPLEMENTED";
 export interface CorePlatformResult {
   height: number;
   nodes: SvgNode[];
+  needsAcronym: string[];
 }
 
 /**
@@ -53,11 +54,13 @@ export function renderCorePlatform(ir: DiagramIR, x: number, frameY: number, w: 
 
   let y = WRAPPER_HEADER_H;
   const subLayerNodes: SvgNode[] = [];
+  const needsAcronym: string[] = [];
   for (const entry of registryEntries) {
     const instance = core.subLayers.find((s) => s.registryId === entry.id);
     if (instance) {
-      const { height, nodes } = renderSubLayer(instance, innerX, depY + y, innerW, family);
+      const { height, nodes, needsAcronym: subLayerAcronym } = renderSubLayer(instance, innerX, depY + y, innerW, family);
       subLayerNodes.push(...nodes);
+      needsAcronym.push(...subLayerAcronym);
       y += height + SUB_LAYER_STACK_GAP;
       continue;
     }
@@ -118,7 +121,7 @@ export function renderCorePlatform(ir: DiagramIR, x: number, frameY: number, w: 
   // items with the sub-layer rows above them.
   const sorY = depY + wrapperH + SOR_GAP_BELOW_WRAPPER;
   const sorRowY = 42;
-  const { height: sorRowH, nodes: sorRowNodes } = renderRow(
+  const { height: sorRowH, nodes: sorRowNodes, needsAcronym: sorAcronym } = renderRow(
     core.systemsOfRecord.items,
     innerX,
     sorY + sorRowY,
@@ -126,6 +129,7 @@ export function renderCorePlatform(ir: DiagramIR, x: number, frameY: number, w: 
     family,
     sorAccent
   );
+  needsAcronym.push(...sorAcronym);
   const sorH = sorRowY + sorRowH + 14;
   const sorTagLabel = core.systemsOfRecord.tagOverride ?? sorEntry.defaultTag?.label ?? null;
   const sorTagColors = core.systemsOfRecord.tagOverride
@@ -150,5 +154,6 @@ export function renderCorePlatform(ir: DiagramIR, x: number, frameY: number, w: 
   return {
     height: naturalHeight,
     nodes: [outerFrame, ...wrapperNodes, ...subLayerNodes, ...sorFrameNodes, ...sorRowNodes],
+    needsAcronym,
   };
 }

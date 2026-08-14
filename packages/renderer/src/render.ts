@@ -44,6 +44,18 @@ export interface RenderOptions {
    * only if a caller has its own font pipeline or genuinely needs a
    * smaller file. */
   embedFonts?: boolean;
+  /** Returns { svg, needsAcronym } instead of just the SVG string.
+   * needsAcronym lists the title of every item, across all three item
+   * columns (Inbound Actors, Core Platform, External Systems), whose title
+   * still didn't fit after wrapping to 2 lines with no `item.acronym`
+   * supplied (see titleLayout.ts and #68). Off by default so every
+   * existing caller's `string` return type is unaffected. */
+  returnMeta?: boolean;
+}
+
+export interface RenderMeta {
+  svg: string;
+  needsAcronym: string[];
 }
 
 /**
@@ -57,7 +69,9 @@ export interface RenderOptions {
  * that shared FRAME_H. Nodes are plain data, so paint order is just array
  * order — frames are listed before the content stacked on top of them.
  */
-export function render(ir: DiagramIR, opts: RenderOptions = {}): string {
+export function render(ir: DiagramIR, opts?: RenderOptions & { returnMeta?: false }): string;
+export function render(ir: DiagramIR, opts: RenderOptions & { returnMeta: true }): RenderMeta;
+export function render(ir: DiagramIR, opts: RenderOptions = {}): string | RenderMeta {
   if (!opts.skipValidate) {
     const result = validate(ir);
     if (!result.valid) {
@@ -137,8 +151,15 @@ export function render(ir: DiagramIR, opts: RenderOptions = {}): string {
     ...(notes?.nodes ?? []),
   ];
 
+  // Sourced from the second (final, frameH-supplied) layout calls above,
+  // matching where `nodes` itself comes from — needsAcronym only depends
+  // on content/width, not frameHeight, so both passes agree regardless.
+  const needsAcronym = [...inbound.needsAcronym, ...core.needsAcronym, ...external.needsAcronym];
+
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${canvasW}" height="${canvasH}" viewBox="0 0 ${canvasW} ${canvasH}">\n${serializeNodes(allNodes)}\n</svg>`;
-  if (!(opts.embedFonts ?? true)) return svg;
+  if (!(opts.embedFonts ?? true)) {
+    return opts.returnMeta ? { svg, needsAcronym } : svg;
+  }
 
   // Every rendered character comes from primitives.ts's text() (the only
   // place that creates a "text" node), so this is the complete, correct
@@ -149,5 +170,6 @@ export function render(ir: DiagramIR, opts: RenderOptions = {}): string {
     .filter((node) => node.tag === "text" && node.text !== undefined)
     .map((node) => node.text)
     .join(" ");
-  return embedFontsInSvg(svg, renderedText);
+  const finalSvg = embedFontsInSvg(svg, renderedText);
+  return opts.returnMeta ? { svg: finalSvg, needsAcronym } : finalSvg;
 }

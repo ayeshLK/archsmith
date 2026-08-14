@@ -2,7 +2,6 @@ import type { SvgNode } from "../svg/node.js";
 import { rect, text } from "../svg/primitives.js";
 import { wrapText } from "../text/wrap.js";
 import { BODY_C, LINE_H, MUTED_C } from "../constants.js";
-import type { BoxResult } from "./actorBox.js";
 
 const PAD = 16;
 const TITLE_SIZE = 13;
@@ -15,6 +14,14 @@ export interface GapNoteBoxOptions {
   description: string;
 }
 
+/** Deliberately its own type, not actorBox/itemBox/clusterBox's shared
+ * BoxResult — a gap note is never about an item or an acronym, so it has
+ * no needsAcronym field to (mis)carry, unlike those three (see #68). */
+export interface GapNoteBoxResult {
+  height: number;
+  nodes: SvgNode[];
+}
+
 /**
  * The project's "honest gap" convention as a reusable box: a dashed-border
  * note stating plainly that something doesn't exist or wasn't classified,
@@ -24,7 +31,7 @@ export interface GapNoteBoxOptions {
  * Height is derived from the same cursor-advance steps used to render, not
  * a separately hand-derived formula.
  */
-export function gapNoteBox(x: number, y: number, w: number, opts: GapNoteBoxOptions): BoxResult {
+export function gapNoteBox(x: number, y: number, w: number, opts: GapNoteBoxOptions): GapNoteBoxResult {
   const { title, description } = opts;
   const availW = w - PAD * 2;
   const titleLines = wrapText(title, availW, TITLE_SIZE, 700);

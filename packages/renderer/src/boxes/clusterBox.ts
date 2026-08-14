@@ -84,6 +84,9 @@ export interface ClusterBoxOptions {
 export interface BoxResult {
   height: number;
   nodes: SvgNode[];
+  /** Titles of items in this cluster that still didn't fit after wrapping
+   * to 2 lines and had no `acronym` supplied — see titleLayout.ts and #68. */
+  needsAcronym: string[];
 }
 
 /**
@@ -142,5 +145,6 @@ export function clusterBox(x: number, y: number, w: number, opts: ClusterBoxOpti
     iy += itemHeight(layout);
   });
 
-  return { height: h, nodes };
+  const needsAcronym = items.filter((item, i) => layouts[i]!.needsAcronym).map((item) => item.title);
+  return { height: h, nodes, needsAcronym };
 }

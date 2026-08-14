@@ -23,6 +23,12 @@ export interface ActorBoxOptions {
 export interface BoxResult {
   height: number;
   nodes: SvgNode[];
+  /** Titles of items rendered by this call that still didn't fit after
+   * wrapping to 2 lines and had no `acronym` supplied — see titleLayout.ts
+   * and #68. Bubbled up through every layout file so render()'s own
+   * needsAcronym signal (issue #67's Phase 0) has one real source, not a
+   * guess. Empty when nothing in this call needed one. */
+  needsAcronym: string[];
 }
 
 /**
@@ -42,7 +48,7 @@ export function actorBox(x: number, y: number, w: number, opts: ActorBoxOptions)
   const pad = 16;
   const avail = w - pad - pad;
 
-  const { lines: titleLines, needsAcronym } = layoutItemTitle(title, acronym, null, 13.5, 700, avail);
+  const { lines: titleLines, needsAcronym: needsAcronymFlag } = layoutItemTitle(title, acronym, null, 13.5, 700, avail);
   const groups = lines.map((line) => wrapText(line, avail, 11.8, 400));
   const totalLines = groups.reduce((sum, g) => sum + g.length, 0);
 
@@ -52,7 +58,7 @@ export function actorBox(x: number, y: number, w: number, opts: ActorBoxOptions)
   // same per-line cost used everywhere else in this function, and a
   // needed acronym flag adds its own PILL_ROW_H, same as itemBox/clusterBox.
   const extraTitleLines = titleLines.length - 1;
-  const acronymH = needsAcronym ? PILL_ROW_H : 0;
+  const acronymH = needsAcronymFlag ? PILL_ROW_H : 0;
   const h =
     pad + 6 + 20 + extraTitleLines * LINE_H + acronymH + (totalLines - 1) * LINE_H + (groups.length - 1) * GROUP_GAP + 24;
 
@@ -70,7 +76,7 @@ export function actorBox(x: number, y: number, w: number, opts: ActorBoxOptions)
   // single-title-line case used before the first description line.
   ty += 20 - LINE_H;
 
-  if (needsAcronym) {
+  if (needsAcronymFlag) {
     const { nodes: acronymNodes } = pill(tx + 14, ty - 14, "ACRONYM NEEDED", acronymFg, acronymBg);
     nodes.push(...acronymNodes);
     ty += PILL_ROW_H;
@@ -85,5 +91,5 @@ export function actorBox(x: number, y: number, w: number, opts: ActorBoxOptions)
     if (gi < groups.length - 1) ly += GROUP_GAP;
   });
 
-  return { height: h, nodes };
+  return { height: h, nodes, needsAcronym: needsAcronymFlag ? [title] : [] };
 }

@@ -17,6 +17,7 @@ const INNER_PAD = 16; // left/right inset of the row content from the layer fram
 export interface SubLayerResult {
   height: number;
   nodes: SvgNode[];
+  needsAcronym: string[];
 }
 
 /**
@@ -50,9 +51,11 @@ export function renderSubLayer(instance: SubLayerInstanceIR, x: number, y: numbe
 
   let rowY = ROW_TOP_GAP;
   const rowNodes: SvgNode[] = [];
+  const needsAcronym: string[] = [];
   for (const row of instance.rows) {
-    const { height: rowH, nodes } = renderRow(row, innerX, y + rowY, innerW, family, layerToken);
+    const { height: rowH, nodes, needsAcronym: rowAcronym } = renderRow(row, innerX, y + rowY, innerW, family, layerToken);
     rowNodes.push(...nodes);
+    needsAcronym.push(...rowAcronym);
     rowY += rowH + ROW_STACK_GAP;
   }
   const contentBottom = rowY - ROW_STACK_GAP; // undo the trailing gap after the last row
@@ -67,5 +70,5 @@ export function renderSubLayer(instance: SubLayerInstanceIR, x: number, y: numbe
     tagBg: tagColors?.bg ?? null,
   });
 
-  return { height, nodes: [...frameNodes, ...rowNodes] };
+  return { height, nodes: [...frameNodes, ...rowNodes], needsAcronym };
 }
