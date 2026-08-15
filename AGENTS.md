@@ -20,7 +20,7 @@ npm workspaces monorepo. Four packages, strict one-way dependency chain — each
 
 - `packages/schema` — the JSON Schema (`diagram-schema.json`) plus governed registries (`registries/{colors,icons,sub-layers}.json`). Registry entries are house-style contracts, not per-diagram decisions.
 - `packages/renderer` — pure function: validated IR in, SVG string out. No I/O beyond reading its own bundled font. No LLM call anywhere inside it. Layout is organized as `layout/` (per-column assembly), `boxes/` (individual shapes), `text/` (font measurement + wrapping via the embedded Arimo font, using `fontkit`), and `svg/` (node model + serialization + font embedding). TypeScript project references (`tsc -b`) handle inter-package build order — no manual ordering needed.
-- `packages/cli` — the `archsmith` binary. Thin `commander`-based wrapper around `render()` / `validate()`. `render` exits 1 on validation errors, 2 on rendering errors.
+- `packages/cli` — the `archsmith` binary. Thin `commander`-based wrapper around `render()` / `validate()`. `render` exits 1 on validation errors, 2 on rendering errors. Also has the `author` subcommand, an interactive Ink-based wizard — see [`archsmith author`](#archsmith-author--interactive-authoring-wizard-issue-67), below.
 - `packages/mcp-server` — the `archsmith-mcp` binary. A **sibling** of the CLI, not a wrapper: calls `render()` / `validate()` from `@archsmith/renderer` directly. `server.ts` builds the `McpServer` while `index.ts` is a thin entrypoint that wires it to `StdioServerTransport`; the split exists so `server.test.ts` can connect a real MCP `Client` over an in-memory transport pair. **Never write to stdout** — stdout is the JSON-RPC channel and a stray `console.log` (even for debugging) corrupts the protocol stream. Use `console.error` for diagnostics.
 
 ## Build & test
@@ -79,6 +79,41 @@ These proposals have been discussed with the maintainer but are not blanket auth
 - No new governed registry needed for step kinds. Unlike sub-layers (many categories sharing one shape, needing color to differentiate), workflow step types are already visually distinct by shape — each gets its own bespoke rendering function, the same pattern as `gatewayBox.ts`/`clusterBox.ts`/`actorBox.ts` today.
 - The top-level IR drops `colorTheme`, `legend`, and `unclassified` relative to today's architecture schema (none have a workflow analog) and adds a required `kind: "workflow"` discriminator (no default — an optional/defaulted `kind` produces misleading validation errors, see #49) and `flow: Step[]` in place of `columns`.
 - Depends on a not-yet-built `kind`-pluggable schema/renderer/CLI/MCP seam (also needed for sequence diagrams). Full IR design and reasoning live in the #49 comments, not duplicated here.
+
+## `archsmith author` — interactive authoring wizard (issue [#67](https://github.com/ayeshLK/archsmith/issues/67))
+
+A guided, deterministic CLI wizard that walks a first-time or occasional author through building a valid *initial* diagram IR one decision at a time — no hand-written JSON, no LLM, every governed field (sub-layer, color, `registryId`) offered as a live pick-list so whole classes of validation error can't occur. It's a distinct, independently-justified path from the LLM-authoring question in #3: a live test there measured an agent inventing unstated structure (a fabricated Entity Layer, a dashboard modeled as a service) that a human answering the same pick-lists wouldn't. Full positioning, the experience-review discussion that shaped v1 scope, and the field-descriptor mechanism design are recorded in the issue and its comments — read them before changing the wizard's shape, not just this summary.
+
+Delivery is phased, each phase/screen shipped as its own small PR with its own changeset, full monorepo `build`/`test`/`check:examples` before every commit:
+
+- **Phase 1** (done) — the field/section descriptor spec (`FieldDescriptor<T>`) and the authoring glossary (`packages/schema/registries/authoring-glossary.json`, distinct from the governed registries — descriptive copy, never validated).
+- **Phase 2** (done) — `assemble(draft): DiagramIR`, the headless draft→IR engine.
+- **Phase 3** (in progress) — the Ink UI itself, one screen/section at a time: intro, Inbound Actors, Ingress, and Core Platform's 3 governed sub-layers are built; Systems of Record, Egress, External Systems, Review, and the final validate/render/save step remain.
+- **Phase 4** (not started) — testing and real-user validation (the issue's own recommendation: test with someone unfamiliar with ArchSmith, someone who already hand-authors diagrams, and one intentionally ambiguous architecture, before freezing the flow).
+- **Phase 5** (not started) — ship.
+
+Editing an existing diagram and resuming a draft across a closed terminal (the issue's "Phase 1.5") are bundled together as one deferred problem, not built speculatively now.
+
+### Where the code lives
+
+`packages/cli/src/author/`: `draftIr.ts` (`DraftIR`, a hand-written, deliberately partial mirror of `DiagramIR` — matching `ir.ts`'s own hand-written-not-code-generated convention), `fieldDescriptor.ts` (`FieldDescriptor<T>`, `SectionStatus`), `itemLens.ts` (the item-lens factory + its accessors), `derived.ts` (pure functions over the draft: legend entries, abbreviations, the governed sub-layer list), `gapResolution.ts` (the three-state derivation), `rowGrouping.ts` (the row-pairing suggestion), `scalarDescriptors.ts`, `authoringNotes.ts`, `assemble.ts`, `navigation.ts`, and `screens/` (the Ink components, one per section) with `App.tsx`/`cli.tsx` wiring them together.
+
+### Architecture invariants
+
+- **`FieldDescriptor.write()` must merge onto the existing draft, never reconstruct it** — a sibling field the descriptor doesn't model (e.g. a v1.1 field like `pill`/`tagOverride` already present from a loaded file) has to survive untouched.
+- **One item-lens factory (`itemLens()`), instantiated at every real anchor point** — Inbound Actors, Systems of Record, a cluster's items, a sub-layer's flattened items — never a copy-pasted descriptor set per column. Same reasoning as `gatewayLens()` for Ingress/Egress.
+- **Three-state gap resolution (done/absent/pending) is derived purely from draft shape** — no separate "pending" flag is ever stored. "Not sure yet" and "come back to this later" are the same underlying state (`gapResolution.ts`'s `subLayerStatus`), differing only in prompt copy.
+- **Row grouping is a real v1 feature, checked against actual examples** (6/6 diagrams with an Execution & Capability layer pair items into shared rows), not assumed — `suggestRowGrouping()` proposes a sequential pairing; `unflattenPreservingShape()` preserves an existing row shape when an edit doesn't change the item count, and only falls back to one-item-per-row when it does (a real layout change, not something to guess a pairing for).
+- **`assemble()` doesn't duplicate `validate()`'s own structural checks** (e.g. `minItems: 1` on `inboundActors.items`, `corePlatform.subLayers`, `systemsOfRecord.items`, `externalSystems.clusters`) — confirmed against the live schema, not assumed, then deliberately left to `validate()` alone. `assemble()` only throws directly for a required *scalar* with no sensible default (title, subtitle, a gateway's label), naming exactly which field is unanswered.
+- **`navigation.ts`'s `SECTION_ORDER` is a suggested default, not an enforced sequence** — a section's identity (its descriptors' stable ids) is deliberately kept separate from when it's visited. The nested "resume cursor" (jumping back into an already-finished repeatable list in append mode, then returning to exactly where you left off) is intentionally not designed yet — build it only once a real multi-step screen exists whose shape it needs to match, not speculatively ahead of one.
+
+### Ink-specific pitfalls
+
+- **`ink-form` is stale, despite issue #67's own text assuming it for grouped multi-field steps** — last published 2024-05-18, peer dependency `ink>=4` against this repo's `ink@7`. Verified via `npm view` before writing any UI code, not assumed from the issue text. Grouped multi-field screens (e.g. `ItemSubFlow.tsx`'s title → eyebrow → description lines → color sequence) are hand-built from `ink-select-input`/`ink-text-input` instead. Re-check this if a future screen is tempted to reach for `ink-form` again.
+- **`ink-select-input`'s highlighted-option cursor is internal component state that survives a re-render unless the component is remounted.** Re-showing what looks like the same prompt for the next step in a loop (e.g. `CorePlatformSubLayersScreen`'s decide prompt, once per sub-layer) silently inherits the previous step's cursor position if the `SelectInput` isn't given a `key` that changes per step (the current item/layer index). This was caught by a component test actually asserting on the resulting draft, not by inspection — write a test that walks more than one repetition of any loop containing a `SelectInput`.
+- **Ctrl+C needs explicit handling via `useInput`** (`key.ctrl && input === "c"`) — Ink's raw mode intercepts the normal SIGINT delivery.
+- **Testing with `ink-testing-library`:** rapid synchronous `stdin.write()` calls race ahead of React's own state updates. Make test helpers `async` and `await setImmediate()` (from `node:timers/promises`) between each write — see any `screens/*.test.tsx` file for the pattern.
+- **A lazy dynamic `import()` inside the `author` subcommand's own action handler** keeps Ink and React out of the module load path for every other CLI subcommand — `@archsmith/cli`'s other dependencies are just `commander` plus the renderer/schema packages, and that stays true for anyone not running `author`.
 
 ## MCP server conventions
 

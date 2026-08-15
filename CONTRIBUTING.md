@@ -62,6 +62,14 @@ A few patterns the existing code leans on hard — new box/layout functions shou
 
 If you move or rename example fixtures under `examples/`, update the matching tests, gallery index, and any README links in the same PR; stale paths will fail CI even if the new diagram renders are correct.
 
+## Working on the authoring wizard (`archsmith author`)
+
+`packages/cli/src/author/` implements the guided, no-hand-written-JSON diagram wizard tracked in [issue #67](https://github.com/ayeshLK/archsmith/issues/67) — read the issue and its comments for the full experience design (who it's for, the three-way "missing layer" states, why review supports correction not just confirmation). AGENTS.md covers the phased delivery status and Ink-specific pitfalls in more depth; this is the short version:
+
+- Every editable value is a `FieldDescriptor<T>` — a stable id, a plain-language hint, and a `read`/`write` pair over `DraftIR` (a hand-written, in-progress mirror of the real diagram IR). `write()` merges onto the existing draft; it never reconstructs one from scratch.
+- The wizard itself is an [Ink](https://github.com/vadimdemedes/ink) (React for the terminal) app under `screens/`, tested with `ink-testing-library` by simulating real keystrokes rather than calling handlers directly.
+- Each screen ships as its own small PR with its own changeset, under the same build/test discipline as the rest of the repo.
+
 ## Working on the MCP server
 
 `packages/mcp-server/src/server.ts` builds the `McpServer` instance (tools, resources); `index.ts` is a thin entrypoint that connects it to `StdioServerTransport` and runs. Keep that split — it's what lets `server.test.ts` connect a real MCP `Client` to the server over an in-memory transport pair and exercise the actual protocol (tool schemas, argument parsing, content-block shapes), instead of only unit-testing handler functions directly.
