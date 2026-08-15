@@ -97,14 +97,19 @@ test("editing Title from Review re-enters IntroScreen pre-filled, and lands back
   unmount();
 });
 
-test("confirming from Review moves past it — the final validate/render/save step isn't built yet, but Review itself doesn't loop", async () => {
+test("confirming from Review moves past it, into the final validate/render/save step", async () => {
   let exited: DraftIR | null | undefined;
   const { stdin, lastFrame, unmount } = render(<App onExit={(d) => { exited = d; }} />);
   await reachReview(stdin);
 
   await submit(stdin); // "Looks good — continue", the first, already-highlighted option
 
-  assert.ok(lastFrame()?.includes("still being built"));
-  assert.equal(exited?.title, "Ticket Booking");
+  // reachReview's draft is deliberately minimal (empty Inbound Actors,
+  // every Core Platform sub-layer left pending, no Systems of Record or
+  // External Systems) — FinalStepScreen correctly refuses to save it
+  // rather than silently writing an incomplete diagram to disk, and
+  // never calls onExit in that case.
+  assert.ok(lastFrame()?.includes("Can't finish yet"));
+  assert.equal(exited, undefined);
   unmount();
 });

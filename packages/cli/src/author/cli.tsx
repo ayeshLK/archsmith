@@ -18,7 +18,11 @@ export async function runAuthorCommand(): Promise<void> {
     return;
   }
 
-  const finalDraft = await new Promise<DraftIR | null>((resolve) => {
+  // Either outcome has already printed everything the user needs before
+  // exiting — "nothing was saved" on Ctrl+C, or FinalStepScreen's own
+  // "Saved." summary with both file paths on a real completion. Nothing
+  // left for this entrypoint to add.
+  await new Promise<DraftIR | null>((resolve) => {
     const { unmount } = renderInk(
       <App
         onExit={(draft) => {
@@ -29,12 +33,5 @@ export async function runAuthorCommand(): Promise<void> {
     );
   });
 
-  if (finalDraft === null) {
-    // Ctrl+C — App has already printed its own "nothing was saved" line.
-    process.exitCode = 0;
-    return;
-  }
-
-  console.log("\nSo far:");
-  console.log(JSON.stringify(finalDraft, null, 2));
+  process.exitCode = 0;
 }
