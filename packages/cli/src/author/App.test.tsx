@@ -97,6 +97,24 @@ test("editing Title from Review re-enters IntroScreen pre-filled, and lands back
   unmount();
 });
 
+test("Ctrl+C shows the cancelled message and calls onExit(null) exactly once", async () => {
+  let exitCallCount = 0;
+  let exitedWith: DraftIR | null | undefined;
+  const { stdin, lastFrame, unmount } = render(
+    <App onExit={(d) => { exitCallCount += 1; exitedWith = d; }} />
+  );
+
+  await type(stdin, "Partial Session");
+  await submit(stdin);
+  stdin.write("\x03");
+  await flushImmediate();
+
+  assert.ok(lastFrame()?.includes("Nothing was saved"));
+  assert.equal(exitCallCount, 1);
+  assert.equal(exitedWith, null);
+  unmount();
+});
+
 test("confirming from Review moves past it, into the final validate/render/save step", async () => {
   let exited: DraftIR | null | undefined;
   const { stdin, lastFrame, unmount } = render(<App onExit={(d) => { exited = d; }} />);
