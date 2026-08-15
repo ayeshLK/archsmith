@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Box, Text, useInput } from "ink";
 import type { DraftIR } from "./draftIr.js";
 import { initialNavigation, advance, jumpTo } from "./navigation.js";
@@ -10,6 +10,7 @@ import { CorePlatformSubLayersScreen } from "./screens/CorePlatformSubLayersScre
 import { SystemsOfRecordScreen } from "./screens/SystemsOfRecordScreen.js";
 import { ExternalSystemsScreen } from "./screens/ExternalSystemsScreen.js";
 import { ReviewScreen } from "./screens/ReviewScreen.js";
+import { FinalStepScreen } from "./screens/FinalStepScreen.js";
 
 export interface AppProps {
   onExit: (draft: DraftIR | null) => void;
@@ -119,17 +120,6 @@ export function App({ onExit }: AppProps): React.JSX.Element {
     );
   }
 
-  // The final validate/render/save step isn't built yet.
-  return <NotYetBuilt draft={draft} onExit={onExit} />;
-}
-
-function NotYetBuilt({ draft, onExit }: { draft: DraftIR; onExit: (draft: DraftIR) => void }): React.JSX.Element {
-  useEffect(() => {
-    onExit(draft);
-  }, [draft, onExit]);
-  return (
-    <Box flexDirection="column">
-      <Text dimColor>(Validate, render, and save are still being built)</Text>
-    </Box>
-  );
+  // The only remaining reachable state: nav.current === "review" && reviewConfirmed.
+  return <FinalStepScreen draft={draft} onExit={onExit} />;
 }
