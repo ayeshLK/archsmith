@@ -21,7 +21,11 @@ export interface GatewayScreenProps {
  */
 export function GatewayScreen({ draft, descriptors, title, onComplete }: GatewayScreenProps): React.JSX.Element {
   const [step, setStep] = useState<Step>("label");
-  const [value, setValue] = useState("");
+  // Seeded from the draft's own existing value — this screen can now be
+  // re-entered with real data already in it (Review's "edit" option), and
+  // a blank prompt over an already-answered field would silently discard
+  // it the moment Enter is pressed on an empty submission.
+  const [value, setValue] = useState(() => descriptors.label.read(draft) ?? "");
   const [currentDraft, setCurrentDraft] = useState(draft);
 
   if (step === "label") {
@@ -37,8 +41,9 @@ export function GatewayScreen({ draft, descriptors, title, onComplete }: Gateway
             value={value}
             onChange={setValue}
             onSubmit={(submitted) => {
-              setCurrentDraft(descriptors.label.write(currentDraft, submitted));
-              setValue("");
+              const updated = descriptors.label.write(currentDraft, submitted);
+              setCurrentDraft(updated);
+              setValue(descriptors.sublabel.read(updated) ?? "");
               setStep("sublabel");
             }}
           />

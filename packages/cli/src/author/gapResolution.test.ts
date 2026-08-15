@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import type { DraftIR } from "./draftIr.js";
-import { subLayerStatus, resolveSubLayerAsAbsent, clearSubLayerGapNote } from "./gapResolution.js";
+import { subLayerStatus, resolveSubLayerAsAbsent, clearSubLayerGapNote, subLayerGapNote } from "./gapResolution.js";
 
 test("an empty draft's sub-layer status is pending, not absent", () => {
   assert.equal(subLayerStatus("entity-layer", {}), "pending");
@@ -51,4 +51,20 @@ test("clearSubLayerGapNote removes a stale gap note once a real instance exists"
 test("clearSubLayerGapNote is a no-op (same reference) when there's nothing to clear", () => {
   const draft: DraftIR = {};
   assert.equal(clearSubLayerGapNote("entity-layer", draft), draft);
+});
+
+test("subLayerGapNote returns the real gap note behind an absent status", () => {
+  const draft = resolveSubLayerAsAbsent("entity-layer", "No Entity Layer", "Nothing to model separately here.", {});
+  assert.deepEqual(subLayerGapNote("entity-layer", draft), {
+    title: "No Entity Layer",
+    description: "Nothing to model separately here.",
+    reason: "missing-layer",
+    location: "entity-layer",
+  });
+});
+
+test("subLayerGapNote returns undefined for a pending or done sub-layer", () => {
+  assert.equal(subLayerGapNote("entity-layer", {}), undefined);
+  const done: DraftIR = { columns: { corePlatform: { subLayers: [{ registryId: "entity-layer", rows: [[{ title: "Order" }]] }] } } };
+  assert.equal(subLayerGapNote("entity-layer", done), undefined);
 });

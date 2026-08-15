@@ -31,6 +31,13 @@ export function resolveSubLayerAsAbsent(registryId: string, title: string, descr
   return { ...draft, unclassified: [...existing, gapNote] };
 }
 
+/** The gap note behind an "absent" status, if there is one — so a caller
+ * (Review's summary, in particular) can show the actual reason a human
+ * gave, not just the bare "absent" state. */
+export function subLayerGapNote(registryId: string, draft: DraftIR): GapNoteIR | undefined {
+  return (draft.unclassified ?? []).find((g) => g.reason === "missing-layer" && g.location === registryId);
+}
+
 /**
  * Removes a stale "missing-layer" gapNote for this registryId — call
  * when a real instance is added for a layer previously resolved absent,

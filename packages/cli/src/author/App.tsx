@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Text, useInput } from "ink";
 import type { DraftIR } from "./draftIr.js";
-import { initialNavigation, advance } from "./navigation.js";
+import { initialNavigation, advance, jumpTo } from "./navigation.js";
 import { ingressGatewayDescriptors, egressGatewayDescriptors } from "./scalarDescriptors.js";
 import { IntroScreen } from "./screens/IntroScreen.js";
 import { InboundActorsScreen } from "./screens/InboundActorsScreen.js";
@@ -9,6 +9,7 @@ import { GatewayScreen } from "./screens/GatewayScreen.js";
 import { CorePlatformSubLayersScreen } from "./screens/CorePlatformSubLayersScreen.js";
 import { SystemsOfRecordScreen } from "./screens/SystemsOfRecordScreen.js";
 import { ExternalSystemsScreen } from "./screens/ExternalSystemsScreen.js";
+import { ReviewScreen } from "./screens/ReviewScreen.js";
 
 export interface AppProps {
   onExit: (draft: DraftIR | null) => void;
@@ -32,6 +33,11 @@ export function App({ onExit }: AppProps): React.JSX.Element {
   // finishing that first screen without advancing nav past corePlatform,
   // the same way ingress doesn't advance into an unbuilt egress.
   const [corePlatformSubLayersDone, setCorePlatformSubLayersDone] = useState(false);
+  const [reviewConfirmed, setReviewConfirmed] = useState(false);
+  // Set only while a scalar-only section (intro/ingress/egress) is being
+  // re-visited via Review's "edit" option — completing it then returns to
+  // Review instead of advancing forward through the rest of the sequence.
+  const [cameFromReview, setCameFromReview] = useState(false);
 
   useInput((input, key) => {
     if (key.ctrl && input === "c") {
@@ -50,7 +56,12 @@ export function App({ onExit }: AppProps): React.JSX.Element {
 
   const advanceFrom = (updatedDraft: DraftIR): void => {
     setDraft(updatedDraft);
-    setNav(advance(nav));
+    if (cameFromReview) {
+      setCameFromReview(false);
+      setNav(jumpTo(nav, "review"));
+    } else {
+      setNav(advance(nav));
+    }
   };
 
   if (nav.current === "intro") {
@@ -92,7 +103,23 @@ export function App({ onExit }: AppProps): React.JSX.Element {
     return <ExternalSystemsScreen draft={draft} onComplete={advanceFrom} />;
   }
 
-  // review isn't built yet.
+  if (nav.current === "review" && !reviewConfirmed) {
+    return (
+      <ReviewScreen
+        draft={draft}
+        onConfirm={(confirmedDraft) => {
+          setDraft(confirmedDraft);
+          setReviewConfirmed(true);
+        }}
+        onEditSection={(section) => {
+          setCameFromReview(true);
+          setNav(jumpTo(nav, section));
+        }}
+      />
+    );
+  }
+
+  // The final validate/render/save step isn't built yet.
   return <NotYetBuilt draft={draft} onExit={onExit} />;
 }
 
@@ -102,7 +129,7 @@ function NotYetBuilt({ draft, onExit }: { draft: DraftIR; onExit: (draft: DraftI
   }, [draft, onExit]);
   return (
     <Box flexDirection="column">
-      <Text dimColor>(Review is still being built)</Text>
+      <Text dimColor>(Validate, render, and save are still being built)</Text>
     </Box>
   );
 }

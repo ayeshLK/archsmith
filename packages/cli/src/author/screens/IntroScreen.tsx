@@ -31,7 +31,12 @@ export interface IntroScreenProps {
  */
 export function IntroScreen({ draft, onComplete }: IntroScreenProps): React.JSX.Element {
   const [fieldIndex, setFieldIndex] = useState(0);
-  const [value, setValue] = useState("");
+  // Seeded from the draft's own existing value, not always "" — this
+  // screen can now be re-entered with real data already in it (Review's
+  // "edit" option), and re-showing a blank prompt over an already-answered
+  // field would silently discard what's there the moment Enter is pressed
+  // on an empty submission.
+  const [value, setValue] = useState(() => FIELDS[0]!.descriptor.read(draft) ?? "");
   const [currentDraft, setCurrentDraft] = useState(draft);
 
   const field = FIELDS[fieldIndex]!;
@@ -41,7 +46,7 @@ export function IntroScreen({ draft, onComplete }: IntroScreenProps): React.JSX.
     setCurrentDraft(updated);
     if (fieldIndex + 1 < FIELDS.length) {
       setFieldIndex(fieldIndex + 1);
-      setValue("");
+      setValue(FIELDS[fieldIndex + 1]!.descriptor.read(updated) ?? "");
     } else {
       onComplete(updated);
     }
