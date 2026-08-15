@@ -125,6 +125,29 @@ test("selecting \"Yes\" adds items via the shared ItemSubFlow, ending the layer'
   unmount();
 });
 
+test("finishing a layer with 3 items re-groups them into real columns (2-1), not a one-item-per-row stack (issue #88)", async () => {
+  const result: { completed: DraftIR | null } = { completed: null };
+  const { stdin, unmount } = render(
+    <CorePlatformSubLayersScreen draft={{}} onComplete={(d) => { result.completed = d; }} />
+  );
+
+  await submit(stdin); // "Yes" for Discovery and Governance
+  await finishOneItemQuickly(stdin, "API Gateway Policy");
+  await finishOneItemQuickly(stdin, "Rate Limiting");
+  await finishOneItemQuickly(stdin, "Access Control");
+  await submit(stdin); // empty title ends this layer's list
+
+  await selectPending(stdin); // Execution and Capability
+  await selectPending(stdin); // Entity Layer
+
+  const rows = result.completed?.columns?.corePlatform?.subLayers?.[0]?.rows;
+  assert.deepEqual(
+    rows?.map((r) => r.map((i) => i.title)),
+    [["API Gateway Policy", "Rate Limiting"], ["Access Control"]]
+  );
+  unmount();
+});
+
 test("calls onComplete once, only after all 3 governed sub-layers have been decided", async () => {
   let completeCallCount = 0;
   const { stdin, unmount } = render(

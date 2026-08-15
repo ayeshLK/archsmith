@@ -5,7 +5,7 @@ import SelectInput from "ink-select-input";
 import { getAuthoringHint } from "@archsmith/schema";
 import type { DraftIR } from "../draftIr.js";
 import type { SectionStatus } from "../fieldDescriptor.js";
-import { itemLens, subLayerItemsAccessor } from "../itemLens.js";
+import { itemLens, subLayerItemsAccessor, applySuggestedRowGrouping } from "../itemLens.js";
 import { resolveSubLayerAsAbsent } from "../gapResolution.js";
 import { governedCoreSubLayers } from "../derived.js";
 import { ItemSubFlow } from "./ItemSubFlow.js";
@@ -152,7 +152,7 @@ export function CorePlatformSubLayersScreen({ draft, onComplete }: CorePlatformS
           key={itemIndex}
           draft={currentDraft}
           lens={lens}
-          onEmptyTitle={() => advanceLayer(currentDraft)}
+          onEmptyTitle={() => advanceLayer(applySuggestedRowGrouping(subLayerArrayIndex, currentDraft))}
           onComplete={(updatedDraft) => {
             setCurrentDraft(updatedDraft);
             setItemIndex(itemIndex + 1);

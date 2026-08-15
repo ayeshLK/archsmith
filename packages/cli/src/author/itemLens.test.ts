@@ -7,6 +7,7 @@ import {
   systemsOfRecordAccessor,
   clusterItemsAccessor,
   subLayerItemsAccessor,
+  applySuggestedRowGrouping,
 } from "./itemLens.js";
 
 test("reading a field from an empty draft returns undefined, not a throw", () => {
@@ -152,4 +153,30 @@ test("adding a new item (count changes) falls back to one-per-row, not a guessed
     rows.map((r) => r.map((i) => i.title)),
     [["Service A"], ["Service B"], ["Service C"]]
   );
+});
+
+test("applySuggestedRowGrouping re-pairs a one-per-row stack into the real 2-2-1 shape (issue #88)", () => {
+  const draft: DraftIR = {
+    columns: {
+      corePlatform: {
+        subLayers: [
+          {
+            registryId: "execution-and-capability",
+            rows: [[{ title: "Service A" }], [{ title: "Service B" }], [{ title: "Service C" }]],
+          },
+        ],
+      },
+    },
+  };
+  const updated = applySuggestedRowGrouping(0, draft);
+  const rows = updated.columns!.corePlatform!.subLayers![0]!.rows;
+  assert.deepEqual(
+    rows.map((r) => r.map((i) => i.title)),
+    [["Service A", "Service B"], ["Service C"]]
+  );
+});
+
+test("applySuggestedRowGrouping is a no-op when there's no instance at that index yet", () => {
+  const draft: DraftIR = {};
+  assert.equal(applySuggestedRowGrouping(0, draft), draft);
 });

@@ -1,6 +1,7 @@
 import type { ItemIR } from "@archsmith/renderer";
 import type { DraftIR } from "./draftIr.js";
 import type { FieldDescriptor } from "./fieldDescriptor.js";
+import { suggestRowGrouping } from "./rowGrouping.js";
 
 /**
  * How to reach the flat array of items a set of item-lens descriptors
@@ -174,4 +175,24 @@ export function subLayerItemsAccessor(subLayerIndex: number, registryId?: string
       return { ...draft, columns: { ...draft.columns, corePlatform: { ...draft.columns?.corePlatform, subLayers: updated } } };
     },
   };
+}
+
+/**
+ * Replaces a finished sub-layer's row shape with `suggestRowGrouping`'s
+ * paired arrangement — called once, when a sub-layer's item list is done
+ * (see CorePlatformSubLayersScreen), not on every edit. Adding items one
+ * at a time only ever goes through `unflattenPreservingShape`'s
+ * same-count-preserves/different-count-falls-back-to-one-per-row logic
+ * above, which never re-groups a list that's actually finished — left
+ * unaddressed, every sub-layer ends up a vertical stack of one-item rows
+ * instead of the paired columns real diagrams use (issue #88).
+ */
+export function applySuggestedRowGrouping(subLayerIndex: number, draft: DraftIR): DraftIR {
+  const subLayers = draft.columns?.corePlatform?.subLayers ?? [];
+  const existing = subLayers[subLayerIndex];
+  if (!existing) return draft;
+  const regrouped = suggestRowGrouping(existing.rows.flat());
+  const updated = [...subLayers];
+  updated[subLayerIndex] = { ...existing, rows: regrouped };
+  return { ...draft, columns: { ...draft.columns, corePlatform: { ...draft.columns?.corePlatform, subLayers: updated } } };
 }
