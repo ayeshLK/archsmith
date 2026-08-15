@@ -29,7 +29,18 @@ export async function runAuthorCommand(): Promise<void> {
           resolve(draft);
           unmount();
         }}
-      />
+      />,
+      // Ink's own default Ctrl+C handling intercepts \x03 at the framework
+      // level and unmounts directly — confirmed by reading Ink's own
+      // source after a real pty test showed neither App's useInput handler
+      // nor a process-level SIGINT ever fired on Ctrl+C. That bypasses
+      // App's own cancelled-state UI and its onExit entirely, and (since
+      // this promise then never resolves) relies on the process exiting
+      // only because nothing else keeps the event loop alive — never
+      // reaching the `process.exitCode = 0` below. Disabling it here hands
+      // Ctrl+C to App's own useInput handler, exactly the manual-handling
+      // case Ink's own option documentation describes.
+      { exitOnCtrlC: false }
     );
   });
 
