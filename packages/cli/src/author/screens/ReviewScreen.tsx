@@ -88,10 +88,17 @@ export function ReviewScreen({ draft, onConfirm, onEditSection }: ReviewScreenPr
             );
           }
           if (status === "absent") {
-            const note = subLayerGapNote(entry.id, draft);
+            // Two independent sources (issue #89): draft.authoringNotes,
+            // the wizard's own default (never rendered into the SVG), or a
+            // real gap note in unclassified (hand-authored/imported IR,
+            // where it does render) — shown if present, but not required
+            // either way, since the reason is optional.
+            const reasonFromNotes = draft.authoringNotes?.[entry.label]?.join("; ");
+            const reasonFromGapNote = subLayerGapNote(entry.id, draft)?.title;
+            const reason = reasonFromNotes || reasonFromGapNote;
             return (
               <Text key={entry.id}>
-                  {entry.label}: absent — {note?.title}
+                  {entry.label}: absent{reason ? ` — ${reason}` : ""}
               </Text>
             );
           }

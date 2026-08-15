@@ -10,12 +10,37 @@ import type { SectionStatus } from "./fieldDescriptor.js";
  * same underlying state here, distinguished only in prompt copy, never in
  * data — resolving one of a diagram's real ambiguities isn't a second
  * kind of fact from not having gotten to it yet.
+ *
+ * "Absent" has two independent sources (issue #89): a real gap note in
+ * `unclassified` (resolveSubLayerAsAbsent, below — renders in the SVG,
+ * meant for hand-authored/LLM-authored IR where nothing already guards
+ * against accidental omission), or the draft-only `resolvedAbsentSubLayers`
+ * marker (markSubLayerAbsent, below — the wizard's own default, since its
+ * interview process already is that guard, so absence doesn't need to be
+ * forced into the render to be trustworthy).
  */
 export function subLayerStatus(registryId: string, draft: DraftIR): SectionStatus {
   const hasInstance = (draft.columns?.corePlatform?.subLayers ?? []).some((s) => s.registryId === registryId);
   if (hasInstance) return "done";
   const hasGapNote = (draft.unclassified ?? []).some((g) => g.reason === "missing-layer" && g.location === registryId);
-  return hasGapNote ? "absent" : "pending";
+  const isResolvedAbsent = (draft.resolvedAbsentSubLayers ?? []).includes(registryId);
+  return hasGapNote || isResolvedAbsent ? "absent" : "pending";
+}
+
+/**
+ * Marks a sub-layer "confirmed absent" via the draft-only marker (issue
+ * #89) — distinct from resolveSubLayerAsAbsent below, which writes a
+ * rendered gap note. The wizard's own "doesn't apply" flow uses this one:
+ * the interview process itself already guards against accidental
+ * omission (every governed sub-layer gets an explicit decision), so a
+ * wizard-resolved absence doesn't need a forced, rendered explanation the
+ * way a hand-authored or LLM-authored gap note still might. A no-op
+ * (same reference) if already marked.
+ */
+export function markSubLayerAbsent(registryId: string, draft: DraftIR): DraftIR {
+  const existing = draft.resolvedAbsentSubLayers ?? [];
+  if (existing.includes(registryId)) return draft;
+  return { ...draft, resolvedAbsentSubLayers: [...existing, registryId] };
 }
 
 /**

@@ -89,6 +89,42 @@ test("submitting with no existing files writes both files and shows their real p
   });
 });
 
+test("always writes a sidecar authoring-notes.md, honestly saying so when there's nothing to note (issue #89)", async () => {
+  await withTempDir(async (dir) => {
+    const { stdin, unmount } = render(<FinalStepScreen draft={VALID_DRAFT} onExit={() => {}} cwd={dir} />);
+    await submit(stdin);
+
+    const notesPath = path.join(dir, "ticket-booking.authoring-notes.md");
+    assert.ok(existsSync(notesPath));
+    const notes = readFileSync(notesPath, "utf-8");
+    assert.ok(notes.includes("Ticket Booking"));
+    assert.ok(notes.includes("No notes recorded"));
+    unmount();
+  });
+});
+
+test("writes real authoringNotes content into the sidecar file, not into the IR or SVG (issue #89)", async () => {
+  await withTempDir(async (dir) => {
+    const draftWithNotes: DraftIR = {
+      ...VALID_DRAFT,
+      authoringNotes: { "Discovery and Governance": ["No separate governance layer for this system."] },
+    };
+    const { stdin, unmount } = render(<FinalStepScreen draft={draftWithNotes} onExit={() => {}} cwd={dir} />);
+    await submit(stdin);
+
+    const notes = readFileSync(path.join(dir, "ticket-booking.authoring-notes.md"), "utf-8");
+    assert.ok(notes.includes("Discovery and Governance"));
+    assert.ok(notes.includes("No separate governance layer for this system."));
+
+    const savedIr = JSON.parse(readFileSync(path.join(dir, "ticket-booking.archsmith.json"), "utf-8"));
+    assert.equal(savedIr.authoringNotes, undefined); // never part of the real IR
+    assert.deepEqual(savedIr.unclassified, []); // assemble() always writes this field, but empty
+    const savedSvg = readFileSync(path.join(dir, "ticket-booking.svg"), "utf-8");
+    assert.ok(!savedSvg.includes("No separate governance layer")); // never rendered
+    unmount();
+  });
+});
+
 test("an existing file at the target path prompts to overwrite or rename, rather than silently clobbering it", async () => {
   await withTempDir(async (dir) => {
     const irPath = path.join(dir, "ticket-booking.archsmith.json");

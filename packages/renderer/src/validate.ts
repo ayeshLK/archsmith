@@ -72,6 +72,25 @@ export function validateRegistryReferences(ir: unknown): ValidationResult {
     }
   }
 
+  // Unlike discovery-and-governance and entity-layer, which are both
+  // genuinely optional (each absent from roughly half of ArchSmith's own
+  // real examples), execution-and-capability appears in every one of them
+  // — the only sub-layer that's actually mandatory in practice (issue
+  // #89). Checked here rather than as a JSON-Schema `contains`/`const`
+  // constraint on the same reasoning already applied to
+  // systemsOfRecord.registryId below: a failed schema-level constraint
+  // reports a bare "must be equal to constant" with no explanation of
+  // what's missing or why, inconsistent with every other error this
+  // codebase produces.
+  const hasExecutionAndCapability = (doc.columns?.corePlatform?.subLayers ?? []).some(
+    (s) => s.registryId === "execution-and-capability"
+  );
+  if (!hasExecutionAndCapability) {
+    errors.push(
+      `columns.corePlatform.subLayers must include an entry with registryId "execution-and-capability" — unlike the other governed sub-layers, this one is required and can't be omitted`
+    );
+  }
+
   // Unlike subLayers[].registryId, which may legitimately be any of several
   // governed entries, systemsOfRecord.registryId (see issue #57) has exactly
   // one correct value: the corePlatform.systemsOfRecord field always renders
