@@ -14,6 +14,13 @@ async function typeAndSubmit(stdin: { write: (data: string) => void }, text: str
   await flushImmediate();
 }
 
+/** Submits whatever value is already showing, without typing anything new
+ * first — for asserting a pre-filled default is accepted as-is. */
+async function submit(stdin: { write: (data: string) => void }): Promise<void> {
+  stdin.write("\r");
+  await flushImmediate();
+}
+
 test("shows the title and the label field's hint before anything is typed", () => {
   const { lastFrame, unmount } = render(
     <GatewayScreen draft={{}} descriptors={ingressGatewayDescriptors} title="Ingress" onComplete={() => {}} />
@@ -87,6 +94,27 @@ test("the same component works for egress, writing onto columns.egress instead",
 
   assert.deepEqual(result.completed?.columns?.egress?.gateway, { label: "Egress Proxy", sublabel: "Envoy" });
   assert.equal(result.completed?.columns?.ingress, undefined);
+  unmount();
+});
+
+test("re-entering with an already-populated gateway pre-fills label and sublabel, not blank", async () => {
+  const existing: DraftIR = { columns: { ingress: { gateway: { label: "API Gateway", sublabel: "Kong" } } } };
+  const result: { completed: DraftIR | null } = { completed: null };
+  const { stdin, lastFrame, unmount } = render(
+    <GatewayScreen
+      draft={existing}
+      descriptors={ingressGatewayDescriptors}
+      title="Ingress"
+      onComplete={(draft) => { result.completed = draft; }}
+    />
+  );
+
+  assert.ok(lastFrame()?.includes("API Gateway"));
+  await submit(stdin); // accept the pre-filled label as-is, unchanged
+  assert.ok(lastFrame()?.includes("Kong"));
+  await submit(stdin); // accept the pre-filled sublabel as-is, unchanged
+
+  assert.deepEqual(result.completed?.columns?.ingress?.gateway, { label: "API Gateway", sublabel: "Kong" });
   unmount();
 });
 

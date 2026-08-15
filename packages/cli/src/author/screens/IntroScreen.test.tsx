@@ -19,6 +19,13 @@ async function typeAndSubmit(stdin: { write: (data: string) => void }, text: str
   await flushImmediate();
 }
 
+/** Submits whatever value is already showing, without typing anything new
+ * first — for asserting a pre-filled default is accepted as-is. */
+async function submit(stdin: { write: (data: string) => void }): Promise<void> {
+  stdin.write("\r");
+  await flushImmediate();
+}
+
 test("shows the first field's label and hint before anything is typed", () => {
   const { lastFrame, unmount } = render(<IntroScreen draft={{}} onComplete={() => {}} />);
   const frame = lastFrame();
@@ -65,5 +72,23 @@ test("an empty submission still advances — validating emptiness is assemble()'
   await typeAndSubmit(stdin, "D");
 
   assert.equal(result.completed?.title, "");
+  unmount();
+});
+
+test("re-entering with an already-populated draft pre-fills each field's existing value, not blank", async () => {
+  const existing: DraftIR = { title: "Original Title", subtitle: "Original Subtitle" };
+  const result: { completed: DraftIR | null } = { completed: null };
+  const { stdin, lastFrame, unmount } = render(
+    <IntroScreen draft={existing} onComplete={(draft) => { result.completed = draft; }} />
+  );
+
+  assert.ok(lastFrame()?.includes("Original Title"));
+  await submit(stdin); // accept the pre-filled title as-is, unchanged
+  assert.ok(lastFrame()?.includes("Original Subtitle"));
+  await submit(stdin); // accept the pre-filled subtitle as-is, unchanged
+  await typeAndSubmit(stdin, "AWS EKS");
+
+  assert.equal(result.completed?.title, "Original Title");
+  assert.equal(result.completed?.subtitle, "Original Subtitle");
   unmount();
 });
