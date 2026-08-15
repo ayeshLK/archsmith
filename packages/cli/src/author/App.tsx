@@ -8,6 +8,7 @@ import { InboundActorsScreen } from "./screens/InboundActorsScreen.js";
 import { GatewayScreen } from "./screens/GatewayScreen.js";
 import { CorePlatformSubLayersScreen } from "./screens/CorePlatformSubLayersScreen.js";
 import { SystemsOfRecordScreen } from "./screens/SystemsOfRecordScreen.js";
+import { ExternalSystemsScreen } from "./screens/ExternalSystemsScreen.js";
 
 export interface AppProps {
   onExit: (draft: DraftIR | null) => void;
@@ -87,7 +88,11 @@ export function App({ onExit }: AppProps): React.JSX.Element {
     return <GatewayScreen draft={draft} descriptors={egressGatewayDescriptors} title="Egress" onComplete={advanceFrom} />;
   }
 
-  // externalSystems and review aren't built yet.
+  if (nav.current === "externalSystems") {
+    return <ExternalSystemsScreen draft={draft} onComplete={advanceFrom} />;
+  }
+
+  // review isn't built yet.
   return <NotYetBuilt draft={draft} onExit={onExit} />;
 }
 
@@ -97,7 +102,7 @@ function NotYetBuilt({ draft, onExit }: { draft: DraftIR; onExit: (draft: DraftI
   }, [draft, onExit]);
   return (
     <Box flexDirection="column">
-      <Text dimColor>(External Systems and Review are still being built)</Text>
+      <Text dimColor>(Review is still being built)</Text>
     </Box>
   );
 }
