@@ -46,12 +46,17 @@ async function reachReview(stdin: { write: (data: string) => void }): Promise<vo
   await typeAndSubmit(stdin, "API Gateway");
   await submit(stdin); // skip sublabel
 
-  // corePlatform sub-layers: "Not sure yet" x3 (down, down, enter each time)
-  for (let i = 0; i < 3; i++) {
-    await down(stdin);
-    await down(stdin);
-    await submit(stdin);
-  }
+  // corePlatform sub-layers: Discovery and Governance -> "Not sure yet"
+  // (down, down, enter); Execution and Capability is mandatory (no decide
+  // step) -> empty title leaves it with no items; Entity Layer -> "Not
+  // sure yet" again.
+  await down(stdin);
+  await down(stdin);
+  await submit(stdin);
+  await submit(stdin);
+  await down(stdin);
+  await down(stdin);
+  await submit(stdin);
 
   // systemsOfRecord: empty title ends the list immediately
   await submit(stdin);

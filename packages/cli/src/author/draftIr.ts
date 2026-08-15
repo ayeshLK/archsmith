@@ -8,6 +8,7 @@ import type {
   LegendEntryIR,
   AbbreviationIR,
 } from "@archsmith/renderer";
+import type { AuthoringNotes } from "./authoringNotes.js";
 
 /**
  * A DiagramIR in progress — every field the real DiagramIR requires may
@@ -43,4 +44,14 @@ export interface DraftIR {
   };
   notes?: string[] | null;
   unclassified?: GapNoteIR[];
+  /** Per-section authoring rationale (see authoringNotes.ts) — draft-only,
+   * never passed through assemble() into the real DiagramIR, and never
+   * rendered. Saved as a sidecar diagram.authoring-notes.md file instead. */
+  authoringNotes?: AuthoringNotes;
+  /** Governed Core Platform sub-layers explicitly confirmed "doesn't apply"
+   * via the wizard (registryIds) — draft-only bookkeeping, never passed
+   * through assemble(). Exists so subLayerStatus() can tell "confirmed
+   * absent" apart from merely "pending" without forcing a rendered gap
+   * note for a layer a human explicitly ruled out (issue #89). */
+  resolvedAbsentSubLayers?: string[];
 }

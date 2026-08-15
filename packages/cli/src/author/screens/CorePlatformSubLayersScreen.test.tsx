@@ -6,7 +6,7 @@ import { render } from "ink-testing-library";
 import { CorePlatformSubLayersScreen } from "./CorePlatformSubLayersScreen.js";
 import type { DraftIR } from "../draftIr.js";
 
-const DOWN_ARROW = "[B";
+const DOWN_ARROW = String.fromCharCode(27) + "[B";
 const ENTER = "\r";
 
 async function type(stdin: { write: (data: string) => void }, text: string): Promise<void> {
@@ -34,7 +34,9 @@ async function finishOneItemQuickly(stdin: { write: (data: string) => void }, ti
   await submit(stdin); // "(skip)" color, already highlighted
 }
 
-/** Selects "Not sure yet — skip for now", the 3rd (last) decide option. */
+/** Selects "Not sure yet — skip for now", the 3rd (last) decide option —
+ * only valid for discovery-and-governance/entity-layer, which still offer
+ * a decide step. execution-and-capability is mandatory and has none. */
 async function selectPending(stdin: { write: (data: string) => void }): Promise<void> {
   await down(stdin);
   await down(stdin);
@@ -47,6 +49,13 @@ async function selectAbsent(stdin: { write: (data: string) => void }): Promise<v
   await submit(stdin);
 }
 
+/** execution-and-capability skips the decide step entirely — this just
+ * submits an empty title on its first (only) item, leaving it with no
+ * items, to move past it in tests that don't care about its content. */
+async function skipMandatoryLayerItems(stdin: { write: (data: string) => void }): Promise<void> {
+  await submit(stdin);
+}
+
 test("shows the first governed sub-layer's label and authoring hint before anything is selected", () => {
   const { lastFrame, unmount } = render(<CorePlatformSubLayersScreen draft={{}} onComplete={() => {}} />);
   const frame = lastFrame();
@@ -55,50 +64,74 @@ test("shows the first governed sub-layer's label and authoring hint before anyth
   unmount();
 });
 
-test("selecting \"Not sure yet\" for all 3 layers advances through each and completes with no subLayers or gap notes", async () => {
+test("execution-and-capability skips the decide step entirely and goes straight to its items (issue #89)", async () => {
+  const { stdin, lastFrame, unmount } = render(<CorePlatformSubLayersScreen draft={{}} onComplete={() => {}} />);
+
+  await selectPending(stdin); // Discovery and Governance -> pending
+
+  const frame = lastFrame();
+  assert.ok(frame?.includes("Execution and Capability"));
+  assert.ok(frame?.includes("item 1"));
+  assert.ok(frame?.includes("The actual business logic")); // its authoring hint, shown on item 1
+  assert.ok(!frame?.includes("Yes — I'll add its items")); // no decide menu at all
+  unmount();
+});
+
+test("selecting \"Not sure yet\" for the 2 optional layers, and leaving execution-and-capability empty, completes with no subLayers or gap notes", async () => {
   const result: { completed: DraftIR | null } = { completed: null };
   const { stdin, lastFrame, unmount } = render(
     <CorePlatformSubLayersScreen draft={{}} onComplete={(d) => { result.completed = d; }} />
   );
 
-  await selectPending(stdin);
+  await selectPending(stdin); // Discovery and Governance
   assert.ok(lastFrame()?.includes("Execution and Capability"));
-  await selectPending(stdin);
+  await skipMandatoryLayerItems(stdin);
   assert.ok(lastFrame()?.includes("Entity Layer"));
   await selectPending(stdin);
 
   assert.equal(result.completed?.columns?.corePlatform?.subLayers, undefined);
   assert.equal(result.completed?.unclassified, undefined);
+  assert.equal(result.completed?.authoringNotes, undefined);
   unmount();
 });
 
-test("selecting \"No\" walks through a title and description, then records a gap note and advances", async () => {
+test("selecting \"No\" marks the layer confirmed-absent without a gap note, and the reason is optional (issue #89)", async () => {
   const result: { completed: DraftIR | null } = { completed: null };
   const { stdin, lastFrame, unmount } = render(
     <CorePlatformSubLayersScreen draft={{}} onComplete={(d) => { result.completed = d; }} />
   );
 
   await selectAbsent(stdin);
-  assert.ok(lastFrame()?.includes("short title for this gap note"));
-  await type(stdin, "No Governance Layer");
-  await submit(stdin);
-  assert.ok(lastFrame()?.includes("explaining why"));
+  assert.ok(lastFrame()?.includes("Optional: why doesn't this apply here?"));
+  await submit(stdin); // skip the reason entirely
+
+  // advanced straight to Execution and Capability (mandatory, no decide step)
+  assert.ok(lastFrame()?.includes("Execution and Capability"));
+  await skipMandatoryLayerItems(stdin);
+  await selectPending(stdin); // Entity Layer
+
+  assert.equal(result.completed?.unclassified, undefined); // never touches the rendered gap-note path
+  assert.equal(result.completed?.authoringNotes, undefined); // no reason given, nothing recorded
+  unmount();
+});
+
+test("giving a reason for \"No\" records it via authoringNotes, keyed by the layer's label, not into unclassified", async () => {
+  const result: { completed: DraftIR | null } = { completed: null };
+  const { stdin, unmount } = render(
+    <CorePlatformSubLayersScreen draft={{}} onComplete={(d) => { result.completed = d; }} />
+  );
+
+  await selectAbsent(stdin);
   await type(stdin, "This system has no separate governance layer.");
   await submit(stdin);
 
-  // advanced to the next layer
-  assert.ok(lastFrame()?.includes("Execution and Capability"));
-  await selectPending(stdin);
-  await selectPending(stdin);
+  await skipMandatoryLayerItems(stdin); // Execution and Capability
+  await selectPending(stdin); // Entity Layer
 
-  assert.deepEqual(result.completed?.unclassified, [
-    {
-      title: "No Governance Layer",
-      description: "This system has no separate governance layer.",
-      reason: "missing-layer",
-      location: "discovery-and-governance",
-    },
-  ]);
+  assert.equal(result.completed?.unclassified, undefined);
+  assert.deepEqual(result.completed?.authoringNotes, {
+    "Discovery and Governance": ["This system has no separate governance layer."],
+  });
   unmount();
 });
 
@@ -115,7 +148,7 @@ test("selecting \"Yes\" adds items via the shared ItemSubFlow, ending the layer'
   await submit(stdin); // empty title ends this layer's list
 
   assert.ok(lastFrame()?.includes("Execution and Capability"));
-  await selectPending(stdin);
+  await skipMandatoryLayerItems(stdin);
   await selectPending(stdin);
 
   const subLayers = result.completed?.columns?.corePlatform?.subLayers;
@@ -137,7 +170,7 @@ test("finishing a layer with 3 items re-groups them into real columns (2-1), not
   await finishOneItemQuickly(stdin, "Access Control");
   await submit(stdin); // empty title ends this layer's list
 
-  await selectPending(stdin); // Execution and Capability
+  await skipMandatoryLayerItems(stdin); // Execution and Capability
   await selectPending(stdin); // Entity Layer
 
   const rows = result.completed?.columns?.corePlatform?.subLayers?.[0]?.rows;
@@ -154,11 +187,11 @@ test("calls onComplete once, only after all 3 governed sub-layers have been deci
     <CorePlatformSubLayersScreen draft={{}} onComplete={() => { completeCallCount += 1; }} />
   );
 
-  await selectPending(stdin);
+  await selectPending(stdin); // Discovery and Governance
   assert.equal(completeCallCount, 0);
-  await selectPending(stdin);
+  await skipMandatoryLayerItems(stdin); // Execution and Capability
   assert.equal(completeCallCount, 0);
-  await selectPending(stdin);
+  await selectPending(stdin); // Entity Layer
   assert.equal(completeCallCount, 1);
   unmount();
 });

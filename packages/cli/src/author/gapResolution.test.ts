@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import type { DraftIR } from "./draftIr.js";
-import { subLayerStatus, resolveSubLayerAsAbsent, clearSubLayerGapNote, subLayerGapNote } from "./gapResolution.js";
+import { subLayerStatus, resolveSubLayerAsAbsent, clearSubLayerGapNote, subLayerGapNote, markSubLayerAbsent } from "./gapResolution.js";
 
 test("an empty draft's sub-layer status is pending, not absent", () => {
   assert.equal(subLayerStatus("entity-layer", {}), "pending");
@@ -67,4 +67,27 @@ test("subLayerGapNote returns undefined for a pending or done sub-layer", () => 
   assert.equal(subLayerGapNote("entity-layer", {}), undefined);
   const done: DraftIR = { columns: { corePlatform: { subLayers: [{ registryId: "entity-layer", rows: [[{ title: "Order" }]] }] } } };
   assert.equal(subLayerGapNote("entity-layer", done), undefined);
+});
+
+test("markSubLayerAbsent moves a sub-layer from pending to absent, without a gap note (issue #89)", () => {
+  const draft: DraftIR = {};
+  assert.equal(subLayerStatus("entity-layer", draft), "pending");
+  const resolved = markSubLayerAbsent("entity-layer", draft);
+  assert.equal(subLayerStatus("entity-layer", resolved), "absent");
+  assert.equal(resolved.unclassified, undefined);
+  assert.deepEqual(resolved.resolvedAbsentSubLayers, ["entity-layer"]);
+});
+
+test("markSubLayerAbsent is a no-op (same reference) when already marked", () => {
+  const draft = markSubLayerAbsent("entity-layer", {});
+  assert.equal(markSubLayerAbsent("entity-layer", draft), draft);
+});
+
+test("markSubLayerAbsent for one sub-layer doesn't touch another's status", () => {
+  let draft: DraftIR = {};
+  draft = markSubLayerAbsent("entity-layer", draft);
+  draft = markSubLayerAbsent("discovery-and-governance", draft);
+  assert.equal(subLayerStatus("entity-layer", draft), "absent");
+  assert.equal(subLayerStatus("discovery-and-governance", draft), "absent");
+  assert.equal(subLayerStatus("execution-and-capability", draft), "pending");
 });

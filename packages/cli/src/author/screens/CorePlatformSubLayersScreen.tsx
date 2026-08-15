@@ -6,11 +6,12 @@ import { getAuthoringHint } from "@archsmith/schema";
 import type { DraftIR } from "../draftIr.js";
 import type { SectionStatus } from "../fieldDescriptor.js";
 import { itemLens, subLayerItemsAccessor, applySuggestedRowGrouping } from "../itemLens.js";
-import { resolveSubLayerAsAbsent } from "../gapResolution.js";
+import { markSubLayerAbsent } from "../gapResolution.js";
+import { appendAuthoringNote } from "../authoringNotes.js";
 import { governedCoreSubLayers } from "../derived.js";
 import { ItemSubFlow } from "./ItemSubFlow.js";
 
-type Phase = "decide" | "items" | "absentTitle" | "absentDescription";
+type Phase = "decide" | "items" | "absentReason";
 
 export interface CorePlatformSubLayersScreenProps {
   draft: DraftIR;
@@ -18,6 +19,20 @@ export interface CorePlatformSubLayersScreenProps {
 }
 
 const GOVERNED_LAYERS = governedCoreSubLayers();
+
+// execution-and-capability is present in every one of ArchSmith's own real
+// examples (9/9) — the only governed sub-layer that's actually mandatory
+// in practice, unlike discovery-and-governance and entity-layer (each
+// absent from roughly half of them). See issue #89.
+const MANDATORY_LAYER_ID = "execution-and-capability";
+
+function isMandatory(registryId: string): boolean {
+  return registryId === MANDATORY_LAYER_ID;
+}
+
+function startingSubLayerArrayIndex(draft: DraftIR): number {
+  return draft.columns?.corePlatform?.subLayers?.length ?? 0;
+}
 
 const DECIDE_OPTIONS: Array<{ label: string; value: SectionStatus }> = [
   { label: "Yes — I'll add its items", value: "done" },
@@ -27,14 +42,27 @@ const DECIDE_OPTIONS: Array<{ label: string; value: SectionStatus }> = [
 
 /**
  * Walks through the 3 governed Core Platform sub-layers in registry order
- * (Discovery and Governance, Execution and Capability, Entity Layer),
- * deciding each one's status before moving to the next — Systems of
- * Record is a distinct, always-required section handled by its own
- * screen, not part of this walk (see governedCoreSubLayers).
+ * (Discovery and Governance, Execution and Capability, Entity Layer) —
+ * Systems of Record is a distinct, always-required section handled by
+ * its own screen, not part of this walk (see governedCoreSubLayers).
+ *
+ * execution-and-capability is mandatory (see isMandatory) — it skips the
+ * decide step entirely and goes straight to adding items, the same
+ * treatment SystemsOfRecordScreen already gives its own always-required
+ * section. discovery-and-governance and entity-layer stay three-state.
  *
  * "Not sure yet" and a real instance with zero items both leave a layer
  * exactly as pending — the same underlying state gapResolution.ts already
  * derives from draft shape, not a status this screen tracks separately.
+ * Selecting "doesn't apply" marks the layer confirmed-absent via a
+ * draft-only marker (markSubLayerAbsent) rather than a rendered gap note
+ * (issue #89) — the interview process itself already guards against
+ * accidental omission, so an explanation doesn't need to be forced into
+ * the diagram to be trustworthy the way a hand-authored gap note's does.
+ * The reason is optional, consistent with every other secondary field in
+ * this wizard; if given, it's recorded via authoringNotes.ts into the
+ * sidecar diagram.authoring-notes.md file, never into the rendered SVG.
+ *
  * Revisiting a layer already marked pending before finishing this screen
  * (the nested "resume cursor") is intentionally not built yet — deferred
  * for the same reason it was deferred out of Phase 2 and navigation.ts:
@@ -44,25 +72,33 @@ const DECIDE_OPTIONS: Array<{ label: string; value: SectionStatus }> = [
  */
 export function CorePlatformSubLayersScreen({ draft, onComplete }: CorePlatformSubLayersScreenProps): React.JSX.Element {
   const [layerIdx, setLayerIdx] = useState(0);
-  const [phase, setPhase] = useState<Phase>("decide");
+  const [phase, setPhase] = useState<Phase>(() => (isMandatory(GOVERNED_LAYERS[0]!.id) ? "items" : "decide"));
   const [currentDraft, setCurrentDraft] = useState(draft);
   const [itemIndex, setItemIndex] = useState(0);
-  const [subLayerArrayIndex, setSubLayerArrayIndex] = useState(0);
-  const [absentTitle, setAbsentTitle] = useState("");
+  const [subLayerArrayIndex, setSubLayerArrayIndex] = useState(() =>
+    isMandatory(GOVERNED_LAYERS[0]!.id) ? startingSubLayerArrayIndex(draft) : 0
+  );
   const [value, setValue] = useState("");
 
   const entry = GOVERNED_LAYERS[layerIdx]!;
 
   function advanceLayer(updatedDraft: DraftIR): void {
-    if (layerIdx + 1 >= GOVERNED_LAYERS.length) {
+    const nextLayerIdx = layerIdx + 1;
+    if (nextLayerIdx >= GOVERNED_LAYERS.length) {
       onComplete(updatedDraft);
       return;
     }
     setCurrentDraft(updatedDraft);
-    setLayerIdx(layerIdx + 1);
-    setPhase("decide");
+    setLayerIdx(nextLayerIdx);
     setItemIndex(0);
     setValue("");
+    const nextEntry = GOVERNED_LAYERS[nextLayerIdx]!;
+    if (isMandatory(nextEntry.id)) {
+      setSubLayerArrayIndex(startingSubLayerArrayIndex(updatedDraft));
+      setPhase("items");
+    } else {
+      setPhase("decide");
+    }
   }
 
   if (phase === "decide") {
@@ -80,11 +116,12 @@ export function CorePlatformSubLayersScreen({ draft, onComplete }: CorePlatformS
             items={DECIDE_OPTIONS}
             onSelect={(item) => {
               if (item.value === "done") {
-                setSubLayerArrayIndex(currentDraft.columns?.corePlatform?.subLayers?.length ?? 0);
+                setSubLayerArrayIndex(startingSubLayerArrayIndex(currentDraft));
                 setItemIndex(0);
                 setPhase("items");
               } else if (item.value === "absent") {
-                setPhase("absentTitle");
+                setCurrentDraft(markSubLayerAbsent(entry.id, currentDraft));
+                setPhase("absentReason");
               } else {
                 advanceLayer(currentDraft);
               }
@@ -95,43 +132,24 @@ export function CorePlatformSubLayersScreen({ draft, onComplete }: CorePlatformS
     );
   }
 
-  if (phase === "absentTitle") {
+  if (phase === "absentReason") {
     return (
       <Box flexDirection="column">
         <Text color="cyan" bold>
           Core Platform — {entry.label}
         </Text>
-        <Text dimColor>A short title for this gap note, e.g. "No {entry.label}".</Text>
+        <Text dimColor>Optional: why doesn't this apply here? (Enter to skip — kept out of the diagram, saved to diagram.authoring-notes.md)</Text>
         <Box marginTop={1}>
           <Text color="green">{"? "}</Text>
           <TextInput
             value={value}
             onChange={setValue}
             onSubmit={(submitted) => {
-              setAbsentTitle(submitted);
-              setValue("");
-              setPhase("absentDescription");
-            }}
-          />
-        </Box>
-      </Box>
-    );
-  }
-
-  if (phase === "absentDescription") {
-    return (
-      <Box flexDirection="column">
-        <Text color="cyan" bold>
-          Core Platform — {entry.label}
-        </Text>
-        <Text dimColor>One sentence explaining why this layer doesn't apply here.</Text>
-        <Box marginTop={1}>
-          <Text color="green">{"? "}</Text>
-          <TextInput
-            value={value}
-            onChange={setValue}
-            onSubmit={(submitted) => {
-              advanceLayer(resolveSubLayerAsAbsent(entry.id, absentTitle, submitted, currentDraft));
+              const updated =
+                submitted === ""
+                  ? currentDraft
+                  : { ...currentDraft, authoringNotes: appendAuthoringNote(currentDraft.authoringNotes ?? {}, entry.label, submitted) };
+              advanceLayer(updated);
             }}
           />
         </Box>
@@ -147,6 +165,7 @@ export function CorePlatformSubLayersScreen({ draft, onComplete }: CorePlatformS
       <Text color="cyan" bold>
         {entry.label} — item {itemIndex + 1}
       </Text>
+      {itemIndex === 0 && <Text dimColor>{getAuthoringHint(entry.id)}</Text>}
       <Box marginTop={1}>
         <ItemSubFlow
           key={itemIndex}

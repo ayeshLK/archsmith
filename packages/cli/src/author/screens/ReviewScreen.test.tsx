@@ -74,6 +74,30 @@ test("flags a pending governed sub-layer clearly, distinct from absent or done",
   unmount();
 });
 
+test("shows an authoringNotes-recorded reason for an absent sub-layer (issue #89), without a gap note", () => {
+  const draft: DraftIR = {
+    columns: { corePlatform: { subLayers: [{ registryId: "execution-and-capability", rows: [[{ title: "Booking Service" }]] }] } },
+    resolvedAbsentSubLayers: ["discovery-and-governance"],
+    authoringNotes: { "Discovery and Governance": ["Not needed for this system."] },
+  };
+  const { lastFrame, unmount } = render(<ReviewScreen draft={draft} onConfirm={() => {}} onEditSection={() => {}} />);
+  const frame = lastFrame();
+  assert.ok(frame?.includes("absent — Not needed for this system."));
+  unmount();
+});
+
+test("shows a bare \"absent\", with no reason, when doesn't-apply was chosen without one (issue #89)", () => {
+  const draft: DraftIR = {
+    columns: { corePlatform: { subLayers: [{ registryId: "execution-and-capability", rows: [[{ title: "Booking Service" }]] }] } },
+    resolvedAbsentSubLayers: ["discovery-and-governance"],
+  };
+  const { lastFrame, unmount } = render(<ReviewScreen draft={draft} onConfirm={() => {}} onEditSection={() => {}} />);
+  const frame = lastFrame();
+  assert.ok(frame?.includes("Discovery and Governance: absent"));
+  assert.ok(!frame?.includes("absent —"));
+  unmount();
+});
+
 test("selecting \"Looks good — continue\" calls onConfirm with the current draft", async () => {
   const result: { confirmed: DraftIR | null } = { confirmed: null };
   const { stdin, unmount } = render(

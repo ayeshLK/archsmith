@@ -60,6 +60,24 @@ test("systemsOfRecord.registryId is required (issue #57)", () => {
   assert.ok(result.errors.some((e) => e.includes("systemsOfRecord") && e.includes("registryId")));
 });
 
+test("corePlatform.subLayers must include an execution-and-capability entry (issue #89)", () => {
+  const ir = loadFixture("minimal-valid/diagram.archsmith.json") as {
+    columns: { corePlatform: { subLayers: Array<{ registryId: string }> } };
+  };
+  // minimal-valid's only subLayer entry IS execution-and-capability, so
+  // swap its registryId rather than removing it outright — the array
+  // still has 1 entry (satisfying the schema's own minItems: 1), just no
+  // longer the one this test is checking for.
+  ir.columns.corePlatform.subLayers[0]!.registryId = "entity-layer";
+
+  const structural = validateStructure(ir);
+  assert.equal(structural.valid, true, "a real registry id should pass structural validation");
+
+  const semantic = validateRegistryReferences(ir);
+  assert.equal(semantic.valid, false);
+  assert.ok(semantic.errors.some((e) => e.includes("execution-and-capability") && e.includes("required")));
+});
+
 test("systemsOfRecord.registryId must be exactly 'systems-of-record', not just any known sub-layer id", () => {
   const ir = loadFixture("minimal-valid/diagram.archsmith.json") as {
     columns: { corePlatform: { systemsOfRecord: { registryId: string } } };
