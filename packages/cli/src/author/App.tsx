@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Box, Text, useInput } from "ink";
 import type { DraftIR } from "./draftIr.js";
 import { initialNavigation, advance } from "./navigation.js";
-import { ingressGatewayDescriptors } from "./scalarDescriptors.js";
+import { ingressGatewayDescriptors, egressGatewayDescriptors } from "./scalarDescriptors.js";
 import { IntroScreen } from "./screens/IntroScreen.js";
 import { InboundActorsScreen } from "./screens/InboundActorsScreen.js";
 import { GatewayScreen } from "./screens/GatewayScreen.js";
 import { CorePlatformSubLayersScreen } from "./screens/CorePlatformSubLayersScreen.js";
+import { SystemsOfRecordScreen } from "./screens/SystemsOfRecordScreen.js";
 
 export interface AppProps {
   onExit: (draft: DraftIR | null) => void;
@@ -75,10 +76,18 @@ export function App({ onExit }: AppProps): React.JSX.Element {
     );
   }
 
-  // Systems of Record (still part of the corePlatform section) and
-  // everything after it — egress, externalSystems, review — aren't built
-  // yet. Stopping here rather than advancing nav past corePlatform, since
-  // that section genuinely isn't complete without Systems of Record.
+  if (nav.current === "corePlatform" && corePlatformSubLayersDone) {
+    // Systems of Record closes out the corePlatform section for real —
+    // advanceFrom here (unlike the sub-layers step above) since there's
+    // nothing else left in this section once it's answered.
+    return <SystemsOfRecordScreen draft={draft} onComplete={advanceFrom} />;
+  }
+
+  if (nav.current === "egress") {
+    return <GatewayScreen draft={draft} descriptors={egressGatewayDescriptors} title="Egress" onComplete={advanceFrom} />;
+  }
+
+  // externalSystems and review aren't built yet.
   return <NotYetBuilt draft={draft} onExit={onExit} />;
 }
 
@@ -88,7 +97,7 @@ function NotYetBuilt({ draft, onExit }: { draft: DraftIR; onExit: (draft: DraftI
   }, [draft, onExit]);
   return (
     <Box flexDirection="column">
-      <Text dimColor>(Systems of Record and everything past it is still being built)</Text>
+      <Text dimColor>(External Systems and Review are still being built)</Text>
     </Box>
   );
 }
