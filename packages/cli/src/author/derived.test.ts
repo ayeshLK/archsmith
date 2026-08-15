@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import type { DraftIR } from "./draftIr.js";
-import { deriveLegendEntries, deriveAbbreviations, deriveColorFamily } from "./derived.js";
+import { deriveLegendEntries, deriveAbbreviations, deriveColorFamily, governedCoreSubLayers } from "./derived.js";
 
 const examplesDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../../../examples");
 
@@ -22,6 +22,11 @@ test("deriveLegendEntries reproduces compliance-heavy-platform's real legend exa
   const draft = loadFixture("compliance-heavy-platform/diagram.archsmith.json");
   const derived = deriveLegendEntries(draft);
   assert.deepEqual(derived, draft.legend!.entries);
+});
+
+test("governedCoreSubLayers excludes systems-of-record — that's a distinct, always-required section, not one of the optional stacked layers", () => {
+  const ids = governedCoreSubLayers().map((e) => e.id);
+  assert.deepEqual(ids, ["discovery-and-governance", "execution-and-capability", "entity-layer"]);
 });
 
 test("deriveLegendEntries always includes Systems of Record and the gateway entry, even for an empty draft", () => {

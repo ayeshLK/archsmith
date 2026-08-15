@@ -6,6 +6,7 @@ import { ingressGatewayDescriptors } from "./scalarDescriptors.js";
 import { IntroScreen } from "./screens/IntroScreen.js";
 import { InboundActorsScreen } from "./screens/InboundActorsScreen.js";
 import { GatewayScreen } from "./screens/GatewayScreen.js";
+import { CorePlatformSubLayersScreen } from "./screens/CorePlatformSubLayersScreen.js";
 
 export interface AppProps {
   onExit: (draft: DraftIR | null) => void;
@@ -24,6 +25,11 @@ export function App({ onExit }: AppProps): React.JSX.Element {
   const [draft, setDraft] = useState<DraftIR>({});
   const [nav, setNav] = useState(initialNavigation());
   const [cancelled, setCancelled] = useState(false);
+  // corePlatform is one nav section but two screens (sub-layers, then
+  // Systems of Record) — only the first exists so far. This tracks
+  // finishing that first screen without advancing nav past corePlatform,
+  // the same way ingress doesn't advance into an unbuilt egress.
+  const [corePlatformSubLayersDone, setCorePlatformSubLayersDone] = useState(false);
 
   useInput((input, key) => {
     if (key.ctrl && input === "c") {
@@ -57,12 +63,22 @@ export function App({ onExit }: AppProps): React.JSX.Element {
     return <GatewayScreen draft={draft} descriptors={ingressGatewayDescriptors} title="Ingress" onComplete={advanceFrom} />;
   }
 
-  // corePlatform comes next in the real section order (see navigation.ts)
-  // and isn't built yet — egress isn't wired into this live sequence
-  // until it is, since it'd otherwise be unreachable dead code (advance()
-  // from ingress goes to corePlatform, not egress). GatewayScreen itself
-  // is already generic and tested against both gateways' descriptors
-  // directly (see GatewayScreen.test.tsx) — only the wiring here waits.
+  if (nav.current === "corePlatform" && !corePlatformSubLayersDone) {
+    return (
+      <CorePlatformSubLayersScreen
+        draft={draft}
+        onComplete={(updatedDraft) => {
+          setDraft(updatedDraft);
+          setCorePlatformSubLayersDone(true);
+        }}
+      />
+    );
+  }
+
+  // Systems of Record (still part of the corePlatform section) and
+  // everything after it — egress, externalSystems, review — aren't built
+  // yet. Stopping here rather than advancing nav past corePlatform, since
+  // that section genuinely isn't complete without Systems of Record.
   return <NotYetBuilt draft={draft} onExit={onExit} />;
 }
 
@@ -72,7 +88,7 @@ function NotYetBuilt({ draft, onExit }: { draft: DraftIR; onExit: (draft: DraftI
   }, [draft, onExit]);
   return (
     <Box flexDirection="column">
-      <Text dimColor>(everything past Ingress is still being built)</Text>
+      <Text dimColor>(Systems of Record and everything past it is still being built)</Text>
     </Box>
   );
 }

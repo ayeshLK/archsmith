@@ -154,9 +154,12 @@ function unflattenPreservingShape(existingRows: ItemIR[][] | undefined, newItems
  * (and a human editing one item at a time) never needs to think in terms
  * of `rows: ItemIR[][]`; row grouping is deliberately a separate concern,
  * layered on top of this flat view, not baked into how individual items
- * are read or written.
+ * are read or written. `registryId` is only used the first time this
+ * index is written — the fallback for a brand-new sub-layer instance
+ * that doesn't exist in the draft yet; once it exists, its own stored
+ * registryId is preserved regardless of what's passed here.
  */
-export function subLayerItemsAccessor(subLayerIndex: number): ItemArrayAccessor {
+export function subLayerItemsAccessor(subLayerIndex: number, registryId?: string): ItemArrayAccessor {
   return {
     get: (draft) => {
       const rows = draft.columns?.corePlatform?.subLayers?.[subLayerIndex]?.rows;
@@ -167,7 +170,7 @@ export function subLayerItemsAccessor(subLayerIndex: number): ItemArrayAccessor 
       const existing = subLayers[subLayerIndex];
       const rows = unflattenPreservingShape(existing?.rows, items);
       const updated = [...subLayers];
-      updated[subLayerIndex] = { ...(existing ?? { registryId: "" }), rows };
+      updated[subLayerIndex] = { ...(existing ?? { registryId: registryId ?? "" }), rows };
       return { ...draft, columns: { ...draft.columns, corePlatform: { ...draft.columns?.corePlatform, subLayers: updated } } };
     },
   };
