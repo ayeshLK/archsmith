@@ -2,14 +2,23 @@ import { getRegistry } from "@archsmith/schema";
 import type { LegendEntryIR, AbbreviationIR, ItemIR } from "@archsmith/renderer";
 import type { DraftIR } from "./draftIr.js";
 
-interface SubLayerRegistryEntry {
+export interface SubLayerRegistryEntry {
   id: string;
   label: string;
   accentColorToken: string;
 }
 
-function subLayerRegistryEntries(): SubLayerRegistryEntry[] {
+export function subLayerRegistryEntries(): SubLayerRegistryEntry[] {
   return (getRegistry("sub-layers") as { entries: SubLayerRegistryEntry[] }).entries;
+}
+
+/** The 3 governed sub-layers a Core Platform diagram can walk through and
+ * decide on (done/absent/pending) — "systems-of-record" is excluded since
+ * it's a distinct, always-required section (see systemsOfRecordAccessor),
+ * not one of the optional stacked sub-layers. Registry order is meaningful
+ * (see sub-layers.json's own governance note) and preserved here as-is. */
+export function governedCoreSubLayers(): SubLayerRegistryEntry[] {
+  return subLayerRegistryEntries().filter((e) => e.id !== "systems-of-record");
 }
 
 // Fixed convention, not derived per-diagram — Ingress/Egress lanes share

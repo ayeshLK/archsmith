@@ -114,6 +114,28 @@ test("editing one item's title preserves the existing row grouping shape (2-1 st
   );
 });
 
+test("subLayerItemsAccessor seeds a brand-new sub-layer instance with the given registryId", () => {
+  const draft: DraftIR = {};
+  const accessor = subLayerItemsAccessor(0, "discovery-and-governance");
+  const updated = accessor.set(draft, [{ title: "API Gateway Policy" }]);
+  const subLayer = updated.columns!.corePlatform!.subLayers![0]!;
+  assert.equal(subLayer.registryId, "discovery-and-governance");
+  assert.deepEqual(subLayer.rows, [[{ title: "API Gateway Policy" }]]);
+});
+
+test("subLayerItemsAccessor's registryId fallback is ignored once the instance already exists", () => {
+  const draft: DraftIR = {
+    columns: {
+      corePlatform: {
+        subLayers: [{ registryId: "entity-layer", rows: [[{ title: "Order" }]] }],
+      },
+    },
+  };
+  const accessor = subLayerItemsAccessor(0, "discovery-and-governance");
+  const updated = accessor.set(draft, [{ title: "Order" }, { title: "Invoice" }]);
+  assert.equal(updated.columns!.corePlatform!.subLayers![0]!.registryId, "entity-layer");
+});
+
 test("adding a new item (count changes) falls back to one-per-row, not a guessed pairing", () => {
   const draft: DraftIR = {
     columns: {
