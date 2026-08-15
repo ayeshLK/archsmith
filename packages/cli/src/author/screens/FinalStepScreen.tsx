@@ -9,7 +9,6 @@ import type { DraftIR } from "../draftIr.js";
 import { assemble } from "../assemble.js";
 import { governedCoreSubLayers } from "../derived.js";
 import { subLayerStatus } from "../gapResolution.js";
-import { renderAuthoringNotesMarkdown } from "../authoringNotes.js";
 
 type Phase = "nameInput" | "overwriteConfirm" | "done";
 
@@ -30,7 +29,6 @@ function slugify(text: string): string {
 interface SavedPaths {
   irPath: string;
   svgPath: string;
-  notesPath: string;
 }
 
 function DoneScreen({ savedPaths, draft, onExit }: { savedPaths: SavedPaths; draft: DraftIR; onExit: (draft: DraftIR) => void }): React.JSX.Element {
@@ -47,7 +45,6 @@ function DoneScreen({ savedPaths, draft, onExit }: { savedPaths: SavedPaths; dra
       </Text>
       <Text>  IR:  {savedPaths.irPath}</Text>
       <Text>  SVG: {savedPaths.svgPath}</Text>
-      <Text>  Notes: {savedPaths.notesPath}</Text>
       {pending.length > 0 && (
         <Text color="yellow">  ⚠ still pending, left out of this diagram: {pending.map((entry) => entry.label).join(", ")}</Text>
       )}
@@ -68,10 +65,13 @@ function DoneScreen({ savedPaths, draft, onExit }: { savedPaths: SavedPaths; dra
  * rather than inventing a new recovery path for what's already an
  * explicit v1 boundary.
  *
- * Also writes the sidecar diagram.authoring-notes.md (draft.authoringNotes
- * — see authoringNotes.ts and issue #89), always, even with zero notes
- * recorded — a session with nothing to say still gets a real, honest file
- * rather than a silently-missing one.
+ * Only ever writes these two files — a sidecar diagram.authoring-notes.md
+ * was tried (issue #89) and reverted (issue #93): nothing reads a
+ * persisted authoring note back today, and committing to any storage
+ * format now risks a breaking change once a real future reader (Phase
+ * 1.5 editing) is actually designed. draft.authoringNotes still gets
+ * collected and shown on ReviewScreen for the current session; it just
+ * isn't written anywhere once the session ends.
  */
 export function FinalStepScreen({ draft, onExit, cwd = process.cwd() }: FinalStepScreenProps): React.JSX.Element {
   const [phase, setPhase] = useState<Phase>("nameInput");
@@ -104,13 +104,12 @@ export function FinalStepScreen({ draft, onExit, cwd = process.cwd() }: FinalSte
     );
   }
 
-  function writeFiles(irPath: string, svgPath: string, notesPath: string): void {
+  function writeFiles(irPath: string, svgPath: string): void {
     try {
       const svg = render(assembled!, { skipValidate: true });
       writeFileSync(irPath, JSON.stringify(assembled, null, 2), "utf-8");
       writeFileSync(svgPath, svg, "utf-8");
-      writeFileSync(notesPath, renderAuthoringNotesMarkdown(draft.title || "Untitled Diagram", draft.authoringNotes ?? {}), "utf-8");
-      setSavedPaths({ irPath, svgPath, notesPath });
+      setSavedPaths({ irPath, svgPath });
       setPhase("done");
     } catch (err) {
       setWriteError((err as Error).message);
@@ -136,7 +135,7 @@ export function FinalStepScreen({ draft, onExit, cwd = process.cwd() }: FinalSte
   if (phase === "overwriteConfirm" && conflict) {
     return (
       <Box flexDirection="column">
-        <Text color="yellow">A file already exists at {conflict.irPath}, {conflict.svgPath}, or {conflict.notesPath}.</Text>
+        <Text color="yellow">A file already exists at {conflict.irPath} or {conflict.svgPath}.</Text>
         <Box marginTop={1}>
           <SelectInput
             items={[
@@ -145,7 +144,7 @@ export function FinalStepScreen({ draft, onExit, cwd = process.cwd() }: FinalSte
             ]}
             onSelect={(item) => {
               if (item.value === "overwrite") {
-                writeFiles(conflict.irPath, conflict.svgPath, conflict.notesPath);
+                writeFiles(conflict.irPath, conflict.svgPath);
               } else {
                 setConflict(null);
                 setPhase("nameInput");
@@ -162,7 +161,7 @@ export function FinalStepScreen({ draft, onExit, cwd = process.cwd() }: FinalSte
       <Text color="cyan" bold>
         Save
       </Text>
-      <Text dimColor>Base file name (Enter to accept) — saves as &lt;name&gt;.archsmith.json, &lt;name&gt;.svg, and &lt;name&gt;.authoring-notes.md</Text>
+      <Text dimColor>Base file name (Enter to accept) — saves as &lt;name&gt;.archsmith.json and &lt;name&gt;.svg</Text>
       <Box marginTop={1}>
         <Text color="green">{"? "}</Text>
         <TextInput
@@ -173,12 +172,11 @@ export function FinalStepScreen({ draft, onExit, cwd = process.cwd() }: FinalSte
             setBasename(name);
             const irPath = path.join(cwd, `${name}.archsmith.json`);
             const svgPath = path.join(cwd, `${name}.svg`);
-            const notesPath = path.join(cwd, `${name}.authoring-notes.md`);
-            if (existsSync(irPath) || existsSync(svgPath) || existsSync(notesPath)) {
-              setConflict({ irPath, svgPath, notesPath });
+            if (existsSync(irPath) || existsSync(svgPath)) {
+              setConflict({ irPath, svgPath });
               setPhase("overwriteConfirm");
             } else {
-              writeFiles(irPath, svgPath, notesPath);
+              writeFiles(irPath, svgPath);
             }
           }}
         />

@@ -46,7 +46,8 @@ export interface DraftIR {
   unclassified?: GapNoteIR[];
   /** Per-section authoring rationale (see authoringNotes.ts) — draft-only,
    * never passed through assemble() into the real DiagramIR, and never
-   * rendered. Saved as a sidecar diagram.authoring-notes.md file instead. */
+   * rendered. Shown back on ReviewScreen for the current session only;
+   * not persisted anywhere once the session ends (issue #93). */
   authoringNotes?: AuthoringNotes;
   /** Governed Core Platform sub-layers explicitly confirmed "doesn't apply"
    * via the wizard (registryIds) — draft-only bookkeeping, never passed

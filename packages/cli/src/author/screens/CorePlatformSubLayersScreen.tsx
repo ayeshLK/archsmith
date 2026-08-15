@@ -60,8 +60,9 @@ const DECIDE_OPTIONS: Array<{ label: string; value: SectionStatus }> = [
  * accidental omission, so an explanation doesn't need to be forced into
  * the diagram to be trustworthy the way a hand-authored gap note's does.
  * The reason is optional, consistent with every other secondary field in
- * this wizard; if given, it's recorded via authoringNotes.ts into the
- * sidecar diagram.authoring-notes.md file, never into the rendered SVG.
+ * this wizard; if given, it's recorded via authoringNotes.ts and shown
+ * back on ReviewScreen for this session, never rendered into the SVG and
+ * (issue #93) not persisted anywhere once the session ends.
  *
  * Revisiting a layer already marked pending before finishing this screen
  * (the nested "resume cursor") is intentionally not built yet — deferred
@@ -138,7 +139,7 @@ export function CorePlatformSubLayersScreen({ draft, onComplete }: CorePlatformS
         <Text color="cyan" bold>
           Core Platform — {entry.label}
         </Text>
-        <Text dimColor>Optional: why doesn't this apply here? (Enter to skip — kept out of the diagram, saved to diagram.authoring-notes.md)</Text>
+        <Text dimColor>Optional: why doesn't this apply here? (Enter to skip — kept out of the diagram, shown on the Review screen only)</Text>
         <Box marginTop={1}>
           <Text color="green">{"? "}</Text>
           <TextInput
