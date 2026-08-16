@@ -59,7 +59,7 @@ export function IntroScreen({ draft, onComplete }: IntroScreenProps): React.JSX.
       </Text>
       <Text dimColor>{field.descriptor.hint}</Text>
       <Box marginTop={1}>
-        <Text color="green">{"? "}</Text>
+        <Text color="green">{"> "}</Text>
         <TextInput value={value} onChange={setValue} onSubmit={handleSubmit} />
       </Box>
     </Box>

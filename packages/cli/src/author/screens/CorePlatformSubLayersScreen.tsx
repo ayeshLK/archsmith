@@ -141,7 +141,7 @@ export function CorePlatformSubLayersScreen({ draft, onComplete }: CorePlatformS
         </Text>
         <Text dimColor>Optional: why doesn't this apply here? (Enter to skip — kept out of the diagram, shown on the Review screen only)</Text>
         <Box marginTop={1}>
-          <Text color="green">{"? "}</Text>
+          <Text color="green">{"> "}</Text>
           <TextInput
             value={value}
             onChange={setValue}
