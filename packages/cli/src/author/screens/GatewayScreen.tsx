@@ -36,7 +36,7 @@ export function GatewayScreen({ draft, descriptors, title, onComplete }: Gateway
         </Text>
         <Text dimColor>{descriptors.label.hint}</Text>
         <Box marginTop={1}>
-          <Text color="green">{"? "}</Text>
+          <Text color="green">{"> "}</Text>
           <TextInput
             value={value}
             onChange={setValue}
@@ -59,7 +59,7 @@ export function GatewayScreen({ draft, descriptors, title, onComplete }: Gateway
       </Text>
       <Text dimColor>{descriptors.sublabel.hint} (Enter to skip)</Text>
       <Box marginTop={1}>
-        <Text color="green">{"? "}</Text>
+        <Text color="green">{"> "}</Text>
         <TextInput
           value={value}
           onChange={setValue}

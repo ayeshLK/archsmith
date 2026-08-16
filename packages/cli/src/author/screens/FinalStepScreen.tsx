@@ -164,7 +164,7 @@ export function FinalStepScreen({ draft, onExit, cwd = process.cwd() }: FinalSte
       </Text>
       <Text dimColor>Base file name (Enter to accept) — saves as &lt;name&gt;.archsmith.json, &lt;name&gt;.svg, and &lt;name&gt;.authoring-notes.md</Text>
       <Box marginTop={1}>
-        <Text color="green">{"? "}</Text>
+        <Text color="green">{"> "}</Text>
         <TextInput
           value={basename}
           onChange={setBasename}

@@ -37,7 +37,7 @@ export function ExternalSystemsScreen({ draft, onComplete }: ExternalSystemsScre
         </Text>
         <Text dimColor>{nameDescriptor.hint} (Enter on empty to finish External Systems)</Text>
         <Box marginTop={1}>
-          <Text color="green">{"? "}</Text>
+          <Text color="green">{"> "}</Text>
           <TextInput
             value={value}
             onChange={setValue}

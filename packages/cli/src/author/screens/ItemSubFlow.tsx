@@ -46,7 +46,7 @@ export function ItemSubFlow({ draft, lens, onEmptyTitle, onComplete }: ItemSubFl
         </Text>
         <Text dimColor>{lens.title.hint} (Enter on empty to finish this list)</Text>
         <Box marginTop={1}>
-          <Text color="green">{"? "}</Text>
+          <Text color="green">{"> "}</Text>
           <TextInput
             value={value}
             onChange={setValue}
@@ -73,7 +73,7 @@ export function ItemSubFlow({ draft, lens, onEmptyTitle, onComplete }: ItemSubFl
         </Text>
         <Text dimColor>{lens.eyebrow.hint} (Enter to skip)</Text>
         <Box marginTop={1}>
-          <Text color="green">{"? "}</Text>
+          <Text color="green">{"> "}</Text>
           <TextInput
             value={value}
             onChange={setValue}
@@ -106,7 +106,7 @@ export function ItemSubFlow({ draft, lens, onEmptyTitle, onComplete }: ItemSubFl
           </Box>
         )}
         <Box marginTop={1}>
-          <Text color="green">{"? "}</Text>
+          <Text color="green">{"> "}</Text>
           <TextInput
             value={value}
             onChange={setValue}
