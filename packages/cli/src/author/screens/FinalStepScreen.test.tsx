@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { setImmediate as flushImmediate } from "node:timers/promises";
-import { mkdtempSync, rmSync, existsSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdtempSync, rmSync, existsSync, readFileSync, writeFileSync, readdirSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import React from "react";
@@ -57,7 +57,7 @@ test("shows the Save prompt with a slugified default name derived from the title
   });
 });
 
-test("submitting with no existing files writes both files and shows their real paths", async () => {
+test("submitting with no existing files writes exactly the IR and SVG, and shows their real paths", async () => {
   await withTempDir(async (dir) => {
     let exited: DraftIR | null = null;
     const { stdin, lastFrame, unmount } = render(
@@ -89,21 +89,7 @@ test("submitting with no existing files writes both files and shows their real p
   });
 });
 
-test("always writes a sidecar authoring-notes.md, honestly saying so when there's nothing to note (issue #89)", async () => {
-  await withTempDir(async (dir) => {
-    const { stdin, unmount } = render(<FinalStepScreen draft={VALID_DRAFT} onExit={() => {}} cwd={dir} />);
-    await submit(stdin);
-
-    const notesPath = path.join(dir, "ticket-booking.authoring-notes.md");
-    assert.ok(existsSync(notesPath));
-    const notes = readFileSync(notesPath, "utf-8");
-    assert.ok(notes.includes("Ticket Booking"));
-    assert.ok(notes.includes("No notes recorded"));
-    unmount();
-  });
-});
-
-test("writes real authoringNotes content into the sidecar file, not into the IR or SVG (issue #89)", async () => {
+test("never writes a sidecar authoring-notes file, even when the draft has real notes (issue #93)", async () => {
   await withTempDir(async (dir) => {
     const draftWithNotes: DraftIR = {
       ...VALID_DRAFT,
@@ -112,9 +98,8 @@ test("writes real authoringNotes content into the sidecar file, not into the IR 
     const { stdin, unmount } = render(<FinalStepScreen draft={draftWithNotes} onExit={() => {}} cwd={dir} />);
     await submit(stdin);
 
-    const notes = readFileSync(path.join(dir, "ticket-booking.authoring-notes.md"), "utf-8");
-    assert.ok(notes.includes("Discovery and Governance"));
-    assert.ok(notes.includes("No separate governance layer for this system."));
+    // Exactly two files — no third file of any kind.
+    assert.deepEqual(readdirSync(dir).sort(), ["ticket-booking.archsmith.json", "ticket-booking.svg"]);
 
     const savedIr = JSON.parse(readFileSync(path.join(dir, "ticket-booking.archsmith.json"), "utf-8"));
     assert.equal(savedIr.authoringNotes, undefined); // never part of the real IR
