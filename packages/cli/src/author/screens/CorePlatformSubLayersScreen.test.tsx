@@ -53,10 +53,10 @@ async function selectAbsent(stdin: { write: (data: string) => void }): Promise<v
   await submit(stdin);
 }
 
-/** execution-and-capability skips the decide step entirely — this just
- * submits an empty title on its first (only) item, leaving it with no
- * items, to move past it in tests that don't care about its content. */
+/** Adds the minimum valid execution-and-capability content, then closes
+ * its item list so tests can move to the final optional layer. */
 async function skipMandatoryLayerItems(stdin: { write: (data: string) => void }): Promise<void> {
+  await finishOneItemQuickly(stdin, "Booking Service");
   await submit(stdin);
 }
 
@@ -78,10 +78,12 @@ test("execution-and-capability skips the decide step entirely and goes straight 
   assert.ok(frame?.includes("item 1"));
   assert.ok(frame?.includes("The actual business logic")); // its authoring hint, shown on item 1
   assert.ok(!frame?.includes("Yes — I'll add its items")); // no decide menu at all
+  await submit(stdin);
+  assert.ok(lastFrame()?.includes("Can't finish yet"));
   unmount();
 });
 
-test("selecting \"Not sure yet\" for the 2 optional layers, and leaving execution-and-capability empty, completes with no subLayers or gap notes", async () => {
+test("selecting \"Not sure yet\" for the 2 optional layers and adding the required layer completes without gap notes", async () => {
   const result: { completed: DraftIR | null } = { completed: null };
   const { stdin, lastFrame, unmount } = render(
     <CorePlatformSubLayersScreen draft={{}} onComplete={(d) => { result.completed = d; }} />
@@ -93,7 +95,8 @@ test("selecting \"Not sure yet\" for the 2 optional layers, and leaving executio
   assert.ok(lastFrame()?.includes("Entity Layer"));
   await selectPending(stdin);
 
-  assert.equal(result.completed?.columns?.corePlatform?.subLayers, undefined);
+  assert.equal(result.completed?.columns?.corePlatform?.subLayers?.length, 1);
+  assert.equal(result.completed?.columns?.corePlatform?.subLayers?.[0]?.registryId, "execution-and-capability");
   assert.equal(result.completed?.unclassified, undefined);
   assert.equal(result.completed?.authoringNotes, undefined);
   unmount();
@@ -156,7 +159,7 @@ test("selecting \"Yes\" adds items via the shared ItemSubFlow, ending the layer'
   await selectPending(stdin);
 
   const subLayers = result.completed?.columns?.corePlatform?.subLayers;
-  assert.equal(subLayers?.length, 1);
+  assert.equal(subLayers?.length, 2);
   assert.equal(subLayers?.[0]?.registryId, "discovery-and-governance");
   assert.deepEqual(subLayers?.[0]?.rows.flat().map((i) => i.title), ["API Gateway Policy"]);
   unmount();

@@ -28,10 +28,18 @@ async function down(stdin: { write: (data: string) => void }): Promise<void> {
   stdin.write(DOWN_ARROW);
   await flushImmediate();
 }
+async function finishOneItemQuickly(stdin: { write: (data: string) => void }, title: string, hasPill = true): Promise<void> {
+  await typeAndSubmit(stdin, title);
+  if (hasPill) {
+    await submit(stdin); // skip or accept the section's pill prompt
+  }
+  await submit(stdin); // no description lines
+  await submit(stdin); // skip color
+}
 
 /** Drives the whole session from a fresh App all the way to Review,
- * taking the fastest path through every section (empty repeatable lists
- * where that's allowed, "not sure yet" for every Core Platform sub-layer).
+ * taking the fastest path through every section, including the minimum
+ * content now enforced by each required repeatable list.
  * Real content isn't the point here — App.tsx's own navigation wiring is. */
 async function reachReview(stdin: { write: (data: string) => void }): Promise<void> {
   // intro: title, subtitle, deployedOn
@@ -39,8 +47,8 @@ async function reachReview(stdin: { write: (data: string) => void }): Promise<vo
   await typeAndSubmit(stdin, "Online event ticketing");
   await typeAndSubmit(stdin, "AWS EKS");
 
-  // inboundActors: empty title ends the list immediately
-  await submit(stdin);
+  await finishOneItemQuickly(stdin, "Customer", false); // Inbound Actors has no pill prompt
+  await submit(stdin); // end inbound actors after the required item
 
   // ingress: label, sublabel
   await typeAndSubmit(stdin, "API Gateway");
@@ -48,25 +56,27 @@ async function reachReview(stdin: { write: (data: string) => void }): Promise<vo
 
   // corePlatform sub-layers: Discovery and Governance -> "Not sure yet"
   // (down, down, enter); Execution and Capability is mandatory (no decide
-  // step) -> empty title leaves it with no items; Entity Layer -> "Not
-  // sure yet" again.
+  // step) -> add its required item; Entity Layer -> "Not sure yet" again.
   await down(stdin);
   await down(stdin);
   await submit(stdin);
-  await submit(stdin);
+  await finishOneItemQuickly(stdin, "Booking Service");
+  await submit(stdin); // end Execution and Capability after the required item
   await down(stdin);
   await down(stdin);
   await submit(stdin);
 
-  // systemsOfRecord: empty title ends the list immediately
-  await submit(stdin);
+  await finishOneItemQuickly(stdin, "Booking Database");
+  await submit(stdin); // end Systems of Record after the required item
 
   // egress: label, sublabel
   await typeAndSubmit(stdin, "Egress Proxy");
   await submit(stdin); // skip sublabel
 
-  // externalSystems: empty cluster name ends the section immediately
-  await submit(stdin);
+  await typeAndSubmit(stdin, "Payment Providers");
+  await finishOneItemQuickly(stdin, "Payment Gateway");
+  await submit(stdin); // end this cluster's items
+  await submit(stdin); // end External Systems after the required cluster
 }
 
 test("reaching Review shows the values entered throughout the session", async () => {
@@ -127,12 +137,7 @@ test("confirming from Review moves past it, into the final validate/render/save 
 
   await submit(stdin); // "Looks good — continue", the first, already-highlighted option
 
-  // reachReview's draft is deliberately minimal (empty Inbound Actors,
-  // every Core Platform sub-layer left pending, no Systems of Record or
-  // External Systems) — FinalStepScreen correctly refuses to save it
-  // rather than silently writing an incomplete diagram to disk, and
-  // never calls onExit in that case.
-  assert.ok(lastFrame()?.includes("Can't finish yet"));
+  assert.ok(lastFrame()?.includes("Save"));
   assert.equal(exited, undefined);
   unmount();
 });

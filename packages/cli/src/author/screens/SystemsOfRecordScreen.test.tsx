@@ -57,15 +57,16 @@ test("the systemsOfRecord section is seeded with the fixed registryId, not left 
   unmount();
 });
 
-test("an empty title on the very first item ends the list with zero items — validate() catches that, not this screen", async () => {
+test("an empty first title stays in the required list and explains what is missing", async () => {
   const result: { draft: DraftIR | null } = { draft: null };
-  const { stdin, unmount } = render(
+  const { stdin, lastFrame, unmount } = render(
     <SystemsOfRecordScreen draft={{}} onComplete={(d) => { result.draft = d; }} />
   );
 
   await submit(stdin);
 
-  assert.equal(result.draft?.columns?.corePlatform?.systemsOfRecord, undefined);
+  assert.ok(lastFrame()?.includes("Can't finish yet — At least one system of record is required."));
+  assert.equal(result.draft, null);
   unmount();
 });
 

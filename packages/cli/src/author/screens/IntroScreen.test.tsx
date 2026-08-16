@@ -61,17 +61,25 @@ test("submitting all three fields in order calls onComplete with a fully-populat
   unmount();
 });
 
-test("an empty submission still advances — validating emptiness is assemble()'s job, not this screen's", async () => {
+test("each required text field refuses an empty submission and stays on that field", async () => {
   const result: { completed: DraftIR | null } = { completed: null };
-  const { stdin, unmount } = render(
+  const { stdin, lastFrame, unmount } = render(
     <IntroScreen draft={{}} onComplete={(draft) => { result.completed = draft; }} />
   );
 
-  await typeAndSubmit(stdin, ""); // empty title
-  await typeAndSubmit(stdin, "S");
-  await typeAndSubmit(stdin, "D");
+  await submit(stdin);
+  assert.ok(lastFrame()?.includes("Can't finish yet — Title is required."));
 
-  assert.equal(result.completed?.title, "");
+  await typeAndSubmit(stdin, "My Diagram");
+  await submit(stdin);
+  assert.ok(lastFrame()?.includes("Can't finish yet — Subtitle is required."));
+
+  await typeAndSubmit(stdin, "A subtitle");
+  await submit(stdin);
+  assert.ok(lastFrame()?.includes("Can't finish yet — Deployed on is required."));
+
+  await typeAndSubmit(stdin, "AWS EKS");
+  assert.equal(result.completed?.title, "My Diagram");
   unmount();
 });
 
