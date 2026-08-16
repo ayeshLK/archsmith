@@ -69,6 +69,8 @@ If you move or rename example fixtures under `examples/`, update the matching te
 - Every editable value is a `FieldDescriptor<T>` — a stable id, a plain-language hint, and a `read`/`write` pair over `DraftIR` (a hand-written, in-progress mirror of the real diagram IR). `write()` merges onto the existing draft; it never reconstructs one from scratch.
 - The wizard itself is an [Ink](https://github.com/vadimdemedes/ink) (React for the terminal) app under `screens/`, tested with `ink-testing-library` by simulating real keystrokes rather than calling handlers directly.
 - Each screen ships as its own small PR with its own changeset, under the same build/test discipline as the rest of the repo.
+- What the wizard *asks* isn't the same question as what the schema/renderer *support* — ground any narrowing (a step skipped for one section, a picker offered with fewer options than the schema allows) in real usage counted across `examples/`, not a guess, and keep hand-editing the saved JSON as the escape valve for whatever the guided flow doesn't cover. See AGENTS.md's wizard architecture invariants for the fuller reasoning (issue #97).
+- Verify any UI-observable change against the real compiled binary via a pty session (e.g. `expect`), not just `ink-testing-library` — the two harnesses' own defaults genuinely differ. See AGENTS.md's Ink-specific pitfalls for the harness pattern and two hard-won send-timing rules.
 
 ## Working on the MCP server
 
