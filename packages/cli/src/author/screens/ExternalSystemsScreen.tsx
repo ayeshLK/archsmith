@@ -5,6 +5,7 @@ import type { DraftIR } from "../draftIr.js";
 import { itemLens, clusterItemsAccessor } from "../itemLens.js";
 import { clusterNameDescriptor } from "../scalarDescriptors.js";
 import { ItemSubFlow } from "./ItemSubFlow.js";
+import { RequiredMessage } from "./RequiredMessage.js";
 
 type Phase = "clusterName" | "items";
 
@@ -27,6 +28,7 @@ export function ExternalSystemsScreen({ draft, onComplete }: ExternalSystemsScre
   const [currentDraft, setCurrentDraft] = useState(draft);
   const [itemIndex, setItemIndex] = useState(0);
   const [value, setValue] = useState("");
+  const [missingRequired, setMissingRequired] = useState(false);
 
   if (phase === "clusterName") {
     const nameDescriptor = clusterNameDescriptor(clusterIndex);
@@ -35,14 +37,25 @@ export function ExternalSystemsScreen({ draft, onComplete }: ExternalSystemsScre
         <Text color="cyan" bold>
           External Systems — Cluster {clusterIndex + 1}
         </Text>
-        <Text dimColor>{nameDescriptor.hint} (Enter on empty to finish External Systems)</Text>
+        <Text dimColor>
+          {nameDescriptor.hint}{" "}
+          {clusterIndex === 0 ? "(Add this cluster before finishing External Systems)" : "(Enter on empty to finish External Systems)"}
+        </Text>
+        {missingRequired && <RequiredMessage field="At least one external systems cluster" />}
         <Box marginTop={1}>
           <Text color="green">{"> "}</Text>
           <TextInput
             value={value}
-            onChange={setValue}
+            onChange={(next) => {
+              setValue(next);
+              setMissingRequired(false);
+            }}
             onSubmit={(submitted) => {
               if (submitted === "") {
+                if (clusterIndex === 0) {
+                  setMissingRequired(true);
+                  return;
+                }
                 onComplete(currentDraft);
                 return;
               }
@@ -74,6 +87,7 @@ export function ExternalSystemsScreen({ draft, onComplete }: ExternalSystemsScre
           key={itemIndex}
           draft={currentDraft}
           lens={lens}
+          emptyTitleRequiredField={itemIndex === 0 ? "At least one item in this external systems cluster" : undefined}
           onEmptyTitle={() => {
             setClusterIndex(clusterIndex + 1);
             setPhase("clusterName");

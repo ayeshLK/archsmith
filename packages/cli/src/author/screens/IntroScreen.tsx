@@ -4,6 +4,7 @@ import TextInput from "ink-text-input";
 import type { DraftIR } from "../draftIr.js";
 import type { FieldDescriptor } from "../fieldDescriptor.js";
 import { titleDescriptor, subtitleDescriptor, deployedOnDescriptor } from "../scalarDescriptors.js";
+import { RequiredMessage } from "./RequiredMessage.js";
 
 interface IntroField {
   descriptor: FieldDescriptor<string>;
@@ -38,11 +39,17 @@ export function IntroScreen({ draft, onComplete }: IntroScreenProps): React.JSX.
   // on an empty submission.
   const [value, setValue] = useState(() => FIELDS[0]!.descriptor.read(draft) ?? "");
   const [currentDraft, setCurrentDraft] = useState(draft);
+  const [missingRequired, setMissingRequired] = useState(false);
 
   const field = FIELDS[fieldIndex]!;
 
   const handleSubmit = (submitted: string): void => {
+    if (field.descriptor.kind === "text" && submitted === "") {
+      setMissingRequired(true);
+      return;
+    }
     const updated = field.descriptor.write(currentDraft, submitted);
+    setMissingRequired(false);
     setCurrentDraft(updated);
     if (fieldIndex + 1 < FIELDS.length) {
       setFieldIndex(fieldIndex + 1);
@@ -58,9 +65,17 @@ export function IntroScreen({ draft, onComplete }: IntroScreenProps): React.JSX.
         {field.label}
       </Text>
       <Text dimColor>{field.descriptor.hint}</Text>
+      {missingRequired && <RequiredMessage field={field.label} />}
       <Box marginTop={1}>
         <Text color="green">{"> "}</Text>
-        <TextInput value={value} onChange={setValue} onSubmit={handleSubmit} />
+        <TextInput
+          value={value}
+          onChange={(next) => {
+            setValue(next);
+            setMissingRequired(false);
+          }}
+          onSubmit={handleSubmit}
+        />
       </Box>
     </Box>
   );

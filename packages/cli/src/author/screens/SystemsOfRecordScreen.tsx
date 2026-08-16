@@ -15,8 +15,8 @@ export interface SystemsOfRecordScreenProps {
  * InboundActorsScreen. Unlike the 3 governed sub-layers walked by
  * CorePlatformSubLayersScreen, this section is always required (real
  * minItems: 1 on systemsOfRecord.items) and isn't gap-resolvable — there's
- * no "doesn't apply" or "not sure yet" here, only validate()'s existing
- * job of catching an empty list.
+ * no "doesn't apply" or "not sure yet" here. The screen enforces its first
+ * item locally, with final validation retained only as a backstop.
  */
 export function SystemsOfRecordScreen({ draft, onComplete }: SystemsOfRecordScreenProps): React.JSX.Element {
   const [itemIndex, setItemIndex] = useState(0);
@@ -34,6 +34,7 @@ export function SystemsOfRecordScreen({ draft, onComplete }: SystemsOfRecordScre
           key={itemIndex}
           draft={currentDraft}
           lens={lens}
+          emptyTitleRequiredField={itemIndex === 0 ? "At least one system of record" : undefined}
           onEmptyTitle={() => onComplete(currentDraft)}
           onComplete={(updatedDraft) => {
             setCurrentDraft(updatedDraft);

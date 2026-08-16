@@ -5,6 +5,7 @@ import SelectInput from "ink-select-input";
 import type { PillIR } from "@archsmith/renderer";
 import type { DraftIR } from "../draftIr.js";
 import type { ItemFieldDescriptors } from "../itemLens.js";
+import { RequiredMessage } from "./RequiredMessage.js";
 
 // The schema's own real, governed color tokens (registries/colors.json's
 // standard family layerTokens) — checked directly, not assumed, since
@@ -36,6 +37,8 @@ export interface ItemSubFlowProps {
   /** Called after this item's title is submitted empty — the signal that
    * ends the outer repeatable list, not "this item has an empty title". */
   onEmptyTitle: () => void;
+  /** When set, an empty title cannot close this list yet. */
+  emptyTitleRequiredField?: string;
   /** Called once every field for this one item has been answered. */
   onComplete: (draft: DraftIR) => void;
 }
@@ -57,12 +60,13 @@ export interface ItemSubFlowProps {
  * differently per anchor point without the 4 screens that instantiate it
  * needing to know why.
  */
-export function ItemSubFlow({ draft, lens, onEmptyTitle, onComplete }: ItemSubFlowProps): React.JSX.Element {
+export function ItemSubFlow({ draft, lens, onEmptyTitle, emptyTitleRequiredField, onComplete }: ItemSubFlowProps): React.JSX.Element {
   const [step, setStep] = useState<Step>("title");
   const [value, setValue] = useState("");
   const [currentDraft, setCurrentDraft] = useState(draft);
   const [descriptionLines, setDescriptionLines] = useState<string[]>([]);
   const [pillLabel, setPillLabel] = useState("");
+  const [missingRequired, setMissingRequired] = useState(false);
 
   if (step === "title") {
     return (
@@ -70,14 +74,25 @@ export function ItemSubFlow({ draft, lens, onEmptyTitle, onComplete }: ItemSubFl
         <Text color="magenta" bold>
           Title
         </Text>
-        <Text dimColor>{lens.title.hint} (Enter on empty to finish this list)</Text>
+        <Text dimColor>
+          {lens.title.hint}{" "}
+          {emptyTitleRequiredField ? "(Add this item before finishing the list)" : "(Enter on empty to finish this list)"}
+        </Text>
+        {missingRequired && emptyTitleRequiredField && <RequiredMessage field={emptyTitleRequiredField} />}
         <Box marginTop={1}>
           <Text color="green">{"> "}</Text>
           <TextInput
             value={value}
-            onChange={setValue}
+            onChange={(next) => {
+              setValue(next);
+              setMissingRequired(false);
+            }}
             onSubmit={(submitted) => {
               if (submitted === "") {
+                if (emptyTitleRequiredField) {
+                  setMissingRequired(true);
+                  return;
+                }
                 onEmptyTitle();
                 return;
               }

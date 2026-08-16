@@ -172,6 +172,7 @@ export function CorePlatformSubLayersScreen({ draft, onComplete }: CorePlatformS
           key={itemIndex}
           draft={currentDraft}
           lens={lens}
+          emptyTitleRequiredField={isMandatory(entry.id) && itemIndex === 0 ? `At least one ${entry.label} item` : undefined}
           onEmptyTitle={() => advanceLayer(applySuggestedRowGrouping(subLayerArrayIndex, currentDraft))}
           onComplete={(updatedDraft) => {
             setCurrentDraft(updatedDraft);

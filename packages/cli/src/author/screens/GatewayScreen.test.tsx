@@ -41,6 +41,19 @@ test("submitting the label advances to the sublabel field", async () => {
   assert.ok(!frame?.includes("API Gateway")); // that field's own value isn't shown once we've moved on
   unmount();
 });
+test("an empty required label stays on the label field and explains what is missing", async () => {
+  let completed = false;
+  const { stdin, lastFrame, unmount } = render(
+    <GatewayScreen draft={{}} descriptors={ingressGatewayDescriptors} title="Ingress" onComplete={() => { completed = true; }} />
+  );
+
+  await submit(stdin);
+
+  assert.ok(lastFrame()?.includes("Can't finish yet — Ingress label is required."));
+  assert.equal(completed, false);
+  unmount();
+});
+
 
 test("submitting both fields calls onComplete with the gateway written onto the draft", async () => {
   const result: { completed: DraftIR | null } = { completed: null };

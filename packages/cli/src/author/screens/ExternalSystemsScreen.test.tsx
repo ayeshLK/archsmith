@@ -53,18 +53,24 @@ test("submitting a cluster name advances into that cluster's item list", async (
   unmount();
 });
 
-test("an empty cluster name on the very first cluster ends with zero clusters — validate() catches that, not this screen", async () => {
+test("an empty first cluster name stays in the required section and explains what is missing", async () => {
   const result: { draft: DraftIR | null } = { draft: null };
-  const { stdin, unmount } = render(<ExternalSystemsScreen draft={{}} onComplete={(d) => { result.draft = d; }} />);
+  const { stdin, lastFrame, unmount } = render(<ExternalSystemsScreen draft={{}} onComplete={(d) => { result.draft = d; }} />);
   await submit(stdin);
-  assert.equal(result.draft?.columns?.externalSystems, undefined);
+  assert.ok(lastFrame()?.includes("Can't finish yet — At least one external systems cluster is required."));
+  assert.equal(result.draft, null);
   unmount();
 });
 
-test("an empty title on a cluster's first item advances to the next cluster's name prompt", async () => {
+test("an empty first item stays in its required cluster until an item is added", async () => {
   const { stdin, lastFrame, unmount } = render(<ExternalSystemsScreen draft={{}} onComplete={() => {}} />);
   await typeClusterName(stdin, "Shared Internal Services");
-  await submit(stdin); // empty title ends this cluster's item list
+  await submit(stdin);
+  assert.ok(lastFrame()?.includes("Can't finish yet — At least one item in this external systems cluster is required."));
+  assert.ok(lastFrame()?.includes("Cluster 1 — item 1"));
+
+  await finishOneItemQuickly(stdin, "Notification Delivery Service");
+  await submit(stdin);
   assert.ok(lastFrame()?.includes("External Systems — Cluster 2"));
   unmount();
 });

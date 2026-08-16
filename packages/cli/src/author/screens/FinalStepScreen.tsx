@@ -55,15 +55,10 @@ function DoneScreen({ savedPaths, draft, onExit }: { savedPaths: SavedPaths; dra
 
 /**
  * Validate, render, save — the last step, in-process against
- * @archsmith/renderer, no round trip through a separate command. An
- * assemble()/validate() failure here can currently only come from a
- * repeatable-list section left empty (Inbound Actors, a Core Platform
- * sub-layer, Systems of Record, External Systems) or a scalar left blank
- * — none of which this screen can fix directly (no jump-to-correct for
- * repeatable lists yet, see ReviewScreen), so it's shown plainly and left
- * to the same global Ctrl+C escape hatch every other screen already has,
- * rather than inventing a new recovery path for what's already an
- * explicit v1 boundary.
+ * @archsmith/renderer, no round trip through a separate command. Each
+ * section now enforces its own required answers before advancing (issue
+ * #91); assemble()/validate() remain here as a defense-in-depth backstop
+ * against a future screen forgetting to enforce a new requirement.
  *
  * Only ever writes these two files — a sidecar diagram.authoring-notes.md
  * was tried (issue #89) and reverted (issue #93): nothing reads a

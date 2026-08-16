@@ -3,6 +3,7 @@ import { Box, Text } from "ink";
 import TextInput from "ink-text-input";
 import type { DraftIR } from "../draftIr.js";
 import type { GatewayFieldDescriptors } from "../scalarDescriptors.js";
+import { RequiredMessage } from "./RequiredMessage.js";
 
 type Step = "label" | "sublabel";
 
@@ -27,6 +28,7 @@ export function GatewayScreen({ draft, descriptors, title, onComplete }: Gateway
   // it the moment Enter is pressed on an empty submission.
   const [value, setValue] = useState(() => descriptors.label.read(draft) ?? "");
   const [currentDraft, setCurrentDraft] = useState(draft);
+  const [missingRequired, setMissingRequired] = useState(false);
 
   if (step === "label") {
     return (
@@ -35,12 +37,20 @@ export function GatewayScreen({ draft, descriptors, title, onComplete }: Gateway
           {title}
         </Text>
         <Text dimColor>{descriptors.label.hint}</Text>
+        {missingRequired && <RequiredMessage field={`${title} label`} />}
         <Box marginTop={1}>
           <Text color="green">{"> "}</Text>
           <TextInput
             value={value}
-            onChange={setValue}
+            onChange={(next) => {
+              setValue(next);
+              setMissingRequired(false);
+            }}
             onSubmit={(submitted) => {
+              if (descriptors.label.kind === "text" && submitted === "") {
+                setMissingRequired(true);
+                return;
+              }
               const updated = descriptors.label.write(currentDraft, submitted);
               setCurrentDraft(updated);
               setValue(descriptors.sublabel.read(updated) ?? "");
