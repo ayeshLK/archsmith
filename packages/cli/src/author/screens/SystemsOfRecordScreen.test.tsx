@@ -16,11 +16,14 @@ async function submit(stdin: { write: (data: string) => void }): Promise<void> {
   await flushImmediate();
 }
 
+/** Systems of Record has a pill step (pillMode "full") but no eyebrow step
+ * (eyebrowEnabled false) — an empty pill label skips it same as eyebrow
+ * used to. */
 async function finishOneItemQuickly(stdin: { write: (data: string) => void }, title: string): Promise<void> {
   await type(stdin, title);
-  await submit(stdin); // title -> eyebrow
-  await submit(stdin); // skip eyebrow
-  await submit(stdin); // no description lines
+  await submit(stdin); // title -> pill
+  await submit(stdin); // skip pill (empty label)
+  await submit(stdin); // no description lines -> dotColor
   await submit(stdin); // "(skip)" color, already highlighted
 }
 

@@ -24,12 +24,17 @@ async function typeClusterName(stdin: { write: (data: string) => void }, name: s
 }
 
 /** Drives one item through ItemSubFlow's fastest path, matching the
- * pattern already used in InboundActorsScreen.test.tsx. */
+ * pattern already used in InboundActorsScreen.test.tsx. External Systems'
+ * pill step is a yes/no (pillMode "viaEgressOnly"), "Yes" pre-highlighted —
+ * a blind submit here accepts it, same as the already-highlighted "(skip)"
+ * color option below, so every item finished this way ends up tagged
+ * { label: "via egress", semantic: "viaEgress" }. There's no eyebrow step
+ * for this section (eyebrowEnabled false). */
 async function finishOneItemQuickly(stdin: { write: (data: string) => void }, title: string): Promise<void> {
   await type(stdin, title);
-  await submit(stdin); // title -> eyebrow
-  await submit(stdin); // skip eyebrow
-  await submit(stdin); // no description lines
+  await submit(stdin); // title -> pill (yes/no, "Yes" already highlighted)
+  await submit(stdin); // accept "Yes" -> tagged via egress -> descriptionLines
+  await submit(stdin); // no description lines -> dotColor
   await submit(stdin); // "(skip)" color, already highlighted
 }
 

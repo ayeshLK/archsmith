@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Box, Text } from "ink";
 import TextInput from "ink-text-input";
 import SelectInput from "ink-select-input";
+import type { PillIR } from "@archsmith/renderer";
 import type { DraftIR } from "../draftIr.js";
 import type { ItemFieldDescriptors } from "../itemLens.js";
 
@@ -12,7 +13,22 @@ import type { ItemFieldDescriptors } from "../itemLens.js";
 // so offering anything else here would silently produce a broken diagram.
 const DOT_COLORS = ["purple", "green", "teal", "amber", "navy", "mint"] as const;
 
-type Step = "title" | "eyebrow" | "descriptionLines" | "dotColor";
+// The 4 semantics ever offered by this guided picker — "viaEgress" is
+// deliberately excluded: its color is hardcoded in registries/colors.json
+// to equal the Egress lane's own mint, specifically so it reads as "this
+// connects to Egress" — a claim that's only true for items on the far
+// side of that gateway. It's offered instead, as a fixed yes/no, only for
+// the one accessor whose pillMode is "viaEgressOnly" (issue #97). Wording
+// drawn from the schema's own $defs.pill.semantic description, not
+// invented fresh.
+const PILL_SEMANTICS: Array<{ label: string; value: PillIR["semantic"] }> = [
+  { label: "Primary      — the main, authoritative one", value: "primary" },
+  { label: "Warning      — flags a risk, gap, or deprecation", value: "warning" },
+  { label: "Highlight    — calls special attention to it", value: "highlight" },
+  { label: "Layer accent — inherits this item's own layer color", value: "layer" },
+];
+
+type Step = "title" | "pill" | "pillSemantic" | "descriptionLines" | "eyebrow" | "dotColor";
 
 export interface ItemSubFlowProps {
   draft: DraftIR;
@@ -26,17 +42,27 @@ export interface ItemSubFlowProps {
 
 /**
  * The schema's own generic item shape, as one reusable authoring
- * sub-flow — title, then eyebrow, then description lines, then a color
- * accent — instantiated identically everywhere an item is created (see
- * itemLens.ts). Deliberately covers only these 4 fields: pill/icon/
- * tagOverride are v1.1, and acronym is a post-render fixup, not part of
- * this sub-flow (see issue #67's scope decisions).
+ * sub-flow — title, then (per lens.pillMode) a pill, then description
+ * lines, then (per lens.eyebrowEnabled) eyebrow, then a color accent —
+ * instantiated identically everywhere an item is created (see
+ * itemLens.ts). `icon`/`tagOverride` stay v1.1 (see issue #67's scope
+ * cuts); `acronym` is a post-render fixup triggered by render()'s own
+ * needsAcronym signal (#68/#67 Phase 0), not an upfront question here.
+ *
+ * Pill and eyebrow are the two fields where "ask everyone the same
+ * question" turned out wrong (issue #97): real usage of both is
+ * concentrated in specific sections, and Inbound Actors' box renderer has
+ * no pill support at all. lens.pillMode/lens.eyebrowEnabled (set per
+ * accessor in itemLens.ts) are what let this one shared component behave
+ * differently per anchor point without the 4 screens that instantiate it
+ * needing to know why.
  */
 export function ItemSubFlow({ draft, lens, onEmptyTitle, onComplete }: ItemSubFlowProps): React.JSX.Element {
   const [step, setStep] = useState<Step>("title");
   const [value, setValue] = useState("");
   const [currentDraft, setCurrentDraft] = useState(draft);
   const [descriptionLines, setDescriptionLines] = useState<string[]>([]);
+  const [pillLabel, setPillLabel] = useState("");
 
   if (step === "title") {
     return (
@@ -57,7 +83,7 @@ export function ItemSubFlow({ draft, lens, onEmptyTitle, onComplete }: ItemSubFl
               }
               setCurrentDraft(lens.title.write(currentDraft, submitted));
               setValue("");
-              setStep("eyebrow");
+              setStep(lens.pillMode === "none" ? "descriptionLines" : "pill");
             }}
           />
         </Box>
@@ -65,21 +91,71 @@ export function ItemSubFlow({ draft, lens, onEmptyTitle, onComplete }: ItemSubFl
     );
   }
 
-  if (step === "eyebrow") {
+  if (step === "pill" && lens.pillMode === "viaEgressOnly") {
     return (
       <Box flexDirection="column">
         <Text color="magenta" bold>
-          Category
+          Pill
         </Text>
-        <Text dimColor>{lens.eyebrow.hint} (Enter to skip)</Text>
+        <Text dimColor>Reached via the Egress gateway?</Text>
+        <Box marginTop={1}>
+          <SelectInput
+            items={[
+              { label: 'Yes — tag it "via egress"', value: true },
+              { label: "No pill", value: false },
+            ]}
+            onSelect={(item) => {
+              const pill: PillIR | null = item.value ? { label: "via egress", semantic: "viaEgress" } : null;
+              setCurrentDraft(lens.pill.write(currentDraft, pill));
+              setStep("descriptionLines");
+            }}
+          />
+        </Box>
+      </Box>
+    );
+  }
+
+  if (step === "pill") {
+    return (
+      <Box flexDirection="column">
+        <Text color="magenta" bold>
+          Pill
+        </Text>
+        <Text dimColor>{lens.pill.hint} (Enter to skip)</Text>
         <Box marginTop={1}>
           <Text color="green">{"> "}</Text>
           <TextInput
             value={value}
             onChange={setValue}
             onSubmit={(submitted) => {
-              setCurrentDraft(lens.eyebrow.write(currentDraft, submitted === "" ? null : submitted));
+              if (submitted === "") {
+                setCurrentDraft(lens.pill.write(currentDraft, null));
+                setValue("");
+                setStep("descriptionLines");
+                return;
+              }
+              setPillLabel(submitted);
               setValue("");
+              setStep("pillSemantic");
+            }}
+          />
+        </Box>
+      </Box>
+    );
+  }
+
+  if (step === "pillSemantic") {
+    return (
+      <Box flexDirection="column">
+        <Text color="magenta" bold>
+          Pill color
+        </Text>
+        <Text dimColor>What kind of pill is &quot;{pillLabel}&quot;?</Text>
+        <Box marginTop={1}>
+          <SelectInput
+            items={PILL_SEMANTICS}
+            onSelect={(item) => {
+              setCurrentDraft(lens.pill.write(currentDraft, { label: pillLabel, semantic: item.value }));
               setStep("descriptionLines");
             }}
           />
@@ -113,11 +189,35 @@ export function ItemSubFlow({ draft, lens, onEmptyTitle, onComplete }: ItemSubFl
             onSubmit={(submitted) => {
               if (submitted === "") {
                 setCurrentDraft(lens.descriptionLines.write(currentDraft, descriptionLines));
-                setStep("dotColor");
+                setValue("");
+                setStep(lens.eyebrowEnabled ? "eyebrow" : "dotColor");
                 return;
               }
               setDescriptionLines([...descriptionLines, submitted]);
               setValue("");
+            }}
+          />
+        </Box>
+      </Box>
+    );
+  }
+
+  if (step === "eyebrow") {
+    return (
+      <Box flexDirection="column">
+        <Text color="magenta" bold>
+          Category
+        </Text>
+        <Text dimColor>{lens.eyebrow.hint} (Enter to skip)</Text>
+        <Box marginTop={1}>
+          <Text color="green">{"> "}</Text>
+          <TextInput
+            value={value}
+            onChange={setValue}
+            onSubmit={(submitted) => {
+              setCurrentDraft(lens.eyebrow.write(currentDraft, submitted === "" ? null : submitted));
+              setValue("");
+              setStep("dotColor");
             }}
           />
         </Box>

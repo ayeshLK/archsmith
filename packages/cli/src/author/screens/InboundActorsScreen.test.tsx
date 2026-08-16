@@ -16,15 +16,16 @@ async function submit(stdin: { write: (data: string) => void }): Promise<void> {
   await flushImmediate();
 }
 
-/** Drives one item's title -> (skip eyebrow) -> (no description lines) ->
- * (skip color) through to completion, the fastest path through
- * ItemSubFlow, so this test can focus on the outer repeatable-list
- * mechanics rather than re-testing ItemSubFlow's own fields. */
+/** Drives one item's title -> (no description lines) -> (skip color)
+ * through to completion, the fastest path through ItemSubFlow, so this
+ * test can focus on the outer repeatable-list mechanics rather than
+ * re-testing ItemSubFlow's own fields. Inbound Actors has neither a pill
+ * step (pillMode "none" — actorBox has no pill support) nor an eyebrow
+ * step (eyebrowEnabled false), so title goes straight to description. */
 async function finishOneItemQuickly(stdin: { write: (data: string) => void }, title: string): Promise<void> {
   await type(stdin, title);
-  await submit(stdin); // title -> eyebrow
-  await submit(stdin); // skip eyebrow
-  await submit(stdin); // no description lines
+  await submit(stdin); // title -> descriptionLines
+  await submit(stdin); // no description lines -> dotColor
   await submit(stdin); // "(skip)" color, already highlighted
 }
 
