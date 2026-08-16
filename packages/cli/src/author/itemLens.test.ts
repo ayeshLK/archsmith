@@ -180,3 +180,28 @@ test("applySuggestedRowGrouping is a no-op when there's no instance at that inde
   const draft: DraftIR = {};
   assert.equal(applySuggestedRowGrouping(0, draft), draft);
 });
+
+test("lens.pill reads and writes a PillIR round-trip, independent of title", () => {
+  const draft: DraftIR = {};
+  const lens = itemLens("sor.0", systemsOfRecordAccessor(), 0);
+  let d = lens.title.write(draft, "Booking Database");
+  d = lens.pill.write(d, { label: "PRIMARY", semantic: "primary" });
+  assert.equal(lens.title.read(d), "Booking Database");
+  assert.deepEqual(lens.pill.read(d), { label: "PRIMARY", semantic: "primary" });
+});
+
+test("each accessor carries the pillMode/eyebrowEnabled issue #97 settled on", () => {
+  assert.equal(inboundActorsAccessor().pillMode, "none");
+  assert.equal(inboundActorsAccessor().eyebrowEnabled, false);
+
+  assert.equal(systemsOfRecordAccessor().pillMode, "full");
+  assert.equal(systemsOfRecordAccessor().eyebrowEnabled, false);
+
+  assert.equal(clusterItemsAccessor(0).pillMode, "viaEgressOnly");
+  assert.equal(clusterItemsAccessor(0).eyebrowEnabled, false);
+
+  assert.equal(subLayerItemsAccessor(0, "discovery-and-governance").pillMode, "full");
+  assert.equal(subLayerItemsAccessor(0, "discovery-and-governance").eyebrowEnabled, true);
+  assert.equal(subLayerItemsAccessor(0, "execution-and-capability").eyebrowEnabled, false);
+  assert.equal(subLayerItemsAccessor(0, "entity-layer").eyebrowEnabled, false);
+});

@@ -1,7 +1,25 @@
-import type { ItemIR } from "@archsmith/renderer";
+import type { ItemIR, PillIR } from "@archsmith/renderer";
 import type { DraftIR } from "./draftIr.js";
 import type { FieldDescriptor } from "./fieldDescriptor.js";
 import { suggestRowGrouping } from "./rowGrouping.js";
+
+/**
+ * Which pill sub-flow ItemSubFlow should run for this anchor point, driven
+ * by what the renderer itself actually supports (see issue #97's design
+ * comment) rather than a preference:
+ *  - "full": free-text label, then (if non-empty) a semantic picker over
+ *    the 4 semantics that are ever meaningful outside External Systems —
+ *    Systems of Record and Core Platform sub-layers.
+ *  - "viaEgressOnly": a single yes/no — External Systems is the only
+ *    section where `renderExternalSystems` reads `pill.label` at all, and
+ *    it ignores `pill.semantic` entirely, always resolving "viaEgress"'s
+ *    color; every real example's via-egress pill also uses the identical
+ *    label text, so there's no real text or semantic choice to ask about.
+ *  - "none": no pill step at all — Inbound Actors' `actorBox()` has no
+ *    pill rendering support whatsoever, so there's nothing to guide
+ *    anyone toward; this isn't a curation choice, it's a capability gap.
+ */
+export type PillMode = "full" | "viaEgressOnly" | "none";
 
 /**
  * How to reach the flat array of items a set of item-lens descriptors
@@ -9,11 +27,17 @@ import { suggestRowGrouping } from "./rowGrouping.js";
  * whether that array lives at columns.inboundActors.items,
  * columns.corePlatform.systemsOfRecord.items, one cluster's items, or a
  * flattened view of one sub-layer's rows (see subLayerItemsAccessor,
- * below, for that last, more involved case).
+ * below, for that last, more involved case). Also carries the two other
+ * per-anchor-point behaviors ItemSubFlow needs (pillMode, eyebrowEnabled)
+ * — this is already the one place each anchor point's own particulars
+ * live, so it's the natural home for these too rather than a second,
+ * separately-threaded set of options.
  */
 export interface ItemArrayAccessor {
   get(draft: DraftIR): ItemIR[] | undefined;
   set(draft: DraftIR, items: ItemIR[]): DraftIR;
+  pillMode: PillMode;
+  eyebrowEnabled: boolean;
 }
 
 function readItem(accessor: ItemArrayAccessor, index: number, draft: DraftIR): ItemIR | undefined {
@@ -35,9 +59,19 @@ function writeItem(accessor: ItemArrayAccessor, index: number, draft: DraftIR, p
 
 export interface ItemFieldDescriptors {
   title: FieldDescriptor<string>;
+  pill: FieldDescriptor<PillIR | null>;
   eyebrow: FieldDescriptor<string | null>;
   descriptionLines: FieldDescriptor<string[]>;
   dotColor: FieldDescriptor<string | null>;
+  /** Which pill sub-flow ItemSubFlow should run — see PillMode. Plain
+   * metadata copied from the accessor, not itself a FieldDescriptor: it
+   * picks which UI to show, it isn't a value read from/written to the
+   * draft. */
+  pillMode: PillMode;
+  /** Whether ItemSubFlow should ask for eyebrow at all for this anchor
+   * point — see subLayerItemsAccessor's own doc for why this is scoped to
+   * discovery-and-governance rather than asked everywhere (issue #97). */
+  eyebrowEnabled: boolean;
 }
 
 /**
@@ -45,9 +79,9 @@ export interface ItemFieldDescriptors {
  * systems-of-record boxes, and external-system items" (diagram-schema.json's
  * $defs.item description). This is that unification's authoring-side
  * counterpart: one factory, instantiated wherever an item is created,
- * rather than five hand-copied sets of descriptors. Deliberately covers
- * only title/eyebrow/descriptionLines/dotColor — `pill`/`icon`/`tagOverride`
- * are v1.1 (see issue #67's scope cuts), and `acronym` is a post-render
+ * rather than five hand-copied sets of descriptors. Covers
+ * title/pill/eyebrow/descriptionLines/dotColor — `icon`/`tagOverride`
+ * stay v1.1 (see issue #67's scope cuts), and `acronym` is a post-render
  * fixup triggered by render()'s own needsAcronym signal (#68/#67 Phase 0),
  * not an upfront question in this sub-flow.
  */
@@ -59,6 +93,13 @@ export function itemLens(idPrefix: string, accessor: ItemArrayAccessor, index: n
       hint: "The name that appears in the box.",
       read: (draft) => readItem(accessor, index, draft)?.title,
       write: (draft, value) => writeItem(accessor, index, draft, { title: value }),
+    },
+    pill: {
+      id: `${idPrefix}.pill`,
+      kind: "pill",
+      hint: 'A small badge on the box, next to its title — e.g. "PRIMARY" on the one true system of record.',
+      read: (draft) => readItem(accessor, index, draft)?.pill ?? undefined,
+      write: (draft, value) => writeItem(accessor, index, draft, { pill: value }),
     },
     eyebrow: {
       id: `${idPrefix}.eyebrow`,
@@ -81,10 +122,14 @@ export function itemLens(idPrefix: string, accessor: ItemArrayAccessor, index: n
       read: (draft) => readItem(accessor, index, draft)?.dotColor ?? undefined,
       write: (draft, value) => writeItem(accessor, index, draft, { dotColor: value }),
     },
+    pillMode: accessor.pillMode,
+    eyebrowEnabled: accessor.eyebrowEnabled,
   };
 }
 
-/** Inbound Actors: a plain flat array, columns.inboundActors.items. */
+/** Inbound Actors: a plain flat array, columns.inboundActors.items.
+ * pillMode "none": actorBox.ts has no `pill` field at all — nothing would
+ * render, so there's no pill step to offer (issue #97). */
 export function inboundActorsAccessor(): ItemArrayAccessor {
   return {
     get: (draft) => draft.columns?.inboundActors?.items,
@@ -92,10 +137,14 @@ export function inboundActorsAccessor(): ItemArrayAccessor {
       ...draft,
       columns: { ...draft.columns, inboundActors: { ...draft.columns?.inboundActors, items } },
     }),
+    pillMode: "none",
+    eyebrowEnabled: false,
   };
 }
 
-/** Systems of Record: a plain flat array, columns.corePlatform.systemsOfRecord.items. */
+/** Systems of Record: a plain flat array, columns.corePlatform.systemsOfRecord.items.
+ * pillMode "full": renderRow/resolveItemPill resolves every non-viaEgress
+ * semantic here for real (issue #97). */
 export function systemsOfRecordAccessor(): ItemArrayAccessor {
   return {
     get: (draft) => draft.columns?.corePlatform?.systemsOfRecord?.items,
@@ -112,10 +161,15 @@ export function systemsOfRecordAccessor(): ItemArrayAccessor {
         },
       },
     }),
+    pillMode: "full",
+    eyebrowEnabled: false,
   };
 }
 
-/** One External Systems cluster's items: columns.externalSystems.clusters[clusterIndex].items. */
+/** One External Systems cluster's items: columns.externalSystems.clusters[clusterIndex].items.
+ * pillMode "viaEgressOnly": renderExternalSystems ignores pill.semantic
+ * entirely and always resolves "viaEgress"'s color for the whole column —
+ * there's no real semantic choice to ask about here (issue #97). */
 export function clusterItemsAccessor(clusterIndex: number): ItemArrayAccessor {
   return {
     get: (draft) => draft.columns?.externalSystems?.clusters?.[clusterIndex]?.items,
@@ -126,6 +180,8 @@ export function clusterItemsAccessor(clusterIndex: number): ItemArrayAccessor {
       updated[clusterIndex] = { ...existing, items };
       return { ...draft, columns: { ...draft.columns, externalSystems: { ...draft.columns?.externalSystems, clusters: updated } } };
     },
+    pillMode: "viaEgressOnly",
+    eyebrowEnabled: false,
   };
 }
 
@@ -159,6 +215,17 @@ function unflattenPreservingShape(existingRows: ItemIR[][] | undefined, newItems
  * index is written — the fallback for a brand-new sub-layer instance
  * that doesn't exist in the draft yet; once it exists, its own stored
  * registryId is preserved regardless of what's passed here.
+ *
+ * pillMode "full": renderRow/resolveItemPill resolves every non-viaEgress
+ * semantic here for real, same as Systems of Record (issue #97).
+ *
+ * eyebrowEnabled only for "discovery-and-governance": checked against every
+ * real example, eyebrow's 6 real uses were 100% concentrated there
+ * (Policy, Identity, API management, ...) and 0% in execution-and-capability
+ * or entity-layer — those two are homogeneous enough (business logic;
+ * data stores) that an item's sub-layer already tells you what kind of
+ * thing it is, unlike Discovery and Governance's own grab-bag of policy/
+ * identity/catalog concerns (issue #97).
  */
 export function subLayerItemsAccessor(subLayerIndex: number, registryId?: string): ItemArrayAccessor {
   return {
@@ -174,6 +241,8 @@ export function subLayerItemsAccessor(subLayerIndex: number, registryId?: string
       updated[subLayerIndex] = { ...(existing ?? { registryId: registryId ?? "" }), rows };
       return { ...draft, columns: { ...draft.columns, corePlatform: { ...draft.columns?.corePlatform, subLayers: updated } } };
     },
+    pillMode: "full",
+    eyebrowEnabled: registryId === "discovery-and-governance",
   };
 }
 

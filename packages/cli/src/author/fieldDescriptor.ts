@@ -2,7 +2,7 @@ import type { DraftIR } from "./draftIr.js";
 
 export type SectionStatus = "done" | "absent" | "pending";
 
-export type FieldKind = "text" | "optionalText" | "pickOne" | "repeatable" | "threeState";
+export type FieldKind = "text" | "optionalText" | "pickOne" | "repeatable" | "threeState" | "pill";
 
 /**
  * One lens over the draft IR tree — a getter and a setter for one editable

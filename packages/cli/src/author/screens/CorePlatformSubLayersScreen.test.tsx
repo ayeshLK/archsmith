@@ -25,12 +25,16 @@ async function down(stdin: { write: (data: string) => void }): Promise<void> {
 }
 
 /** Drives one item through ItemSubFlow's fastest path (title, then skip
- * everything else), mirroring InboundActorsScreen.test.tsx. */
+ * everything else). Only ever used in this file for Discovery and
+ * Governance items, the one sub-layer with eyebrowEnabled — every
+ * Core Platform sub-layer gets a pill step (pillMode "full"), so this
+ * skips that too, unlike InboundActorsScreen's own quick-finish helper. */
 async function finishOneItemQuickly(stdin: { write: (data: string) => void }, title: string): Promise<void> {
   await type(stdin, title);
-  await submit(stdin); // title -> eyebrow
+  await submit(stdin); // title -> pill
+  await submit(stdin); // skip pill (empty label)
+  await submit(stdin); // no description lines -> eyebrow
   await submit(stdin); // skip eyebrow
-  await submit(stdin); // no description lines
   await submit(stdin); // "(skip)" color, already highlighted
 }
 
