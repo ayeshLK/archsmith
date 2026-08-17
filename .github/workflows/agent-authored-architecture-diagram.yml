@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 20
       - id: archsmith
-        uses: ayeshLK/setup-archsmith@4e72a6a4adb59013ca992094007410564d061b90 # v0.1.0
+        uses: ayeshLK/setup-archsmith@88f2729c65d4b98a69fc29a0b0d2483356c219e1 # v0.1.2
         with:
           version: "0.6.0"
       - name: Assert published CLI version and PATH
