@@ -24,7 +24,7 @@
     "ajv": "^8.17.1",
     "@fontsource/arimo": "^5.1.0",
     "fontkit": "^2.0.4",
-    "harfbuzzjs": "^0.10.3",
+    "harfbuzzjs": "^1.6.0",
     "woff2sfnt-sfnt2woff": "^1.0.0"
   },
   "devDependencies": {
