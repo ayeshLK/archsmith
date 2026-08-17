@@ -25,7 +25,9 @@ In practice you'll rarely call this package directly — `@archsmith/renderer`'s
 
 ## Editor support
 
-Use the stable, versioned schema URL in an ArchSmith document to enable JSON autocomplete and inline validation in compatible editors:
+The ArchSmith schema is registered with [SchemaStore](https://www.schemastore.org/), so any file named `*.archsmith.json` gets autocomplete and inline validation for free in VS Code, JetBrains IDEs, Neovim (coc.nvim / nvim-lspconfig), and any other SchemaStore-aware editor — no `$schema` line needed. This is the recommended default; SchemaStore points at `schema/latest/diagram-schema.json`, so it always validates against the newest schema.
+
+If your file doesn't match that naming pattern, or you want to pin validation to the exact schema version you authored against, add the `$schema` field manually:
 
 ```json
 {

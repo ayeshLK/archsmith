@@ -150,6 +150,8 @@ The GIF is a condensed presentation. The [agent-authored example](examples/agent
 
 An IR document is a JSON object with five columns, a legend, and optional notes. The schema is published at [`schema/latest/diagram-schema.json`](https://ayeshlk.github.io/archsmith/schema/latest/diagram-schema.json), with immutable versioned copies such as [`schema/0.3.3/diagram-schema.json`](https://ayeshlk.github.io/archsmith/schema/0.3.3/diagram-schema.json). Use a versioned URL in committed documents for reproducible editor validation; the `latest` URL is intended for tooling that should follow the newest schema.
 
+Name your file `*.archsmith.json` and [SchemaStore](https://www.schemastore.org/) gives you autocomplete and inline validation automatically in VS Code, JetBrains IDEs, and other SchemaStore-aware editors — no `$schema` line required. See [`packages/schema/README.md`](packages/schema/README.md#editor-support) for the manual `$schema` fallback.
+
 This is the actual minimal valid fixture from `examples/`:
 
 ```json
