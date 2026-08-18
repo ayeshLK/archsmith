@@ -24,19 +24,47 @@ proc step {label pattern} {
   }
 }
 
+proc drain {} {
+  global spawn_id
+  while 1 {
+    set matched 0
+    expect {
+      -timeout 0 -re ".+" { set matched 1 }
+      timeout { set matched 0 }
+    }
+    if {!$matched} break
+  }
+}
+
 proc type_text {text} {
-  send -- $text
-  after 200
-}
-
-proc press_enter {} {
-  send -- "\r"
-  after 200
-}
-
-proc type_and_enter {text} {
-  type_text $text
-  press_enter
+  global spawn_id
+  # Discard anything already sitting in the buffer before typing -- a
+  # screen's own hint copy can coincidentally contain the exact value
+  # we're about to type (e.g. the Pill field's hint literally says
+  # `e.g. "PRIMARY"`), and without this, the echo-confirmation below
+  # would match that stale leftover text instead of genuinely waiting
+  # for our own input to land -- caught empirically as a reliable,
+  # 100%-reproducible corruption on that one specific field.
+  drain
+  foreach char [split $text ""] {
+    send -- $char
+    after 35
+  }
+  # Confirm the tail of what we just typed actually landed and got
+  # echoed back before ever sending Enter. A fixed delay alone can't
+  # guarantee this: if Enter's `send` happens to land in the same read()
+  # chunk as trailing text (a real risk under any scheduling hiccup),
+  # ink-text-input treats the merged chunk as a paste and inserts the
+  # raw \r literally into the field instead of submitting -- caught
+  # empirically as a literal "\r" showing up inside a saved field value.
+  # Waiting for an echo of the real typed text (not just a fixed delay)
+  # is what actually proves the app's read loop is idle and caught up.
+  if {[string length $text] > 0} {
+    set tail_len [expr {min([string length $text], 16)}]
+    set tail [string range $text end-[expr {$tail_len - 1}] end]
+    expect -timeout 3 -ex $tail
+  }
+  after 400
 }
 
 proc down {{n 1}} {
@@ -48,151 +76,163 @@ proc down {{n 1}} {
 
 # A deliberate pause purely for a human viewer's benefit -- long enough to
 # read the screen that was just reached before the next keystroke fires.
-# Separate from the per-send `after`s above, which exist for correctness
-# (giving Ink's event loop time to actually process each input), not
-# pacing.
+# Separate from the per-send `after`s above, which exist for correctness.
 proc beat {{ms 700}} {
   after $ms
 }
 
+# Sends Enter and waits for `next_pattern` (a string unique to the screen
+# that submission should reach -- never a bare recurring word like "Title",
+# which reappears on every repaint of the *current* screen too and would
+# match stale backlog instead of genuine progress). If nothing arrives
+# within the per-attempt timeout, resends Enter and tries again -- caught
+# empirically: Ink's first Enter after a burst of typed keystrokes is
+# sometimes silently swallowed (not inserted, not submitted), most likely
+# an occasional slow-render race rather than a fixed timing threshold, since
+# the same fixed delay reproduced both clean runs and stuck runs. A 2s
+# per-attempt window is far beyond any real render, so a resend here only
+# ever fires when the previous Enter truly had no effect -- re-submitting
+# the same (unchanged) typed value or the same (unchanged) highlighted
+# select option is always safe.
+proc confirm_submit {next_pattern {retries 4}} {
+  global spawn_id
+  for {set i 0} {$i < $retries} {incr i} {
+    send -- "\r"
+    # `catch` around `expect` does NOT distinguish a timeout from a real
+    # match -- Expect's timeout is not a Tcl error, so `catch` reports
+    # success either way. An explicit `timeout` branch is the only
+    # reliable way to tell the two apart; without it this whole retry
+    # mechanism silently no-ops; caught empirically after this got the
+    # first version of this proc completely wrong.
+    set matched 0
+    expect {
+      -timeout 2 -re $next_pattern { set matched 1 }
+      timeout { set matched 0 }
+    }
+    if {$matched} {
+      return
+    }
+  }
+  send_user "\n\[FAILED to confirm submission -- never reached: $next_pattern\]\n"
+  exit 1
+}
+
 # --- Intro ---
 step "Title prompt" {Title}
-# Ink needs a moment after its first frame paints to actually attach its
-# raw-mode input listener; sending real keystrokes (in particular the
-# first Enter) before that finishes gets silently swallowed rather than
-# submitting the field, shifting every field's value by one for the rest
-# of the session. Caught empirically -- the fix is this one-time pause,
-# not a per-field one (every later transition behaves correctly).
 beat 800
-type_and_enter "Ticket Booking Platform"
+type_text "Ticket Booking Platform"
+beat 300
+confirm_submit {Subtitle}
 beat
 
-step "Subtitle prompt" {Subtitle}
-type_and_enter "Event ticket purchase and fulfillment"
+type_text "Event ticket purchase and fulfillment"
+beat 300
+confirm_submit {Deployed on}
 beat
 
-step "Deployed on prompt" {Deployed on}
-type_and_enter "AWS"
-beat
+type_text "AWS"
+beat 300
+confirm_submit {Inbound Actor 1}
+beat 400
 
 # --- Inbound Actors ---
-step "Inbound Actor 1 header" {Inbound Actor 1}
-beat 400
-type_and_enter "Customer"
-step "Description line prompt (actor)" {Description line}
-type_and_enter "Browses events and buys tickets"
-press_enter
-step "Color accent prompt (actor)" {Color accent}
+type_text "Customer"
+beat 300
+confirm_submit {Description line}
+type_text "Browses events and buys tickets"
+beat 300
+confirm_submit {Color accent}
 down 1
-press_enter
-step "Inbound Actor 2 header" {Inbound Actor 2}
-press_enter
+confirm_submit {Inbound Actor 2}
+confirm_submit {Ingress}
 beat
 
 # --- Ingress ---
-step "Ingress header" {Ingress}
-beat 400
-type_and_enter "API Gateway"
-step "Ingress sublabel prompt" {sublabel}
-press_enter
-beat
+type_text "API Gateway"
+beat 300
+confirm_submit {sublabel}
+confirm_submit {Discovery and Governance}
+beat 500
 
 # --- Core Platform: Discovery and Governance ---
-step "Discovery and Governance decide" {Discovery and Governance}
-beat 500
 down 1
-press_enter
-step "Discovery and Governance reason" {why doesn.t this apply}
-type_and_enter "No dedicated governance layer in this system"
-beat
+confirm_submit {why doesn.t this apply}
+type_text "No dedicated governance layer in this system"
+beat 300
+confirm_submit {Execution and Capability Layer.*item 1}
+beat 400
 
 # --- Core Platform: Execution and Capability (mandatory) ---
-step "Execution and Capability item 1" {Execution and Capability Layer.*item 1}
-beat 400
-type_and_enter "Booking Service"
-step "Pill prompt (execution item)" {Pill(?! color)}
-type_and_enter "PRIMARY"
-step "Pill color prompt (execution item)" {Pill color}
-press_enter
-step "Description line prompt (execution item)" {Description line}
-type_and_enter "Handles seat selection and payment"
-press_enter
-step "Color accent prompt (execution item)" {Color accent}
+type_text "Booking Service"
+beat 300
+confirm_submit {Pill(?! color)}
+type_text "PRIMARY"
+beat 300
+confirm_submit {Pill color}
+confirm_submit {Description line}
+type_text "Handles seat selection and payment"
+beat 300
+confirm_submit {Color accent}
 down 2
-press_enter
-step "Execution and Capability item 2" {Execution and Capability Layer.*item 2}
-press_enter
-beat
+confirm_submit {Execution and Capability Layer.*item 2}
+confirm_submit {Entity Layer}
+beat 500
 
 # --- Core Platform: Entity Layer ---
-step "Entity Layer decide" {Entity Layer}
-beat 500
 down 1
-press_enter
-step "Entity Layer reason" {why doesn.t this apply}
-type_and_enter "No separate entity layer modeled"
-beat
+confirm_submit {why doesn.t this apply}
+type_text "No separate entity layer modeled"
+beat 300
+confirm_submit {Systems of Record 1}
+beat 400
 
 # --- Systems of Record ---
-step "Systems of Record 1" {Systems of Record 1}
-beat 400
-type_and_enter "Bookings Database"
-step "Pill prompt (SoR item)" {Pill(?! color)}
-press_enter
-step "Description line prompt (SoR item)" {Description line}
-type_and_enter "Stores confirmed reservations"
-press_enter
-step "Color accent prompt (SoR item)" {Color accent}
+type_text "Bookings Database"
+beat 300
+confirm_submit {Pill(?! color)}
+confirm_submit {Description line}
+type_text "Stores confirmed reservations"
+beat 300
+confirm_submit {Color accent}
 down 4
-press_enter
-step "Systems of Record 2" {Systems of Record 2}
-press_enter
-beat
+confirm_submit {Systems of Record 2}
+confirm_submit {Egress}
+beat 400
 
 # --- Egress ---
-step "Egress header" {Egress}
+type_text "Notification Gateway"
+beat 300
+confirm_submit {sublabel}
+confirm_submit {External Systems.*Cluster 1}
 beat 400
-type_and_enter "Notification Gateway"
-step "Egress sublabel prompt" {sublabel}
-press_enter
-beat
 
 # --- External Systems ---
-step "External Systems cluster 1 name" {External Systems.*Cluster 1}
-beat 400
-type_and_enter "Payment Provider"
-step "Cluster 1 item 1" {Cluster 1.*item 1}
-type_and_enter "Stripe"
-step "Reached via Egress prompt" {Reached via}
-press_enter
-step "Description line prompt (cluster item)" {Description line}
-type_and_enter "Processes card payments"
-press_enter
-step "Color accent prompt (cluster item)" {Color accent}
+type_text "Payment Provider"
+beat 300
+confirm_submit {Cluster 1.*item 1}
+type_text "Stripe"
+beat 300
+confirm_submit {Reached via}
+confirm_submit {Description line}
+type_text "Processes card payments"
+beat 300
+confirm_submit {Color accent}
 down 3
-press_enter
-step "Cluster 1 item 2" {Cluster 1.*item 2}
-press_enter
-step "External Systems cluster 2 name" {External Systems.*Cluster 2}
-press_enter
-beat
+confirm_submit {Cluster 1.*item 2}
+confirm_submit {External Systems.*Cluster 2}
+confirm_submit {Show a legend}
+beat 500
 
 # --- Legend ---
-step "Legend prompt" {Show a legend}
-beat 500
-press_enter
-beat
-
-# --- Review --- give the viewer real time to read the full recap
-step "Review screen" {Review}
+confirm_submit {Review}
 beat 2200
-press_enter
+
+# --- Review --- (confirmed as-is; the beat above gives a human time to
+# read the full recap before this fires)
+confirm_submit {Base file name}
+beat 500
 
 # --- Save ---
-step "Save prompt" {Base file name}
-beat 500
-press_enter
-
-step "Saved confirmation" {Saved\.}
+confirm_submit {Saved\.}
 beat 2500
 expect eof
