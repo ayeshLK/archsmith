@@ -18,10 +18,10 @@ It's built as a library first, a CLI on top of that, and an MCP server on top of
 </p>
 
 <p align="center">
-  <img src="examples/ticket-booking/diagram.svg" alt="Example architecture diagram rendered by ArchSmith" width="900">
+  <img src="docs/demo/author-demo.svg" alt="The diagram produced by the archsmith author session shown above" width="900">
 </p>
 
-<p align="center"><sub><code>archsmith author</code> above walks through a full session — no hand-written JSON — and ends in a saved, rendered diagram. The richer <a href="examples/ticket-booking/diagram.archsmith.json"><code>ticket-booking</code> example</a> below is shown at full scale, exercising every schema feature.</sub></p>
+<p align="center"><sub>The exact diagram the session above produced — saved as <a href="docs/demo/author-demo.archsmith.json"><code>author-demo.archsmith.json</code></a>, no hand-written JSON. For a richer example exercising every schema feature, see <a href="examples/ticket-booking/diagram.archsmith.json"><code>ticket-booking</code></a> in Quick start below.</sub></p>
 
 > [!NOTE]
 > ArchSmith is pre-1.0 — the schema and API may still change (`diagram-schema.json` itself is marked "first pass, expect revision"). See [releases](https://github.com/ayeshLK/archsmith/releases) for what's shipped in each version.
