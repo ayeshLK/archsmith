@@ -1,6 +1,6 @@
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.3/diagram-schema.json",
-  "schemaVersion": "0.3.3",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.4/diagram-schema.json",
+  "schemaVersion": "0.3.4",
   "title": "Customer Portal Web App — Architecture",
   "subtitle": "Small three-tier web application close to the schema floor",
   "colorTheme": { "family": "standard" },

@@ -35,6 +35,7 @@ const FULL_DRAFT: DraftIR = {
     egress: { gateway: { label: "Egress Proxy", sublabel: null } },
     externalSystems: { clusters: [{ name: "Payments", items: [{ title: "Payment Gateway" }] }] },
   },
+  includeLegend: true,
 };
 
 test("shows every section's real values, not raw JSON", () => {
@@ -52,6 +53,8 @@ test("shows every section's real values, not raw JSON", () => {
   assert.ok(!frame?.includes("Egress Proxy ("));
   assert.ok(frame?.includes("Payments"));
   assert.ok(frame?.includes("Payment Gateway"));
+  assert.ok(frame?.includes("Legend"));
+  assert.ok(frame?.includes("included"));
   unmount();
 });
 
@@ -119,7 +122,7 @@ test("selecting an edit option calls onEditSection with the right section id", a
   unmount();
 });
 
-test("selecting Edit Egress (the last option) calls onEditSection(\"egress\")", async () => {
+test("selecting Edit Egress calls onEditSection(\"egress\")", async () => {
   const result: { edited: SectionId[] } = { edited: [] };
   const { stdin, unmount } = render(
     <ReviewScreen draft={FULL_DRAFT} onConfirm={() => {}} onEditSection={(s) => { result.edited.push(s); }} />
@@ -129,5 +132,22 @@ test("selecting Edit Egress (the last option) calls onEditSection(\"egress\")", 
   await down(stdin); // Edit Ingress -> Edit Egress
   await submit(stdin);
   assert.deepEqual(result.edited, ["egress"]);
+  unmount();
+});
+
+test("shows and safely edits an omitted legend", async () => {
+  const result: { edited: SectionId[] } = { edited: [] };
+  const draft = { ...FULL_DRAFT, includeLegend: false };
+  const { stdin, lastFrame, unmount } = render(
+    <ReviewScreen draft={draft} onConfirm={() => {}} onEditSection={(s) => { result.edited.push(s); }} />
+  );
+  assert.ok(lastFrame()?.includes("omitted"));
+
+  await down(stdin); // Looks good -> Edit Title
+  await down(stdin); // Edit Title -> Edit Ingress
+  await down(stdin); // Edit Ingress -> Edit Egress
+  await down(stdin); // Edit Egress -> Edit Legend
+  await submit(stdin);
+  assert.deepEqual(result.edited, ["legend"]);
   unmount();
 });

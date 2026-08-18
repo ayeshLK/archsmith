@@ -70,10 +70,14 @@ export function assemble(draft: DraftIR): DiagramIR {
       },
       externalSystems: { clusters: draft.columns?.externalSystems?.clusters ?? [] },
     },
-    legend: {
-      entries: deriveLegendEntries(draft),
-      abbreviations: deriveAbbreviations(draft),
-    },
+    ...(draft.includeLegend === false
+      ? {}
+      : {
+          legend: {
+            entries: deriveLegendEntries(draft),
+            abbreviations: deriveAbbreviations(draft),
+          },
+        }),
     notes: draft.notes,
     unclassified: draft.unclassified ?? [],
   };

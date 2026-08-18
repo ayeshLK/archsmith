@@ -27,14 +27,15 @@ const GATEWAY_COLOR_TOKEN = "mint";
 const GATEWAY_LEGEND_LABEL = "Ingress / Egress gateways";
 
 /**
- * legend.entries is mandatory but fully derivable from what actually got
- * used — checked against every real example with this shape (ticket-booking,
+ * When a legend is requested, its entries are fully derivable from what
+ * actually got used — checked against every real example with this shape (ticket-booking,
  * compliance-heavy-platform): every used Core Platform sub-layer gets an
  * entry, Systems of Record and the Ingress/Egress gateway color always do
  * (both mandatory in any valid diagram — see ir.ts's DiagramIR, neither
- * field is optional), and Inbound Actors/External Systems never do, since
+ * section is optional), and Inbound Actors/External Systems never do, since
  * neither uses one single governed accent color the way a sub-layer or a
- * gateway does. Never asked as a user-facing question.
+ * gateway does. The wizard asks only whether to show the derived legend,
+ * never asks the author to construct its entries.
  */
 export function deriveLegendEntries(draft: DraftIR): LegendEntryIR[] {
   const registry = subLayerRegistryEntries();

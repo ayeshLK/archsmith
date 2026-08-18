@@ -42,6 +42,10 @@ export interface DraftIR {
     entries?: LegendEntryIR[];
     abbreviations?: AbbreviationIR[];
   };
+  /** Draft-only answer to LegendScreen. Defaults to true for older
+   * callers that assemble a draft without walking the screen; false
+   * deliberately omits legend from the completed DiagramIR. */
+  includeLegend?: boolean;
   notes?: string[] | null;
   unclassified?: GapNoteIR[];
   /** Per-section authoring rationale (see authoringNotes.ts) — draft-only,

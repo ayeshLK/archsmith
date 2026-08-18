@@ -75,7 +75,7 @@ export interface DiagramIR {
     egress: { gateway: GatewayIR };
     externalSystems: { clusters: ClusterIR[] };
   };
-  legend: {
+  legend?: {
     entries: LegendEntryIR[];
     abbreviations?: AbbreviationIR[];
   };

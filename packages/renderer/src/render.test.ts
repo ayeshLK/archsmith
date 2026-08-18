@@ -50,6 +50,21 @@ test("embedFonts: false opts out of the embedded font, producing a smaller SVG w
   assert.ok(golden.length > svg.length);
 });
 
+test("omitting legend removes the Legend block and its unused footer space (issue #101)", () => {
+  const withLegend = loadFixture("minimal-valid/diagram.archsmith.json") as DiagramIR;
+  const withLegendSvg = render(withLegend, { embedFonts: false });
+  const withoutLegend = structuredClone(withLegend);
+  delete withoutLegend.legend;
+  const withoutLegendSvg = render(withoutLegend, { embedFonts: false });
+
+  assert.ok(withLegendSvg.includes(">LEGEND</text>"));
+  assert.ok(!withoutLegendSvg.includes(">LEGEND</text>"));
+  assert.ok(!withoutLegendSvg.includes("Dashed border = Core Platform boundary"));
+
+  const height = (svg: string): number => Number(svg.match(/<svg[^>]+ height="([0-9.]+)"/)?.[1]);
+  assert.ok(height(withoutLegendSvg) < height(withLegendSvg));
+});
+
 test("corePlatform.systemsOfRecord.registryId genuinely drives the styling lookup, not just a decorative field (issue #57)", () => {
   // Confirms the field is wired to the actual render, not merely validated
   // and ignored: pointing it at a different real registry entry (bypassing

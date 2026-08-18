@@ -13,13 +13,14 @@ export interface ReviewScreenProps {
   onEditSection: (section: SectionId) => void;
 }
 
-type EditableSection = Extract<SectionId, "intro" | "ingress" | "egress">;
+type EditableSection = Extract<SectionId, "intro" | "ingress" | "egress" | "legend">;
 
 const MENU_ITEMS: Array<{ label: string; value: "confirm" | EditableSection }> = [
   { label: "Looks good — continue", value: "confirm" },
   { label: "Edit Title / Subtitle / Deployed On", value: "intro" },
   { label: "Edit Ingress", value: "ingress" },
   { label: "Edit Egress", value: "egress" },
+  { label: "Edit Legend", value: "legend" },
 ];
 
 function gatewayLine(label: string | undefined, sublabel: string | null | undefined): string {
@@ -30,8 +31,8 @@ function gatewayLine(label: string | undefined, sublabel: string | null | undefi
 /**
  * Shows every section in human terms — never a raw JSON dump — before
  * the final validate/render/save step. Jump-to-correct is only offered
- * for intro/ingress/egress: those are plain scalars, safe to re-enter and
- * overwrite. The 4 repeatable-list sections (Inbound Actors, Core
+ * for intro/ingress/egress and the Legend choice: those are safe to
+ * re-enter and overwrite. The 4 repeatable-list sections (Inbound Actors, Core
  * Platform's sub-layers and Systems of Record, External Systems) aren't
  * offered here — none of their screens support "append mode" yet
  * (re-entering one today would restart its list from item 1, silently
@@ -122,6 +123,11 @@ export function ReviewScreen({ draft, onConfirm, onEditSection }: ReviewScreenPr
         {clusters.map((cluster, i) => (
           <Text key={i}>  · {cluster.name}: {cluster.items.map((item) => item.title).join(", ")}</Text>
         ))}
+      </Box>
+
+      <Box flexDirection="column" marginTop={1}>
+        <Text bold>Legend</Text>
+        <Text>  {draft.includeLegend === false ? "omitted" : "included"}</Text>
       </Box>
 
       <Box marginTop={1}>
