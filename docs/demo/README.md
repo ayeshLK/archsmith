@@ -1,10 +1,29 @@
 # Demo GIFs
 
-Two GIFs, embedded in the root [README.md](../../README.md), both built the same way: a real command flow recorded with [asciinema](https://asciinema.org/) and converted to GIF with [agg](https://github.com/asciinema/agg) (`brew install asciinema agg`).
+Three GIFs, embedded in the root [README.md](../../README.md), all built the same way: a real command flow recorded with [asciinema](https://asciinema.org/) and converted to GIF with [agg](https://github.com/asciinema/agg) (`brew install asciinema agg`).
+
+## `author-demo.gif` — `archsmith author` flow
+
+Shown at the top of the README, as the hero GIF — `archsmith author` is the recommended way to create a diagram from scratch (see [Quick start](../../README.md#quick-start)), so it leads. A full, real wizard session, driven end to end via [`expect`](https://core.tcl-lang.org/expect/index) (not a scripted-input pipe — Ink requires a real TTY and exits immediately otherwise, see `cli.tsx`'s `isTTY` check), through every section: title/subtitle/deployed-on, one Inbound Actor, Ingress, Core Platform (Discovery and Governance and Entity Layer both marked absent with a one-line reason, Execution and Capability given its one mandatory item), Systems of Record, Egress, one External Systems cluster with one item, Legend "include," Review confirmed as-is, then save under the default suggested name. Ticket-booking-themed fictional content, consistent with `examples/ticket-booking/` — never a real company/product name (see [AGENTS.md](../../AGENTS.md#example-content-stays-fictional-and-generic)).
+
+Requires `@archsmith/cli` built (`npm run build --workspace=@archsmith/cli` — no `npm link` needed, `drive-author-demo.exp` spawns `packages/cli/dist/index.js` directly). From the repo root:
+
+```bash
+asciinema rec --headless --overwrite --window-size 100x38 --title "ArchSmith author demo" --idle-time-limit 2 \
+  -c "bash docs/demo/record-author-demo.sh" /tmp/archsmith-demo/author-demo.cast
+agg --font-size 18 --theme monokai --idle-time-limit 2 /tmp/archsmith-demo/author-demo.cast docs/demo/author-demo.gif
+```
+
+`record-author-demo.sh` creates its own scratch directory (`/tmp/archsmith-demo/ticket-booking-platform`) and types the fake `archsmith author` invocation line, the same opening beat as the CLI GIF below, before `drive-author-demo.exp` takes over and drives the real interactive session. The window is sized to the tallest screen in the session (Review, at ~35 lines) — unlike the other two GIFs' windows, most frames don't fill it, which is expected: a real terminal doesn't resize itself between wizard screens either.
+
+Two non-obvious things the `.exp` script works around, worth knowing if this is ever regenerated:
+
+- **Ink doesn't finish attaching its raw-mode input listener the instant its first frame paints.** Sending keystrokes immediately after `spawn` swallows the very first `Enter`, shifting every field's value by one for the rest of the session. Fixed with a one-time ~700ms pause after the intro screen's first frame; no per-field pause is needed anywhere else.
+- **`expect`'s own `spawn` command prints `spawn <full command>` by default**, which leaks the absolute local filesystem path (including the machine's username, since the command is `node /Users/<you>/.../packages/cli/dist/index.js author`) straight into the recording. `log_user 0` wrapped around the `spawn` call (re-enabled with `log_user 1` immediately after) suppresses just that one line.
 
 ## `cli-demo.gif` — CLI flow
 
-Shown at the top of the README. The exact two commands from the [Quick start](../../README.md#quick-start) section, run against `examples/ticket-booking/diagram.archsmith.json` — the same fixture as the static hero SVG shown right below the GIF, so the recording, the rendered diagram, and the copy-pasteable Quick Start commands all point at one example instead of three different ones.
+Shown in the [CLI usage](../../README.md#cli-usage) section, as a supplementary illustration of `validate`/`render` against an existing IR document (hand-written, agent-authored, or saved from `archsmith author`) — it no longer leads the README now that `author-demo.gif` does. The exact two commands from the "start from an example" part of [Quick start](../../README.md#quick-start), run against `examples/ticket-booking/diagram.archsmith.json` — the same fixture as the static hero SVG, so the recording, the rendered diagram, and the copy-pasteable commands all point at one example instead of three different ones.
 
 Requires `@archsmith/cli` built and linked (`npm run build --workspace=@archsmith/cli && npm link --prefix packages/cli`). From the repo root:
 

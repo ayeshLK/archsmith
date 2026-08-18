@@ -1,0 +1,238 @@
+#!/usr/bin/expect -f
+# Drives a real `archsmith author` session for the README demo GIF.
+# Run only via: bash docs/demo/record-author-demo.sh (which wraps this in
+# asciinema rec). See docs/demo/README.md for the full regenerate steps.
+
+set timeout 6
+log_user 1
+
+set script_dir [file dirname [file normalize [info script]]]
+set repo_root [file dirname [file dirname $script_dir]]
+
+# log_user 0 around spawn suppresses expect's own "spawn <full command>"
+# announcement, which would otherwise print the absolute local filesystem
+# path (including the machine's username) straight into the recording.
+log_user 0
+spawn node "$repo_root/packages/cli/dist/index.js" author
+log_user 1
+
+proc step {label pattern} {
+  global spawn_id
+  if {[catch {expect -re $pattern} err]} {
+    send_user "\n\[FAILED waiting for: $label\]\n$err\n"
+    exit 1
+  }
+}
+
+proc drain {} {
+  global spawn_id
+  while 1 {
+    set matched 0
+    expect {
+      -timeout 0 -re ".+" { set matched 1 }
+      timeout { set matched 0 }
+    }
+    if {!$matched} break
+  }
+}
+
+proc type_text {text} {
+  global spawn_id
+  # Discard anything already sitting in the buffer before typing -- a
+  # screen's own hint copy can coincidentally contain the exact value
+  # we're about to type (e.g. the Pill field's hint literally says
+  # `e.g. "PRIMARY"`), and without this, the echo-confirmation below
+  # would match that stale leftover text instead of genuinely waiting
+  # for our own input to land -- caught empirically as a reliable,
+  # 100%-reproducible corruption on that one specific field.
+  drain
+  foreach char [split $text ""] {
+    send -- $char
+    after 35
+  }
+  # Confirm the tail of what we just typed actually landed and got
+  # echoed back before ever sending Enter. A fixed delay alone can't
+  # guarantee this: if Enter's `send` happens to land in the same read()
+  # chunk as trailing text (a real risk under any scheduling hiccup),
+  # ink-text-input treats the merged chunk as a paste and inserts the
+  # raw \r literally into the field instead of submitting -- caught
+  # empirically as a literal "\r" showing up inside a saved field value.
+  # Waiting for an echo of the real typed text (not just a fixed delay)
+  # is what actually proves the app's read loop is idle and caught up.
+  if {[string length $text] > 0} {
+    set tail_len [expr {min([string length $text], 16)}]
+    set tail [string range $text end-[expr {$tail_len - 1}] end]
+    expect -timeout 3 -ex $tail
+  }
+  after 400
+}
+
+proc down {{n 1}} {
+  for {set i 0} {$i < $n} {incr i} {
+    send -- "\x1b\[B"
+    after 200
+  }
+}
+
+# A deliberate pause purely for a human viewer's benefit -- long enough to
+# read the screen that was just reached before the next keystroke fires.
+# Separate from the per-send `after`s above, which exist for correctness.
+proc beat {{ms 700}} {
+  after $ms
+}
+
+# Sends Enter and waits for `next_pattern` (a string unique to the screen
+# that submission should reach -- never a bare recurring word like "Title",
+# which reappears on every repaint of the *current* screen too and would
+# match stale backlog instead of genuine progress). If nothing arrives
+# within the per-attempt timeout, resends Enter and tries again -- caught
+# empirically: Ink's first Enter after a burst of typed keystrokes is
+# sometimes silently swallowed (not inserted, not submitted), most likely
+# an occasional slow-render race rather than a fixed timing threshold, since
+# the same fixed delay reproduced both clean runs and stuck runs. A 2s
+# per-attempt window is far beyond any real render, so a resend here only
+# ever fires when the previous Enter truly had no effect -- re-submitting
+# the same (unchanged) typed value or the same (unchanged) highlighted
+# select option is always safe.
+proc confirm_submit {next_pattern {retries 4}} {
+  global spawn_id
+  for {set i 0} {$i < $retries} {incr i} {
+    send -- "\r"
+    # `catch` around `expect` does NOT distinguish a timeout from a real
+    # match -- Expect's timeout is not a Tcl error, so `catch` reports
+    # success either way. An explicit `timeout` branch is the only
+    # reliable way to tell the two apart; without it this whole retry
+    # mechanism silently no-ops; caught empirically after this got the
+    # first version of this proc completely wrong.
+    set matched 0
+    expect {
+      -timeout 2 -re $next_pattern { set matched 1 }
+      timeout { set matched 0 }
+    }
+    if {$matched} {
+      return
+    }
+  }
+  send_user "\n\[FAILED to confirm submission -- never reached: $next_pattern\]\n"
+  exit 1
+}
+
+# --- Intro ---
+step "Title prompt" {Title}
+beat 800
+type_text "Ticket Booking Platform"
+beat 300
+confirm_submit {Subtitle}
+beat
+
+type_text "Event ticket purchase and fulfillment"
+beat 300
+confirm_submit {Deployed on}
+beat
+
+type_text "AWS"
+beat 300
+confirm_submit {Inbound Actor 1}
+beat 400
+
+# --- Inbound Actors ---
+type_text "Customer"
+beat 300
+confirm_submit {Description line}
+type_text "Browses events and buys tickets"
+beat 300
+confirm_submit {Color accent}
+down 1
+confirm_submit {Inbound Actor 2}
+confirm_submit {Ingress}
+beat
+
+# --- Ingress ---
+type_text "API Gateway"
+beat 300
+confirm_submit {sublabel}
+confirm_submit {Discovery and Governance}
+beat 500
+
+# --- Core Platform: Discovery and Governance ---
+down 1
+confirm_submit {why doesn.t this apply}
+type_text "No dedicated governance layer in this system"
+beat 300
+confirm_submit {Execution and Capability Layer.*item 1}
+beat 400
+
+# --- Core Platform: Execution and Capability (mandatory) ---
+type_text "Booking Service"
+beat 300
+confirm_submit {Pill(?! color)}
+type_text "PRIMARY"
+beat 300
+confirm_submit {Pill color}
+confirm_submit {Description line}
+type_text "Handles seat selection and payment"
+beat 300
+confirm_submit {Color accent}
+down 2
+confirm_submit {Execution and Capability Layer.*item 2}
+confirm_submit {Entity Layer}
+beat 500
+
+# --- Core Platform: Entity Layer ---
+down 1
+confirm_submit {why doesn.t this apply}
+type_text "No separate entity layer modeled"
+beat 300
+confirm_submit {Systems of Record 1}
+beat 400
+
+# --- Systems of Record ---
+type_text "Bookings Database"
+beat 300
+confirm_submit {Pill(?! color)}
+confirm_submit {Description line}
+type_text "Stores confirmed reservations"
+beat 300
+confirm_submit {Color accent}
+down 4
+confirm_submit {Systems of Record 2}
+confirm_submit {Egress}
+beat 400
+
+# --- Egress ---
+type_text "Notification Gateway"
+beat 300
+confirm_submit {sublabel}
+confirm_submit {External Systems.*Cluster 1}
+beat 400
+
+# --- External Systems ---
+type_text "Payment Provider"
+beat 300
+confirm_submit {Cluster 1.*item 1}
+type_text "Stripe"
+beat 300
+confirm_submit {Reached via}
+confirm_submit {Description line}
+type_text "Processes card payments"
+beat 300
+confirm_submit {Color accent}
+down 3
+confirm_submit {Cluster 1.*item 2}
+confirm_submit {External Systems.*Cluster 2}
+confirm_submit {Show a legend}
+beat 500
+
+# --- Legend ---
+confirm_submit {Review}
+beat 2200
+
+# --- Review --- (confirmed as-is; the beat above gives a human time to
+# read the full recap before this fires)
+confirm_submit {Base file name}
+beat 500
+
+# --- Save ---
+confirm_submit {Saved\.}
+beat 2500
+expect eof
