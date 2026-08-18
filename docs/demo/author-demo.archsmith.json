@@ -1,0 +1,108 @@
+{
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.4/diagram-schema.json",
+  "schemaVersion": "0.3.4",
+  "title": "Ticket Booking Platform",
+  "subtitle": "Event ticket purchase and fulfillment",
+  "colorTheme": {
+    "family": "standard"
+  },
+  "columns": {
+    "inboundActors": {
+      "items": [
+        {
+          "title": "Customer",
+          "descriptionLines": [
+            "Browses events and buys tickets"
+          ],
+          "dotColor": "purple"
+        }
+      ]
+    },
+    "ingress": {
+      "gateway": {
+        "label": "API Gateway",
+        "sublabel": null
+      }
+    },
+    "corePlatform": {
+      "deployedOn": "AWS",
+      "subLayers": [
+        {
+          "registryId": "execution-and-capability",
+          "rows": [
+            [
+              {
+                "title": "Booking Service",
+                "pill": {
+                  "label": "PRIMARY",
+                  "semantic": "primary"
+                },
+                "descriptionLines": [
+                  "Handles seat selection and payment"
+                ],
+                "dotColor": "green"
+              }
+            ]
+          ]
+        }
+      ],
+      "systemsOfRecord": {
+        "registryId": "systems-of-record",
+        "items": [
+          {
+            "title": "Bookings Database",
+            "pill": null,
+            "descriptionLines": [
+              "Stores confirmed reservations"
+            ],
+            "dotColor": "amber"
+          }
+        ]
+      }
+    },
+    "egress": {
+      "gateway": {
+        "label": "Notification Gateway",
+        "sublabel": null
+      }
+    },
+    "externalSystems": {
+      "clusters": [
+        {
+          "items": [
+            {
+              "title": "Stripe",
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "descriptionLines": [
+                "Processes card payments"
+              ],
+              "dotColor": "teal"
+            }
+          ],
+          "name": "Payment Provider"
+        }
+      ]
+    }
+  },
+  "legend": {
+    "entries": [
+      {
+        "colorToken": "green",
+        "label": "Execution and Capability Layer"
+      },
+      {
+        "colorToken": "amber",
+        "label": "Systems of Record and Knowledge"
+      },
+      {
+        "colorToken": "mint",
+        "label": "Ingress / Egress gateways"
+      }
+    ],
+    "abbreviations": []
+  },
+  "unclassified": []
+}
