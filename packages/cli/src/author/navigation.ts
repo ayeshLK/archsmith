@@ -8,7 +8,7 @@
  * gets built once a real screen with that shape exists to validate its
  * exact form against, the same reasoning that deferred it out of Phase 2.
  */
-export const SECTION_ORDER = ["intro", "inboundActors", "ingress", "corePlatform", "egress", "externalSystems", "review"] as const;
+export const SECTION_ORDER = ["intro", "inboundActors", "ingress", "corePlatform", "egress", "externalSystems", "legend", "review"] as const;
 
 export type SectionId = (typeof SECTION_ORDER)[number];
 

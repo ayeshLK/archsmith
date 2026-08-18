@@ -102,6 +102,16 @@ test("a draft built purely through Phase 1 descriptors assembles into something 
   assert.ok(svg.includes(clusterItem.title));
 });
 
+test("includeLegend false omits the optional legend while preserving a valid, renderable IR (issue #101)", () => {
+  const draft = loadRealFixture("minimal-valid/diagram.archsmith.json") as DraftIR;
+  draft.includeLegend = false;
+
+  const ir = assemble(draft);
+  assert.equal(ir.legend, undefined);
+  assert.equal(validate(ir).valid, true);
+  assert.equal(typeof render(ir), "string");
+});
+
 /**
  * The other real path Phase 2 needs to prove, not just the "everything
  * present" happy path above: a sub-layer resolved as genuinely absent via

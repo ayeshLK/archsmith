@@ -20,8 +20,9 @@ export interface LegendResult {
 }
 
 /**
- * LEGEND block (bottom-left): a swatch grid for every colorTheme entry the
- * IR declares, plus one fixed trailing entry for the dashed Core Platform
+ * Optional LEGEND block (bottom-left): absent entirely when the IR omits
+ * legend; otherwise, a swatch grid for every colorTheme entry the IR
+ * declares, plus one fixed trailing entry for the dashed Core Platform
  * boundary (always true regardless of this diagram's own color mapping,
  * so it isn't IR-driven), then — if the IR supplies any — one plain text
  * line per abbreviation spelling out its full name. The exact color-to-
@@ -29,6 +30,10 @@ export interface LegendResult {
  * proves this), so entries are always read from the IR, never hardcoded.
  */
 export function renderLegend(ir: DiagramIR, x: number, y: number, w: number, family: string): LegendResult {
+  if (!ir.legend) {
+    return { height: 0, nodes: [] };
+  }
+
   const entries = ir.legend.entries;
   const abbreviations = ir.legend.abbreviations ?? [];
 

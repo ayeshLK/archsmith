@@ -1,6 +1,6 @@
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.3/diagram-schema.json",
-  "schemaVersion": "0.3.3",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.4/diagram-schema.json",
+  "schemaVersion": "0.3.4",
   "title": "Retail Commerce Platform — Multi-Region Architecture",
   "subtitle": "Regional clusters with shared services and mirrored downstream dependencies",
   "colorTheme": { "family": "standard" },

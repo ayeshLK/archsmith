@@ -20,6 +20,15 @@ test("minimal-valid/diagram.archsmith.json passes full validation", () => {
   assert.deepEqual(result.errors, []);
 });
 
+test("legend is optional (issue #101)", () => {
+  const ir = loadFixture("minimal-valid/diagram.archsmith.json") as { legend?: unknown };
+  delete ir.legend;
+
+  const result = validate(ir);
+  assert.equal(result.valid, true);
+  assert.deepEqual(result.errors, []);
+});
+
 test("accessible color family is rejected until its palette is complete", () => {
   const ir = loadFixture("minimal-valid/diagram.archsmith.json") as { colorTheme: { family: string } };
   ir.colorTheme.family = "accessible";

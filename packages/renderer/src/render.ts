@@ -106,7 +106,8 @@ export function render(ir: DiagramIR, opts: RenderOptions = {}): string | Render
   const ingressNodes = renderIngressEgress(ir.columns.ingress.gateway, ingressX, FRAME_Y, INGRESS_W, frameH);
   const egressNodes = renderIngressEgress(ir.columns.egress.gateway, egressX, FRAME_Y, EGRESS_W, frameH);
 
-  const footerY = FRAME_Y + frameH + FOOTER_GAP;
+  const frameBottom = FRAME_Y + frameH;
+  const footerY = frameBottom + FOOTER_GAP;
   const legendW = INBOUND_W + GAP + INGRESS_W + GAP + 420;
   const legend = renderLegend(ir, inboundX, footerY, legendW, family);
 
@@ -119,7 +120,8 @@ export function render(ir: DiagramIR, opts: RenderOptions = {}): string | Render
   }
 
   const footerH = Math.max(legend.height, notes?.height ?? 0);
-  const canvasH = footerY + footerH + MARGIN;
+  const hasFooter = legend.height > 0 || notes !== null;
+  const canvasH = (hasFooter ? footerY + footerH : frameBottom) + MARGIN;
 
   const titleNodes: SvgNode[] = [
     text(canvasW / 2, TITLE_Y, ir.title, { size: 24, weight: 700, fill: TITLE_C, anchor: "middle" }),

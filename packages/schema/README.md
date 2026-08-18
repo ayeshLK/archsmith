@@ -31,8 +31,8 @@ If your file doesn't match that naming pattern, or you want to pin validation to
 
 ```json
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.3/diagram-schema.json",
-  "schemaVersion": "0.3.3"
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.4/diagram-schema.json",
+  "schemaVersion": "0.3.4"
 }
 ```
 
@@ -42,7 +42,7 @@ Versioned URLs remain immutable. `https://ayeshlk.github.io/archsmith/schema/lat
 
 Changing `diagram-schema.json`'s structure, or adding an entry to any registry, is a **deliberate change-request event** — never a decision made by a generation step or an end user mid-diagram. This is what keeps the format a consistent house style rather than free-form per-diagram layout. Bump `schemaVersion`/`registryVersion` on any such change.
 
-What stays free per diagram (no change request needed): which already-approved sub-layers/colors/icons a given diagram uses, how many rows of boxes a layer has, and whether a notes callout is included. Only the `standard` color family is currently selectable; `accessible` remains a governed placeholder until its palette is complete.
+What stays free per diagram (no change request needed): which already-approved sub-layers/colors/icons a given diagram uses, how many rows of boxes a layer has, and whether a legend or notes callout is included. Only the `standard` color family is currently selectable; `accessible` remains a governed placeholder until its palette is complete.
 
 ## License
 

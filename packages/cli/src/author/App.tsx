@@ -9,6 +9,7 @@ import { GatewayScreen } from "./screens/GatewayScreen.js";
 import { CorePlatformSubLayersScreen } from "./screens/CorePlatformSubLayersScreen.js";
 import { SystemsOfRecordScreen } from "./screens/SystemsOfRecordScreen.js";
 import { ExternalSystemsScreen } from "./screens/ExternalSystemsScreen.js";
+import { LegendScreen } from "./screens/LegendScreen.js";
 import { ReviewScreen } from "./screens/ReviewScreen.js";
 import { FinalStepScreen } from "./screens/FinalStepScreen.js";
 
@@ -39,7 +40,8 @@ export function App({ onExit }: AppProps): React.JSX.Element {
   // the same way ingress doesn't advance into an unbuilt egress.
   const [corePlatformSubLayersDone, setCorePlatformSubLayersDone] = useState(false);
   const [reviewConfirmed, setReviewConfirmed] = useState(false);
-  // Set only while a scalar-only section (intro/ingress/egress) is being
+  // Set only while a safely re-enterable section
+  // (intro/ingress/egress/legend) is being
   // re-visited via Review's "edit" option — completing it then returns to
   // Review instead of advancing forward through the rest of the sequence.
   const [cameFromReview, setCameFromReview] = useState(false);
@@ -101,6 +103,10 @@ export function App({ onExit }: AppProps): React.JSX.Element {
 
   if (nav.current === "externalSystems") {
     return <ExternalSystemsScreen draft={draft} onComplete={advanceFrom} />;
+  }
+
+  if (nav.current === "legend") {
+    return <LegendScreen draft={draft} onComplete={advanceFrom} />;
   }
 
   if (nav.current === "review" && !reviewConfirmed) {

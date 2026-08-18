@@ -77,6 +77,8 @@ async function reachReview(stdin: { write: (data: string) => void }): Promise<vo
   await finishOneItemQuickly(stdin, "Payment Gateway");
   await submit(stdin); // end this cluster's items
   await submit(stdin); // end External Systems after the required cluster
+
+  await submit(stdin); // include the legend (the default)
 }
 
 test("reaching Review shows the values entered throughout the session", async () => {
@@ -87,6 +89,8 @@ test("reaching Review shows the values entered throughout the session", async ()
   assert.ok(frame?.includes("Ticket Booking"));
   assert.ok(frame?.includes("API Gateway"));
   assert.ok(frame?.includes("Egress Proxy"));
+  assert.ok(frame?.includes("Legend"));
+  assert.ok(frame?.includes("included"));
   unmount();
 });
 
