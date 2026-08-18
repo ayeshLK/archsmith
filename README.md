@@ -14,14 +14,14 @@
 It's built as a library first, a CLI on top of that, and an MCP server on top of that — so it's just as easy for a human to run `archsmith render` as it is for an AI agent to call it as a tool.
 
 <p align="center">
-  <img src="docs/demo/cli-demo.gif" alt="Terminal recording: archsmith validate, then archsmith render, on the ticket-booking example, producing the diagram below" width="900">
+  <img src="docs/demo/author-demo.gif" alt="Terminal recording of archsmith author: a guided wizard asking plain-language questions about actors, gateways, Core Platform, Systems of Record, and External Systems, then validating, rendering, and saving a diagram with no hand-written JSON" width="900">
 </p>
 
 <p align="center">
   <img src="examples/ticket-booking/diagram.svg" alt="Example architecture diagram rendered by ArchSmith" width="900">
 </p>
 
-<p align="center"><sub>The commands above render <a href="examples/ticket-booking/diagram.archsmith.json"><code>examples/ticket-booking/diagram.archsmith.json</code></a> into the diagram below it — a fictional example exercising every schema feature.</sub></p>
+<p align="center"><sub><code>archsmith author</code> above walks through a full session — no hand-written JSON — and ends in a saved, rendered diagram. The richer <a href="examples/ticket-booking/diagram.archsmith.json"><code>ticket-booking</code> example</a> below is shown at full scale, exercising every schema feature.</sub></p>
 
 > [!NOTE]
 > ArchSmith is pre-1.0 — the schema and API may still change (`diagram-schema.json` itself is marked "first pass, expect revision"). See [releases](https://github.com/ayeshLK/archsmith/releases) for what's shipped in each version.
@@ -58,11 +58,18 @@ If you want a flexible, general-purpose diagramming syntax, Mermaid or PlantUML 
 
 ## Quick start
 
+```bash
+npm install -g @archsmith/cli
+archsmith author
+```
+
+`archsmith author` is a guided, no-hand-written-JSON wizard: it walks you through Inbound Actors, Ingress, Core Platform, Systems of Record, Egress, and External Systems one plain-language question at a time, offering only governed colors/sub-layers so whole classes of validation error can't happen — then validates, renders, and saves the `.archsmith.json` and `.svg` next to each other. It's aimed at creating a valid *initial* diagram; editing an existing one isn't supported yet — hand-edit the saved JSON, or start a fresh session, if you spot a mistake afterward.
+
+### Or start from an example
+
 Name IR documents `*.archsmith.json` so editors and integrations can identify them without colliding with other JSON-based intermediate representations. The CLI remains filename-agnostic and accepts any JSON file path.
 
 ```bash
-npm install -g @archsmith/cli
-
 mkdir -p ticket-booking
 curl -o ticket-booking/diagram.archsmith.json https://raw.githubusercontent.com/ayeshLK/archsmith/main/examples/ticket-booking/diagram.archsmith.json
 archsmith validate ticket-booking/diagram.archsmith.json
@@ -76,6 +83,7 @@ Working on ArchSmith itself rather than just using it? See [CONTRIBUTING.md](CON
 ## CLI usage
 
 ```bash
+archsmith author
 archsmith validate <input.archsmith.json> [--json]
 archsmith render <input.archsmith.json> -o <out.svg> [--no-embed-fonts] [--pretty]
 archsmith registries list
@@ -83,11 +91,18 @@ archsmith registries show <sub-layers|colors|icons> [--family standard|accessibl
 archsmith schema show
 ```
 
+- `author` launches the interactive wizard covered in [Quick start](#quick-start) above. It needs a real terminal — a piped/non-interactive invocation (e.g. CI) fails with one clear line rather than hanging.
 - `render` validates the IR first and fails the same way `validate` would (exit 1) if it's invalid; a rendering-time error exits 2.
 - `--no-embed-fonts` skips embedding the bundled font, producing a smaller file.
 - `--pretty` indents the output SVG's element lines for readability (default is one element per line, unindented).
 - `registries show colors --family standard` prints just that color family instead of the whole registry. The planned `accessible` registry can be inspected, but diagrams cannot select it until its complete palette is designed and tested.
 - `schema show` prints the raw `diagram-schema.json` contents — the structural contract an IR document must satisfy, as distinct from the governed vocabulary `registries` exposes.
+
+<p align="center">
+  <img src="docs/demo/cli-demo.gif" alt="Terminal recording: archsmith validate, then archsmith render, on the ticket-booking example, producing the diagram shown in Quick start" width="900">
+</p>
+
+<p align="center"><sub>Already have an IR document (hand-written, agent-authored, or saved from <code>archsmith author</code>)? <code>validate</code> and <code>render</code> are the two commands you need.</sub></p>
 
 ## Using it as a library
 

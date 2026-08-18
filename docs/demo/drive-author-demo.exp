@@ -1,0 +1,198 @@
+#!/usr/bin/expect -f
+# Drives a real `archsmith author` session for the README demo GIF.
+# Run only via: bash docs/demo/record-author-demo.sh (which wraps this in
+# asciinema rec). See docs/demo/README.md for the full regenerate steps.
+
+set timeout 6
+log_user 1
+
+set script_dir [file dirname [file normalize [info script]]]
+set repo_root [file dirname [file dirname $script_dir]]
+
+# log_user 0 around spawn suppresses expect's own "spawn <full command>"
+# announcement, which would otherwise print the absolute local filesystem
+# path (including the machine's username) straight into the recording.
+log_user 0
+spawn node "$repo_root/packages/cli/dist/index.js" author
+log_user 1
+
+proc step {label pattern} {
+  global spawn_id
+  if {[catch {expect -re $pattern} err]} {
+    send_user "\n\[FAILED waiting for: $label\]\n$err\n"
+    exit 1
+  }
+}
+
+proc type_text {text} {
+  send -- $text
+  after 200
+}
+
+proc press_enter {} {
+  send -- "\r"
+  after 200
+}
+
+proc type_and_enter {text} {
+  type_text $text
+  press_enter
+}
+
+proc down {{n 1}} {
+  for {set i 0} {$i < $n} {incr i} {
+    send -- "\x1b\[B"
+    after 200
+  }
+}
+
+# A deliberate pause purely for a human viewer's benefit -- long enough to
+# read the screen that was just reached before the next keystroke fires.
+# Separate from the per-send `after`s above, which exist for correctness
+# (giving Ink's event loop time to actually process each input), not
+# pacing.
+proc beat {{ms 700}} {
+  after $ms
+}
+
+# --- Intro ---
+step "Title prompt" {Title}
+# Ink needs a moment after its first frame paints to actually attach its
+# raw-mode input listener; sending real keystrokes (in particular the
+# first Enter) before that finishes gets silently swallowed rather than
+# submitting the field, shifting every field's value by one for the rest
+# of the session. Caught empirically -- the fix is this one-time pause,
+# not a per-field one (every later transition behaves correctly).
+beat 800
+type_and_enter "Ticket Booking Platform"
+beat
+
+step "Subtitle prompt" {Subtitle}
+type_and_enter "Event ticket purchase and fulfillment"
+beat
+
+step "Deployed on prompt" {Deployed on}
+type_and_enter "AWS"
+beat
+
+# --- Inbound Actors ---
+step "Inbound Actor 1 header" {Inbound Actor 1}
+beat 400
+type_and_enter "Customer"
+step "Description line prompt (actor)" {Description line}
+type_and_enter "Browses events and buys tickets"
+press_enter
+step "Color accent prompt (actor)" {Color accent}
+down 1
+press_enter
+step "Inbound Actor 2 header" {Inbound Actor 2}
+press_enter
+beat
+
+# --- Ingress ---
+step "Ingress header" {Ingress}
+beat 400
+type_and_enter "API Gateway"
+step "Ingress sublabel prompt" {sublabel}
+press_enter
+beat
+
+# --- Core Platform: Discovery and Governance ---
+step "Discovery and Governance decide" {Discovery and Governance}
+beat 500
+down 1
+press_enter
+step "Discovery and Governance reason" {why doesn.t this apply}
+type_and_enter "No dedicated governance layer in this system"
+beat
+
+# --- Core Platform: Execution and Capability (mandatory) ---
+step "Execution and Capability item 1" {Execution and Capability Layer.*item 1}
+beat 400
+type_and_enter "Booking Service"
+step "Pill prompt (execution item)" {Pill(?! color)}
+type_and_enter "PRIMARY"
+step "Pill color prompt (execution item)" {Pill color}
+press_enter
+step "Description line prompt (execution item)" {Description line}
+type_and_enter "Handles seat selection and payment"
+press_enter
+step "Color accent prompt (execution item)" {Color accent}
+down 2
+press_enter
+step "Execution and Capability item 2" {Execution and Capability Layer.*item 2}
+press_enter
+beat
+
+# --- Core Platform: Entity Layer ---
+step "Entity Layer decide" {Entity Layer}
+beat 500
+down 1
+press_enter
+step "Entity Layer reason" {why doesn.t this apply}
+type_and_enter "No separate entity layer modeled"
+beat
+
+# --- Systems of Record ---
+step "Systems of Record 1" {Systems of Record 1}
+beat 400
+type_and_enter "Bookings Database"
+step "Pill prompt (SoR item)" {Pill(?! color)}
+press_enter
+step "Description line prompt (SoR item)" {Description line}
+type_and_enter "Stores confirmed reservations"
+press_enter
+step "Color accent prompt (SoR item)" {Color accent}
+down 4
+press_enter
+step "Systems of Record 2" {Systems of Record 2}
+press_enter
+beat
+
+# --- Egress ---
+step "Egress header" {Egress}
+beat 400
+type_and_enter "Notification Gateway"
+step "Egress sublabel prompt" {sublabel}
+press_enter
+beat
+
+# --- External Systems ---
+step "External Systems cluster 1 name" {External Systems.*Cluster 1}
+beat 400
+type_and_enter "Payment Provider"
+step "Cluster 1 item 1" {Cluster 1.*item 1}
+type_and_enter "Stripe"
+step "Reached via Egress prompt" {Reached via}
+press_enter
+step "Description line prompt (cluster item)" {Description line}
+type_and_enter "Processes card payments"
+press_enter
+step "Color accent prompt (cluster item)" {Color accent}
+down 3
+press_enter
+step "Cluster 1 item 2" {Cluster 1.*item 2}
+press_enter
+step "External Systems cluster 2 name" {External Systems.*Cluster 2}
+press_enter
+beat
+
+# --- Legend ---
+step "Legend prompt" {Show a legend}
+beat 500
+press_enter
+beat
+
+# --- Review --- give the viewer real time to read the full recap
+step "Review screen" {Review}
+beat 2200
+press_enter
+
+# --- Save ---
+step "Save prompt" {Base file name}
+beat 500
+press_enter
+
+step "Saved confirmation" {Saved\.}
+beat 2500
+expect eof

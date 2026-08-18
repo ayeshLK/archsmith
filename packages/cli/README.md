@@ -15,6 +15,7 @@ npm install -g @archsmith/cli
 The recommended filename pattern is `*.archsmith.json`, which allows editors and integrations to recognize ArchSmith documents reliably. The CLI accepts any JSON file path.
 
 ```bash
+archsmith author
 archsmith validate <input.archsmith.json> [--json]
 archsmith render <input.archsmith.json> -o <out.svg> [--no-embed-fonts] [--pretty]
 archsmith registries list
@@ -22,6 +23,7 @@ archsmith registries show <sub-layers|colors|icons> [--family standard|accessibl
 archsmith schema show
 ```
 
+- `author` launches a guided, no-hand-written-JSON wizard — creates a valid *initial* diagram one plain-language question at a time, offering only governed colors/sub-layers, then validates, renders, and saves the `.archsmith.json` and `.svg` next to each other. Editing an existing diagram isn't supported yet. Needs a real terminal — a piped/non-interactive invocation fails with one clear line rather than hanging.
 - `render` validates the IR first and fails the same way `validate` would (exit 1) if it's invalid; a rendering-time error exits 2.
 - `--no-embed-fonts` skips embedding the bundled font, producing a smaller file.
 - `--pretty` indents the output SVG's element lines for readability (default is one element per line, unindented).
