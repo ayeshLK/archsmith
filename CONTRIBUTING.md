@@ -73,6 +73,7 @@ If you move or rename example fixtures under `examples/`, update the matching te
 - Each screen ships as its own small PR with its own changeset, under the same build/test discipline as the rest of the repo.
 - What the wizard *asks* isn't the same question as what the schema/renderer *support* — ground any narrowing (a step skipped for one section, a picker offered with fewer options than the schema allows) in real usage counted across `examples/`, not a guess, and keep hand-editing the saved JSON as the escape valve for whatever the guided flow doesn't cover. See AGENTS.md's wizard architecture invariants for the fuller reasoning (issue #97).
 - Verify any UI-observable change against the real compiled binary via a pty session (e.g. `expect`), not just `ink-testing-library` — the two harnesses' own defaults genuinely differ. See AGENTS.md's Ink-specific pitfalls for the harness pattern and two hard-won send-timing rules.
+- The root README's hero GIF (`docs/demo/author-demo.gif`) is a real recorded session, not staged copy — it builds the actual `examples/ticket-booking` reference example end to end, and its accompanying `author-demo.archsmith.json`/`.svg` are copied byte-for-byte from that same run. If a wizard change affects what that session types or selects, regenerate all three together — see [docs/demo/README.md](docs/demo/README.md) for the recording pipeline and the two fields (`item.acronym`, top-level `notes`) it has to substitute around since neither has a live wizard prompt yet.
 
 ## Working on the MCP server
 
