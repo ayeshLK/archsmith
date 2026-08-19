@@ -46,8 +46,8 @@ jobs:
         if: env.NPM_TOKEN != ''
         uses: changesets/action@198f833dd7d863100ea6e28967bc9a9fdefadb0a # v2.1.0
         with:
-          publish: npx changeset publish
-          version: npx changeset version
+          publish-script: npx changeset publish
+          version-script: npx changeset version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN }}
