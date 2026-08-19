@@ -1,7 +1,11 @@
 #!/usr/bin/expect -f
-# Drives a real `archsmith author` session for the README demo GIF.
-# Run only via: bash docs/demo/record-author-demo.sh (which wraps this in
-# asciinema rec). See docs/demo/README.md for the full regenerate steps.
+# Drives a real `archsmith author` session for the README demo GIF --
+# builds the exact examples/ticket-booking/diagram.archsmith.json
+# reference example live through the wizard (minus two fields with no
+# live authoring path yet -- see the two substitutions noted inline
+# below). Run only via: bash docs/demo/record-author-demo.sh (which
+# wraps this in asciinema rec). See docs/demo/README.md for the full
+# regenerate steps.
 
 set timeout 6
 log_user 1
@@ -15,14 +19,6 @@ set repo_root [file dirname [file dirname $script_dir]]
 log_user 0
 spawn node "$repo_root/packages/cli/dist/index.js" author
 log_user 1
-
-proc step {label pattern} {
-  global spawn_id
-  if {[catch {expect -re $pattern} err]} {
-    send_user "\n\[FAILED waiting for: $label\]\n$err\n"
-    exit 1
-  }
-}
 
 proc drain {} {
   global spawn_id
@@ -67,43 +63,82 @@ proc type_text {text} {
   after 400
 }
 
-proc down {{n 1}} {
-  for {set i 0} {$i < $n} {incr i} {
+proc read_highlight {} {
+  global expect_out
+  regsub -all {\x1b\[[0-9;?]*[A-Za-z]} $expect_out(buffer) "" clean
+  set hl ""
+  foreach line [split $clean "\n"] {
+    set line [string trim $line "\r"]
+    if {[regexp {^❯\s*(\S+)} $line -> word]} { set hl $word; break }
+  }
+  return $hl
+}
+
+# Selects a named color from the Color Accent list (order: purple, green,
+# teal, amber, navy, mint) by pressing Down one step at a time and
+# confirming the actual highlighted option (marked with "❯", not
+# ASCII ">") after each press, using "mint" (the list's last entry) as a
+# sentinel that the full repaint has landed before reading it back.
+# Caught empirically: a run sending all N presses back-to-back with no
+# per-press verification landed one position short (navy selected amber
+# instead) with no other visible error -- a single dropped arrow-key send,
+# the same class of race already handled for Enter in confirm_submit, but
+# with no downstream signal at all if left unverified. Nudges with one
+# more press and rechecks if a given press didn't register.
+proc select_color {name {max_extra 4}} {
+  global spawn_id expect_out
+  set order {purple green teal amber navy mint}
+  set target [expr {[lsearch -exact $order $name] + 1}]
+  set pos 0
+  set hl ""
+  while {$pos < $target} {
+    drain
     send -- "\x1b\[B"
-    after 200
+    expect -timeout 2 -re {mint}
+    set hl [read_highlight]
+    incr pos
+  }
+  for {set r 0} {$r < $max_extra} {incr r} {
+    if {$hl eq $name} { return }
+    set cur [lsearch -exact $order $hl]
+    set want [lsearch -exact $order $name]
+    if {$cur < 0 || $want <= $cur} break
+    drain
+    send -- "\x1b\[B"
+    expect -timeout 2 -re {mint}
+    set hl [read_highlight]
+  }
+  if {$hl ne $name} {
+    send_user "\n\[FAILED to confirm color selection: $name -- last seen: $hl\]\n"
+    exit 1
   }
 }
 
 # A deliberate pause purely for a human viewer's benefit -- long enough to
 # read the screen that was just reached before the next keystroke fires.
 # Separate from the per-send `after`s above, which exist for correctness.
-proc beat {{ms 700}} {
+proc beat {{ms 500}} {
   after $ms
 }
 
 # Sends Enter and waits for `next_pattern` (a string unique to the screen
 # that submission should reach -- never a bare recurring word like "Title",
 # which reappears on every repaint of the *current* screen too and would
-# match stale backlog instead of genuine progress). If nothing arrives
+# match stale backlog instead of genuine progress). Drains first for the
+# same stale-hint-collision reason `type_text` does. If nothing arrives
 # within the per-attempt timeout, resends Enter and tries again -- caught
 # empirically: Ink's first Enter after a burst of typed keystrokes is
 # sometimes silently swallowed (not inserted, not submitted), most likely
-# an occasional slow-render race rather than a fixed timing threshold, since
-# the same fixed delay reproduced both clean runs and stuck runs. A 2s
-# per-attempt window is far beyond any real render, so a resend here only
-# ever fires when the previous Enter truly had no effect -- re-submitting
-# the same (unchanged) typed value or the same (unchanged) highlighted
-# select option is always safe.
-proc confirm_submit {next_pattern {retries 4}} {
+# an occasional slow-render race rather than a fixed timing threshold. A
+# 2s per-attempt window is far beyond any real render, so a resend here
+# only ever fires when the previous Enter truly had no effect -- re-
+# submitting the same (unchanged) typed value or the same (unchanged)
+# highlighted select option is always safe.
+proc confirm_submit {next_pattern {retries 6}} {
   global spawn_id
   for {set i 0} {$i < $retries} {incr i} {
+    drain
     send -- "\r"
-    # `catch` around `expect` does NOT distinguish a timeout from a real
-    # match -- Expect's timeout is not a Tcl error, so `catch` reports
-    # success either way. An explicit `timeout` branch is the only
-    # reliable way to tell the two apart; without it this whole retry
-    # mechanism silently no-ops; caught empirically after this got the
-    # first version of this proc completely wrong.
     set matched 0
     expect {
       -timeout 2 -re $next_pattern { set matched 1 }
@@ -118,32 +153,48 @@ proc confirm_submit {next_pattern {retries 4}} {
 }
 
 # --- Intro ---
-step "Title prompt" {Title}
-beat 800
-type_text "Ticket Booking Platform"
+expect -re {Title}
+after 800
+type_text "Event Ticket Booking Platform — Architecture"
 beat 300
 confirm_submit {Subtitle}
 beat
 
-type_text "Event ticket purchase and fulfillment"
+type_text "Reference example exercising every schema feature (fictional platform, no real system)"
 beat 300
 confirm_submit {Deployed on}
 beat
 
-type_text "AWS"
+type_text "WSO2 Developer Platform"
 beat 300
 confirm_submit {Inbound Actor 1}
 beat 400
 
-# --- Inbound Actors ---
-type_text "Customer"
+# --- Inbound Actors (2) ---
+type_text "Ticketing Web App"
 beat 300
 confirm_submit {Description line}
-type_text "Browses events and buys tickets"
-beat 300
+type_text "React SPA — customer-facing browsing and booking flow"
+beat 200
+confirm_submit {Description line}
+type_text "OIDC login (IdP) · Bearer ID token"
+beat 200
 confirm_submit {Color accent}
-down 1
+select_color "purple"
 confirm_submit {Inbound Actor 2}
+beat 300
+
+type_text "Box Office Partner Integration"
+beat 300
+confirm_submit {Description line}
+type_text "Third-party resellers and venue box offices — B2B channel"
+beat 200
+confirm_submit {Description line}
+type_text "M2M client-credentials · booking + inventory scopes"
+beat 200
+confirm_submit {Color accent}
+select_color "teal"
+confirm_submit {Inbound Actor 3}
 confirm_submit {Ingress}
 beat
 
@@ -151,81 +202,202 @@ beat
 type_text "API Gateway"
 beat 300
 confirm_submit {sublabel}
+type_text "Ticketing Runtime"
+beat 300
 confirm_submit {Discovery and Governance}
 beat 500
 
-# --- Core Platform: Discovery and Governance ---
-down 1
-confirm_submit {why doesn.t this apply}
-type_text "No dedicated governance layer in this system"
+# --- Core Platform: Discovery and Governance (include, 2 items) ---
+confirm_submit {Discovery and Governance.*item 1}
+beat 400
+
+type_text "Booking API Control Plane"
 beat 300
+confirm_submit {Pill(?! color)}
+confirm_submit {Description line}
+type_text "Request routing, lifecycle management, rate limiting for all public APIs."
+beat 200
+confirm_submit {Category}
+type_text "API management"
+beat 200
+confirm_submit {Color accent}
+confirm_submit {Discovery and Governance.*item 2}
+beat 300
+
+type_text "Ticketing Identity Platform"
+beat 300
+confirm_submit {Pill(?! color)}
+confirm_submit {Description line}
+type_text "OIDC · M2M client-credentials · role-based access control."
+beat 200
+confirm_submit {Category}
+type_text "Identity & policy"
+beat 200
+confirm_submit {Color accent}
+confirm_submit {Discovery and Governance.*item 3}
 confirm_submit {Execution and Capability Layer.*item 1}
 beat 400
 
-# --- Core Platform: Execution and Capability (mandatory) ---
+# --- Core Platform: Execution and Capability (mandatory, 2 items) ---
 type_text "Booking Service"
+beat 300
+confirm_submit {Pill(?! color)}
+confirm_submit {Description line}
+type_text "Core reservation lifecycle, seat holds, dynamic pricing."
+beat 200
+confirm_submit {Color accent}
+confirm_submit {Execution and Capability Layer.*item 2}
+beat 300
+
+type_text "Notification Dispatcher"
+beat 300
+confirm_submit {Pill(?! color)}
+confirm_submit {Description line}
+type_text "Async batch job — confirmation emails, event reminder pushes."
+beat 200
+confirm_submit {Color accent}
+confirm_submit {Execution and Capability Layer.*item 3}
+confirm_submit {Entity Layer}
+beat 500
+
+# --- Core Platform: Entity Layer (include, 1 item) ---
+confirm_submit {Entity Layer.*item 1}
+beat 400
+
+type_text "Event & Seat Entity Service"
+beat 300
+confirm_submit {Pill(?! color)}
+confirm_submit {Description line}
+type_text "Canonical event, venue, and seat inventory model, deduplicated across booking, box office, and support systems."
+beat 200
+confirm_submit {Color accent}
+confirm_submit {Entity Layer.*item 2}
+confirm_submit {Systems of Record 1}
+beat 400
+
+# --- Systems of Record (3 items) ---
+type_text "Booking DB"
 beat 300
 confirm_submit {Pill(?! color)}
 type_text "PRIMARY"
 beat 300
 confirm_submit {Pill color}
 confirm_submit {Description line}
-type_text "Handles seat selection and payment"
-beat 300
+type_text "PostgreSQL — shared \"bookings\" schema"
+beat 200
 confirm_submit {Color accent}
-down 2
-confirm_submit {Execution and Capability Layer.*item 2}
-confirm_submit {Entity Layer}
-beat 500
-
-# --- Core Platform: Entity Layer ---
-down 1
-confirm_submit {why doesn.t this apply}
-type_text "No separate entity layer modeled"
+confirm_submit {Systems of Record 2}
 beat 300
-confirm_submit {Systems of Record 1}
-beat 400
 
-# --- Systems of Record ---
-type_text "Bookings Database"
+type_text "Legacy Settlement Export"
 beat 300
 confirm_submit {Pill(?! color)}
 confirm_submit {Description line}
-type_text "Stores confirmed reservations"
-beat 300
+type_text "Nightly CSV batch for finance reconciliation"
+beat 200
 confirm_submit {Color accent}
-down 4
-confirm_submit {Systems of Record 2}
+confirm_submit {Systems of Record 3}
+beat 300
+
+type_text "Document Archive"
+beat 300
+confirm_submit {Pill(?! color)}
+confirm_submit {Description line}
+type_text "Signed venue contracts and invoices"
+beat 200
+confirm_submit {Color accent}
+confirm_submit {Systems of Record 4}
 confirm_submit {Egress}
 beat 400
 
 # --- Egress ---
-type_text "Notification Gateway"
+type_text "API Gateway"
 beat 300
 confirm_submit {sublabel}
+type_text "Outbound M2M"
+beat 300
 confirm_submit {External Systems.*Cluster 1}
 beat 400
 
-# --- External Systems ---
-type_text "Payment Provider"
+# --- External Systems: Cluster 1 (3 items) ---
+type_text "Shared Internal Services"
 beat 300
 confirm_submit {Cluster 1.*item 1}
-type_text "Stripe"
+
+type_text "Billing Service"
 beat 300
 confirm_submit {Reached via}
 confirm_submit {Description line}
-type_text "Processes card payments"
-beat 300
+type_text "OAuth2 M2M — invoice generation, refunds"
+beat 200
 confirm_submit {Color accent}
-down 3
+select_color "purple"
 confirm_submit {Cluster 1.*item 2}
+beat 300
+
+type_text "Analytics Pipeline"
+beat 300
+confirm_submit {Reached via}
+confirm_submit {Description line}
+type_text "Event stream — booking + engagement telemetry"
+beat 200
+confirm_submit {Color accent}
+select_color "teal"
+confirm_submit {Cluster 1.*item 3}
+beat 300
+
+# Note: the reference example's real title here is "Customer Relationship
+# Management and Support Case Management Platform" with item.acronym set
+# to "CRM/Support" -- there is no live wizard prompt for item.acronym
+# today (ItemSubFlow has no acronym step; render()'s needsAcronym signal
+# is a post-render fixup never wired into any screen -- see AGENTS.md's
+# wizard architecture notes). Using a title short enough not to need one
+# instead of inventing an unsupported workaround.
+type_text "CRM & Support Platform"
+beat 300
+confirm_submit {Reached via}
+confirm_submit {Description line}
+type_text "OAuth2 M2M — support case sync"
+beat 200
+confirm_submit {Color accent}
+select_color "navy"
+confirm_submit {Cluster 1.*item 4}
 confirm_submit {External Systems.*Cluster 2}
-confirm_submit {Show a legend}
-beat 500
+beat 400
+
+# --- External Systems: Cluster 2 (2 items) ---
+type_text "Payments Network"
+beat 300
+confirm_submit {Cluster 2.*item 1}
+
+type_text "Card Processor"
+beat 300
+confirm_submit {Reached via}
+confirm_submit {Description line}
+type_text "PCI-scoped M2M — authorization + capture"
+beat 200
+confirm_submit {Color accent}
+select_color "amber"
+confirm_submit {Cluster 2.*item 2}
+beat 300
+
+type_text "Fraud Detection Service"
+beat 300
+confirm_submit {Reached via}
+confirm_submit {Description line}
+type_text "Real-time risk scoring on checkout"
+beat 200
+confirm_submit {Color accent}
+select_color "amber"
+confirm_submit {Cluster 2.*item 3}
+confirm_submit {External Systems.*Cluster 3}
+beat 400
 
 # --- Legend ---
+confirm_submit {Show a legend}
+beat 500
 confirm_submit {Review}
-beat 2200
+beat 2500
 
 # --- Review --- (confirmed as-is; the beat above gives a human time to
 # read the full recap before this fires)

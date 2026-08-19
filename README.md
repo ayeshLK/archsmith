@@ -14,14 +14,14 @@
 It's built as a library first, a CLI on top of that, and an MCP server on top of that — so it's just as easy for a human to run `archsmith render` as it is for an AI agent to call it as a tool.
 
 <p align="center">
-  <img src="docs/demo/author-demo.gif" alt="Terminal recording of archsmith author: a guided wizard asking plain-language questions about actors, gateways, Core Platform, Systems of Record, and External Systems, then validating, rendering, and saving a diagram with no hand-written JSON" width="900">
+  <img src="docs/demo/author-demo.gif" alt="Terminal recording of archsmith author building the ticket-booking reference example live: actors, gateways, all three Core Platform sub-layers, Systems of Record, and External Systems, one plain-language question at a time, then validating, rendering, and saving the diagram with no hand-written JSON" width="900">
 </p>
 
 <p align="center">
   <img src="docs/demo/author-demo.svg" alt="The diagram produced by the archsmith author session shown above" width="900">
 </p>
 
-<p align="center"><sub>The exact diagram the session above produced — saved as <a href="docs/demo/author-demo.archsmith.json"><code>author-demo.archsmith.json</code></a>, no hand-written JSON. For a richer example exercising every schema feature, see <a href="examples/ticket-booking/diagram.archsmith.json"><code>ticket-booking</code></a> in Quick start below.</sub></p>
+<p align="center"><sub>The session above builds <a href="examples/ticket-booking/diagram.archsmith.json"><code>ticket-booking</code></a> — the same reference example used throughout this README — with no hand-written JSON, saved as <a href="docs/demo/author-demo.archsmith.json"><code>author-demo.archsmith.json</code></a>.</sub></p>
 
 > [!NOTE]
 > ArchSmith is pre-1.0 — the schema and API may still change (`diagram-schema.json` itself is marked "first pass, expect revision"). See [releases](https://github.com/ayeshLK/archsmith/releases) for what's shipped in each version.
