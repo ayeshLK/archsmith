@@ -17,6 +17,17 @@ async function submit(stdin: { write: (data: string) => void }): Promise<void> {
   await flushImmediate();
 }
 
+async function typeAndSubmit(stdin: { write: (data: string) => void }, text: string): Promise<void> {
+  stdin.write(text);
+  await flushImmediate();
+  stdin.write(ENTER);
+  await flushImmediate();
+}
+
+// Same fixture render.test.ts uses (issue #68) — proven to overflow a
+// narrow column (Inbound Actors) after wrapping to 2 lines.
+const LONG_TITLE = "Extremely Long Hypothetical Organization Wide Directory And Employee Provisioning Synchronization Service (Inbound)";
+
 async function down(stdin: { write: (data: string) => void }): Promise<void> {
   stdin.write(DOWN_ARROW);
   await flushImmediate();
@@ -163,6 +174,71 @@ test("a draft with an empty required repeatable list shows validate()'s real err
     const frame = lastFrame();
     assert.ok(frame?.includes("Can't finish yet"));
     assert.ok(frame?.includes("inboundActors"));
+    unmount();
+  });
+});
+
+test("a title that doesn't fit after wrapping shows the acronym fixup prompt before Save (issue #67/#68)", async () => {
+  await withTempDir((dir) => {
+    const draftWithLongTitle: DraftIR = {
+      ...VALID_DRAFT,
+      columns: { ...VALID_DRAFT.columns, inboundActors: { items: [{ title: LONG_TITLE }] } },
+    };
+    const { lastFrame, unmount } = render(<FinalStepScreen draft={draftWithLongTitle} onExit={() => {}} cwd={dir} />);
+    // Whitespace stripped before matching — a title this long gets
+    // soft-wrapped across lines by Ink's own terminal-width rendering,
+    // same reason the "Saved." test below flattens its frame too.
+    const flatFrame = lastFrame()?.replace(/\s+/g, "");
+    assert.ok(flatFrame?.includes("Acronymneeded"));
+    assert.ok(flatFrame?.includes(LONG_TITLE.replace(/\s+/g, "")));
+    assert.ok(!flatFrame?.includes("BasefilenameEntertoaccept")); // Save prompt not reached yet
+    unmount();
+  });
+});
+
+test("supplying an acronym resolves the item and it's saved onto the written IR", async () => {
+  await withTempDir(async (dir) => {
+    const draftWithLongTitle: DraftIR = {
+      ...VALID_DRAFT,
+      columns: { ...VALID_DRAFT.columns, inboundActors: { items: [{ title: LONG_TITLE }] } },
+    };
+    const { stdin, lastFrame, unmount } = render(<FinalStepScreen draft={draftWithLongTitle} onExit={() => {}} cwd={dir} />);
+
+    await typeAndSubmit(stdin, "EWDPS");
+    assert.ok(lastFrame()?.includes("Save")); // advanced to the Save prompt
+
+    await submit(stdin); // accept the default file name
+    assert.ok(lastFrame()?.includes("Saved."));
+
+    const savedIr = JSON.parse(readFileSync(path.join(dir, "ticket-booking.archsmith.json"), "utf-8"));
+    assert.equal(savedIr.columns.inboundActors.items[0].acronym, "EWDPS");
+    unmount();
+  });
+});
+
+test("skipping the acronym prompt still saves, with no acronym set on that item", async () => {
+  await withTempDir(async (dir) => {
+    const draftWithLongTitle: DraftIR = {
+      ...VALID_DRAFT,
+      columns: { ...VALID_DRAFT.columns, inboundActors: { items: [{ title: LONG_TITLE }] } },
+    };
+    const { stdin, unmount } = render(<FinalStepScreen draft={draftWithLongTitle} onExit={() => {}} cwd={dir} />);
+
+    await submit(stdin); // skip the acronym prompt (empty submission)
+    await submit(stdin); // accept the default file name
+
+    const savedIr = JSON.parse(readFileSync(path.join(dir, "ticket-booking.archsmith.json"), "utf-8"));
+    assert.equal(savedIr.columns.inboundActors.items[0].acronym, undefined);
+    const savedSvg = readFileSync(path.join(dir, "ticket-booking.svg"), "utf-8");
+    assert.ok(savedSvg.includes("ACRONYM NEEDED")); // renderer's own honest fallback, not invented
+    unmount();
+  });
+});
+
+test("no acronym fixup phase at all when every title already fits", async () => {
+  await withTempDir((dir) => {
+    const { lastFrame, unmount } = render(<FinalStepScreen draft={VALID_DRAFT} onExit={() => {}} cwd={dir} />);
+    assert.ok(lastFrame()?.includes("Save")); // straight to Save, as before this feature existed
     unmount();
   });
 });

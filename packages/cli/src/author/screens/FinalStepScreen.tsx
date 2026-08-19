@@ -9,8 +9,10 @@ import type { DraftIR } from "../draftIr.js";
 import { assemble } from "../assemble.js";
 import { governedCoreSubLayers } from "../derived.js";
 import { subLayerStatus } from "../gapResolution.js";
+import { applyAcronyms } from "../acronymFixup.js";
+import { AcronymFixupScreen } from "./AcronymFixupScreen.js";
 
-type Phase = "nameInput" | "overwriteConfirm" | "done";
+type Phase = "acronymFixup" | "nameInput" | "overwriteConfirm" | "done";
 
 export interface FinalStepScreenProps {
   draft: DraftIR;
@@ -60,6 +62,14 @@ function DoneScreen({ savedPaths, draft, onExit }: { savedPaths: SavedPaths; dra
  * #91); assemble()/validate() remain here as a defense-in-depth backstop
  * against a future screen forgetting to enforce a new requirement.
  *
+ * If a dry-run render flags any title as needing an acronym (issue #68's
+ * needsAcronym signal — the actual prerequisite issue #67 always intended
+ * this fixup to use), an acronymFixup phase runs first: one prompt per
+ * flagged title, skippable, via AcronymFixupScreen. Answers are applied
+ * (applyAcronyms) onto the assembled IR right before the real render/save
+ * call in writeFiles(), never onto the draft — this is a one-time,
+ * end-of-session enrichment, not a field a user revisits.
+ *
  * Only ever writes these two files — a sidecar diagram.authoring-notes.md
  * was tried (issue #89) and reverted (issue #93): nothing reads a
  * persisted authoring note back today, and committing to any storage
@@ -69,7 +79,23 @@ function DoneScreen({ savedPaths, draft, onExit }: { savedPaths: SavedPaths; dra
  * isn't written anywhere once the session ends.
  */
 export function FinalStepScreen({ draft, onExit, cwd = process.cwd() }: FinalStepScreenProps): React.JSX.Element {
-  const [phase, setPhase] = useState<Phase>("nameInput");
+  // Computed once, from a throwaway dry-run render — needsAcronym only
+  // depends on content/width (see render.ts), so this agrees with the
+  // real render() call in writeFiles() below regardless of when each
+  // runs. Never recomputed on re-render: repeating a real render() call
+  // (font measurement, full layout) on every keystroke while typing the
+  // file name would be wasteful and could visibly stutter.
+  const [needsAcronym] = useState<string[]>(() => {
+    try {
+      const assembled = assemble(draft);
+      if (!validate(assembled).valid) return [];
+      return render(assembled, { skipValidate: true, returnMeta: true }).needsAcronym;
+    } catch {
+      return [];
+    }
+  });
+  const [acronymAnswers, setAcronymAnswers] = useState<string[]>([]);
+  const [phase, setPhase] = useState<Phase>(() => (needsAcronym.length > 0 ? "acronymFixup" : "nameInput"));
   const [basename, setBasename] = useState(() => slugify(draft.title ?? ""));
   const [conflict, setConflict] = useState<SavedPaths | null>(null);
   const [savedPaths, setSavedPaths] = useState<SavedPaths | null>(null);
@@ -101,8 +127,9 @@ export function FinalStepScreen({ draft, onExit, cwd = process.cwd() }: FinalSte
 
   function writeFiles(irPath: string, svgPath: string): void {
     try {
-      const svg = render(assembled!, { skipValidate: true });
-      writeFileSync(irPath, JSON.stringify(assembled, null, 2), "utf-8");
+      const finalIr = applyAcronyms(assembled!, needsAcronym, acronymAnswers);
+      const svg = render(finalIr, { skipValidate: true });
+      writeFileSync(irPath, JSON.stringify(finalIr, null, 2), "utf-8");
       writeFileSync(svgPath, svg, "utf-8");
       setSavedPaths({ irPath, svgPath });
       setPhase("done");
@@ -120,6 +147,18 @@ export function FinalStepScreen({ draft, onExit, cwd = process.cwd() }: FinalSte
         <Text>{writeError}</Text>
         <Text dimColor>Nothing has been saved. Ctrl+C to exit, then re-run `archsmith author` to start again.</Text>
       </Box>
+    );
+  }
+
+  if (phase === "acronymFixup") {
+    return (
+      <AcronymFixupScreen
+        titles={needsAcronym}
+        onComplete={(answers) => {
+          setAcronymAnswers(answers);
+          setPhase("nameInput");
+        }}
+      />
     );
   }
 
