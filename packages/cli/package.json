@@ -28,7 +28,7 @@
     "ink": "^7.1.1",
     "ink-select-input": "^6.2.0",
     "ink-text-input": "^6.0.0",
-    "react": "^19.2.8"
+    "react": "^19.3.0"
   },
   "homepage": "https://github.com/ayeshLK/archsmith#readme",
   "repository": {
@@ -48,7 +48,7 @@
     "cli"
   ],
   "devDependencies": {
-    "@types/react": "^19.2.18",
+    "@types/react": "^19.3.0",
     "ink-testing-library": "^4.0.0"
   }
 }
