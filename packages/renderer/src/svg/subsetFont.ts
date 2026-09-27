@@ -23,13 +23,10 @@ import { toSfnt, toWoff } from "woff2sfnt-sfnt2woff";
  * woff2sfnt-sfnt2woff, which is what `subset-font`'s own `fontverter`
  * dependency uses under the hood for the WOFF branch.
  *
- * Pinned to harfbuzzjs@0.10.3 deliberately, not the current major (1.6.0,
- * published days after this was written): 1.x restructured the package
- * (renamed/relocated the wasm file, added a restrictive package.json
- * `exports` map) in ways that would need separately re-verifying that the
- * raw hb_subset_* exports this module calls are still shaped the same way.
- * 0.10.3 is the version `subset-font` itself depends on and this module was
- * built and tested against.
+ * The raw WASM path follows harfbuzzjs 1.x's package exports. The v1 package
+ * moved the subset module under `dist/` and renamed it to
+ * `harfbuzz-subset.wasm`; its low-level hb_subset_* exports remain the ones
+ * this module calls directly.
  */
 
 interface HbSubsetExports {
@@ -56,7 +53,7 @@ let cachedModule: WebAssembly.Module | undefined;
 
 function loadHbSubsetModule(): WebAssembly.Module {
   if (cachedModule) return cachedModule;
-  const wasmPath = fileURLToPath(import.meta.resolve("harfbuzzjs/hb-subset.wasm"));
+  const wasmPath = fileURLToPath(import.meta.resolve("harfbuzzjs/dist/harfbuzz-subset.wasm"));
   cachedModule = new WebAssembly.Module(readFileSync(wasmPath));
   return cachedModule;
 }
