@@ -1,9 +1,48 @@
+# Go build and test artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+coverage.*
+*.coverprofile
+profile.cov
+
+# Local workspaces and dependencies
+vendor/
+go.work
+go.work.sum
+
+# Environment and local tooling
+.env
+.env.*
+!.env.example
+!.env.*.example
+.agents/
+.codex/
+.claude/settings.local.json
+.aider.chat.history.md
+.aider.input.history.md
+.aider.tags.cache*/
+.tmp/
+*.log
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+
+# Build output and local performance artifacts
+bin/
 node_modules/
 dist/
 *.tsbuildinfo
-.DS_Store
-coverage/
-*.log
-.tmp/
-
+*.prof
+*.pprof
 .pages/
+
+# Local project planning and dependency notes
+/PROGRESS.md
+/DEPENDENCY_AUDIT.md
