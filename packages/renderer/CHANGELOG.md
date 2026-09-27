@@ -1,5 +1,11 @@
 # @archsmith/renderer
 
+## 0.10.1
+
+### Patch Changes
+
+- e064ad3: Fix font subsetting with harfbuzzjs 1.x by resolving its exported subset WASM module path.
+
 ## 0.10.0
 
 ### Minor Changes
