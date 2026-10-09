@@ -1,5 +1,11 @@
 # @archsmith/mcp-server
 
+## 0.7.4
+
+### Patch Changes
+
+- 554bb6b: Bump `@modelcontextprotocol/sdk` to `^1.31.0`.
+
 ## 0.7.3
 
 ### Patch Changes
