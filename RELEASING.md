@@ -70,6 +70,34 @@ curl "https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.aye
 
 Registry versions are immutable. If metadata for an already-published npm package needs correcting, follow the registry's guidance and use a unique registry-only prerelease version rather than reusing the published version.
 
+### Publish the MCP server on Glama
+
+Glama releases are separate from npm, GitHub Releases, and the official MCP Registry. Glama cannot inspect the server or calculate its quality score until a maintainer publishes a containerized Glama release.
+
+After publishing `@archsmith/mcp-server`, sign in as a maintainer and open:
+
+```text
+https://glama.ai/mcp/servers/ayeshLK/archsmith/admin/dockerfile
+```
+
+Sync the server to the current `main` commit, leave the pinned commit empty, and configure the build with:
+
+- Node version: `22`
+- Build steps: `npm ci`, then `npm run build --workspace=@archsmith/mcp-server`
+- CMD arguments: `["node", "packages/mcp-server/dist/index.js"]`
+- Environment variables JSON Schema: `{"type":"object","properties":{},"required":[]}`
+- Placeholder parameters: `{}`
+
+Click **Deploy** and wait for the build and MCP inspection to pass. From the successful test, click **Make Release**, use the published `@archsmith/mcp-server` version, and publish it. Confirm that the public listing becomes installable, shows the server's advertised tools, and replaces `quality - not tested` with a grade:
+
+```text
+https://glama.ai/mcp/servers/ayeshLK/archsmith/score
+```
+
+A `DockerBuildError` containing an nginx `502 Bad Gateway` with `"logs": []` indicates that Glama's build service failed before returning output from the repository's build steps, rather than reporting an npm or TypeScript failure. Retry the same deployment once; if it repeats, send Glama support the build ID and generated Dockerfile from the error rather than changing the build commands.
+
+Repeat this step for later MCP server releases so Glama does not keep testing an older build.
+
 ## Internal dependencies are handled automatically
 
 `.changeset/config.json` sets `"updateInternalDependencies": "patch"`. Concretely, verified against this repo's own packages: bumping `@archsmith/schema` by `minor` (e.g. `0.5.0` → `0.6.0`) automatically bumps `@archsmith/renderer` (which depends on it) by `patch`, *and* updates its dependency range from `^0.5.0` to `^0.6.0` — which cascades further to `@archsmith/cli`/`@archsmith/mcp-server`, since they depend on `renderer` too. All of that happens in the same `changeset version` run, with no manual editing.
