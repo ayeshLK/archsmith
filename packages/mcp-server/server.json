@@ -9,12 +9,12 @@
     "id": "1326307390",
     "subfolder": "packages/mcp-server"
   },
-  "version": "0.7.4",
+  "version": "0.8.0",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@archsmith/mcp-server",
-      "version": "0.7.4",
+      "version": "0.8.0",
       "transport": {
         "type": "stdio"
       }
