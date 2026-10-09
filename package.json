@@ -13,6 +13,9 @@
     "test": "npm run test --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "check:examples": "bash scripts/check-examples.sh",
+    "check:mcp-registry": "node scripts/sync-mcp-registry-version.mjs --check",
+    "sync:mcp-registry": "node scripts/sync-mcp-registry-version.mjs",
+    "version-packages": "changeset version && npm run sync:mcp-registry",
     "build:pages": "node scripts/build-schema-pages.mjs",
     "security:audit": "npm audit --omit=dev --audit-level=high"
   },

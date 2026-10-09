@@ -54,9 +54,27 @@ npm view @archsmith/cli version
 gh release list --repo ayeshLK/archsmith
 ```
 
+### Publish the MCP server to the MCP Registry
+
+When `@archsmith/mcp-server` is part of the release, wait until its new version is visible on npm, then run the separate registry workflow:
+
+```bash
+gh workflow run publish-mcp-registry.yml --repo ayeshLK/archsmith
+```
+
+The workflow checks that `packages/mcp-server/server.json`, the local package version, and the package published to npm all agree before authenticating with GitHub OIDC and publishing the metadata. It requires no additional secret. Verify the result through the registry API:
+
+```bash
+curl "https://registry.modelcontextprotocol.io/v0.1/servers?search=io.github.ayeshLK/archsmith"
+```
+
+Registry versions are immutable. If metadata for an already-published npm package needs correcting, follow the registry's guidance and use a unique registry-only prerelease version rather than reusing the published version.
+
 ## Internal dependencies are handled automatically
 
 `.changeset/config.json` sets `"updateInternalDependencies": "patch"`. Concretely, verified against this repo's own packages: bumping `@archsmith/schema` by `minor` (e.g. `0.5.0` → `0.6.0`) automatically bumps `@archsmith/renderer` (which depends on it) by `patch`, *and* updates its dependency range from `^0.5.0` to `^0.6.0` — which cascades further to `@archsmith/cli`/`@archsmith/mcp-server`, since they depend on `renderer` too. All of that happens in the same `changeset version` run, with no manual editing.
+
+The release workflow runs `npm run version-packages`, which runs `changeset version` and then synchronizes the new MCP server version into `packages/mcp-server/server.json`. This makes the generated Version Packages PR carry the registry metadata update alongside the package version and changelog.
 
 This matters specifically because these are all `0.x` packages: npm's `^0.5.0` range means `>=0.5.0 <0.6.0` — the *minor* version is pinned pre-1.0, not just the major. A `patch` bump (`0.5.0` → `0.5.1`) stays inside that range and needs no dependent update; a `minor` bump crosses it and does. Changesets already accounts for this correctly — the manual dependency-range fixing the first release needed (going from `0.1.0` straight to `0.5.0`, bypassing changesets entirely) was a one-time consequence of *not* going through changesets, not something that recurs for a normal changeset-driven release.
 

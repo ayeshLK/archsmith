@@ -1,0 +1,23 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.ayeshLK/archsmith",
+  "title": "ArchSmith",
+  "description": "Render and validate ArchSmith architecture diagrams from a governed JSON IR.",
+  "repository": {
+    "url": "https://github.com/ayeshLK/archsmith",
+    "source": "github",
+    "id": "1326307390",
+    "subfolder": "packages/mcp-server"
+  },
+  "version": "0.7.4",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@archsmith/mcp-server",
+      "version": "0.7.4",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}
