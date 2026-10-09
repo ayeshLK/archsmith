@@ -1,0 +1,43 @@
+name: Publish MCP Registry metadata
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24.x
+          cache: npm
+          registry-url: "https://registry.npmjs.org"
+      - run: npm ci
+      - run: npm run check:mcp-registry
+      - name: Verify the package is published with matching ownership metadata
+        working-directory: packages/mcp-server
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          EXPECTED_NAME=$(node -p "require('./package.json').mcpName")
+          PUBLISHED_NAME=$(npm view "@archsmith/mcp-server@$PACKAGE_VERSION" mcpName)
+          test "$PUBLISHED_NAME" = "$EXPECTED_NAME"
+      - name: Install mcp-publisher v1.8.1
+        run: |
+          curl -fsSLO https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz
+          echo "a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc  mcp-publisher_linux_amd64.tar.gz" | sha256sum --check
+          tar -xzf mcp-publisher_linux_amd64.tar.gz mcp-publisher
+      - name: Authenticate to the MCP Registry
+        run: ./mcp-publisher login github-oidc
+      - name: Publish metadata
+        working-directory: packages/mcp-server
+        run: ../../mcp-publisher publish

@@ -30,4 +30,5 @@ jobs:
       - run: npm run build
       - run: npm test
       - run: npm run check:examples
+      - run: npm run check:mcp-registry
       - run: npm run build:pages
