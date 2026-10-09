@@ -1,5 +1,11 @@
 # @archsmith/mcp-server
 
+## 0.8.0
+
+### Minor Changes
+
+- 8bb9fb8: Add the ownership and installation metadata required to publish ArchSmith in the official MCP Registry.
+
 ## 0.7.4
 
 ### Patch Changes
