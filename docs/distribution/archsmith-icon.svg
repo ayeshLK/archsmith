@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400" role="img" aria-labelledby="title description">
+  <title id="title">ArchSmith</title>
+  <desc id="description">A five-column architecture diagram motif representing ArchSmith.</desc>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2B3350" stroke-width="1"/>
+      <circle cx="0" cy="0" r="1.5" fill="#48506B"/>
+    </pattern>
+  </defs>
+
+  <rect width="400" height="400" fill="#182449"/>
+  <rect width="400" height="400" fill="url(#grid)" opacity="0.7"/>
+  <rect x="24" y="52" width="352" height="296" rx="28" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="4"/>
+
+  <g aria-label="Inbound actors">
+    <rect x="48" y="92" width="58" height="216" rx="12" fill="#F7F8FB" stroke="#D9DCE7" stroke-width="4"/>
+    <circle cx="77" cy="145" r="9" fill="#5B3A9E"/>
+    <rect x="63" y="168" width="28" height="8" rx="4" fill="#48506B"/>
+    <circle cx="77" cy="226" r="9" fill="#177F6B"/>
+    <rect x="63" y="249" width="28" height="8" rx="4" fill="#48506B"/>
+  </g>
+
+  <g aria-label="Ingress gateway">
+    <rect x="116" y="92" width="38" height="216" rx="12" fill="#D9F2EC" stroke="#177F6B" stroke-width="4"/>
+    <path d="M135 173 146 200 135 227 124 200Z" fill="#FFFFFF" stroke="#177F6B" stroke-width="4" stroke-linejoin="round"/>
+    <circle cx="135" cy="200" r="5" fill="#177F6B"/>
+  </g>
+
+  <g aria-label="Core platform">
+    <rect x="164" y="76" width="102" height="248" rx="14" fill="#FFFFFF" stroke="#182449" stroke-width="4" stroke-dasharray="9 8"/>
+    <rect x="177" y="94" width="76" height="212" rx="11" fill="#F5F7FA" stroke="#182449" stroke-width="4"/>
+    <rect x="188" y="119" width="54" height="31" rx="7" fill="#EFE8F8" stroke="#5B3A9E" stroke-width="4"/>
+    <rect x="188" y="161" width="54" height="31" rx="7" fill="#E6F4EC" stroke="#2F7D4F" stroke-width="4"/>
+    <rect x="188" y="203" width="54" height="31" rx="7" fill="#E5F3F0" stroke="#177F6B" stroke-width="4"/>
+    <rect x="188" y="245" width="54" height="31" rx="7" fill="#FFF4E1" stroke="#92600E" stroke-width="4"/>
+  </g>
+
+  <g aria-label="Egress gateway">
+    <rect x="276" y="92" width="38" height="216" rx="12" fill="#D9F2EC" stroke="#177F6B" stroke-width="4"/>
+    <path d="M295 173 306 200 295 227 284 200Z" fill="#FFFFFF" stroke="#177F6B" stroke-width="4" stroke-linejoin="round"/>
+    <circle cx="295" cy="200" r="5" fill="#177F6B"/>
+  </g>
+
+  <g aria-label="External systems">
+    <rect x="324" y="92" width="28" height="216" rx="12" fill="#F7F8FB" stroke="#D9DCE7" stroke-width="4"/>
+    <circle cx="338" cy="155" r="7" fill="#92600E"/>
+    <circle cx="338" cy="200" r="7" fill="#177F6B"/>
+    <circle cx="338" cy="245" r="7" fill="#5B3A9E"/>
+  </g>
+</svg>

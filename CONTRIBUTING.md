@@ -91,6 +91,10 @@ If you move or rename example fixtures under `examples/`, update the matching te
 
 If your PR changes something version-worthy in a published package, add a changeset: `npx changeset add`. Cutting an actual release (npm publish rights required) is documented in [RELEASING.md](RELEASING.md).
 
+## External listings
+
+Use the [distribution listing kit](docs/distribution/README.md) when submitting ArchSmith to MCP registries, client marketplaces, or curated tool lists. It provides the square icon, canonical descriptions, classifications, and npm/stdio install metadata so listings do not drift from each other. Treat [`packages/mcp-server/server.json`](packages/mcp-server/server.json) as the source of truth for versioned MCP Registry metadata, and re-check every external destination's current requirements before submitting.
+
 ## Reporting issues
 
 Open a GitHub issue for ordinary bugs and feature requests. For a rendering bug, a minimal reproducing IR document (trim it down — don't paste your whole diagram) makes it much faster to fix. Report suspected vulnerabilities privately as described in [SECURITY.md](SECURITY.md).
