@@ -103,8 +103,8 @@ export function render(ir: DiagramIR, opts: RenderOptions = {}): string | Render
   const inbound = renderInboundActors(ir, inboundX, FRAME_Y, INBOUND_W, family, frameH);
   const core = renderCorePlatform(ir, coreX, FRAME_Y, CORE_W, frameH);
   const external = renderExternalSystems(ir, externalX, FRAME_Y, externalW, family, frameH);
-  const ingressNodes = renderIngressEgress(ir.columns.ingress.gateway, ingressX, FRAME_Y, INGRESS_W, frameH);
-  const egressNodes = renderIngressEgress(ir.columns.egress.gateway, egressX, FRAME_Y, EGRESS_W, frameH);
+  const ingressNodes = renderIngressEgress(ir.columns.ingress.gateway, ingressX, FRAME_Y, INGRESS_W, frameH, family);
+  const egressNodes = renderIngressEgress(ir.columns.egress.gateway, egressX, FRAME_Y, EGRESS_W, frameH, family);
 
   const frameBottom = FRAME_Y + frameH;
   const footerY = frameBottom + FOOTER_GAP;

@@ -11,7 +11,7 @@ import {
   resolveSemanticPill,
   layerAccentPillColors,
 } from "../registryColors.js";
-import { MUTED_C, NAVY_BORDER, NAVY_BG } from "../constants.js";
+import { MUTED_C } from "../constants.js";
 
 const WRAPPER_INSET = 18;
 const WRAPPER_INNER_PAD = 16;
@@ -41,6 +41,7 @@ export interface CorePlatformResult {
  */
 export function renderCorePlatform(ir: DiagramIR, x: number, frameY: number, w: number, frameHeight?: number): CorePlatformResult {
   const family = ir.colorTheme.family ?? "standard";
+  const deployedOnAccent = resolveLayerToken(family, "navy");
   const core = ir.columns.corePlatform;
 
   const depX = x + WRAPPER_INSET;
@@ -100,11 +101,11 @@ export function renderCorePlatform(ir: DiagramIR, x: number, frameY: number, w: 
   const wrapperH = y - SUB_LAYER_STACK_GAP + WRAPPER_BOTTOM_PAD;
 
   const wrapperNodes: SvgNode[] = [
-    rect(depX, depY, depW, wrapperH, { fill: NAVY_BG, stroke: NAVY_BORDER, sw: 2, rx: 10 }),
+    rect(depX, depY, depW, wrapperH, { fill: deployedOnAccent.background, stroke: deployedOnAccent.border, sw: 2, rx: 10 }),
     text(depX + depW / 2, depY + 28, `DEPLOYED ON ${core.deployedOn.toUpperCase()}`, {
       size: 13,
       weight: 700,
-      fill: NAVY_BORDER,
+      fill: deployedOnAccent.border,
       anchor: "middle",
     }),
   ];

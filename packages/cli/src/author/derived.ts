@@ -84,9 +84,8 @@ export function deriveAbbreviations(draft: DraftIR): AbbreviationIR[] {
     .map((item) => ({ acronym: item.acronym!, fullName: item.title }));
 }
 
-/** Only one value is currently valid — colors.json's accessible family
- * is still a governed placeholder with no complete palette. Never asked;
- * there's nothing to choose yet. */
-export function deriveColorFamily(): "standard" {
-  return "standard";
+/** The family is chosen once in IntroScreen and preserved through assembly.
+ * Hand-built callers that do not walk that screen retain the standard default. */
+export function deriveColorFamily(draft: DraftIR): "standard" | "accessible" {
+  return draft.colorTheme?.family ?? "standard";
 }

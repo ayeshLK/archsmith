@@ -1,5 +1,9 @@
 # @archsmith/cli
 
+## Unreleased
+
+- Let `archsmith author` choose and persist the governed standard or accessible color family.
+
 ## 0.7.0
 
 ### Minor Changes

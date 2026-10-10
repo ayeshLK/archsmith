@@ -33,6 +33,16 @@ test("render(ticket-booking/diagram.archsmith.json) matches the visually-QA'd go
   assert.equal(svg, golden);
 });
 
+test("accessible family changes governed accents throughout the render", () => {
+  const ir = structuredClone(loadFixture("ticket-booking/diagram.archsmith.json")) as DiagramIR;
+  ir.colorTheme.family = "accessible";
+  const svg = render(ir, { embedFonts: false });
+  assert.ok(svg.includes("#006B50"), "expected accessible execution accent");
+  assert.ok(svg.includes("#0B6E69"), "expected accessible gateway accent");
+  assert.ok(svg.includes("#243447"), "expected accessible deployed-on accent");
+  assert.ok(!svg.includes("#2F7D4F"), "standard execution accent leaked into accessible output");
+});
+
 test("embedFonts defaults to on: the golden master itself carries an embedded @font-face", () => {
   const golden = readFileSync(path.join(examplesDir, "ticket-booking/diagram.svg"), "utf-8");
   assert.ok(golden.includes("@font-face"));

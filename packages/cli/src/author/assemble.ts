@@ -48,7 +48,7 @@ export function assemble(draft: DraftIR): DiagramIR {
     schemaVersion,
     title: required(draft.title, "title"),
     subtitle: required(draft.subtitle, "subtitle"),
-    colorTheme: { family: deriveColorFamily() },
+    colorTheme: { family: deriveColorFamily(draft) },
     columns: {
       inboundActors: { items: draft.columns?.inboundActors?.items ?? [] },
       ingress: {

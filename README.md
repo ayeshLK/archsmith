@@ -95,7 +95,7 @@ archsmith schema show
 - `render` validates the IR first and fails the same way `validate` would (exit 1) if it's invalid; a rendering-time error exits 2.
 - `--no-embed-fonts` skips embedding the bundled font, producing a smaller file.
 - `--pretty` indents the output SVG's element lines for readability (default is one element per line, unindented).
-- `registries show colors --family standard` prints just that color family instead of the whole registry. The planned `accessible` registry can be inspected, but diagrams cannot select it until its complete palette is designed and tested.
+- `registries show colors --family standard` prints just that color family instead of the whole registry. Use `--family accessible` for the governed color/contrast-safe alternative.
 - `schema show` prints the raw `diagram-schema.json` contents — the structural contract an IR document must satisfy, as distinct from the governed vocabulary `registries` exposes.
 
 <p align="center">
@@ -163,7 +163,7 @@ The GIF is a condensed presentation. The [agent-authored example](examples/agent
 
 ## The IR shape
 
-An IR document is a JSON object with five columns, an optional legend, and optional notes. The schema is published at [`schema/latest/diagram-schema.json`](https://ayeshlk.github.io/archsmith/schema/latest/diagram-schema.json), with immutable versioned copies such as [`schema/0.3.4/diagram-schema.json`](https://ayeshlk.github.io/archsmith/schema/0.3.4/diagram-schema.json). Use a versioned URL in committed documents for reproducible editor validation; the `latest` URL is intended for tooling that should follow the newest schema.
+An IR document is a JSON object with five columns, an optional legend, and optional notes. The schema is published at [`schema/latest/diagram-schema.json`](https://ayeshlk.github.io/archsmith/schema/latest/diagram-schema.json), with immutable versioned copies such as [`schema/0.3.5/diagram-schema.json`](https://ayeshlk.github.io/archsmith/schema/0.3.5/diagram-schema.json). Use a versioned URL in committed documents for reproducible editor validation; the `latest` URL is intended for tooling that should follow the newest schema.
 
 Name your file `*.archsmith.json` and [SchemaStore](https://www.schemastore.org/) gives you autocomplete and inline validation automatically in VS Code, JetBrains IDEs, and other SchemaStore-aware editors — no `$schema` line required. See [`packages/schema/README.md`](packages/schema/README.md#editor-support) for the manual `$schema` fallback.
 
@@ -171,8 +171,8 @@ This is the actual minimal valid fixture from `examples/`:
 
 ```json
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.4/diagram-schema.json",
-  "schemaVersion": "0.3.4",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.5/diagram-schema.json",
+  "schemaVersion": "0.3.5",
   "title": "Minimal Example — Architecture",
   "subtitle": "A minimal fixture proving the validation pipeline end to end",
   "colorTheme": { "family": "standard" },

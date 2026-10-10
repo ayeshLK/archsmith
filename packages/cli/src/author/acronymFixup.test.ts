@@ -5,7 +5,7 @@ import { applyAcronyms } from "./acronymFixup.js";
 
 function baseIr(): DiagramIR {
   return {
-    schemaVersion: "0.3.4",
+    schemaVersion: "0.3.5",
     title: "T",
     subtitle: "S",
     colorTheme: { family: "standard" },

@@ -2,7 +2,7 @@ import type { SvgNode } from "../svg/node.js";
 import type { GatewayIR } from "../ir.js";
 import { rect } from "../svg/primitives.js";
 import { gatewayBox } from "../boxes/gatewayBox.js";
-import { MINT_BG, MINT_BORDER } from "../constants.js";
+import { getColorFamily } from "../registryColors.js";
 
 const GATEWAY_INSET = 12;
 const GATEWAY_BOX_H = 100;
@@ -17,12 +17,15 @@ const GATEWAY_BOX_H = 100;
  * vs 610 in sample-1; 694 vs 695.5 in sample-2), so this centers rather
  * than pins the box near the top.
  */
-export function renderIngressEgress(gateway: GatewayIR, x: number, frameY: number, w: number, frameHeight: number): SvgNode[] {
-  const laneFrame = rect(x, frameY, w, frameHeight, { fill: MINT_BG, stroke: MINT_BORDER, sw: 1.6, rx: 10 });
+export function renderIngressEgress(gateway: GatewayIR, x: number, frameY: number, w: number, frameHeight: number, family = "standard"): SvgNode[] {
+  const mint = getColorFamily(family).layerTokens.mint;
+  const laneFrame = rect(x, frameY, w, frameHeight, { fill: mint.background, stroke: mint.border, sw: 1.6, rx: 10 });
   const gatewayY = frameY + (frameHeight - GATEWAY_BOX_H) / 2;
   const gatewayNodes = gatewayBox(x + GATEWAY_INSET, gatewayY, w - GATEWAY_INSET * 2, GATEWAY_BOX_H, {
     label: gateway.label,
     sub: gateway.sublabel ?? "",
+    border: mint.border,
+    inner: mint.iconInner ?? mint.border,
   });
   return [laneFrame, ...gatewayNodes];
 }

@@ -41,7 +41,10 @@ export function validateStructure(ir: unknown): ValidationResult {
 export function validateRegistryReferences(ir: unknown): ValidationResult {
   const errors: string[] = [];
   const colors = getRegistry("colors") as {
-    families: Record<string, { layerTokens: Record<string, unknown> }>;
+    families: Record<string, {
+      status: string;
+      layerTokens: Record<string, unknown>;
+    }>;
   };
   const subLayers = getRegistry("sub-layers") as {
     entries: Array<{ id: string }>;
@@ -51,17 +54,50 @@ export function validateRegistryReferences(ir: unknown): ValidationResult {
   const doc = ir as {
     colorTheme?: { family?: string };
     columns?: {
+      inboundActors?: { items?: Array<{ dotColor?: string | null }> };
       corePlatform?: {
-        subLayers?: Array<{ registryId?: string }>;
-        systemsOfRecord?: { registryId?: string };
+        subLayers?: Array<{ registryId?: string; rows?: Array<Array<{ dotColor?: string | null }>> }>;
+        systemsOfRecord?: { registryId?: string; items?: Array<{ dotColor?: string | null }> };
       };
+      externalSystems?: { clusters?: Array<{ items?: Array<{ dotColor?: string | null }> }> };
     };
+    legend?: { entries?: Array<{ colorToken?: string }> };
   };
 
   const family = doc.colorTheme?.family ?? "standard";
   const familyTokens = colors.families[family];
   if (!familyTokens) {
     errors.push(`colorTheme.family "${family}" is not a known color family in registries/colors.json`);
+  } else if (familyTokens.status !== "active") {
+    errors.push(`colorTheme.family "${family}" is not active in registries/colors.json`);
+  }
+
+  const knownLayerTokens = new Set(Object.keys(familyTokens?.layerTokens ?? {}));
+  const checkItem = (item: { dotColor?: string | null }, path: string): void => {
+    if (item.dotColor && !knownLayerTokens.has(item.dotColor)) {
+      errors.push(`${path}.dotColor "${item.dotColor}" is not in the active color family "${family}"`);
+    }
+  };
+  for (const [i, item] of doc.columns?.inboundActors?.items?.entries() ?? []) {
+    checkItem(item, `columns.inboundActors.items[${i}]`);
+  }
+  for (const [i, subLayer] of (doc.columns?.corePlatform?.subLayers ?? []).entries()) {
+    for (const [rowIndex, row] of (subLayer.rows ?? []).entries()) {
+      for (const [itemIndex, item] of row.entries()) {
+        checkItem(item, `columns.corePlatform.subLayers[${i}].rows[${rowIndex}][${itemIndex}]`);
+      }
+    }
+  }
+  for (const [i, item] of (doc.columns?.corePlatform?.systemsOfRecord?.items ?? []).entries()) {
+    checkItem(item, `columns.corePlatform.systemsOfRecord.items[${i}]`);
+  }
+  for (const [i, cluster] of doc.columns?.externalSystems?.clusters?.entries() ?? []) {
+    for (const [j, item] of (cluster.items ?? []).entries()) checkItem(item, `columns.externalSystems.clusters[${i}].items[${j}]`);
+  }
+  for (const [i, entry] of (doc.legend?.entries ?? []).entries()) {
+    if (entry.colorToken && !knownLayerTokens.has(entry.colorToken)) {
+      errors.push(`legend.entries[${i}].colorToken "${entry.colorToken}" is not in the active color family "${family}"`);
+    }
   }
 
   for (const [i, subLayer] of (doc.columns?.corePlatform?.subLayers ?? []).entries()) {
