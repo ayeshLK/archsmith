@@ -1,9 +1,5 @@
 # @archsmith/renderer
 
-## Unreleased
-
-- Activate the governed accessible color family and resolve gateway, deployed-on, layer, pill, dot, and legend accents from the selected family.
-
 ## 0.11.0
 
 ### Minor Changes

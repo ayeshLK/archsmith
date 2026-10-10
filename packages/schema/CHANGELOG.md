@@ -1,9 +1,5 @@
 # @archsmith/schema
 
-## Unreleased
-
-- Activate the accessible color family and advance the schema to 0.3.5.
-
 ## 0.9.0
 
 ### Minor Changes
