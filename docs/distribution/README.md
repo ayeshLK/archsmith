@@ -20,7 +20,7 @@ Prefer the SVG wherever the destination accepts it. Use the PNG when it requires
 | Official Registry name | `io.github.ayeshLK/archsmith` |
 | npm package | `@archsmith/mcp-server` |
 | Transport | Local `stdio` |
-| License | MIT |
+| License | Apache-2.0 |
 | Language | TypeScript |
 | Provider / author | Ayesh Almeida (`https://github.com/ayeshLK`) |
 
@@ -67,7 +67,7 @@ npx -y @archsmith/mcp-server
 
 ## Ready-to-copy marketplace records
 
-The current Cline marketplace accepts an optional local icon and models a stdio installation as the tokens after `cline mcp install`:
+The current Cline marketplace accepts an optional local icon and models a stdio installation as the tokens after `cline mcp install`. Copy [`archsmith-icon.svg`](archsmith-icon.svg) into the marketplace entry directory as `icon.svg` alongside `entry.json`:
 
 ```json
 {
@@ -85,7 +85,7 @@ The current Cline marketplace accepts an optional local icon and models a stdio 
   "repo": "https://github.com/ayeshLK/archsmith",
   "icon": "./icon.svg",
   "tags": ["software", "creative"],
-  "license": "MIT",
+  "license": "Apache-2.0",
   "verified": false,
   "featured": false,
   "install": {
