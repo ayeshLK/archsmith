@@ -4,6 +4,18 @@
 
 - Let `archsmith author` choose and persist the governed standard or accessible color family.
 
+## 0.8.0
+
+### Minor Changes
+
+- ff0bec8: Activate the governed accessible color family, resolve family-specific gateway and deployed-on accents, validate color references, and let `archsmith author` persist the selected family.
+
+### Patch Changes
+
+- Updated dependencies [ff0bec8]
+  - @archsmith/schema@0.9.0
+  - @archsmith/renderer@0.11.0
+
 ## 0.7.0
 
 ### Minor Changes

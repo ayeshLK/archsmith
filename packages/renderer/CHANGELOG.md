@@ -4,6 +4,17 @@
 
 - Activate the governed accessible color family and resolve gateway, deployed-on, layer, pill, dot, and legend accents from the selected family.
 
+## 0.11.0
+
+### Minor Changes
+
+- ff0bec8: Activate the governed accessible color family, resolve family-specific gateway and deployed-on accents, validate color references, and let `archsmith author` persist the selected family.
+
+### Patch Changes
+
+- Updated dependencies [ff0bec8]
+  - @archsmith/schema@0.9.0
+
 ## 0.10.1
 
 ### Patch Changes

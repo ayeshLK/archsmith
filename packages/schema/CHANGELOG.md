@@ -4,6 +4,12 @@
 
 - Activate the accessible color family and advance the schema to 0.3.5.
 
+## 0.9.0
+
+### Minor Changes
+
+- ff0bec8: Activate the governed accessible color family, resolve family-specific gateway and deployed-on accents, validate color references, and let `archsmith author` persist the selected family.
+
 ## 0.8.0
 
 ### Minor Changes
