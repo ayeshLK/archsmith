@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, Text } from "ink";
 import TextInput from "ink-text-input";
+import SelectInput from "ink-select-input";
 import type { DraftIR } from "../draftIr.js";
 import type { FieldDescriptor } from "../fieldDescriptor.js";
 import { titleDescriptor, subtitleDescriptor, deployedOnDescriptor } from "../scalarDescriptors.js";
@@ -32,6 +33,7 @@ export interface IntroScreenProps {
  */
 export function IntroScreen({ draft, onComplete }: IntroScreenProps): React.JSX.Element {
   const [fieldIndex, setFieldIndex] = useState(0);
+  const [choosingFamily, setChoosingFamily] = useState(!draft.colorTheme);
   // Seeded from the draft's own existing value, not always "" — this
   // screen can now be re-entered with real data already in it (Review's
   // "edit" option), and re-showing a blank prompt over an already-answered
@@ -58,6 +60,29 @@ export function IntroScreen({ draft, onComplete }: IntroScreenProps): React.JSX.
       onComplete(updated);
     }
   };
+
+  if (choosingFamily) {
+    return (
+      <Box flexDirection="column">
+        <Text color="magenta" bold>Color family</Text>
+        <Text dimColor>Choose the governed palette used for this diagram. Accessible keeps the same meanings with safer color contrast.</Text>
+        <Box marginTop={1}>
+          <SelectInput
+            items={[
+              { label: "Standard", value: "standard" as const },
+              { label: "Accessible", value: "accessible" as const },
+            ]}
+            onSelect={(item) => {
+              const updated = { ...currentDraft, colorTheme: { family: item.value } };
+              setCurrentDraft(updated);
+              setChoosingFamily(false);
+              setValue(FIELDS[0]!.descriptor.read(updated) ?? "");
+            }}
+          />
+        </Box>
+      </Box>
+    );
+  }
 
   return (
     <Box flexDirection="column">

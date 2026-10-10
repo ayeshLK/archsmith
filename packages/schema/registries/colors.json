@@ -1,5 +1,5 @@
 {
-  "registryVersion": "0.1.0",
+  "registryVersion": "0.2.0",
   "governance": "Adding a new color token, to either family, is a change-request event — not a per-diagram choice. Per-diagram choice is limited to which already-approved tokens get assigned to which sub-layers/pills (e.g. sample-3 legitimately collapsed 5 layer accents down to 3 without adding new colors).",
   "families": {
     "standard": {
@@ -29,11 +29,30 @@
       }
     },
     "accessible": {
-      "status": "planned",
-      "description": "Colorblind/contrast-safe alternative family — secondary priority, not yet designed. Must map to the same sub-layer/semantic assignments as 'standard' (e.g. whatever sub-layer 'purple' represents here must have a corresponding accessible substitute at the same semantic slot) so a diagram regenerated in either family remains recognizable as the same architecture.",
-      "layerTokens": {},
-      "neutralTokens": {},
-      "semanticPillTokens": {}
+      "status": "active",
+      "description": "Color/contrast-safe alternative family. Token ids deliberately match standard so the same architecture keeps the same semantic assignments when regenerated. Labels, position, and legend text remain the authoritative meaning; color is a supporting cue.",
+      "layerTokens": {
+        "purple": { "border": "#5C2D91", "background": "#F1E8FA", "pillBackground": "#F1E8FA" },
+        "green":  { "border": "#006B50", "background": "#E6F5EF", "pillBackground": "#E6F5EF" },
+        "teal":   { "border": "#0072B2", "background": "#E7F3FB", "pillBackground": "#E7F3FB" },
+        "amber":  { "border": "#A05A00", "background": "#FFF0D9", "pillBackground": "#FFF0D9" },
+        "navy":   { "border": "#243447", "background": "#F3F6F8", "pillBackground": null, "usage": "the 'deployed on' wrapper box, not a sub-layer accent" },
+        "mint":   { "border": "#0B6E69", "background": "#E2F4F2", "pillBackground": null, "iconInner": "#07504D", "usage": "Ingress/Egress gateway lanes, and reused by the 'viaEgress' semantic pill token" }
+      },
+      "neutralTokens": {
+        "ink": { "value": "#1B2333", "usage": "default box border / heading ink" },
+        "titleText": { "value": "#182449" },
+        "bodyText": { "value": "#48506B" },
+        "mutedText": { "value": "#6B7280" },
+        "labelGray": { "value": "#4A5160" },
+        "softDivider": { "value": "#D9DCE7", "usage": "External Systems cluster border and item divider" }
+      },
+      "semanticPillTokens": {
+        "viaEgress": { "fg": "#0B6E69", "bg": "#E2F4F2", "usage": "matches layerTokens.mint" },
+        "primary":   { "fg": "#006B50", "bg": "#E6F5EF", "usage": "e.g. primary data source" },
+        "warning":   { "fg": "#A05A00", "bg": "#FFF0D9", "usage": "e.g. gap/not-implemented flags" },
+        "highlight": { "fg": "#FFFFFF", "bg": "#34495E", "usage": "high-emphasis status" }
+      }
     }
   }
 }

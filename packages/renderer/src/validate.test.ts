@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { validate, validateStructure, validateRegistryReferences } from "./validate.js";
+import { getRegistry } from "@archsmith/schema";
 
 const examplesDir = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -29,13 +30,59 @@ test("legend is optional (issue #101)", () => {
   assert.deepEqual(result.errors, []);
 });
 
-test("accessible color family is rejected until its palette is complete", () => {
+test("accessible color family is structurally and semantically valid", () => {
   const ir = loadFixture("minimal-valid/diagram.archsmith.json") as { colorTheme: { family: string } };
   ir.colorTheme.family = "accessible";
 
-  const result = validateStructure(ir);
+  const result = validate(ir);
+  assert.equal(result.valid, true, result.errors.join("\n"));
+});
+
+test("active color families contain the same governed token slots", () => {
+  const colors = getRegistry("colors") as { families: Record<string, { status: string; layerTokens: Record<string, { border: string; background: string }>; neutralTokens: Record<string, unknown>; semanticPillTokens: Record<string, unknown> }> };
+  const standard = colors.families.standard;
+  const accessible = colors.families.accessible;
+  assert.equal(accessible.status, "active");
+  assert.deepEqual(Object.keys(accessible.layerTokens).sort(), Object.keys(standard.layerTokens).sort());
+  assert.deepEqual(Object.keys(accessible.neutralTokens).sort(), Object.keys(standard.neutralTokens).sort());
+  assert.deepEqual(Object.keys(accessible.semanticPillTokens).sort(), Object.keys(standard.semanticPillTokens).sort());
+  assert.deepEqual(accessible.semanticPillTokens.viaEgress, {
+    fg: accessible.layerTokens.mint.border,
+    bg: accessible.layerTokens.mint.background,
+    usage: "matches layerTokens.mint",
+  });
+});
+
+test("accessible palette meets its minimum contrast contract", () => {
+  const colors = getRegistry("colors") as { families: { accessible: { layerTokens: Record<string, { border: string; background: string; pillBackground: string | null }>; semanticPillTokens: Record<string, { fg: string; bg: string }> } } };
+  const family = colors.families.accessible;
+  const luminance = (hex: string): number => {
+    const channels = hex.slice(1).match(/../g)!.map((v) => Number.parseInt(v, 16) / 255);
+    const linear = channels.map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+    return 0.2126 * linear[0]! + 0.7152 * linear[1]! + 0.0722 * linear[2]!;
+  };
+  const contrast = (a: string, b: string): number => {
+    const l1 = luminance(a);
+    const l2 = luminance(b);
+    return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+  };
+  for (const token of Object.values(family.layerTokens)) {
+    assert.ok(contrast(token.border, token.background) >= 3, `${token.border} on ${token.background} must be at least 3:1`);
+    if (token.pillBackground) assert.ok(contrast(token.border, token.pillBackground) >= 4.5);
+  }
+  for (const token of Object.values(family.semanticPillTokens)) {
+    assert.ok(contrast(token.fg, token.bg) >= 4.5, `${token.fg} on ${token.bg} must be at least 4.5:1`);
+  }
+});
+
+test("unknown item and legend color tokens fail semantic validation", () => {
+  const ir = loadFixture("minimal-valid/diagram.archsmith.json") as { columns: { inboundActors: { items: Array<{ dotColor?: string }> } }; legend?: { entries: Array<{ colorToken: string }> } };
+  ir.columns.inboundActors.items[0]!.dotColor = "not-a-color";
+  ir.legend!.entries[0]!.colorToken = "not-a-color";
+  const result = validateRegistryReferences(ir);
   assert.equal(result.valid, false);
-  assert.ok(result.errors.some((error) => error.includes("/colorTheme/family")));
+  assert.ok(result.errors.some((error) => error.includes("dotColor")));
+  assert.ok(result.errors.some((error) => error.includes("colorToken")));
 });
 
 test("missing-subtitle.archsmith.json fails structural validation with a clear message", () => {

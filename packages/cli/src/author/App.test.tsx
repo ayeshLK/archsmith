@@ -42,7 +42,8 @@ async function finishOneItemQuickly(stdin: { write: (data: string) => void }, ti
  * content now enforced by each required repeatable list.
  * Real content isn't the point here — App.tsx's own navigation wiring is. */
 async function reachReview(stdin: { write: (data: string) => void }): Promise<void> {
-  // intro: title, subtitle, deployedOn
+  // intro: color family, title, subtitle, deployedOn
+  await submit(stdin); // Standard
   await typeAndSubmit(stdin, "Ticket Booking");
   await typeAndSubmit(stdin, "Online event ticketing");
   await typeAndSubmit(stdin, "AWS EKS");

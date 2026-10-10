@@ -29,13 +29,14 @@ async function submit(stdin: { write: (data: string) => void }): Promise<void> {
 test("shows the first field's label and hint before anything is typed", () => {
   const { lastFrame, unmount } = render(<IntroScreen draft={{}} onComplete={() => {}} />);
   const frame = lastFrame();
-  assert.ok(frame?.includes("Title"));
-  assert.ok(frame?.includes("diagram's title"));
+  assert.ok(frame?.includes("Color family"));
+  assert.ok(frame?.includes("Accessible"));
   unmount();
 });
 
 test("typing and submitting the title advances to the subtitle field", async () => {
   const { stdin, lastFrame, unmount } = render(<IntroScreen draft={{}} onComplete={() => {}} />);
+  await submit(stdin); // choose Standard
   await typeAndSubmit(stdin, "My Diagram");
   const frame = lastFrame();
   assert.ok(frame?.includes("Subtitle"));
@@ -49,11 +50,13 @@ test("submitting all three fields in order calls onComplete with a fully-populat
     <IntroScreen draft={{}} onComplete={(draft) => { result.completed = draft; }} />
   );
 
+  await submit(stdin); // choose Standard
   await typeAndSubmit(stdin, "My Diagram — Architecture");
   await typeAndSubmit(stdin, "A real interactive test");
   await typeAndSubmit(stdin, "AWS EKS");
 
   assert.deepEqual(result.completed, {
+    colorTheme: { family: "standard" },
     title: "My Diagram — Architecture",
     subtitle: "A real interactive test",
     columns: { corePlatform: { deployedOn: "AWS EKS" } },
@@ -67,6 +70,7 @@ test("each required text field refuses an empty submission and stays on that fie
     <IntroScreen draft={{}} onComplete={(draft) => { result.completed = draft; }} />
   );
 
+  await submit(stdin); // choose Standard
   await submit(stdin);
   assert.ok(lastFrame()?.includes("Can't finish yet — Title is required."));
 
@@ -84,7 +88,7 @@ test("each required text field refuses an empty submission and stays on that fie
 });
 
 test("re-entering with an already-populated draft pre-fills each field's existing value, not blank", async () => {
-  const existing: DraftIR = { title: "Original Title", subtitle: "Original Subtitle" };
+  const existing: DraftIR = { colorTheme: { family: "standard" }, title: "Original Title", subtitle: "Original Subtitle" };
   const result: { completed: DraftIR | null } = { completed: null };
   const { stdin, lastFrame, unmount } = render(
     <IntroScreen draft={existing} onComplete={(draft) => { result.completed = draft; }} />

@@ -72,6 +72,7 @@ test("deriveAbbreviations finds an acronym on any item across every column", () 
   assert.deepEqual(deriveAbbreviations(draft), [{ acronym: "AVLSN", fullName: "A Very Long Service Name" }]);
 });
 
-test("deriveColorFamily is always standard", () => {
-  assert.equal(deriveColorFamily(), "standard");
+test("deriveColorFamily preserves the chosen family and defaults to standard", () => {
+  assert.equal(deriveColorFamily({}), "standard");
+  assert.equal(deriveColorFamily({ colorTheme: { family: "accessible" } }), "accessible");
 });
