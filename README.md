@@ -7,6 +7,7 @@
   <img src="https://img.shields.io/badge/node-%3E%3D20-brightgreen" alt="Node >= 20">
   <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome">
   <a href="https://m8ven.ai/mcp/ayeshlk-archsmith-nuc9ms"><img src="https://m8ven.ai/badge/mcp/ayeshlk-archsmith-nuc9ms?variant=verified" alt="M8ven Verified"></a>
+  <a href="https://glama.ai/mcp/servers/ayeshLK/archsmith"><img src="https://glama.ai/mcp/servers/ayeshLK/archsmith/badges/score.svg" alt="@archsmith/mcp-server MCP server – quality and maintenance score on Glama"></a>
 </p>
 
 **ArchSmith turns a validated JSON description of a layered system architecture into a clean, consistent SVG diagram.** Feed it a structured document (an IR — intermediate representation), get back a diagram in a fixed, opinionated house style: no per-diagram layout decisions, no hand-drawn boxes, no drift between one architecture doc and the next.
