@@ -3,6 +3,7 @@ import { validate } from "./validate.js";
 import { rect, text } from "./svg/primitives.js";
 import { serializeNodes, type SvgNode } from "./svg/node.js";
 import { embedFontsInSvg } from "./svg/embedFonts.js";
+import { iconAttributionMetadata } from "./svg/iconAttribution.js";
 import { colHeader } from "./boxes/labels.js";
 import { renderInboundActors } from "./layout/inboundActors.js";
 import { renderCorePlatform } from "./layout/corePlatform.js";
@@ -158,7 +159,8 @@ export function render(ir: DiagramIR, opts: RenderOptions = {}): string | Render
   // on content/width, not frameHeight, so both passes agree regardless.
   const needsAcronym = [...inbound.needsAcronym, ...core.needsAcronym, ...external.needsAcronym];
 
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${canvasW}" height="${canvasH}" viewBox="0 0 ${canvasW} ${canvasH}">\n${serializeNodes(allNodes)}\n</svg>`;
+  const iconMetadata = iconAttributionMetadata(ir);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${canvasW}" height="${canvasH}" viewBox="0 0 ${canvasW} ${canvasH}">\n${iconMetadata ? `${iconMetadata}\n` : ""}${serializeNodes(allNodes)}\n</svg>`;
   if (!(opts.embedFonts ?? true)) {
     return opts.returnMeta ? { svg, needsAcronym } : svg;
   }

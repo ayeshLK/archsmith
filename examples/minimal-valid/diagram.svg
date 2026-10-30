@@ -1,5 +1,218 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1916" height="562" viewBox="0 0 1916 562">
 <defs><style>@font-face{font-family:'Arimo';src:url(data:font/woff;base64,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) format('woff');font-weight:400;font-style:normal;}@font-face{font-family:'Arimo';src:url(data:font/woff;base64,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) format('woff');font-weight:700;font-style:normal;}</style></defs>
+<metadata id="archsmith-icon-provenance">ArchSmith item icon provenance and license
+Baseline: Google Material Symbols Outlined
+Upstream revision: 10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7
+Apache-2.0 source license: https://github.com/google/material-design-icons/blob/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/LICENSE
+Modified geometry included in this diagram:
+- person: https://github.com/google/material-design-icons/blob/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/person/materialsymbolsoutlined/person_24px.svg (redrawn as ArchSmith allow-listed monochrome 24x24 outline geometry)
+- hub: https://github.com/google/material-design-icons/blob/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/hub/materialsymbolsoutlined/hub_24px.svg (redrawn as ArchSmith allow-listed monochrome 24x24 outline geometry)
+- database: https://github.com/google/material-design-icons/blob/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/database/materialsymbolsoutlined/database_24px.svg (redrawn as ArchSmith allow-listed monochrome 24x24 outline geometry)
+- public: https://github.com/google/material-design-icons/blob/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/public/materialsymbolsoutlined/public_24px.svg (redrawn as ArchSmith allow-listed monochrome 24x24 outline geometry)
+The included source-inspired geometry is modified from the upstream SVGs. The original ArchSmith entity record-card geometry is not third-party artwork.
+The complete applicable Apache-2.0 license text follows. Preserve this metadata when redistributing the SVG or the marked geometry.
+
+Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      "License" shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      "Licensor" shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      "Legal Entity" shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      "control" means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      "You" (or "Your") shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      "Source" form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      "Object" form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      "Work" shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      "Derivative Works" shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      "Contribution" shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, "submitted"
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as "Not a Contribution."
+
+      "Contributor" shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a "NOTICE" text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+   END OF TERMS AND CONDITIONS
+
+   APPENDIX: How to apply the Apache License to your work.
+
+      To apply the Apache License to your work, attach the following
+      boilerplate notice, with the fields enclosed by brackets "[]"
+      replaced with your own identifying information. (Don't include
+      the brackets!)  The text should be enclosed in the appropriate
+      comment syntax for the file format. We also recommend that a
+      file or class name and description of purpose be included on the
+      same "printed page" as the copyright notice for easier
+      identification within third-party archives.
+
+   Copyright [yyyy] [name of copyright owner]
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.</metadata>
 <rect x="0" y="0" width="1916" height="562" rx="0" ry="0" fill="#FFFFFF"/>
 <text x="958" y="44" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" font-weight="700" fill="#182449" text-anchor="middle">Minimal Example — Architecture</text>
 <text x="958" y="66" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="400" fill="#6B7280" text-anchor="middle">A minimal fixture proving the validation pipeline end to end</text>

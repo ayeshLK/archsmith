@@ -1,8 +1,8 @@
 # Item icon design evaluation (issue #6)
 
-**Status: approved for implementation; waiting for the ticket-booking visual checkpoint.** Google Material Symbols Outlined, the six-token mapping, and the redrawn 24×24 outline contract were approved. Production changes are now in the branch; other examples have not been migrated.
+**Status: approved and implemented for issue #6.** The baseline and token mapping were approved before production changes. The ticket-booking prototype then received visual approval before the remaining examples were migrated. The implementation, all valid example updates, and the export licensing handoff are included in [PR #162](https://github.com/ayeshLK/archsmith/pull/162).
 
-See [gallery.svg](gallery.svg) for the six-token visual comparison. The gallery places candidates at 16px and 64px on their source viewBoxes. Material Symbols is approved as the comparison baseline. That approval does not yet select production geometry or approve the implementation contract. [alternatives.svg](alternatives.svg) compares additional same-baseline candidates for weak fits.
+See [gallery.svg](gallery.svg) for the six-token visual comparison. The gallery places candidates at 16px and 64px on their source viewBoxes. [alternatives.svg](alternatives.svg) compares additional same-baseline candidates for weak fits. The approved production mapping and treatment are recorded below and implemented in the governed registry.
 
 ## Candidates and provenance
 
@@ -16,11 +16,11 @@ Pinned repository revision: [`acc2c77d01f7e8d89f81a1a83402a28f7e6542f0`](https:/
 
 ### Original ArchSmith gap candidates
 
-The bottom row tests original, color-free concepts rather than vendored third-party artwork: `entity-record` is a compact record card (structured entity), `external-world` is a globe with an outbound arrow, and `governance-shield` is a shield with a check. These are design proposals authored for this comparison, not approved production geometry.
+The bottom row tests original, color-free concepts rather than vendored third-party artwork: `entity-record` is a compact record card (structured entity), `external-world` is a globe with an outbound arrow, and `governance-shield` is a shield with a check. The record-card is the approved production geometry for `entity`; the other two remain comparison-only alternatives.
 
 ## License and generated-SVG implications
 
-Both external sources identify Apache-2.0 licensing in their upstream repositories. Under [Apache-2.0 §4](https://www.apache.org/licenses/LICENSE-2.0), redistribution requires recipients to receive a copy of the license, modified files to carry prominent modification notices, and any upstream NOTICE contents to be included when applicable. Neither pinned source repository contains a NOTICE file. Exporting or copying SVG geometry into a generated or vendored SVG does not remove the licensing obligation. If approved geometry is shipped in npm packages, include the applicable license text and provenance/attribution in those published packages; mark modified geometry and preserve required notices. Google says attribution is not required, but recording it remains useful provenance. This is a source review, not legal advice.
+Both external sources identify Apache-2.0 licensing in their upstream repositories. Under [Apache-2.0 §4](https://www.apache.org/licenses/LICENSE-2.0), redistribution requires recipients to receive a copy of the license, modified files to carry prominent modification notices, and any upstream NOTICE contents to be included when applicable. Neither pinned source repository contains a NOTICE file. Exporting or copying SVG geometry into a generated or vendored SVG does not remove the licensing obligation. The renderer adds SVG `<metadata>` whenever a Material-derived token is used: it identifies the pinned revision and symbols used, notes that the geometry was redrawn, and includes the complete Apache-2.0 license text. Renderer library results, CLI files, and MCP SVG responses all use this renderer output, so they carry the same handoff. Preserve that metadata when redistributing the SVG or its marked icon geometry. Published packages also include the license file and provenance notices. Google says attribution is not required, but recording it remains useful provenance. This is a source review, not legal advice.
 
 ## Assessment and recommendation
 
@@ -37,6 +37,9 @@ Recommendation, now approved: use **Material Symbols Outlined as the single exte
 
 The production redraws simplify the source silhouettes into these semantic marks: `person` becomes an outlined head and shoulder contour; `policy` becomes a shield and check; `hub` becomes five connected service nodes; `database` becomes a simple three-tier cylinder; and `public` becomes a wire globe with meridians and latitude lines. The `entity` record-card is original geometry. The research gallery itself retains the upstream geometry unchanged; the production registry contains the documented redraws.
 
-## Approval requested
+## Approval record
 
-The baseline, mapping, and outline treatment have been approved. The current checkpoint is the first rendered prototype: [ticket-booking SVG](../../examples/ticket-booking/diagram.svg) with its [IR](../../examples/ticket-booking/diagram.archsmith.json). The next approval requested is visual acceptance of this prototype before adding icons to or regenerating any other example. The other valid examples remain unmigrated.
+1. **Source and design approval:** the maintainer approved Material Symbols Outlined as the baseline, the six-token mapping in this document, and the normalized outline treatment after reviewing the gallery and supplemental alternatives. Approval was recorded in the maintainer work session before production registry or renderer changes; the issue thread contains the agreed implementation plan but no separate approval comment to link.
+2. **Prototype visual approval:** the maintainer reviewed and approved the rendered [ticket-booking SVG](../../examples/ticket-booking/diagram.svg) and its [IR](../../examples/ticket-booking/diagram.archsmith.json) before migration of the remaining valid examples.
+
+The final rollout migrated all nine valid examples and regenerated their SVGs. Their rendered output was visually inspected after regeneration. Broken fixtures were updated to reference schema 0.3.6 while retaining their intended validation failures. The design gallery remains a source-evaluation artifact; production geometry is the documented, allow-listed redraw in `packages/schema/registries/icons.json`.
