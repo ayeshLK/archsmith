@@ -1,5 +1,16 @@
 # @archsmith/renderer
 
+## 0.12.0
+
+### Minor Changes
+
+- cdbae6e: Add governed item icon tokens with allow-listed outline geometry and render explicit actor, core-platform, and external-system icons.
+
+### Patch Changes
+
+- Updated dependencies [cdbae6e]
+  - @archsmith/schema@0.10.0
+
 ## 0.11.0
 
 ### Minor Changes
