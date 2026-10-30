@@ -11,16 +11,19 @@
 <text x="1744" y="92" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="middle">EXTERNAL SYSTEMS</text>
 <rect x="30" y="118" width="260" height="444" rx="10" ry="10" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="1.4"/>
 <rect x="42" y="130" width="236" height="66" rx="10" ry="10" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.4"/>
-<circle cx="62" cy="148" r="4.5" fill="#5B3A9E"/>
-<text x="72" y="152" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Mobile App</text>
+<circle fill="none" stroke="#5B3A9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="66" cy="142.66666666666666" r="2.1666666666666665"/>
+<polyline fill="none" stroke="#5B3A9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="61.333333333333336,152 61.333333333333336,150.66666666666666 62.666666666666664,149.33333333333334 64,148.66666666666666 66,148 68,148.66666666666666 69.33333333333333,149.33333333333334 70.66666666666667,150.66666666666666 70.66666666666667,152"/>
+<text x="78" y="152" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Mobile App</text>
 <text x="58" y="172" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">Primary customer entry point</text>
 <rect x="42" y="216" width="236" height="66" rx="10" ry="10" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.4"/>
-<circle cx="62" cy="234" r="4.5" fill="#177F6B"/>
-<text x="72" y="238" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Partner Widget</text>
+<circle fill="none" stroke="#177F6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="66" cy="228.66666666666666" r="2.1666666666666665"/>
+<polyline fill="none" stroke="#177F6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="61.333333333333336,238 61.333333333333336,236.66666666666666 62.666666666666664,235.33333333333334 64,234.66666666666666 66,234 68,234.66666666666666 69.33333333333333,235.33333333333334 70.66666666666667,236.66666666666666 70.66666666666667,238"/>
+<text x="78" y="238" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Partner Widget</text>
 <text x="58" y="258" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">Embedded partner experience</text>
 <rect x="42" y="302" width="236" height="83" rx="10" ry="10" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.4"/>
-<circle cx="62" cy="320" r="4.5" fill="#2B3350"/>
-<text x="72" y="324" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Support Desk</text>
+<circle fill="none" stroke="#2B3350" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="66" cy="314.6666666666667" r="2.1666666666666665"/>
+<polyline fill="none" stroke="#2B3350" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="61.333333333333336,324 61.333333333333336,322.6666666666667 62.666666666666664,321.3333333333333 64,320.6666666666667 66,320 68,320.6666666666667 69.33333333333333,321.3333333333333 70.66666666666667,322.6666666666667 70.66666666666667,324"/>
+<text x="78" y="324" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Support Desk</text>
 <text x="58" y="344" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">Internal assistance and account</text>
 <text x="58" y="361" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">operations</text>
 <rect x="318" y="118" width="150" height="444" rx="10" ry="10" fill="#D9F2EC" stroke="#1E8A73" stroke-width="1.6"/>
@@ -39,24 +42,47 @@
 <rect x="758.09375" y="188" width="105.927734375" height="20" rx="10" ry="10" fill="#E4D9F7"/>
 <text x="811.0576171875" y="202" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#5B3A9E" text-anchor="middle">CONTROL PLANE</text>
 <rect x="546" y="214" width="800" height="54" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
-<text x="561" y="233" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">API Policy Control Plane</text>
+<polyline fill="none" stroke="#5B3A9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="569,220.33333333333334 574.3333333333334,222.66666666666666 573.6666666666666,227.66666666666666 571.6666666666666,230.33333333333334 569,233 566.3333333333334,230.33333333333334 564.3333333333334,227.66666666666666 563.6666666666666,222.66666666666666 569,220.33333333333334"/>
+<polyline fill="none" stroke="#5B3A9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="566.3333333333334,226.66666666666666 568,228.33333333333334 571.6666666666666,224.66666666666666"/>
+<text x="581" y="233" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">API Policy Control Plane</text>
 <text x="561" y="253" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Route governance, throttling, and service exposure</text>
 <rect x="530" y="298" width="832" height="104" rx="10" ry="10" fill="#EAF7EC" stroke="#2F7D4F" stroke-width="1.6"/>
 <text x="546" y="323" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#2F7D4F" text-anchor="start">EXECUTION AND CAPABILITY LAYER</text>
 <rect x="546" y="334" width="800" height="54" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
-<text x="561" y="353" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Thin Facade Service</text>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="569" y1="345" x2="569" y2="343"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="570.7333333333333" y1="346" x2="572.5333333333333" y2="345"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="570.7333333333333" y1="348" x2="572.5333333333333" y2="349"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="567.2666666666667" y1="348" x2="565.4666666666667" y2="349"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="567.2666666666667" y1="346" x2="565.4666666666667" y2="345"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="569" cy="347" r="2"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="569" cy="341.6666666666667" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="573.6666666666666" cy="344.3333333333333" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="573.6666666666666" cy="349.6666666666667" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="564.3333333333334" cy="349.6666666666667" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="564.3333333333334" cy="344.3333333333333" r="1.3333333333333333"/>
+<text x="581" y="353" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Thin Facade Service</text>
 <text x="561" y="373" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Minimal orchestration and request translation</text>
 <rect x="514" y="436" width="864" height="110" rx="10" ry="10" fill="#FDF3D9" stroke="#92600E" stroke-width="1.6"/>
 <text x="530" y="461" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#92600E" text-anchor="start">SYSTEMS OF RECORD AND KNOWLEDGE</text>
 <rect x="800.40673828125" y="446" width="98.1494140625" height="20" rx="10" ry="10" fill="#F7E4B0"/>
 <text x="849.4814453125" y="460" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#92600E" text-anchor="middle">DATA SOURCES</text>
 <rect x="530" y="478" width="406" height="54" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
-<text x="545" y="497" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Config Store</text>
-<rect x="630.993408203125" y="483" width="65.7421875" height="20" rx="10" ry="10" fill="#DFF3E4"/>
-<text x="663.864501953125" y="497" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#2F7D4F" text-anchor="middle">PRIMARY</text>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="553" cy="486.3333333333333" rx="5.333333333333333" ry="2"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="547.6666666666666" y1="486.3333333333333" x2="547.6666666666666" y2="495.6666666666667"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="558.3333333333334" y1="486.3333333333333" x2="558.3333333333334" y2="495.6666666666667"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="553" cy="491" rx="5.333333333333333" ry="2"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="553" cy="495.6666666666667" rx="5.333333333333333" ry="2"/>
+<text x="565" y="497" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Config Store</text>
+<rect x="650.993408203125" y="483" width="65.7421875" height="20" rx="10" ry="10" fill="#DFF3E4"/>
+<text x="683.864501953125" y="497" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#2F7D4F" text-anchor="middle">PRIMARY</text>
 <text x="545" y="517" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Feature flags, routes, and environment config</text>
 <rect x="956" y="478" width="406" height="54" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
-<text x="971" y="497" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Request Log</text>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="979" cy="486.3333333333333" rx="5.333333333333333" ry="2"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="973.6666666666666" y1="486.3333333333333" x2="973.6666666666666" y2="495.6666666666667"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="984.3333333333334" y1="486.3333333333333" x2="984.3333333333334" y2="495.6666666666667"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="979" cy="491" rx="5.333333333333333" ry="2"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="979" cy="495.6666666666667" rx="5.333333333333333" ry="2"/>
+<text x="991" y="497" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Request Log</text>
 <text x="971" y="517" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Operational access logs and request history</text>
 <rect x="1424" y="118" width="150" height="444" rx="10" ry="10" fill="#D9F2EC" stroke="#1E8A73" stroke-width="1.6"/>
 <rect x="1436" y="290" width="126" height="100" rx="10" ry="10" fill="#FFFFFF" stroke="#1E8A73" stroke-width="1.6"/>
@@ -69,30 +95,46 @@
 <rect x="1602" y="118" width="284" height="444" rx="10" ry="10" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="1.4"/>
 <rect x="1614" y="130" width="260" height="220" rx="10" ry="10" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="1.5"/>
 <text x="1630" y="156" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Downstream SaaS</text>
-<circle cx="1634" cy="178" r="4.5" fill="#92600E"/>
-<text x="1646" y="182" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Identity Provider</text>
-<rect x="1748.0546875" y="168" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
-<text x="1782.517578125" y="182" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
-<text x="1646" y="199" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Authentication and token issuance</text>
+<circle fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="176" r="6"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="176" rx="2.6666666666666665" ry="6"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1632.3333333333333" y1="176" x2="1643.6666666666667" y2="176"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="173" x2="1642.3333333333333" y2="173"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="179" x2="1642.3333333333333" y2="179"/>
+<text x="1650" y="182" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Identity Provider</text>
+<rect x="1752.0546875" y="168" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
+<text x="1786.517578125" y="182" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
+<text x="1650" y="199" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Authentication and token issuance</text>
 <line x1="1630" y1="210" x2="1858" y2="210" stroke="#D9DCE7" stroke-width="1.3"/>
-<circle cx="1634" cy="230" r="4.5" fill="#92600E"/>
-<text x="1646" y="234" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Search API</text>
-<rect x="1715.49091796875" y="220" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
-<text x="1749.95380859375" y="234" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
-<text x="1646" y="251" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Query, discovery, and autocomplete</text>
+<circle fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="228" r="6"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="228" rx="2.6666666666666665" ry="6"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1632.3333333333333" y1="228" x2="1643.6666666666667" y2="228"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="225" x2="1642.3333333333333" y2="225"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="231" x2="1642.3333333333333" y2="231"/>
+<text x="1650" y="234" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Search API</text>
+<rect x="1719.49091796875" y="220" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
+<text x="1753.95380859375" y="234" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
+<text x="1650" y="251" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Query, discovery, and autocomplete</text>
 <line x1="1630" y1="262" x2="1858" y2="262" stroke="#D9DCE7" stroke-width="1.3"/>
-<circle cx="1634" cy="282" r="4.5" fill="#92600E"/>
-<text x="1646" y="286" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Recommendations API</text>
-<rect x="1784.504248046875" y="272" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
-<text x="1818.967138671875" y="286" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
-<text x="1646" y="303" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Personalized suggestions and ranking</text>
+<circle fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="280" r="6"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="280" rx="2.6666666666666665" ry="6"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1632.3333333333333" y1="280" x2="1643.6666666666667" y2="280"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="277" x2="1642.3333333333333" y2="277"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="283" x2="1642.3333333333333" y2="283"/>
+<text x="1650" y="286" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Recommendations API</text>
+<rect x="1788.504248046875" y="272" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
+<text x="1822.967138671875" y="286" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
+<text x="1650" y="303" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Personalized suggestions and ranking</text>
 <rect x="1614" y="370" width="260" height="116" rx="10" ry="10" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="1.5"/>
 <text x="1630" y="396" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Shared Platform Services</text>
-<circle cx="1634" cy="418" r="4.5" fill="#1E8A73"/>
-<text x="1646" y="422" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Feature Flags</text>
-<rect x="1730.9740234375" y="408" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
-<text x="1765.4369140625" y="422" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
-<text x="1646" y="439" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Operational toggles and rollout control</text>
+<circle fill="none" stroke="#1E8A73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="416" r="6"/>
+<ellipse fill="none" stroke="#1E8A73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="416" rx="2.6666666666666665" ry="6"/>
+<line fill="none" stroke="#1E8A73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1632.3333333333333" y1="416" x2="1643.6666666666667" y2="416"/>
+<line fill="none" stroke="#1E8A73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="413" x2="1642.3333333333333" y2="413"/>
+<line fill="none" stroke="#1E8A73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="419" x2="1642.3333333333333" y2="419"/>
+<text x="1650" y="422" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Feature Flags</text>
+<rect x="1734.9740234375" y="408" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
+<text x="1769.4369140625" y="422" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
+<text x="1650" y="439" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Operational toggles and rollout control</text>
 <rect x="30" y="586" width="886" height="118" rx="10" ry="10" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.4"/>
 <text x="48" y="612" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#182449" text-anchor="start">LEGEND</text>
 <rect x="48" y="624" width="16" height="16" rx="4" ry="4" fill="#F4EFFC" stroke="#5B3A9E" stroke-width="1.3"/>

@@ -1,20 +1,20 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://ayeshlk.github.io/archsmith/schema/0.3.5/diagram-schema.json",
+  "$id": "https://ayeshlk.github.io/archsmith/schema/0.3.6/diagram-schema.json",
   "title": "ArchSmith Diagram IR",
-  "description": "Structural contract for the intermediate representation (IR) an agent produces from a rough sketch/description, and that a deterministic renderer turns into SVG. Draft v0.3.5 — accessible color family activation. Governed sub-layer/color/icon catalogs live in registries/ alongside this file and are versioned separately; this schema references them by id but does not enumerate their contents.",
+  "description": "Structural contract for the intermediate representation (IR) an agent produces from a rough sketch/description, and that a deterministic renderer turns into SVG. Draft v0.3.6 — governed item icon tokens. Governed sub-layer/color/icon catalogs live in registries/ alongside this file and are versioned separately; this schema references them by id but does not enumerate their contents.",
   "type": "object",
   "required": ["schemaVersion", "title", "subtitle", "colorTheme", "columns"],
   "additionalProperties": false,
   "properties": {
     "$schema": {
       "type": "string",
-      "const": "https://ayeshlk.github.io/archsmith/schema/0.3.5/diagram-schema.json",
+      "const": "https://ayeshlk.github.io/archsmith/schema/0.3.6/diagram-schema.json",
       "description": "Stable, versioned URL for editor autocomplete and inline validation."
     },
     "schemaVersion": {
       "type": "string",
-      "const": "0.3.5",
+      "const": "0.3.6",
       "description": "Version of this schema (and its paired registries) the IR was generated against. Bump when the schema or a registry gains a governed change."
     },
     "title": { "type": "string" },
@@ -167,8 +167,8 @@
       "description": "Generic box shape shared by actor boxes, execution/entity/systems-of-record boxes, and external-system items. Unifies what the ATS reference build called actor_box/detail_box/simple_box. Disambiguating free-text input into eyebrow vs. title vs. descriptionLines (issue #58): eyebrow is a short (1-3 word) generic domain/functional category, never a specific technology, vendor, or protocol name — everything more specific belongs in descriptionLines as one or more full sentences, even if that means naming a technology. Worked examples: (1) free text 'Booking API Control Plane — routes and manages the lifecycle of all public booking APIs' -> title 'Booking API Control Plane', eyebrow 'API management' (a real example from examples/ticket-booking), descriptionLines ['Request routing, lifecycle management, rate limiting for all public APIs.']. (2) free text 'Booking Backend (built as a REST service)' -> title 'Booking Backend', eyebrow null (no natural category — don't force one), descriptionLines ['Core REST service implementing booking business logic.'] (the implementation detail goes in descriptionLines, not eyebrow). (3) free text 'Offer Letter Store — holds signed offer letters and amendments' -> title 'Offer Letter Archive', eyebrow null, descriptionLines ['Stores signed offer letters and amendments.'] (what a store is *for* is a description, not a category).",
       "properties": {
         "eyebrow": { "type": ["string", "null"], "default": null, "description": "Small italic category label above the title, e.g. 'API management', 'Identity & policy' — a domain/functional category, never a specific technology or vendor name. See the item-level description for worked before/after examples (issue #58). Omit (null) rather than forcing one when no natural category fits." },
-        "icon": { "type": ["string", "null"], "default": null, "description": "Token from registries/icons.json. Null means no approved icon exists yet for this item type." },
-        "dotColor": { "type": ["string", "null"], "default": null, "description": "Color token used as a plain dot when icon is null — the required fallback, never force a mismatched icon." },
+        "icon": { "type": ["string", "null"], "default": null, "description": "Optional explicit token from registries/icons.json. Inbound Actor and External Systems items use the icon in place of the dot; omitting it or setting null keeps the dot. Core Platform items show an explicit icon before the title in the containing layer accent; omitting it or setting null keeps Core Platform items marker-free. Icons are never inferred. Gateway glyphs and warning pills are separate treatments." },
+        "dotColor": { "type": ["string", "null"], "default": null, "description": "Color token for an Inbound Actor or External Systems dot when icon is omitted/null, and for an explicitly supplied actor/external icon. Core Platform icons use their containing layer accent instead. Never infer an icon from this color." },
         "title": { "type": "string", "description": "Full name — always required and always what appears in legend.abbreviations if an acronym is used. Never truncated or silently shortened; wrapping and, as a last resort, acronym are the only sanctioned ways to handle a title too wide for its box." },
         "descriptionLines": {
           "type": "array",

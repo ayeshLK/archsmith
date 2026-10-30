@@ -1,26 +1,37 @@
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.5/diagram-schema.json",
-  "schemaVersion": "0.3.5",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.6/diagram-schema.json",
+  "schemaVersion": "0.3.6",
   "title": "Nightly Data Pipeline — Architecture",
   "subtitle": "Batch ingestion, transformation, and load path with light inbound and heavier egress",
-  "colorTheme": { "family": "standard" },
+  "colorTheme": {
+    "family": "standard"
+  },
   "columns": {
     "inboundActors": {
       "items": [
         {
           "title": "Nightly Scheduler",
           "dotColor": "purple",
-          "descriptionLines": ["Triggers the pipeline on a fixed cadence"]
+          "descriptionLines": [
+            "Triggers the pipeline on a fixed cadence"
+          ],
+          "icon": "actor"
         },
         {
           "title": "File Drop",
           "dotColor": "navy",
-          "descriptionLines": ["Partner-delivered flat files and extracts"]
+          "descriptionLines": [
+            "Partner-delivered flat files and extracts"
+          ],
+          "icon": "actor"
         }
       ]
     },
     "ingress": {
-      "gateway": { "label": "Ingestion Gateway", "sublabel": "Batch Runtime" }
+      "gateway": {
+        "label": "Ingestion Gateway",
+        "sublabel": "Batch Runtime"
+      }
     },
     "corePlatform": {
       "deployedOn": "Data Platform",
@@ -31,21 +42,33 @@
             [
               {
                 "title": "Ingest Job",
-                "descriptionLines": ["Pulls, validates, and stages inbound datasets"]
+                "descriptionLines": [
+                  "Pulls, validates, and stages inbound datasets"
+                ],
+                "icon": "service"
               },
               {
                 "title": "Transform Job",
-                "descriptionLines": ["Cleanses, joins, and normalizes records"]
+                "descriptionLines": [
+                  "Cleanses, joins, and normalizes records"
+                ],
+                "icon": "service"
               }
             ],
             [
               {
                 "title": "Validation Job",
-                "descriptionLines": ["Schema checks, thresholds, and data quality gates"]
+                "descriptionLines": [
+                  "Schema checks, thresholds, and data quality gates"
+                ],
+                "icon": "service"
               },
               {
                 "title": "Load Job",
-                "descriptionLines": ["Publishes curated outputs to analytics targets"]
+                "descriptionLines": [
+                  "Publishes curated outputs to analytics targets"
+                ],
+                "icon": "service"
               }
             ]
           ]
@@ -56,7 +79,10 @@
             [
               {
                 "title": "Canonical Dataset Model",
-                "descriptionLines": ["Shared record definitions used across all pipeline stages"]
+                "descriptionLines": [
+                  "Shared record definitions used across all pipeline stages"
+                ],
+                "icon": "entity"
               }
             ]
           ]
@@ -67,22 +93,37 @@
         "items": [
           {
             "title": "Raw Landing Zone",
-            "descriptionLines": ["Unmodified source extracts kept for audit and replay"],
-            "pill": { "label": "PRIMARY", "semantic": "primary" }
+            "descriptionLines": [
+              "Unmodified source extracts kept for audit and replay"
+            ],
+            "pill": {
+              "label": "PRIMARY",
+              "semantic": "primary"
+            },
+            "icon": "data-store"
           },
           {
             "title": "Processed Warehouse",
-            "descriptionLines": ["Curated analytical tables and aggregates"]
+            "descriptionLines": [
+              "Curated analytical tables and aggregates"
+            ],
+            "icon": "data-store"
           },
           {
             "title": "Job Manifest Archive",
-            "descriptionLines": ["Run metadata, lineage, and failure history"]
+            "descriptionLines": [
+              "Run metadata, lineage, and failure history"
+            ],
+            "icon": "data-store"
           }
         ]
       }
     },
     "egress": {
-      "gateway": { "label": "API Gateway", "sublabel": "Outbound Sync" }
+      "gateway": {
+        "label": "API Gateway",
+        "sublabel": "Outbound Sync"
+      }
     },
     "externalSystems": {
       "clusters": [
@@ -92,14 +133,26 @@
             {
               "title": "Analytics Warehouse",
               "dotColor": "green",
-              "descriptionLines": ["Curated warehouse loads and snapshots"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Curated warehouse loads and snapshots"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             },
             {
               "title": "Finance Dashboard",
               "dotColor": "teal",
-              "descriptionLines": ["Executive reporting and reconciliation views"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Executive reporting and reconciliation views"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             }
           ]
         },
@@ -109,14 +162,26 @@
             {
               "title": "Compliance Vault",
               "dotColor": "amber",
-              "descriptionLines": ["Long-term archive of pipeline artifacts and extracts"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Long-term archive of pipeline artifacts and extracts"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             },
             {
               "title": "Alerting Service",
               "dotColor": "purple",
-              "descriptionLines": ["Failure alerts and SLA notifications"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Failure alerts and SLA notifications"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             }
           ]
         }
@@ -125,11 +190,26 @@
   },
   "legend": {
     "entries": [
-      { "colorToken": "purple", "label": "Inbound / control cues" },
-      { "colorToken": "green", "label": "Execution and Capability Layer" },
-      { "colorToken": "teal", "label": "Entity Layer" },
-      { "colorToken": "amber", "label": "Systems of Record and Knowledge" },
-      { "colorToken": "mint", "label": "Ingress / Egress gateways" }
+      {
+        "colorToken": "purple",
+        "label": "Inbound / control cues"
+      },
+      {
+        "colorToken": "green",
+        "label": "Execution and Capability Layer"
+      },
+      {
+        "colorToken": "teal",
+        "label": "Entity Layer"
+      },
+      {
+        "colorToken": "amber",
+        "label": "Systems of Record and Knowledge"
+      },
+      {
+        "colorToken": "mint",
+        "label": "Ingress / Egress gateways"
+      }
     ]
   }
 }

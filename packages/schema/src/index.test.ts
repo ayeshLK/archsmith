@@ -36,3 +36,21 @@ test("getAuthoringHint throws a clear error for an unknown id, rather than retur
 test("listRegistryNames does not include the authoring glossary — it isn't governed vocabulary", () => {
   assert.ok(!listRegistryNames().includes("authoring-glossary" as never));
 });
+
+test("icon registry exposes governed semantic ids and only allow-listed geometry", () => {
+  const icons = getRegistry("icons") as {
+    registryVersion: string;
+    icons: Record<string, { source: { name: string }; shapes: Array<{ type: string; d?: string; markup?: string }> }>;
+  };
+  assert.equal(icons.registryVersion, "0.2.0");
+  assert.deepEqual(Object.keys(icons.icons).sort(), ["actor", "data-store", "entity", "external", "governance", "service"]);
+  const allowed = new Set(["circle", "ellipse", "line", "polyline", "rect"]);
+  for (const [token, entry] of Object.entries(icons.icons)) {
+    assert.notEqual(token, entry.source.name, "public token ids stay independent of source names");
+    for (const shape of entry.shapes) {
+      assert.ok(allowed.has(shape.type), `${token} primitive ${shape.type} is allow-listed`);
+      assert.equal(shape.d, undefined);
+      assert.equal(shape.markup, undefined);
+    }
+  }
+});

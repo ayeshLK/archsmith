@@ -32,9 +32,11 @@ Report suspected vulnerabilities privately through the process in [SECURITY.md](
 
 ## The one rule that matters most: registries are governed, not per-diagram
 
-`packages/schema/registries/*.json` (sub-layers, colors, icons) define the *only* colors and sub-layer types a diagram is allowed to use. This is deliberate: it's what keeps ArchSmith's output a consistent house style instead of every diagram inventing its own palette. Concretely:
+`packages/schema/registries/*.json` (sub-layers, colors, icons) define the *only* colors, sub-layer types, and item icon tokens a diagram is allowed to use. This is deliberate: it's what keeps ArchSmith's output a consistent house style instead of every diagram inventing its own palette or symbols. Concretely:
 
 - Adding a new registry entry (a color token, a sub-layer type, an icon) is a real, reviewable change — bump `registryVersion`, explain why the existing set doesn't cover the case, and expect discussion.
+- Item icon ids are semantic ArchSmith tokens, not upstream symbol names. Icons use only the numeric circle, ellipse, line, polyline, and rounded-rectangle primitives declared in `icons.json`; arbitrary SVG fragments, path data, and per-diagram geometry are not accepted. Keep source names, pinned revisions, license links, and any redraw/modification notes with the registry. When external geometry ships, include its required license and provenance notice in each affected npm package.
+- Icons are opt-in on every item. Inbound Actors and External Systems replace their `dotColor` dot only when an icon is supplied; Core Platform uses its containing layer accent and remains marker-free when no icon is supplied. Never infer a token. The gateway glyph and warning pill are not item icons.
 - What's *free* per diagram, no review needed: which already-approved tokens a diagram uses, how many rows/items a layer has, which color family is active.
 - A PR that adds a registry entry just to unblock one diagram, instead of arguing the entry belongs in the catalog generally, will likely get pushback.
 

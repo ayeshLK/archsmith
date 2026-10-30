@@ -11,14 +11,17 @@
 <text x="1744" y="92" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="middle">EXTERNAL SYSTEMS</text>
 <rect x="30" y="118" width="260" height="531" rx="10" ry="10" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="1.4"/>
 <rect x="42" y="130" width="236" height="83" rx="10" ry="10" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.4"/>
-<circle cx="62" cy="148" r="4.5" fill="#5B3A9E"/>
-<text x="72" y="152" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Nightly Scheduler</text>
+<circle fill="none" stroke="#5B3A9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="66" cy="142.66666666666666" r="2.1666666666666665"/>
+<polyline fill="none" stroke="#5B3A9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="61.333333333333336,152 61.333333333333336,150.66666666666666 62.666666666666664,149.33333333333334 64,148.66666666666666 66,148 68,148.66666666666666 69.33333333333333,149.33333333333334 70.66666666666667,150.66666666666666 70.66666666666667,152"/>
+<text x="78" y="152" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Nightly Scheduler</text>
 <text x="58" y="172" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">Triggers the pipeline on a fixed</text>
 <text x="58" y="189" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">cadence</text>
-<rect x="42" y="233" width="236" height="66" rx="10" ry="10" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.4"/>
-<circle cx="62" cy="251" r="4.5" fill="#2B3350"/>
-<text x="72" y="255" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">File Drop</text>
-<text x="58" y="275" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">Partner-delivered flat files and extracts</text>
+<rect x="42" y="233" width="236" height="83" rx="10" ry="10" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.4"/>
+<circle fill="none" stroke="#2B3350" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="66" cy="245.66666666666666" r="2.1666666666666665"/>
+<polyline fill="none" stroke="#2B3350" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="61.333333333333336,255 61.333333333333336,253.66666666666666 62.666666666666664,252.33333333333334 64,251.66666666666666 66,251 68,251.66666666666666 69.33333333333333,252.33333333333334 70.66666666666667,253.66666666666666 70.66666666666667,255"/>
+<text x="78" y="255" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">File Drop</text>
+<text x="58" y="275" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">Partner-delivered flat files and</text>
+<text x="58" y="292" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">extracts</text>
 <rect x="318" y="118" width="150" height="531" rx="10" ry="10" fill="#D9F2EC" stroke="#1E8A73" stroke-width="1.6"/>
 <rect x="330" y="333.5" width="126" height="100" rx="10" ry="10" fill="#FFFFFF" stroke="#1E8A73" stroke-width="1.6"/>
 <circle cx="393" cy="359.5" r="13" fill="none" stroke="#1E8A73" stroke-width="1.8"/>
@@ -33,39 +36,102 @@
 <rect x="530" y="178" width="832" height="174" rx="10" ry="10" fill="#EAF7EC" stroke="#2F7D4F" stroke-width="1.6"/>
 <text x="546" y="203" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#2F7D4F" text-anchor="start">EXECUTION AND CAPABILITY LAYER</text>
 <rect x="546" y="214" width="390" height="54" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
-<text x="561" y="233" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Ingest Job</text>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="569" y1="225" x2="569" y2="223"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="570.7333333333333" y1="226" x2="572.5333333333333" y2="225"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="570.7333333333333" y1="228" x2="572.5333333333333" y2="229"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="567.2666666666667" y1="228" x2="565.4666666666667" y2="229"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="567.2666666666667" y1="226" x2="565.4666666666667" y2="225"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="569" cy="227" r="2"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="569" cy="221.66666666666666" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="573.6666666666666" cy="224.33333333333334" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="573.6666666666666" cy="229.66666666666666" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="564.3333333333334" cy="229.66666666666666" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="564.3333333333334" cy="224.33333333333334" r="1.3333333333333333"/>
+<text x="581" y="233" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Ingest Job</text>
 <text x="561" y="253" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Pulls, validates, and stages inbound datasets</text>
 <rect x="956" y="214" width="390" height="54" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
-<text x="971" y="233" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Transform Job</text>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="979" y1="225" x2="979" y2="223"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="980.7333333333333" y1="226" x2="982.5333333333333" y2="225"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="980.7333333333333" y1="228" x2="982.5333333333333" y2="229"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="977.2666666666667" y1="228" x2="975.4666666666667" y2="229"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="977.2666666666667" y1="226" x2="975.4666666666667" y2="225"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="979" cy="227" r="2"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="979" cy="221.66666666666666" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="983.6666666666666" cy="224.33333333333334" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="983.6666666666666" cy="229.66666666666666" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="974.3333333333334" cy="229.66666666666666" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="974.3333333333334" cy="224.33333333333334" r="1.3333333333333333"/>
+<text x="991" y="233" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Transform Job</text>
 <text x="971" y="253" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Cleanses, joins, and normalizes records</text>
 <rect x="546" y="284" width="390" height="54" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
-<text x="561" y="303" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Validation Job</text>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="569" y1="295" x2="569" y2="293"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="570.7333333333333" y1="296" x2="572.5333333333333" y2="295"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="570.7333333333333" y1="298" x2="572.5333333333333" y2="299"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="567.2666666666667" y1="298" x2="565.4666666666667" y2="299"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="567.2666666666667" y1="296" x2="565.4666666666667" y2="295"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="569" cy="297" r="2"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="569" cy="291.6666666666667" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="573.6666666666666" cy="294.3333333333333" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="573.6666666666666" cy="299.6666666666667" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="564.3333333333334" cy="299.6666666666667" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="564.3333333333334" cy="294.3333333333333" r="1.3333333333333333"/>
+<text x="581" y="303" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Validation Job</text>
 <text x="561" y="323" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Schema checks, thresholds, and data quality gates</text>
 <rect x="956" y="284" width="390" height="54" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
-<text x="971" y="303" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Load Job</text>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="979" y1="295" x2="979" y2="293"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="980.7333333333333" y1="296" x2="982.5333333333333" y2="295"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="980.7333333333333" y1="298" x2="982.5333333333333" y2="299"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="977.2666666666667" y1="298" x2="975.4666666666667" y2="299"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="977.2666666666667" y1="296" x2="975.4666666666667" y2="295"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="979" cy="297" r="2"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="979" cy="291.6666666666667" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="983.6666666666666" cy="294.3333333333333" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="983.6666666666666" cy="299.6666666666667" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="974.3333333333334" cy="299.6666666666667" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="974.3333333333334" cy="294.3333333333333" r="1.3333333333333333"/>
+<text x="991" y="303" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Load Job</text>
 <text x="971" y="323" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Publishes curated outputs to analytics targets</text>
 <rect x="530" y="368" width="832" height="104" rx="10" ry="10" fill="#E3F5F0" stroke="#177F6B" stroke-width="1.6"/>
 <text x="546" y="393" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#177F6B" text-anchor="start">ENTITY LAYER</text>
 <rect x="650.909912109375" y="378" width="135.732421875" height="20" rx="10" ry="10" fill="#CDEFE6"/>
 <text x="718.776123046875" y="392" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#177F6B" text-anchor="middle">DOMAIN ABSTRACTION</text>
 <rect x="546" y="404" width="800" height="54" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
-<text x="561" y="423" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Canonical Dataset Model</text>
+<rect fill="none" stroke="#177F6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x="563" y="411.6666666666667" width="12" height="10.666666666666666" rx="1.3333333333333333" ry="1.3333333333333333"/>
+<line fill="none" stroke="#177F6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="565.6666666666666" y1="415" x2="572.3333333333334" y2="415"/>
+<line fill="none" stroke="#177F6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="565.6666666666666" y1="417" x2="572.3333333333334" y2="417"/>
+<line fill="none" stroke="#177F6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="565.6666666666666" y1="419" x2="570.3333333333334" y2="419"/>
+<text x="581" y="423" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Canonical Dataset Model</text>
 <text x="561" y="443" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Shared record definitions used across all pipeline stages</text>
 <rect x="514" y="506" width="864" height="127" rx="10" ry="10" fill="#FDF3D9" stroke="#92600E" stroke-width="1.6"/>
 <text x="530" y="531" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#92600E" text-anchor="start">SYSTEMS OF RECORD AND KNOWLEDGE</text>
 <rect x="800.40673828125" y="516" width="98.1494140625" height="20" rx="10" ry="10" fill="#F7E4B0"/>
 <text x="849.4814453125" y="530" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#92600E" text-anchor="middle">DATA SOURCES</text>
 <rect x="530" y="548" width="264" height="71" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
-<text x="545" y="567" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Raw Landing Zone</text>
-<rect x="669.9970703125" y="553" width="65.7421875" height="20" rx="10" ry="10" fill="#DFF3E4"/>
-<text x="702.8681640625" y="567" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#2F7D4F" text-anchor="middle">PRIMARY</text>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="553" cy="556.3333333333334" rx="5.333333333333333" ry="2"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="547.6666666666666" y1="556.3333333333334" x2="547.6666666666666" y2="565.6666666666666"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="558.3333333333334" y1="556.3333333333334" x2="558.3333333333334" y2="565.6666666666666"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="553" cy="561" rx="5.333333333333333" ry="2"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="553" cy="565.6666666666666" rx="5.333333333333333" ry="2"/>
+<text x="565" y="567" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Raw Landing Zone</text>
+<rect x="689.9970703125" y="553" width="65.7421875" height="20" rx="10" ry="10" fill="#DFF3E4"/>
+<text x="722.8681640625" y="567" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#2F7D4F" text-anchor="middle">PRIMARY</text>
 <text x="545" y="587" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Unmodified source extracts kept for audit and</text>
 <text x="545" y="604" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">replay</text>
 <rect x="814" y="548" width="264" height="71" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
-<text x="829" y="567" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Processed Warehouse</text>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="837" cy="556.3333333333334" rx="5.333333333333333" ry="2"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="831.6666666666666" y1="556.3333333333334" x2="831.6666666666666" y2="565.6666666666666"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="842.3333333333334" y1="556.3333333333334" x2="842.3333333333334" y2="565.6666666666666"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="837" cy="561" rx="5.333333333333333" ry="2"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="837" cy="565.6666666666666" rx="5.333333333333333" ry="2"/>
+<text x="849" y="567" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Processed Warehouse</text>
 <text x="829" y="587" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Curated analytical tables and aggregates</text>
 <rect x="1098" y="548" width="264" height="71" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
-<text x="1113" y="567" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Job Manifest Archive</text>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1121" cy="556.3333333333334" rx="5.333333333333333" ry="2"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1115.6666666666667" y1="556.3333333333334" x2="1115.6666666666667" y2="565.6666666666666"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1126.3333333333333" y1="556.3333333333334" x2="1126.3333333333333" y2="565.6666666666666"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1121" cy="561" rx="5.333333333333333" ry="2"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1121" cy="565.6666666666666" rx="5.333333333333333" ry="2"/>
+<text x="1133" y="567" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Job Manifest Archive</text>
 <text x="1113" y="587" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Run metadata, lineage, and failure history</text>
 <rect x="1424" y="118" width="150" height="531" rx="10" ry="10" fill="#D9F2EC" stroke="#1E8A73" stroke-width="1.6"/>
 <rect x="1436" y="333.5" width="126" height="100" rx="10" ry="10" fill="#FFFFFF" stroke="#1E8A73" stroke-width="1.6"/>
@@ -78,30 +144,46 @@
 <rect x="1602" y="118" width="284" height="531" rx="10" ry="10" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="1.4"/>
 <rect x="1614" y="130" width="260" height="168" rx="10" ry="10" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="1.5"/>
 <text x="1630" y="156" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Business Consumers</text>
-<circle cx="1634" cy="178" r="4.5" fill="#2F7D4F"/>
-<text x="1646" y="182" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Analytics Warehouse</text>
-<rect x="1774.94892578125" y="168" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
-<text x="1809.41181640625" y="182" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
-<text x="1646" y="199" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Curated warehouse loads and snapshots</text>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="176" r="6"/>
+<ellipse fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="176" rx="2.6666666666666665" ry="6"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1632.3333333333333" y1="176" x2="1643.6666666666667" y2="176"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="173" x2="1642.3333333333333" y2="173"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="179" x2="1642.3333333333333" y2="179"/>
+<text x="1650" y="182" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Analytics Warehouse</text>
+<rect x="1778.94892578125" y="168" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
+<text x="1813.41181640625" y="182" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
+<text x="1650" y="199" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Curated warehouse loads and snapshots</text>
 <line x1="1630" y1="210" x2="1858" y2="210" stroke="#D9DCE7" stroke-width="1.3"/>
-<circle cx="1634" cy="230" r="4.5" fill="#177F6B"/>
-<text x="1646" y="234" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Finance Dashboard</text>
-<rect x="1765.141357421875" y="220" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
-<text x="1799.604248046875" y="234" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
-<text x="1646" y="251" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Executive reporting and reconciliation views</text>
+<circle fill="none" stroke="#177F6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="228" r="6"/>
+<ellipse fill="none" stroke="#177F6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="228" rx="2.6666666666666665" ry="6"/>
+<line fill="none" stroke="#177F6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1632.3333333333333" y1="228" x2="1643.6666666666667" y2="228"/>
+<line fill="none" stroke="#177F6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="225" x2="1642.3333333333333" y2="225"/>
+<line fill="none" stroke="#177F6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="231" x2="1642.3333333333333" y2="231"/>
+<text x="1650" y="234" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Finance Dashboard</text>
+<rect x="1769.141357421875" y="220" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
+<text x="1803.604248046875" y="234" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
+<text x="1650" y="251" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Executive reporting and reconciliation views</text>
 <rect x="1614" y="318" width="260" height="168" rx="10" ry="10" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="1.5"/>
 <text x="1630" y="344" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Retention Targets</text>
-<circle cx="1634" cy="366" r="4.5" fill="#92600E"/>
-<text x="1646" y="370" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Compliance Vault</text>
-<rect x="1753.526025390625" y="356" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
-<text x="1787.988916015625" y="370" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
-<text x="1646" y="387" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Long-term archive of pipeline artifacts and extracts</text>
+<circle fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="364" r="6"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="364" rx="2.6666666666666665" ry="6"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1632.3333333333333" y1="364" x2="1643.6666666666667" y2="364"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="361" x2="1642.3333333333333" y2="361"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="367" x2="1642.3333333333333" y2="367"/>
+<text x="1650" y="370" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Compliance Vault</text>
+<rect x="1757.526025390625" y="356" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
+<text x="1791.988916015625" y="370" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
+<text x="1650" y="387" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Long-term archive of pipeline artifacts and extracts</text>
 <line x1="1630" y1="398" x2="1858" y2="398" stroke="#D9DCE7" stroke-width="1.3"/>
-<circle cx="1634" cy="418" r="4.5" fill="#5B3A9E"/>
-<text x="1646" y="422" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Alerting Service</text>
-<rect x="1744.65537109375" y="408" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
-<text x="1779.11826171875" y="422" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
-<text x="1646" y="439" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Failure alerts and SLA notifications</text>
+<circle fill="none" stroke="#5B3A9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="416" r="6"/>
+<ellipse fill="none" stroke="#5B3A9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="416" rx="2.6666666666666665" ry="6"/>
+<line fill="none" stroke="#5B3A9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1632.3333333333333" y1="416" x2="1643.6666666666667" y2="416"/>
+<line fill="none" stroke="#5B3A9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="413" x2="1642.3333333333333" y2="413"/>
+<line fill="none" stroke="#5B3A9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="419" x2="1642.3333333333333" y2="419"/>
+<text x="1650" y="422" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Alerting Service</text>
+<rect x="1748.65537109375" y="408" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
+<text x="1783.11826171875" y="422" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
+<text x="1650" y="439" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Failure alerts and SLA notifications</text>
 <rect x="30" y="673" width="886" height="118" rx="10" ry="10" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.4"/>
 <text x="48" y="699" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#182449" text-anchor="start">LEGEND</text>
 <rect x="48" y="711" width="16" height="16" rx="4" ry="4" fill="#F4EFFC" stroke="#5B3A9E" stroke-width="1.3"/>

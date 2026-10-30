@@ -49,17 +49,19 @@ export function validateRegistryReferences(ir: unknown): ValidationResult {
   const subLayers = getRegistry("sub-layers") as {
     entries: Array<{ id: string }>;
   };
+  const iconRegistry = getRegistry("icons") as { icons: Record<string, unknown> };
   const knownSubLayerIds = new Set(subLayers.entries.map((e) => e.id));
+  const knownIconTokens = new Set(Object.keys(iconRegistry.icons));
 
   const doc = ir as {
     colorTheme?: { family?: string };
     columns?: {
-      inboundActors?: { items?: Array<{ dotColor?: string | null }> };
+      inboundActors?: { items?: Array<{ dotColor?: string | null; icon?: string | null }> };
       corePlatform?: {
-        subLayers?: Array<{ registryId?: string; rows?: Array<Array<{ dotColor?: string | null }>> }>;
-        systemsOfRecord?: { registryId?: string; items?: Array<{ dotColor?: string | null }> };
+        subLayers?: Array<{ registryId?: string; rows?: Array<Array<{ dotColor?: string | null; icon?: string | null }>> }>;
+        systemsOfRecord?: { registryId?: string; items?: Array<{ dotColor?: string | null; icon?: string | null }> };
       };
-      externalSystems?: { clusters?: Array<{ items?: Array<{ dotColor?: string | null }> }> };
+      externalSystems?: { clusters?: Array<{ items?: Array<{ dotColor?: string | null; icon?: string | null }> }> };
     };
     legend?: { entries?: Array<{ colorToken?: string }> };
   };
@@ -73,9 +75,12 @@ export function validateRegistryReferences(ir: unknown): ValidationResult {
   }
 
   const knownLayerTokens = new Set(Object.keys(familyTokens?.layerTokens ?? {}));
-  const checkItem = (item: { dotColor?: string | null }, path: string): void => {
+  const checkItem = (item: { dotColor?: string | null; icon?: string | null }, path: string): void => {
     if (item.dotColor && !knownLayerTokens.has(item.dotColor)) {
       errors.push(`${path}.dotColor "${item.dotColor}" is not in the active color family "${family}"`);
+    }
+    if (item.icon != null && !knownIconTokens.has(item.icon)) {
+      errors.push(`${path}.icon "${item.icon}" is not in registries/icons.json`);
     }
   };
   for (const [i, item] of doc.columns?.inboundActors?.items?.entries() ?? []) {

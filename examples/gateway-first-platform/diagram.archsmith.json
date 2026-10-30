@@ -1,31 +1,45 @@
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.5/diagram-schema.json",
-  "schemaVersion": "0.3.5",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.6/diagram-schema.json",
+  "schemaVersion": "0.3.6",
   "title": "API Gateway Front Door — Architecture",
   "subtitle": "Ingress and external dependencies dominate, with minimal core business logic",
-  "colorTheme": { "family": "standard" },
+  "colorTheme": {
+    "family": "standard"
+  },
   "columns": {
     "inboundActors": {
       "items": [
         {
           "title": "Mobile App",
           "dotColor": "purple",
-          "descriptionLines": ["Primary customer entry point"]
+          "descriptionLines": [
+            "Primary customer entry point"
+          ],
+          "icon": "actor"
         },
         {
           "title": "Partner Widget",
           "dotColor": "teal",
-          "descriptionLines": ["Embedded partner experience"]
+          "descriptionLines": [
+            "Embedded partner experience"
+          ],
+          "icon": "actor"
         },
         {
           "title": "Support Desk",
           "dotColor": "navy",
-          "descriptionLines": ["Internal assistance and account operations"]
+          "descriptionLines": [
+            "Internal assistance and account operations"
+          ],
+          "icon": "actor"
         }
       ]
     },
     "ingress": {
-      "gateway": { "label": "API Gateway", "sublabel": "Edge Runtime" }
+      "gateway": {
+        "label": "API Gateway",
+        "sublabel": "Edge Runtime"
+      }
     },
     "corePlatform": {
       "deployedOn": "Cloud Runtime",
@@ -36,7 +50,10 @@
             [
               {
                 "title": "API Policy Control Plane",
-                "descriptionLines": ["Route governance, throttling, and service exposure"]
+                "descriptionLines": [
+                  "Route governance, throttling, and service exposure"
+                ],
+                "icon": "governance"
               }
             ]
           ]
@@ -47,7 +64,10 @@
             [
               {
                 "title": "Thin Facade Service",
-                "descriptionLines": ["Minimal orchestration and request translation"]
+                "descriptionLines": [
+                  "Minimal orchestration and request translation"
+                ],
+                "icon": "service"
               }
             ]
           ]
@@ -58,18 +78,30 @@
         "items": [
           {
             "title": "Config Store",
-            "descriptionLines": ["Feature flags, routes, and environment config"],
-            "pill": { "label": "PRIMARY", "semantic": "primary" }
+            "descriptionLines": [
+              "Feature flags, routes, and environment config"
+            ],
+            "pill": {
+              "label": "PRIMARY",
+              "semantic": "primary"
+            },
+            "icon": "data-store"
           },
           {
             "title": "Request Log",
-            "descriptionLines": ["Operational access logs and request history"]
+            "descriptionLines": [
+              "Operational access logs and request history"
+            ],
+            "icon": "data-store"
           }
         ]
       }
     },
     "egress": {
-      "gateway": { "label": "API Gateway", "sublabel": "Outbound M2M" }
+      "gateway": {
+        "label": "API Gateway",
+        "sublabel": "Outbound M2M"
+      }
     },
     "externalSystems": {
       "clusters": [
@@ -79,20 +111,38 @@
             {
               "title": "Identity Provider",
               "dotColor": "amber",
-              "descriptionLines": ["Authentication and token issuance"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Authentication and token issuance"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             },
             {
               "title": "Search API",
               "dotColor": "amber",
-              "descriptionLines": ["Query, discovery, and autocomplete"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Query, discovery, and autocomplete"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             },
             {
               "title": "Recommendations API",
               "dotColor": "amber",
-              "descriptionLines": ["Personalized suggestions and ranking"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Personalized suggestions and ranking"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             }
           ]
         },
@@ -102,8 +152,14 @@
             {
               "title": "Feature Flags",
               "dotColor": "mint",
-              "descriptionLines": ["Operational toggles and rollout control"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Operational toggles and rollout control"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             }
           ]
         }
@@ -112,10 +168,22 @@
   },
   "legend": {
     "entries": [
-      { "colorToken": "purple", "label": "Inbound actors" },
-      { "colorToken": "green", "label": "Execution and Capability Layer" },
-      { "colorToken": "amber", "label": "Downstream dependencies" },
-      { "colorToken": "mint", "label": "Ingress / Egress gateways" }
+      {
+        "colorToken": "purple",
+        "label": "Inbound actors"
+      },
+      {
+        "colorToken": "green",
+        "label": "Execution and Capability Layer"
+      },
+      {
+        "colorToken": "amber",
+        "label": "Downstream dependencies"
+      },
+      {
+        "colorToken": "mint",
+        "label": "Ingress / Egress gateways"
+      }
     ]
   }
 }

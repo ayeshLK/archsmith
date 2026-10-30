@@ -114,8 +114,15 @@ test("render tool honors explicit font embedding opt-in and opt-out", async () =
   const ir = loadFixture("minimal-valid/diagram.archsmith.json");
   const embedded = (await client.callTool({ name: "render", arguments: { ir, embedFonts: true } })) as any;
   const unembedded = (await client.callTool({ name: "render", arguments: { ir, embedFonts: false } })) as any;
-  assert.ok(textOf(embedded).includes("@font-face"));
-  assert.ok(!textOf(unembedded).includes("@font-face"));
+  const renderedSvg = async (result: any): Promise<string> => {
+    const block = result.content[0];
+    if (block.type === "text") return block.text;
+    assert.equal(block.type, "resource_link");
+    const resource = await client.readResource({ uri: block.uri });
+    return (resource.contents[0] as any).text;
+  };
+  assert.ok((await renderedSvg(embedded)).includes("@font-face"));
+  assert.ok(!(await renderedSvg(unembedded)).includes("@font-face"));
   assert.equal(embedded.content.length, 1);
   assert.equal(unembedded.content.length, 1);
 });

@@ -1,0 +1,13 @@
+ArchSmith Renderer — third-party icon design provenance
+
+The item icon renderer consumes governed geometry from @archsmith/schema,
+which is redrawn from Google Material Symbols Outlined design references at
+revision 10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7. The source SVGs are
+Apache-2.0:
+https://github.com/google/material-design-icons/tree/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7
+
+The redrawn geometry is adapted to ArchSmith's monochrome 24×24 outline
+contract. ArchSmith semantic ids are independent of upstream symbol names.
+An Apache-2.0 license copy is included at licenses/MaterialSymbols-LICENSE.txt.
+The entity record-card is original ArchSmith geometry and has no third-party
+source.

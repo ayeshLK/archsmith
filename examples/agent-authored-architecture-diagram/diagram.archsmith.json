@@ -1,6 +1,6 @@
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.5/diagram-schema.json",
-  "schemaVersion": "0.3.5",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.6/diagram-schema.json",
+  "schemaVersion": "0.3.6",
   "title": "Document Processing Platform — Architecture",
   "subtitle": "Agent-authored example from a fictional plain-English requirement",
   "colorTheme": {
@@ -15,7 +15,8 @@
             "Internal browser SPA",
             "for document uploads"
           ],
-          "dotColor": "green"
+          "dotColor": "green",
+          "icon": "actor"
         }
       ]
     },
@@ -36,7 +37,8 @@
                 "descriptionLines": [
                   "Receives and accepts",
                   "document uploads"
-                ]
+                ],
+                "icon": "service"
               }
             ],
             [
@@ -45,7 +47,8 @@
                 "descriptionLines": [
                   "Coordinates external",
                   "malware scanning"
-                ]
+                ],
+                "icon": "service"
               }
             ],
             [
@@ -54,7 +57,8 @@
                 "descriptionLines": [
                   "Extracts metadata",
                   "from documents"
-                ]
+                ],
+                "icon": "service"
               }
             ]
           ]
@@ -68,14 +72,16 @@
             "descriptionLines": [
               "Stores original",
               "documents"
-            ]
+            ],
+            "icon": "data-store"
           },
           {
             "title": "Metadata Database",
             "descriptionLines": [
               "Stores extracted",
               "document metadata"
-            ]
+            ],
+            "icon": "data-store"
           }
         ]
       }
@@ -95,7 +101,8 @@
               "descriptionLines": [
                 "External malware",
                 "scanning capability"
-              ]
+              ],
+              "icon": "external"
             }
           ]
         },
@@ -107,7 +114,8 @@
               "descriptionLines": [
                 "Delivers status",
                 "notifications to users"
-              ]
+              ],
+              "icon": "external"
             }
           ]
         }

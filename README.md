@@ -172,8 +172,8 @@ This is the actual minimal valid fixture from `examples/`:
 
 ```json
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.5/diagram-schema.json",
-  "schemaVersion": "0.3.5",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.6/diagram-schema.json",
+  "schemaVersion": "0.3.6",
   "title": "Minimal Example — Architecture",
   "subtitle": "A minimal fixture proving the validation pipeline end to end",
   "colorTheme": { "family": "standard" },
@@ -202,7 +202,9 @@ This is the actual minimal valid fixture from `examples/`:
 }
 ```
 
-The full schema (`packages/schema/diagram-schema.json`) and governed registries (`packages/schema/registries/`) define every field and every allowed color/sub-layer token — see `packages/schema/README.md` for the governance model. `examples/ticket-booking/README.md` is a richer, fully-featured reference document, and [`examples/README.md`](examples/README.md) is the gallery index for additional fictional fixtures.
+The full schema (`packages/schema/diagram-schema.json`) and governed registries (`packages/schema/registries/`) define every field and every allowed color, sub-layer, and icon token — see `packages/schema/README.md` for the governance model. `examples/ticket-booking/README.md` is a richer, fully-featured reference document, and [`examples/README.md`](examples/README.md) is the gallery index for additional fictional fixtures.
+
+Optional item icons come from the governed [`icons.json`](packages/schema/registries/icons.json) tokens. Actor and external-system icons replace their colored dots; missing icons keep those dots. Core Platform icons use the containing layer accent, while iconless core items remain marker-free. Tokens are explicit and never inferred. See the [icon source evaluation and provenance](docs/icon-design/README.md).
 
 ## Packages
 

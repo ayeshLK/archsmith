@@ -16,6 +16,15 @@ test("a box with two short lines (no wrapping) computes the tier-1 baseline heig
   assert.equal(height, 89);
 });
 
+test("an explicit actor icon replaces the dot and reserves title width", () => {
+  const iconless = actorBox(0, 0, 260, { dotColor: "#5B3A9E", title: "A title", lines: [] });
+  const withIcon = actorBox(0, 0, 260, { dotColor: "#5B3A9E", icon: "actor", title: "A title", lines: [] });
+  assert.ok(iconless.nodes.some((n) => n.tag === "circle" && n.attrs.r === 4.5), "iconless actor retains the original dot");
+  assert.ok(!withIcon.nodes.some((n) => n.tag === "circle" && n.attrs.r === 4.5), "icon replaces the dot");
+  assert.ok(withIcon.nodes.some((n) => n.tag === "text" && n.text === "A title" && n.attrs.x === 36), "title shifts clear of the icon");
+  assert.ok(withIcon.nodes.some((n) => n.tag === "circle" && n.attrs["stroke-width"] === 2), "icon geometry is rendered");
+});
+
 test("a box where one thought wraps to 2 lines grows taller than one where none do", () => {
   const short = actorBox(0, 0, 260, {
     dotColor: "#177F6B",

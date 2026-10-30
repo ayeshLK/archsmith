@@ -11,8 +11,9 @@
 <text x="1744" y="92" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="middle">EXTERNAL SYSTEMS</text>
 <rect x="30" y="118" width="260" height="556" rx="10" ry="10" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="1.4"/>
 <rect x="42" y="130" width="236" height="89" rx="10" ry="10" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.4"/>
-<circle cx="62" cy="148" r="4.5" fill="#2F7D4F"/>
-<text x="72" y="152" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Employee Web App</text>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="66" cy="142.66666666666666" r="2.1666666666666665"/>
+<polyline fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="61.333333333333336,152 61.333333333333336,150.66666666666666 62.666666666666664,149.33333333333334 64,148.66666666666666 66,148 68,148.66666666666666 69.33333333333333,149.33333333333334 70.66666666666667,150.66666666666666 70.66666666666667,152"/>
+<text x="78" y="152" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Employee Web App</text>
 <text x="58" y="172" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">Internal browser SPA</text>
 <text x="58" y="195" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">for document uploads</text>
 <rect x="318" y="118" width="150" height="556" rx="10" ry="10" fill="#D9F2EC" stroke="#1E8A73" stroke-width="1.6"/>
@@ -29,15 +30,48 @@
 <rect x="530" y="178" width="832" height="313" rx="10" ry="10" fill="#EAF7EC" stroke="#2F7D4F" stroke-width="1.6"/>
 <text x="546" y="203" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#2F7D4F" text-anchor="start">EXECUTION AND CAPABILITY LAYER</text>
 <rect x="546" y="214" width="800" height="77" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
-<text x="561" y="233" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Document Intake Service</text>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="569" y1="225" x2="569" y2="223"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="570.7333333333333" y1="226" x2="572.5333333333333" y2="225"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="570.7333333333333" y1="228" x2="572.5333333333333" y2="229"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="567.2666666666667" y1="228" x2="565.4666666666667" y2="229"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="567.2666666666667" y1="226" x2="565.4666666666667" y2="225"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="569" cy="227" r="2"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="569" cy="221.66666666666666" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="573.6666666666666" cy="224.33333333333334" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="573.6666666666666" cy="229.66666666666666" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="564.3333333333334" cy="229.66666666666666" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="564.3333333333334" cy="224.33333333333334" r="1.3333333333333333"/>
+<text x="581" y="233" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Document Intake Service</text>
 <text x="561" y="253" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Receives and accepts</text>
 <text x="561" y="276" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">document uploads</text>
 <rect x="546" y="307" width="800" height="77" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
-<text x="561" y="326" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Malware Scan Coordinator</text>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="569" y1="318" x2="569" y2="316"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="570.7333333333333" y1="319" x2="572.5333333333333" y2="318"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="570.7333333333333" y1="321" x2="572.5333333333333" y2="322"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="567.2666666666667" y1="321" x2="565.4666666666667" y2="322"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="567.2666666666667" y1="319" x2="565.4666666666667" y2="318"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="569" cy="320" r="2"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="569" cy="314.6666666666667" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="573.6666666666666" cy="317.3333333333333" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="573.6666666666666" cy="322.6666666666667" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="564.3333333333334" cy="322.6666666666667" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="564.3333333333334" cy="317.3333333333333" r="1.3333333333333333"/>
+<text x="581" y="326" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Malware Scan Coordinator</text>
 <text x="561" y="346" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Coordinates external</text>
 <text x="561" y="369" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">malware scanning</text>
 <rect x="546" y="400" width="800" height="77" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
-<text x="561" y="419" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Metadata Extraction Service</text>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="569" y1="411" x2="569" y2="409"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="570.7333333333333" y1="412" x2="572.5333333333333" y2="411"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="570.7333333333333" y1="414" x2="572.5333333333333" y2="415"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="567.2666666666667" y1="414" x2="565.4666666666667" y2="415"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="567.2666666666667" y1="412" x2="565.4666666666667" y2="411"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="569" cy="413" r="2"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="569" cy="407.6666666666667" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="573.6666666666666" cy="410.3333333333333" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="573.6666666666666" cy="415.6666666666667" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="564.3333333333334" cy="415.6666666666667" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="564.3333333333334" cy="410.3333333333333" r="1.3333333333333333"/>
+<text x="581" y="419" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Metadata Extraction Service</text>
 <text x="561" y="439" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Extracts metadata</text>
 <text x="561" y="462" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">from documents</text>
 <rect x="514" y="525" width="864" height="133" rx="10" ry="10" fill="#FDF3D9" stroke="#92600E" stroke-width="1.6"/>
@@ -45,11 +79,21 @@
 <rect x="800.40673828125" y="535" width="98.1494140625" height="20" rx="10" ry="10" fill="#F7E4B0"/>
 <text x="849.4814453125" y="549" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#92600E" text-anchor="middle">DATA SOURCES</text>
 <rect x="530" y="567" width="406" height="77" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
-<text x="545" y="586" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Document Object Store</text>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="553" cy="575.3333333333334" rx="5.333333333333333" ry="2"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="547.6666666666666" y1="575.3333333333334" x2="547.6666666666666" y2="584.6666666666666"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="558.3333333333334" y1="575.3333333333334" x2="558.3333333333334" y2="584.6666666666666"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="553" cy="580" rx="5.333333333333333" ry="2"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="553" cy="584.6666666666666" rx="5.333333333333333" ry="2"/>
+<text x="565" y="586" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Document Object Store</text>
 <text x="545" y="606" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Stores original</text>
 <text x="545" y="629" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">documents</text>
 <rect x="956" y="567" width="406" height="77" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
-<text x="971" y="586" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Metadata Database</text>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="979" cy="575.3333333333334" rx="5.333333333333333" ry="2"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="973.6666666666666" y1="575.3333333333334" x2="973.6666666666666" y2="584.6666666666666"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="984.3333333333334" y1="575.3333333333334" x2="984.3333333333334" y2="584.6666666666666"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="979" cy="580" rx="5.333333333333333" ry="2"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="979" cy="584.6666666666666" rx="5.333333333333333" ry="2"/>
+<text x="991" y="586" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Metadata Database</text>
 <text x="971" y="606" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Stores extracted</text>
 <text x="971" y="629" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">document metadata</text>
 <rect x="1424" y="118" width="150" height="556" rx="10" ry="10" fill="#D9F2EC" stroke="#1E8A73" stroke-width="1.6"/>
@@ -63,14 +107,22 @@
 <rect x="1602" y="118" width="284" height="556" rx="10" ry="10" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="1.4"/>
 <rect x="1614" y="130" width="260" height="116" rx="10" ry="10" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="1.5"/>
 <text x="1630" y="156" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Security Services</text>
-<circle cx="1634" cy="178" r="4.5" fill="#6B7280"/>
-<text x="1646" y="182" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Malware Scanning Service</text>
-<text x="1646" y="199" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">External malware scanning capability</text>
+<circle fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="176" r="6"/>
+<ellipse fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="176" rx="2.6666666666666665" ry="6"/>
+<line fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1632.3333333333333" y1="176" x2="1643.6666666666667" y2="176"/>
+<line fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="173" x2="1642.3333333333333" y2="173"/>
+<line fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="179" x2="1642.3333333333333" y2="179"/>
+<text x="1650" y="182" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Malware Scanning Service</text>
+<text x="1650" y="199" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">External malware scanning capability</text>
 <rect x="1614" y="266" width="260" height="116" rx="10" ry="10" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="1.5"/>
 <text x="1630" y="292" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Communication Services</text>
-<circle cx="1634" cy="314" r="4.5" fill="#6B7280"/>
-<text x="1646" y="318" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Notification Delivery Service</text>
-<text x="1646" y="335" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Delivers status notifications to users</text>
+<circle fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="312" r="6"/>
+<ellipse fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="312" rx="2.6666666666666665" ry="6"/>
+<line fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1632.3333333333333" y1="312" x2="1643.6666666666667" y2="312"/>
+<line fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="309" x2="1642.3333333333333" y2="309"/>
+<line fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="315" x2="1642.3333333333333" y2="315"/>
+<text x="1650" y="318" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Notification Delivery Service</text>
+<text x="1650" y="335" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Delivers status notifications to users</text>
 <rect x="30" y="698" width="886" height="92" rx="10" ry="10" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.4"/>
 <text x="48" y="724" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#182449" text-anchor="start">LEGEND</text>
 <rect x="48" y="736" width="16" height="16" rx="4" ry="4" fill="#EAF7EC" stroke="#2F7D4F" stroke-width="1.3"/>

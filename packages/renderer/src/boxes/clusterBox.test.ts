@@ -69,3 +69,21 @@ test("a single tier-1 item renders with an inline pill (no ACRONYM NEEDED, no wr
   assert.equal(height, 44 + 52 + 20); // headerH + tier-1 item height + bottomPad
   assert.equal(nodes.filter((n) => n.text === "ACRONYM NEEDED").length, 0);
 });
+
+test("an explicit external icon replaces the dot while iconless items retain it", () => {
+  const fallback = clusterBox(0, 0, 300, {
+    title: "Systems",
+    items: [{ color: "#5B3A9E", title: "No icon", sub: "Dot fallback" }],
+    pillFg: "#1E8A73",
+    pillBg: "#D9F2EC",
+  });
+  const icon = clusterBox(0, 0, 300, {
+    title: "Systems",
+    items: [{ color: "#5B3A9E", icon: "external", title: "Has icon", sub: "Dot is replaced" }],
+    pillFg: "#1E8A73",
+    pillBg: "#D9F2EC",
+  });
+  assert.ok(fallback.nodes.some((n) => n.tag === "circle" && n.attrs.r === 4.5));
+  assert.ok(!icon.nodes.some((n) => n.tag === "circle" && n.attrs.r === 4.5));
+  assert.ok(icon.nodes.some((n) => n.tag === "circle" && n.attrs.stroke === "#5B3A9E"));
+});

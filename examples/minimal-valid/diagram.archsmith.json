@@ -1,17 +1,29 @@
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.5/diagram-schema.json",
-  "schemaVersion": "0.3.5",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.6/diagram-schema.json",
+  "schemaVersion": "0.3.6",
   "title": "Minimal Example — Architecture",
   "subtitle": "A minimal fixture proving the validation pipeline end to end",
-  "colorTheme": { "family": "standard" },
+  "colorTheme": {
+    "family": "standard"
+  },
   "columns": {
     "inboundActors": {
       "items": [
-        { "title": "Web App", "dotColor": "purple", "descriptionLines": ["React SPA"] }
+        {
+          "title": "Web App",
+          "dotColor": "purple",
+          "descriptionLines": [
+            "React SPA"
+          ],
+          "icon": "actor"
+        }
       ]
     },
     "ingress": {
-      "gateway": { "label": "API Gateway", "sublabel": "Production Runtime" }
+      "gateway": {
+        "label": "API Gateway",
+        "sublabel": "Production Runtime"
+      }
     },
     "corePlatform": {
       "deployedOn": "Production Runtime",
@@ -19,26 +31,50 @@
         {
           "registryId": "execution-and-capability",
           "rows": [
-            [{ "title": "Backend Service", "descriptionLines": ["REST APIs"] }]
+            [
+              {
+                "title": "Backend Service",
+                "descriptionLines": [
+                  "REST APIs"
+                ],
+                "icon": "service"
+              }
+            ]
           ]
         }
       ],
       "systemsOfRecord": {
         "registryId": "systems-of-record",
         "items": [
-          { "title": "Primary DB", "descriptionLines": ["PostgreSQL"] }
+          {
+            "title": "Primary DB",
+            "descriptionLines": [
+              "PostgreSQL"
+            ],
+            "icon": "data-store"
+          }
         ]
       }
     },
     "egress": {
-      "gateway": { "label": "API Gateway", "sublabel": "Outbound M2M" }
+      "gateway": {
+        "label": "API Gateway",
+        "sublabel": "Outbound M2M"
+      }
     },
     "externalSystems": {
       "clusters": [
         {
           "name": "Shared Internal Services",
           "items": [
-            { "title": "Email Service", "dotColor": "teal", "descriptionLines": ["Notifications"] }
+            {
+              "title": "Email Service",
+              "dotColor": "teal",
+              "descriptionLines": [
+                "Notifications"
+              ],
+              "icon": "external"
+            }
           ]
         }
       ]
@@ -46,7 +82,10 @@
   },
   "legend": {
     "entries": [
-      { "colorToken": "green", "label": "Execution and Capability Layer" }
+      {
+        "colorToken": "green",
+        "label": "Execution and Capability Layer"
+      }
     ]
   }
 }
