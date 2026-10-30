@@ -1,5 +1,13 @@
 # @archsmith/mcp-server
 
+## 0.8.2
+
+### Patch Changes
+
+- Updated dependencies [cdbae6e]
+  - @archsmith/schema@0.10.0
+  - @archsmith/renderer@0.12.0
+
 ## 0.8.1
 
 ### Patch Changes
