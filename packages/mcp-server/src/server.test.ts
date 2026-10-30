@@ -37,6 +37,14 @@ function textOf(result: { content: Array<{ type: string; text?: string }> }): st
   return block!.text!;
 }
 
+async function svgOfResult(client: Client, result: any): Promise<string> {
+  const block = result.content[0];
+  if (block.type === "text") return block.text;
+  assert.equal(block.type, "resource_link");
+  const resource = await client.readResource({ uri: block.uri });
+  return (resource.contents[0] as any).text;
+}
+
 test("advertises the installed package version, not a hard-coded constant", async () => {
   const packageManifest = JSON.parse(readFileSync(path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../package.json"), "utf-8"));
   const client = await connectedClient();
@@ -98,15 +106,16 @@ test("validate tool reports a broken IR as invalid, with the real error and a ge
   assert.ok(result.content[1].text.includes("get_schema"));
 });
 
-test("render tool returns one compact SVG text block by default", async () => {
+test("render tool returns the complete default SVG inline or as a resource according to its size", async () => {
   const client = await connectedClient();
   const ir = loadFixture("minimal-valid/diagram.archsmith.json");
   const result = (await client.callTool({ name: "render", arguments: { ir } })) as any;
   assert.equal(result.isError, undefined);
-  const svg = textOf(result);
+  const svg = await svgOfResult(client, result);
   assert.ok(svg.startsWith("<svg"));
   assert.ok(!svg.includes("@font-face"));
   assert.equal(result.content.length, 1);
+  assert.ok(svg.includes("archsmith-icon-provenance"));
 });
 
 test("render tool honors explicit font embedding opt-in and opt-out", async () => {
@@ -114,8 +123,8 @@ test("render tool honors explicit font embedding opt-in and opt-out", async () =
   const ir = loadFixture("minimal-valid/diagram.archsmith.json");
   const embedded = (await client.callTool({ name: "render", arguments: { ir, embedFonts: true } })) as any;
   const unembedded = (await client.callTool({ name: "render", arguments: { ir, embedFonts: false } })) as any;
-  assert.ok(textOf(embedded).includes("@font-face"));
-  assert.ok(!textOf(unembedded).includes("@font-face"));
+  assert.ok((await svgOfResult(client, embedded)).includes("@font-face"));
+  assert.ok(!(await svgOfResult(client, unembedded)).includes("@font-face"));
   assert.equal(embedded.content.length, 1);
   assert.equal(unembedded.content.length, 1);
 });

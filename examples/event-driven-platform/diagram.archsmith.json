@@ -1,26 +1,37 @@
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.5/diagram-schema.json",
-  "schemaVersion": "0.3.5",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.6/diagram-schema.json",
+  "schemaVersion": "0.3.6",
   "title": "Order Fulfillment Event Platform — Architecture",
   "subtitle": "Pub/sub-heavy backend with multiple async workers and downstream consumers",
-  "colorTheme": { "family": "standard" },
+  "colorTheme": {
+    "family": "standard"
+  },
   "columns": {
     "inboundActors": {
       "items": [
         {
           "title": "Checkout App",
           "dotColor": "purple",
-          "descriptionLines": ["Customer checkout and order submission flow"]
+          "descriptionLines": [
+            "Customer checkout and order submission flow"
+          ],
+          "icon": "actor"
         },
         {
           "title": "Partner Integration Hub",
           "dotColor": "teal",
-          "descriptionLines": ["Resellers and fulfillment partners sending order events"]
+          "descriptionLines": [
+            "Resellers and fulfillment partners sending order events"
+          ],
+          "icon": "actor"
         }
       ]
     },
     "ingress": {
-      "gateway": { "label": "API Gateway", "sublabel": "Event Runtime" }
+      "gateway": {
+        "label": "API Gateway",
+        "sublabel": "Event Runtime"
+      }
     },
     "corePlatform": {
       "deployedOn": "Container Platform",
@@ -32,12 +43,18 @@
               {
                 "eyebrow": "Control plane",
                 "title": "Event Catalog Control Plane",
-                "descriptionLines": ["Registers topics, schemas, and routing rules."]
+                "descriptionLines": [
+                  "Registers topics, schemas, and routing rules."
+                ],
+                "icon": "governance"
               },
               {
                 "eyebrow": "Identity",
                 "title": "AuthZ Policy Service",
-                "descriptionLines": ["Scopes, grants, and partner access policies."]
+                "descriptionLines": [
+                  "Scopes, grants, and partner access policies."
+                ],
+                "icon": "governance"
               }
             ]
           ]
@@ -48,21 +65,33 @@
             [
               {
                 "title": "Order Intake Service",
-                "descriptionLines": ["Accepts placed orders and emits canonical order events."]
+                "descriptionLines": [
+                  "Accepts placed orders and emits canonical order events."
+                ],
+                "icon": "service"
               },
               {
                 "title": "Event Router",
-                "descriptionLines": ["Fan-out, retries, and routing to downstream consumers."]
+                "descriptionLines": [
+                  "Fan-out, retries, and routing to downstream consumers."
+                ],
+                "icon": "service"
               }
             ],
             [
               {
                 "title": "Projection Worker",
-                "descriptionLines": ["Builds read models and materialized views from streams."]
+                "descriptionLines": [
+                  "Builds read models and materialized views from streams."
+                ],
+                "icon": "service"
               },
               {
                 "title": "Notification Worker",
-                "descriptionLines": ["Batch fan-out for confirmations and follow-up messages."]
+                "descriptionLines": [
+                  "Batch fan-out for confirmations and follow-up messages."
+                ],
+                "icon": "service"
               }
             ]
           ]
@@ -73,7 +102,10 @@
             [
               {
                 "title": "Order & Shipment Model",
-                "descriptionLines": ["Canonical order, shipment, and inventory state model."]
+                "descriptionLines": [
+                  "Canonical order, shipment, and inventory state model."
+                ],
+                "icon": "entity"
               }
             ]
           ]
@@ -84,22 +116,37 @@
         "items": [
           {
             "title": "Order Database",
-            "descriptionLines": ["Primary PostgreSQL store for order state and routing metadata"],
-            "pill": { "label": "PRIMARY", "semantic": "primary" }
+            "descriptionLines": [
+              "Primary PostgreSQL store for order state and routing metadata"
+            ],
+            "pill": {
+              "label": "PRIMARY",
+              "semantic": "primary"
+            },
+            "icon": "data-store"
           },
           {
             "title": "Event Archive",
-            "descriptionLines": ["Immutable stream retention and replay history"]
+            "descriptionLines": [
+              "Immutable stream retention and replay history"
+            ],
+            "icon": "data-store"
           },
           {
             "title": "Shipment Ledger",
-            "descriptionLines": ["Fulfillment tracking and reconciliation records"]
+            "descriptionLines": [
+              "Fulfillment tracking and reconciliation records"
+            ],
+            "icon": "data-store"
           }
         ]
       }
     },
     "egress": {
-      "gateway": { "label": "API Gateway", "sublabel": "Outbound Events" }
+      "gateway": {
+        "label": "API Gateway",
+        "sublabel": "Outbound Events"
+      }
     },
     "externalSystems": {
       "clusters": [
@@ -109,14 +156,26 @@
             {
               "title": "Message Bus",
               "dotColor": "mint",
-              "descriptionLines": ["Topic transport for order, payment, and shipment events"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Topic transport for order, payment, and shipment events"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             },
             {
               "title": "Analytics Sink",
               "dotColor": "navy",
-              "descriptionLines": ["Telemetry and reporting stream destination"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Telemetry and reporting stream destination"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             }
           ]
         },
@@ -126,14 +185,26 @@
             {
               "title": "Warehouse API",
               "dotColor": "amber",
-              "descriptionLines": ["Stock reservation, pick, and pack updates"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Stock reservation, pick, and pack updates"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             },
             {
               "title": "Shipping API",
               "dotColor": "amber",
-              "descriptionLines": ["Carrier handoff, label generation, and tracking"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Carrier handoff, label generation, and tracking"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             }
           ]
         }
@@ -142,11 +213,26 @@
   },
   "legend": {
     "entries": [
-      { "colorToken": "purple", "label": "Discovery and Governance" },
-      { "colorToken": "green", "label": "Execution and Capability Layer" },
-      { "colorToken": "teal", "label": "Entity Layer" },
-      { "colorToken": "amber", "label": "Systems of Record and Knowledge" },
-      { "colorToken": "mint", "label": "Ingress / Egress gateways" }
+      {
+        "colorToken": "purple",
+        "label": "Discovery and Governance"
+      },
+      {
+        "colorToken": "green",
+        "label": "Execution and Capability Layer"
+      },
+      {
+        "colorToken": "teal",
+        "label": "Entity Layer"
+      },
+      {
+        "colorToken": "amber",
+        "label": "Systems of Record and Knowledge"
+      },
+      {
+        "colorToken": "mint",
+        "label": "Ingress / Egress gateways"
+      }
     ]
   }
 }

@@ -2,6 +2,7 @@ import type { SvgNode } from "../svg/node.js";
 import { rect, text, dot, pill, pillWidth, line } from "../svg/primitives.js";
 import { measureText } from "../text/measure.js";
 import { layoutItemTitle, type TitleLayoutResult } from "./titleLayout.js";
+import { itemIconNodes, ITEM_ICON_GAP, ITEM_ICON_SIZE } from "./itemIcon.js";
 import {
   AMBER,
   AMBER_PILL_BG,
@@ -16,6 +17,7 @@ import {
 
 export interface ClusterItem {
   color: string;
+  icon?: string | null;
   title: string;
   sub: string;
   pill?: string | null;
@@ -34,7 +36,7 @@ export interface ClusterItem {
  * now also used by itemBox.ts and actorBox.ts rather than duplicated here.
  */
 function itemLayout(item: ClusterItem, availWidth: number): TitleLayoutResult {
-  return layoutItemTitle(item.title, item.acronym, item.pill, 12.3, 700, availWidth);
+  return layoutItemTitle(item.title, item.acronym, item.pill, 12.3, 700, availWidth - (item.icon ? ITEM_ICON_SIZE + ITEM_ICON_GAP - 16 : 0));
 }
 
 /** Direct port of the prototype's `_item_height`. */
@@ -55,7 +57,7 @@ function itemHeight(layout: TitleLayoutResult): number {
 export function clusterContentWidth(title: string, items: ClusterItem[], pad: number = 16): number {
   const needed = [pad + 16 + measureText(title, 13.5, 700) + pad];
   for (const item of items) {
-    let w = pad + 16 + measureText(item.title, 12.3, 700);
+    let w = pad + (item.icon ? ITEM_ICON_SIZE + ITEM_ICON_GAP : 16) + measureText(item.title, 12.3, 700);
     if (item.pill) {
       w += TITLE_PILL_GAP + pillWidth(item.pill);
     }
@@ -117,31 +119,33 @@ export function clusterBox(x: number, y: number, w: number, opts: ClusterBoxOpti
       const dy = iy - 24;
       nodes.push(line(x + pad, dy, x + w - pad, dy, SOFT_DIVIDER, 1.3));
     }
-    nodes.push(dot(x + pad + 4, iy - 4, item.color));
+    const titleX = x + pad + (item.icon ? ITEM_ICON_SIZE + ITEM_ICON_GAP : 16);
+    if (item.icon) nodes.push(...itemIconNodes(item.icon, x + pad, iy - 14, ITEM_ICON_SIZE, item.color));
+    else nodes.push(dot(x + pad + 4, iy - 4, item.color));
 
     let ty = iy;
     for (const ln of layout.lines) {
-      nodes.push(text(x + pad + 16, ty, ln, { size: 12.3, weight: 700, fill: TITLE_C }));
+      nodes.push(text(titleX, ty, ln, { size: 12.3, weight: 700, fill: TITLE_C }));
       ty += TITLE_LINE_H;
     }
 
     if (layout.pillMode === "inline" && item.pill) {
-      const inlineX = x + pad + 16 + measureText(layout.lines[0]!, 12.3, 700) + TITLE_PILL_GAP;
+      const inlineX = titleX + measureText(layout.lines[0]!, 12.3, 700) + TITLE_PILL_GAP;
       const { nodes: pillNodes } = pill(inlineX, iy - 14, item.pill, pillFg, pillBg);
       nodes.push(...pillNodes);
     } else if (layout.pillMode === "below" && item.pill) {
-      const { nodes: pillNodes } = pill(x + pad + 16, ty - 13, item.pill, pillFg, pillBg);
+      const { nodes: pillNodes } = pill(titleX, ty - 13, item.pill, pillFg, pillBg);
       nodes.push(...pillNodes);
       ty += PILL_ROW_H;
     }
 
     if (layout.needsAcronym) {
-      const { nodes: acronymNodes } = pill(x + pad + 16, ty - 13, "ACRONYM NEEDED", acronymFg, acronymBg);
+      const { nodes: acronymNodes } = pill(titleX, ty - 13, "ACRONYM NEEDED", acronymFg, acronymBg);
       nodes.push(...acronymNodes);
       ty += PILL_ROW_H;
     }
 
-    nodes.push(text(x + pad + 16, ty, item.sub, { size: 11, weight: 400, fill: MUTED_C }));
+    nodes.push(text(titleX, ty, item.sub, { size: 11, weight: 400, fill: MUTED_C }));
     iy += itemHeight(layout);
   });
 

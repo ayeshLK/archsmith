@@ -1,22 +1,70 @@
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.5/diagram-schema.json",
-  "schemaVersion": "0.3.5",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.6/diagram-schema.json",
+  "schemaVersion": "0.3.6",
   "title": "Broken Example — missing required subtitle",
-  "colorTheme": { "family": "standard" },
+  "colorTheme": {
+    "family": "standard"
+  },
   "columns": {
-    "inboundActors": { "items": [{ "title": "Web App" }] },
-    "ingress": { "gateway": { "label": "API Gateway" } },
+    "inboundActors": {
+      "items": [
+        {
+          "title": "Web App"
+        }
+      ]
+    },
+    "ingress": {
+      "gateway": {
+        "label": "API Gateway"
+      }
+    },
     "corePlatform": {
       "deployedOn": "Production Runtime",
       "subLayers": [
-        { "registryId": "execution-and-capability", "rows": [[{ "title": "Backend" }]] }
+        {
+          "registryId": "execution-and-capability",
+          "rows": [
+            [
+              {
+                "title": "Backend"
+              }
+            ]
+          ]
+        }
       ],
-      "systemsOfRecord": { "registryId": "systems-of-record", "items": [{ "title": "DB" }] }
+      "systemsOfRecord": {
+        "registryId": "systems-of-record",
+        "items": [
+          {
+            "title": "DB"
+          }
+        ]
+      }
     },
-    "egress": { "gateway": { "label": "API Gateway" } },
+    "egress": {
+      "gateway": {
+        "label": "API Gateway"
+      }
+    },
     "externalSystems": {
-      "clusters": [{ "name": "Cluster", "items": [{ "title": "Item" }] }]
+      "clusters": [
+        {
+          "name": "Cluster",
+          "items": [
+            {
+              "title": "Item"
+            }
+          ]
+        }
+      ]
     }
   },
-  "legend": { "entries": [{ "colorToken": "green", "label": "Execution" }] }
+  "legend": {
+    "entries": [
+      {
+        "colorToken": "green",
+        "label": "Execution"
+      }
+    ]
+  }
 }

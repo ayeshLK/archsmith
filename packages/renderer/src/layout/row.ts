@@ -27,6 +27,8 @@ export function renderRow(items: ItemIR[], x: number, y: number, w: number, fami
 
   const itemOpts = items.map((item) => ({
     eyebrow: item.eyebrow ?? null,
+    icon: item.icon ?? null,
+    iconColor: layerAccent?.border,
     title: item.title,
     descriptionLines: item.descriptionLines ?? [],
     pill: resolveItemPill(item.pill, family, layerAccent),

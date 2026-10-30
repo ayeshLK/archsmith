@@ -35,6 +35,7 @@ export function renderInboundActors(ir: DiagramIR, x: number, frameY: number, w:
   for (const item of ir.columns.inboundActors.items) {
     const { height, nodes: boxNodes, needsAcronym: boxAcronym } = actorBox(bx, by, bw, {
       dotColor: resolveDotColor(item, family),
+      icon: item.icon ?? null,
       title: item.title,
       lines: item.descriptionLines ?? [],
       acronym: item.acronym ?? null,

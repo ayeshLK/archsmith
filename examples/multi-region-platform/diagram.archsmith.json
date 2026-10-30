@@ -1,31 +1,45 @@
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.5/diagram-schema.json",
-  "schemaVersion": "0.3.5",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.6/diagram-schema.json",
+  "schemaVersion": "0.3.6",
   "title": "Retail Commerce Platform — Multi-Region Architecture",
   "subtitle": "Regional clusters with shared services and mirrored downstream dependencies",
-  "colorTheme": { "family": "standard" },
+  "colorTheme": {
+    "family": "standard"
+  },
   "columns": {
     "inboundActors": {
       "items": [
         {
           "title": "Web Storefront",
           "dotColor": "purple",
-          "descriptionLines": ["Customer shopping and checkout traffic"]
+          "descriptionLines": [
+            "Customer shopping and checkout traffic"
+          ],
+          "icon": "actor"
         },
         {
           "title": "Mobile App",
           "dotColor": "teal",
-          "descriptionLines": ["Mobile ordering and order tracking"]
+          "descriptionLines": [
+            "Mobile ordering and order tracking"
+          ],
+          "icon": "actor"
         },
         {
           "title": "Retail Ops Portal",
           "dotColor": "navy",
-          "descriptionLines": ["Operations and merchandising support"]
+          "descriptionLines": [
+            "Operations and merchandising support"
+          ],
+          "icon": "actor"
         }
       ]
     },
     "ingress": {
-      "gateway": { "label": "Global API Gateway", "sublabel": "Regional Traffic" }
+      "gateway": {
+        "label": "Global API Gateway",
+        "sublabel": "Regional Traffic"
+      }
     },
     "corePlatform": {
       "deployedOn": "Kubernetes Fleet",
@@ -36,11 +50,17 @@
             [
               {
                 "title": "Traffic Policy Control Plane",
-                "descriptionLines": ["Routing rules, rate limiting, and release toggles"]
+                "descriptionLines": [
+                  "Routing rules, rate limiting, and release toggles"
+                ],
+                "icon": "governance"
               },
               {
                 "title": "Identity Service",
-                "descriptionLines": ["Customer login and operator access checks"]
+                "descriptionLines": [
+                  "Customer login and operator access checks"
+                ],
+                "icon": "governance"
               }
             ]
           ]
@@ -51,21 +71,33 @@
             [
               {
                 "title": "Catalog Service",
-                "descriptionLines": ["Browse, pricing, and product search"]
+                "descriptionLines": [
+                  "Browse, pricing, and product search"
+                ],
+                "icon": "service"
               },
               {
                 "title": "Order Service",
-                "descriptionLines": ["Cart, checkout, and order lifecycle"]
+                "descriptionLines": [
+                  "Cart, checkout, and order lifecycle"
+                ],
+                "icon": "service"
               }
             ],
             [
               {
                 "title": "Inventory Service",
-                "descriptionLines": ["Regional stock visibility and reservation"]
+                "descriptionLines": [
+                  "Regional stock visibility and reservation"
+                ],
+                "icon": "service"
               },
               {
                 "title": "Pricing Service",
-                "descriptionLines": ["Regional and campaign price calculation"]
+                "descriptionLines": [
+                  "Regional and campaign price calculation"
+                ],
+                "icon": "service"
               }
             ]
           ]
@@ -76,7 +108,10 @@
             [
               {
                 "title": "Product Catalog Model",
-                "descriptionLines": ["Shared product, offer, and availability abstractions"]
+                "descriptionLines": [
+                  "Shared product, offer, and availability abstractions"
+                ],
+                "icon": "entity"
               }
             ]
           ]
@@ -87,22 +122,37 @@
         "items": [
           {
             "title": "Catalog DB",
-            "descriptionLines": ["Primary product and pricing state"],
-            "pill": { "label": "PRIMARY", "semantic": "primary" }
+            "descriptionLines": [
+              "Primary product and pricing state"
+            ],
+            "pill": {
+              "label": "PRIMARY",
+              "semantic": "primary"
+            },
+            "icon": "data-store"
           },
           {
             "title": "Regional Order Store",
-            "descriptionLines": ["Orders and reservations replicated per region"]
+            "descriptionLines": [
+              "Orders and reservations replicated per region"
+            ],
+            "icon": "data-store"
           },
           {
             "title": "Change Feed Archive",
-            "descriptionLines": ["Replication logs and rebuild inputs"]
+            "descriptionLines": [
+              "Replication logs and rebuild inputs"
+            ],
+            "icon": "data-store"
           }
         ]
       }
     },
     "egress": {
-      "gateway": { "label": "Global API Gateway", "sublabel": "Outbound M2M" }
+      "gateway": {
+        "label": "Global API Gateway",
+        "sublabel": "Outbound M2M"
+      }
     },
     "externalSystems": {
       "clusters": [
@@ -112,14 +162,26 @@
             {
               "title": "US Payments",
               "dotColor": "amber",
-              "descriptionLines": ["Domestic payment authorization and capture"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Domestic payment authorization and capture"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             },
             {
               "title": "US Shipping",
               "dotColor": "amber",
-              "descriptionLines": ["Parcel label generation and tracking"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Parcel label generation and tracking"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             }
           ]
         },
@@ -129,14 +191,26 @@
             {
               "title": "EU Payments",
               "dotColor": "green",
-              "descriptionLines": ["EU payment routing and settlement"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "EU payment routing and settlement"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             },
             {
               "title": "EU Shipping",
               "dotColor": "green",
-              "descriptionLines": ["Regional carrier integrations"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Regional carrier integrations"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             }
           ]
         },
@@ -146,8 +220,14 @@
             {
               "title": "Notifications Bus",
               "dotColor": "mint",
-              "descriptionLines": ["Shared alerts and order-event fan-out"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Shared alerts and order-event fan-out"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             }
           ]
         }
@@ -156,11 +236,26 @@
   },
   "legend": {
     "entries": [
-      { "colorToken": "purple", "label": "Discovery and Governance" },
-      { "colorToken": "green", "label": "Execution and Capability Layer" },
-      { "colorToken": "teal", "label": "Entity Layer" },
-      { "colorToken": "amber", "label": "Regional downstream services" },
-      { "colorToken": "mint", "label": "Ingress / Egress gateways" }
+      {
+        "colorToken": "purple",
+        "label": "Discovery and Governance"
+      },
+      {
+        "colorToken": "green",
+        "label": "Execution and Capability Layer"
+      },
+      {
+        "colorToken": "teal",
+        "label": "Entity Layer"
+      },
+      {
+        "colorToken": "amber",
+        "label": "Regional downstream services"
+      },
+      {
+        "colorToken": "mint",
+        "label": "Ingress / Egress gateways"
+      }
     ]
   }
 }

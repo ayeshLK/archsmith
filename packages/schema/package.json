@@ -11,7 +11,9 @@
   "files": [
     "dist",
     "diagram-schema.json",
-    "registries"
+    "registries",
+    "NOTICE",
+    "licenses"
   ],
   "scripts": {
     "build": "tsc -b",

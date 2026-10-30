@@ -12,6 +12,7 @@ const CLUSTER_GAP = 20;
 function toClusterItems(items: ItemIR[], family: string): ClusterItem[] {
   return items.map((item) => ({
     color: resolveDotColor(item, family),
+    icon: item.icon ?? null,
     title: item.title,
     sub: (item.descriptionLines ?? []).join(" "),
     pill: item.pill?.label ?? null,

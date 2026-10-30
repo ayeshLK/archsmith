@@ -26,6 +26,14 @@ if (result.valid) {
 
 Everything here is content-driven: box sizes, text wrapping, and row heights are computed from the actual IR content, never a fixed number the caller supplies and hopes is big enough.
 
+## Item icons
+
+`item.icon` is an optional explicit token from `registries/icons.json`; the renderer never infers one. Actor and External Systems icons replace their existing colored dot and use `item.dotColor`. If the icon is omitted or null, those dots remain. An explicit Core Platform icon appears before the title in its containing layer accent; iconless Core Platform items stay marker-free. Ingress/Egress retain the existing gateway glyph, and warning remains a pill.
+
+Icons are color-free, allow-listed 24×24 geometry. Rendering uses only circle, ellipse, line, polyline, and rounded-rectangle SVG nodes with the governed 2px outline at the standard 16px display size. Icon width is included in title wrapping and content sizing; row heights remain uniform. The package includes the Material Symbols Apache-2.0 license and provenance notice for the redrawn source-inspired geometry.
+
+When an SVG uses a Material-derived icon, `render()` includes an SVG `<metadata>` block with the upstream revision and symbols used, the redraw/modification notice, and the complete Apache-2.0 license text. This is present in library results, CLI output, and MCP render responses. Preserve the metadata if redistributing the SVG or its marked icon geometry. SVGs that use only the original ArchSmith entity icon do not include a third-party license block.
+
 ## License
 
 Apache-2.0

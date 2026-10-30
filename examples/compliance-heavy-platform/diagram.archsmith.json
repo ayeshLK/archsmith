@@ -1,26 +1,37 @@
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.5/diagram-schema.json",
-  "schemaVersion": "0.3.5",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.6/diagram-schema.json",
+  "schemaVersion": "0.3.6",
   "title": "Compliance Oversight Platform — Architecture",
   "subtitle": "Dense controls, long names, and many pills to stress wrapping and tag rendering",
-  "colorTheme": { "family": "standard" },
+  "colorTheme": {
+    "family": "standard"
+  },
   "columns": {
     "inboundActors": {
       "items": [
         {
           "title": "Audit Officer Portal",
           "dotColor": "purple",
-          "descriptionLines": ["Internal audit and assurance workflows"]
+          "descriptionLines": [
+            "Internal audit and assurance workflows"
+          ],
+          "icon": "actor"
         },
         {
           "title": "Operations Console",
           "dotColor": "teal",
-          "descriptionLines": ["Control review and exception handling"]
+          "descriptionLines": [
+            "Control review and exception handling"
+          ],
+          "icon": "actor"
         }
       ]
     },
     "ingress": {
-      "gateway": { "label": "Policy Gateway", "sublabel": "Compliance Runtime" }
+      "gateway": {
+        "label": "Policy Gateway",
+        "sublabel": "Compliance Runtime"
+      }
     },
     "corePlatform": {
       "deployedOn": "Governed Runtime",
@@ -32,12 +43,18 @@
               {
                 "eyebrow": "Policy",
                 "title": "Policy Control Plane",
-                "descriptionLines": ["Approval routing, retention rules, and access gates"]
+                "descriptionLines": [
+                  "Approval routing, retention rules, and access gates"
+                ],
+                "icon": "governance"
               },
               {
                 "eyebrow": "Identity",
                 "title": "Access Review Service",
-                "descriptionLines": ["Privileged access checks and periodic recertification"]
+                "descriptionLines": [
+                  "Privileged access checks and periodic recertification"
+                ],
+                "icon": "governance"
               }
             ]
           ]
@@ -49,20 +66,38 @@
               {
                 "title": "Continuous Control and Evidence Review Service",
                 "acronym": "CCER",
-                "descriptionLines": ["Collects attestations, exceptions, and audit traces."],
-                "pill": { "label": "REVIEW", "semantic": "highlight" }
+                "descriptionLines": [
+                  "Collects attestations, exceptions, and audit traces."
+                ],
+                "pill": {
+                  "label": "REVIEW",
+                  "semantic": "highlight"
+                },
+                "icon": "service"
               },
               {
                 "title": "Retention and Legal Hold Coordinator",
-                "descriptionLines": ["Applies retention windows and legal holds."],
-                "pill": { "label": "HOLD", "semantic": "warning" }
+                "descriptionLines": [
+                  "Applies retention windows and legal holds."
+                ],
+                "pill": {
+                  "label": "HOLD",
+                  "semantic": "warning"
+                },
+                "icon": "service"
               }
             ],
             [
               {
                 "title": "Case Management and Remediation Tracker",
-                "descriptionLines": ["Tracks findings from intake to closure."],
-                "pill": { "label": "PRIMARY", "semantic": "primary" }
+                "descriptionLines": [
+                  "Tracks findings from intake to closure."
+                ],
+                "pill": {
+                  "label": "PRIMARY",
+                  "semantic": "primary"
+                },
+                "icon": "service"
               }
             ]
           ]
@@ -74,7 +109,10 @@
               {
                 "title": "Control Finding Aggregate",
                 "acronym": "CFA",
-                "descriptionLines": ["Normalized model for findings, owners, deadlines, and evidence."]
+                "descriptionLines": [
+                  "Normalized model for findings, owners, deadlines, and evidence."
+                ],
+                "icon": "entity"
               }
             ]
           ]
@@ -85,23 +123,41 @@
         "items": [
           {
             "title": "Evidence Vault",
-            "descriptionLines": ["Immutable attachments, screenshots, and auditor exports"],
-            "pill": { "label": "PRIMARY", "semantic": "primary" }
+            "descriptionLines": [
+              "Immutable attachments, screenshots, and auditor exports"
+            ],
+            "pill": {
+              "label": "PRIMARY",
+              "semantic": "primary"
+            },
+            "icon": "data-store"
           },
           {
             "title": "Policy Archive",
-            "descriptionLines": ["Versioned control framework documents and approvals"]
+            "descriptionLines": [
+              "Versioned control framework documents and approvals"
+            ],
+            "icon": "data-store"
           },
           {
             "title": "Remediation Register",
-            "descriptionLines": ["Open findings, assigned owners, and due dates"],
-            "pill": { "label": "ATTN", "semantic": "warning" }
+            "descriptionLines": [
+              "Open findings, assigned owners, and due dates"
+            ],
+            "pill": {
+              "label": "ATTN",
+              "semantic": "warning"
+            },
+            "icon": "data-store"
           }
         ]
       }
     },
     "egress": {
-      "gateway": { "label": "Policy Gateway", "sublabel": "Outbound Compliance" }
+      "gateway": {
+        "label": "Policy Gateway",
+        "sublabel": "Outbound Compliance"
+      }
     },
     "externalSystems": {
       "clusters": [
@@ -111,14 +167,26 @@
             {
               "title": "External Audit API",
               "dotColor": "amber",
-              "descriptionLines": ["Third-party review and evidence exchange"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Third-party review and evidence exchange"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             },
             {
               "title": "Assurance Reporting Service",
               "dotColor": "amber",
-              "descriptionLines": ["Formal review packs and sign-off summaries"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Formal review packs and sign-off summaries"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             }
           ]
         },
@@ -128,14 +196,26 @@
             {
               "title": "Regulatory Reporting API",
               "dotColor": "navy",
-              "descriptionLines": ["Jurisdiction-specific compliance filings"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Jurisdiction-specific compliance filings"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             },
             {
               "title": "Long-Term Storage",
               "dotColor": "navy",
-              "descriptionLines": ["Immutable archive for retained control evidence"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Immutable archive for retained control evidence"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             }
           ]
         }
@@ -144,11 +224,26 @@
   },
   "legend": {
     "entries": [
-      { "colorToken": "purple", "label": "Discovery and Governance" },
-      { "colorToken": "green", "label": "Execution and Capability Layer" },
-      { "colorToken": "teal", "label": "Entity Layer" },
-      { "colorToken": "amber", "label": "Systems of Record and Knowledge" },
-      { "colorToken": "mint", "label": "Ingress / Egress gateways" }
+      {
+        "colorToken": "purple",
+        "label": "Discovery and Governance"
+      },
+      {
+        "colorToken": "green",
+        "label": "Execution and Capability Layer"
+      },
+      {
+        "colorToken": "teal",
+        "label": "Entity Layer"
+      },
+      {
+        "colorToken": "amber",
+        "label": "Systems of Record and Knowledge"
+      },
+      {
+        "colorToken": "mint",
+        "label": "Ingress / Egress gateways"
+      }
     ],
     "abbreviations": [
       {

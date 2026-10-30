@@ -85,6 +85,32 @@ test("unknown item and legend color tokens fail semantic validation", () => {
   assert.ok(result.errors.some((error) => error.includes("colorToken")));
 });
 
+test("known icons validate at every ItemIR location; omitted and null icons remain valid", () => {
+  const ir = loadFixture("minimal-valid/diagram.archsmith.json") as any;
+  ir.columns.inboundActors.items[0].icon = null;
+  ir.columns.corePlatform.subLayers[0].rows[0][0].icon = "service";
+  delete ir.columns.corePlatform.systemsOfRecord.items[0].icon;
+  ir.columns.externalSystems.clusters[0].items[0].icon = "external";
+  const result = validate(ir);
+  assert.equal(result.valid, true, result.errors.join("\n"));
+});
+
+test("unknown icons fail with precise paths at every ItemIR location", () => {
+  const ir = loadFixture("minimal-valid/diagram.archsmith.json") as any;
+  ir.columns.inboundActors.items[0].icon = "not-approved";
+  ir.columns.corePlatform.subLayers[0].rows[0][0].icon = "not-approved";
+  ir.columns.corePlatform.systemsOfRecord.items[0].icon = "not-approved";
+  ir.columns.externalSystems.clusters[0].items[0].icon = "not-approved";
+  const result = validateRegistryReferences(ir);
+  assert.equal(result.valid, false);
+  for (const path of [
+    "columns.inboundActors.items[0].icon",
+    "columns.corePlatform.subLayers[0].rows[0][0].icon",
+    "columns.corePlatform.systemsOfRecord.items[0].icon",
+    "columns.externalSystems.clusters[0].items[0].icon",
+  ]) assert.ok(result.errors.some((error) => error.startsWith(`${path} \"not-approved\"`)), path);
+});
+
 test("missing-subtitle.archsmith.json fails structural validation with a clear message", () => {
   const ir = loadFixture("broken-examples/missing-subtitle.archsmith.json");
   const structural = validateStructure(ir);

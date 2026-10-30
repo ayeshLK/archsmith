@@ -24,6 +24,15 @@ test("a box with no eyebrow and no description lines is just title + padding", (
   assert.equal(height, lastTextY(nodes) + 15);
 });
 
+test("an explicit core icon precedes the title, uses the supplied accent, and changes title wrapping", () => {
+  const iconless = itemBox(0, 0, 260, { title: "Booking Service", descriptionLines: [] });
+  const withIcon = itemBox(0, 0, 260, { title: "Booking Service", descriptionLines: [], icon: "service", iconColor: "#2F7D4F" });
+  assert.ok(!iconless.nodes.some((n) => n.tag === "circle"), "iconless core items remain marker-free");
+  assert.ok(withIcon.nodes.some((n) => n.tag === "circle" && n.attrs.stroke === "#2F7D4F"), "icon uses its layer accent");
+  assert.ok(withIcon.nodes.some((n) => n.tag === "text" && n.text === "Booking Service" && n.attrs.x === 35), "title reserves icon width");
+  assert.ok(withIcon.height >= iconless.height);
+});
+
 test("a wrapped title (2 lines) makes the box taller than a one-line title, all else equal", () => {
   const short = itemBox(0, 0, 260, { title: "Short", descriptionLines: ["One line"] });
   const long = itemBox(0, 0, 260, {

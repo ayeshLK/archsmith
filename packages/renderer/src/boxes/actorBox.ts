@@ -2,10 +2,12 @@ import type { SvgNode } from "../svg/node.js";
 import { rect, text, dot, pill } from "../svg/primitives.js";
 import { wrapText } from "../text/wrap.js";
 import { layoutItemTitle } from "./titleLayout.js";
+import { itemIconNodes, ITEM_ICON_GAP, ITEM_ICON_SIZE } from "./itemIcon.js";
 import { AMBER, AMBER_PILL_BG, BODY_C, GROUP_GAP, INK, LINE_H, PILL_ROW_H, TITLE_C } from "../constants.js";
 
 export interface ActorBoxOptions {
   dotColor: string;
+  icon?: string | null;
   title: string;
   /** Each entry is a distinct logical thought — auto-wrapped to the box's
    * real content width, never rendered verbatim and hoped to fit. */
@@ -44,9 +46,10 @@ export interface BoxResult {
  * not by guessing at the previous one's size.
  */
 export function actorBox(x: number, y: number, w: number, opts: ActorBoxOptions): BoxResult {
-  const { dotColor, title, lines, acronym, acronymFg = AMBER, acronymBg = AMBER_PILL_BG } = opts;
+  const { dotColor, icon, title, lines, acronym, acronymFg = AMBER, acronymBg = AMBER_PILL_BG } = opts;
   const pad = 16;
-  const avail = w - pad - pad;
+  const titleOffset = icon ? ITEM_ICON_SIZE + ITEM_ICON_GAP : 14;
+  const avail = icon ? w - pad - pad - titleOffset : w - pad - pad;
 
   const { lines: titleLines, needsAcronym: needsAcronymFlag } = layoutItemTitle(title, acronym, null, 13.5, 700, avail);
   const groups = lines.map((line) => wrapText(line, avail, 11.8, 400));
@@ -65,11 +68,12 @@ export function actorBox(x: number, y: number, w: number, opts: ActorBoxOptions)
   const nodes: SvgNode[] = [];
   nodes.push(rect(x, y, w, h, { fill: "#FFFFFF", stroke: INK, sw: 1.4, rx: 10 }));
   const tx = x + pad;
-  nodes.push(dot(tx + 4, y + pad + 2, dotColor));
-
   let ty = y + pad + 6;
+  if (icon) nodes.push(...itemIconNodes(icon, tx, ty - 14, ITEM_ICON_SIZE, dotColor));
+  else nodes.push(dot(tx + 4, y + pad + 2, dotColor));
+
   titleLines.forEach((line) => {
-    nodes.push(text(tx + 14, ty, line, { size: 13.5, weight: 700, fill: TITLE_C }));
+    nodes.push(text(tx + titleOffset, ty, line, { size: 13.5, weight: 700, fill: TITLE_C }));
     ty += LINE_H;
   });
   // Restore the same 20px (not LINE_H's 17px) gap the original, untouched
@@ -77,7 +81,7 @@ export function actorBox(x: number, y: number, w: number, opts: ActorBoxOptions)
   ty += 20 - LINE_H;
 
   if (needsAcronymFlag) {
-    const { nodes: acronymNodes } = pill(tx + 14, ty - 14, "ACRONYM NEEDED", acronymFg, acronymBg);
+    const { nodes: acronymNodes } = pill(tx + titleOffset, ty - 14, "ACRONYM NEEDED", acronymFg, acronymBg);
     nodes.push(...acronymNodes);
     ty += PILL_ROW_H;
   }

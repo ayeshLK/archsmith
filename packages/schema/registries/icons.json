@@ -1,15 +1,94 @@
 {
-  "registryVersion": "0.1.0",
-  "status": "incomplete — placeholder categories only, no tokens finalized",
-  "governance": "Adding an icon token is a change-request event, same as a color token. Not yet populated: doing so now would mean inventing bespoke icon shapes on the spot, which is exactly the pattern that produced a hand-drawn DB-cylinder icon in an earlier draft, later reverted as a mistake. Needs a deliberate follow-up task to pick a consistent icon style (stroke weight, viewBox, visual language) before any token gets an actual value.",
-  "fallback": "Any item without an approved icon token renders as a plain colored dot (item.dotColor) instead — never a forced mismatched icon and never a newly hand-drawn one.",
-  "categoriesNeeded": [
-    { "category": "actor", "usage": "Inbound Actors items — human users, applications, browsers", "token": null },
-    { "category": "gateway", "usage": "Ingress/Egress API Gateway boxes", "token": null, "notes": "already has a validated non-icon treatment (circular +/badge glyph drawn directly by the renderer) — may not need a catalog token at all" },
-    { "category": "service", "usage": "Execution and Capability Layer boxes", "token": null },
-    { "category": "entity", "usage": "Entity Layer boxes", "token": null },
-    { "category": "data-store", "usage": "Systems of Record items — must stay a plain box + icon, never a DB-cylinder/file shape", "token": null },
-    { "category": "external", "usage": "External Systems cluster items", "token": null },
-    { "category": "warning", "usage": "Paired with 'warning' semantic pills, not a replacement for them", "token": null }
-  ]
+  "registryVersion": "0.2.0",
+  "status": "active",
+  "governance": "Token ids are ArchSmith semantic ids, independent of source-system names. Adding or changing a token is a governed change-request. Icons are color-free 24×24 geometry built only from the allow-listed circle, ellipse, line, polyline, and rounded-rectangle primitives. The renderer supplies color and a 2px rounded outline; no registry entry can contain arbitrary SVG markup or a path string.",
+  "visualContract": {
+    "viewBox": "0 0 24 24",
+    "displaySize": 16,
+    "strokeWidth": 3,
+    "displayStrokeWidth": 2,
+    "strokeLineCap": "round",
+    "strokeLineJoin": "round",
+    "fill": "none",
+    "description": "One monochrome outline mark, legible at 16×16. The 3-unit source stroke scales to 2px at the standard 16px display size. Geometry carries no color."
+  },
+  "itemBehavior": {
+    "actorAndExternal": "An explicitly supplied icon replaces the dot and uses item.dotColor. If icon is omitted or null, retain the existing item.dotColor dot.",
+    "corePlatform": "An explicitly supplied icon appears before the title in the containing sub-layer accent. If icon is omitted or null, core items remain marker-free.",
+    "gateway": "Ingress and Egress keep their existing gateway glyph; warning remains a semantic pill and is not an icon token."
+  },
+  "sources": {
+    "baseline": "Google Material Symbols Outlined",
+    "revision": "10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7",
+    "license": "Apache-2.0",
+    "licenseUrl": "https://github.com/google/material-design-icons/blob/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/LICENSE",
+    "licenseNotice": "Material glyphs are redrawn as allow-listed outline primitives to meet the approved ArchSmith 24×24 contract. Source names identify the design reference; ArchSmith semantic ids remain independent."
+  },
+  "icons": {
+    "actor": {
+      "label": "Actor",
+      "source": { "name": "person", "url": "https://github.com/google/material-design-icons/blob/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/person/materialsymbolsoutlined/person_24px.svg", "modified": true },
+      "shapes": [
+        { "type": "circle", "cx": 12, "cy": 7, "r": 3.25 },
+        { "type": "polyline", "points": [[5, 21], [5, 19], [7, 17], [9, 16], [12, 15], [15, 16], [17, 17], [19, 19], [19, 21]] }
+      ]
+    },
+    "governance": {
+      "label": "Governance",
+      "source": { "name": "policy", "url": "https://github.com/google/material-design-icons/blob/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/policy/materialsymbolsoutlined/policy_24px.svg", "modified": true },
+      "shapes": [
+        { "type": "polyline", "closed": true, "points": [[12, 2], [20, 5.5], [19, 13], [16, 17], [12, 21], [8, 17], [5, 13], [4, 5.5]] },
+        { "type": "polyline", "points": [[8, 11.5], [10.5, 14], [16, 8.5]] }
+      ]
+    },
+    "service": {
+      "label": "Service",
+      "source": { "name": "hub", "url": "https://github.com/google/material-design-icons/blob/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/hub/materialsymbolsoutlined/hub_24px.svg", "modified": true },
+      "shapes": [
+        { "type": "line", "x1": 12, "y1": 9, "x2": 12, "y2": 6 },
+        { "type": "line", "x1": 14.6, "y1": 10.5, "x2": 17.3, "y2": 9 },
+        { "type": "line", "x1": 14.6, "y1": 13.5, "x2": 17.3, "y2": 15 },
+        { "type": "line", "x1": 9.4, "y1": 13.5, "x2": 6.7, "y2": 15 },
+        { "type": "line", "x1": 9.4, "y1": 10.5, "x2": 6.7, "y2": 9 },
+        { "type": "circle", "cx": 12, "cy": 12, "r": 3 },
+        { "type": "circle", "cx": 12, "cy": 4, "r": 2 },
+        { "type": "circle", "cx": 19, "cy": 8, "r": 2 },
+        { "type": "circle", "cx": 19, "cy": 16, "r": 2 },
+        { "type": "circle", "cx": 5, "cy": 16, "r": 2 },
+        { "type": "circle", "cx": 5, "cy": 8, "r": 2 }
+      ]
+    },
+    "entity": {
+      "label": "Entity",
+      "source": { "name": "ArchSmith original record-card", "modified": false, "note": "Original ArchSmith geometry; no external source." },
+      "shapes": [
+        { "type": "rect", "x": 3, "y": 4, "width": 18, "height": 16, "rx": 2 },
+        { "type": "line", "x1": 7, "y1": 9, "x2": 17, "y2": 9 },
+        { "type": "line", "x1": 7, "y1": 12, "x2": 17, "y2": 12 },
+        { "type": "line", "x1": 7, "y1": 15, "x2": 14, "y2": 15 }
+      ]
+    },
+    "data-store": {
+      "label": "Data Store",
+      "source": { "name": "database", "url": "https://github.com/google/material-design-icons/blob/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/database/materialsymbolsoutlined/database_24px.svg", "modified": true },
+      "shapes": [
+        { "type": "ellipse", "cx": 12, "cy": 5, "rx": 8, "ry": 3 },
+        { "type": "line", "x1": 4, "y1": 5, "x2": 4, "y2": 19 },
+        { "type": "line", "x1": 20, "y1": 5, "x2": 20, "y2": 19 },
+        { "type": "ellipse", "cx": 12, "cy": 12, "rx": 8, "ry": 3 },
+        { "type": "ellipse", "cx": 12, "cy": 19, "rx": 8, "ry": 3 }
+      ]
+    },
+    "external": {
+      "label": "External System",
+      "source": { "name": "public", "url": "https://github.com/google/material-design-icons/blob/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/public/materialsymbolsoutlined/public_24px.svg", "modified": true },
+      "shapes": [
+        { "type": "circle", "cx": 12, "cy": 12, "r": 9 },
+        { "type": "ellipse", "cx": 12, "cy": 12, "rx": 4, "ry": 9 },
+        { "type": "line", "x1": 3.5, "y1": 12, "x2": 20.5, "y2": 12 },
+        { "type": "line", "x1": 5.5, "y1": 7.5, "x2": 18.5, "y2": 7.5 },
+        { "type": "line", "x1": 5.5, "y1": 16.5, "x2": 18.5, "y2": 16.5 }
+      ]
+    }
+  }
 }

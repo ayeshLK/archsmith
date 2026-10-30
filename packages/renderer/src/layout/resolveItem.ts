@@ -4,13 +4,10 @@ import { resolveLayerToken, resolvePillColors, layerAccentPillColors, type Layer
 import { MUTED_C } from "../constants.js";
 
 /**
- * Resolves an ItemIR's `dotColor` (a registry token name, per the schema —
- * "Color token used as a plain dot when icon is null") to an actual hex
- * value. `icon` isn't rendered yet — the icon catalog is still a
- * placeholder (registries/icons.json) — so this is the only path, matching
- * the established fallback rule: never force a mismatched icon, fall back
- * to the plain dot. If dotColor is also absent, falls back to a neutral
- * gray rather than guessing a layer accent that has no basis in the IR.
+ * Resolves an ItemIR's `dotColor` registry token to its border/accent color.
+ * Actor and external icons use this same color; when those items omit an
+ * icon, they render the legacy dot. If dotColor is absent, use neutral gray
+ * rather than guessing a layer accent that has no basis in the IR.
  */
 export function resolveDotColor(item: ItemIR, family: string): string {
   if (item.dotColor) {

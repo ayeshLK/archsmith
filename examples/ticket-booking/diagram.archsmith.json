@@ -1,9 +1,11 @@
 {
-  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.5/diagram-schema.json",
-  "schemaVersion": "0.3.5",
+  "$schema": "https://ayeshlk.github.io/archsmith/schema/0.3.6/diagram-schema.json",
+  "schemaVersion": "0.3.6",
   "title": "Event Ticket Booking Platform — Architecture",
   "subtitle": "Reference example exercising every schema feature (fictional platform, no real system)",
-  "colorTheme": { "family": "standard" },
+  "colorTheme": {
+    "family": "standard"
+  },
   "columns": {
     "inboundActors": {
       "items": [
@@ -13,7 +15,8 @@
           "descriptionLines": [
             "React SPA — customer-facing browsing and booking flow",
             "OIDC login (IdP) · Bearer ID token"
-          ]
+          ],
+          "icon": "actor"
         },
         {
           "dotColor": "teal",
@@ -21,12 +24,16 @@
           "descriptionLines": [
             "Third-party resellers and venue box offices — B2B channel",
             "M2M client-credentials · booking + inventory scopes"
-          ]
+          ],
+          "icon": "actor"
         }
       ]
     },
     "ingress": {
-      "gateway": { "label": "API Gateway", "sublabel": "Ticketing Runtime" }
+      "gateway": {
+        "label": "API Gateway",
+        "sublabel": "Ticketing Runtime"
+      }
     },
     "corePlatform": {
       "deployedOn": "WSO2 Developer Platform",
@@ -38,12 +45,18 @@
               {
                 "eyebrow": "API management",
                 "title": "Booking API Control Plane",
-                "descriptionLines": ["Request routing, lifecycle management, rate limiting for all public APIs."]
+                "descriptionLines": [
+                  "Request routing, lifecycle management, rate limiting for all public APIs."
+                ],
+                "icon": "service"
               },
               {
                 "eyebrow": "Identity & policy",
                 "title": "Ticketing Identity Platform",
-                "descriptionLines": ["OIDC · M2M client-credentials · role-based access control."]
+                "descriptionLines": [
+                  "OIDC · M2M client-credentials · role-based access control."
+                ],
+                "icon": "governance"
               }
             ]
           ]
@@ -54,11 +67,17 @@
             [
               {
                 "title": "Booking Service",
-                "descriptionLines": ["Core reservation lifecycle, seat holds, dynamic pricing."]
+                "descriptionLines": [
+                  "Core reservation lifecycle, seat holds, dynamic pricing."
+                ],
+                "icon": "service"
               },
               {
                 "title": "Notification Dispatcher",
-                "descriptionLines": ["Async batch job — confirmation emails, event reminder pushes."]
+                "descriptionLines": [
+                  "Async batch job — confirmation emails, event reminder pushes."
+                ],
+                "icon": "service"
               }
             ]
           ]
@@ -69,7 +88,10 @@
             [
               {
                 "title": "Event & Seat Entity Service",
-                "descriptionLines": ["Canonical event, venue, and seat inventory model, deduplicated across booking, box office, and support systems."]
+                "descriptionLines": [
+                  "Canonical event, venue, and seat inventory model, deduplicated across booking, box office, and support systems."
+                ],
+                "icon": "entity"
               }
             ]
           ]
@@ -80,22 +102,37 @@
         "items": [
           {
             "title": "Booking DB",
-            "descriptionLines": ["PostgreSQL — shared \"bookings\" schema"],
-            "pill": { "label": "PRIMARY", "semantic": "primary" }
+            "descriptionLines": [
+              "PostgreSQL — shared \"bookings\" schema"
+            ],
+            "pill": {
+              "label": "PRIMARY",
+              "semantic": "primary"
+            },
+            "icon": "data-store"
           },
           {
             "title": "Legacy Settlement Export",
-            "descriptionLines": ["Nightly CSV batch for finance reconciliation"]
+            "descriptionLines": [
+              "Nightly CSV batch for finance reconciliation"
+            ],
+            "icon": "data-store"
           },
           {
             "title": "Document Archive",
-            "descriptionLines": ["Signed venue contracts and invoices"]
+            "descriptionLines": [
+              "Signed venue contracts and invoices"
+            ],
+            "icon": "data-store"
           }
         ]
       }
     },
     "egress": {
-      "gateway": { "label": "API Gateway", "sublabel": "Outbound M2M" }
+      "gateway": {
+        "label": "API Gateway",
+        "sublabel": "Outbound M2M"
+      }
     },
     "externalSystems": {
       "clusters": [
@@ -105,21 +142,39 @@
             {
               "dotColor": "purple",
               "title": "Billing Service",
-              "descriptionLines": ["OAuth2 M2M — invoice generation, refunds"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "OAuth2 M2M — invoice generation, refunds"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             },
             {
               "dotColor": "teal",
               "title": "Analytics Pipeline",
-              "descriptionLines": ["Event stream — booking + engagement telemetry"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Event stream — booking + engagement telemetry"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             },
             {
               "dotColor": "navy",
               "title": "Customer Relationship Management and Support Case Management Platform",
-              "descriptionLines": ["OAuth2 M2M — support case sync"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" },
-              "acronym": "CRM/Support"
+              "descriptionLines": [
+                "OAuth2 M2M — support case sync"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "acronym": "CRM/Support",
+              "icon": "external"
             }
           ]
         },
@@ -129,14 +184,26 @@
             {
               "dotColor": "amber",
               "title": "Card Processor",
-              "descriptionLines": ["PCI-scoped M2M — authorization + capture"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "PCI-scoped M2M — authorization + capture"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             },
             {
               "dotColor": "amber",
               "title": "Fraud Detection Service",
-              "descriptionLines": ["Real-time risk scoring on checkout"],
-              "pill": { "label": "via egress", "semantic": "viaEgress" }
+              "descriptionLines": [
+                "Real-time risk scoring on checkout"
+              ],
+              "pill": {
+                "label": "via egress",
+                "semantic": "viaEgress"
+              },
+              "icon": "external"
             }
           ]
         }
@@ -145,14 +212,32 @@
   },
   "legend": {
     "entries": [
-      { "colorToken": "purple", "label": "Discovery and Governance" },
-      { "colorToken": "green", "label": "Execution and Capability Layer" },
-      { "colorToken": "teal", "label": "Entity Layer" },
-      { "colorToken": "amber", "label": "Systems of Record and Knowledge" },
-      { "colorToken": "mint", "label": "Ingress / Egress gateways" }
+      {
+        "colorToken": "purple",
+        "label": "Discovery and Governance"
+      },
+      {
+        "colorToken": "green",
+        "label": "Execution and Capability Layer"
+      },
+      {
+        "colorToken": "teal",
+        "label": "Entity Layer"
+      },
+      {
+        "colorToken": "amber",
+        "label": "Systems of Record and Knowledge"
+      },
+      {
+        "colorToken": "mint",
+        "label": "Ingress / Egress gateways"
+      }
     ],
     "abbreviations": [
-      { "acronym": "CRM/Support", "fullName": "Customer Relationship Management and Support Case Management Platform" }
+      {
+        "acronym": "CRM/Support",
+        "fullName": "Customer Relationship Management and Support Case Management Platform"
+      }
     ]
   },
   "notes": [

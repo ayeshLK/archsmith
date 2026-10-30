@@ -1,5 +1,219 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1916" height="734" viewBox="0 0 1916 734">
 <defs><style>@font-face{font-family:'Arimo';src:url(data:font/woff;base64,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) format('woff');font-weight:400;font-style:normal;}@font-face{font-family:'Arimo';src:url(data:font/woff;base64,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) format('woff');font-weight:700;font-style:normal;}</style></defs>
+<metadata id="archsmith-icon-provenance">ArchSmith item icon provenance and license
+Baseline: Google Material Symbols Outlined
+Upstream revision: 10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7
+Apache-2.0 source license: https://github.com/google/material-design-icons/blob/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/LICENSE
+Modified geometry included in this diagram:
+- person: https://github.com/google/material-design-icons/blob/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/person/materialsymbolsoutlined/person_24px.svg (redrawn as ArchSmith allow-listed monochrome 24x24 outline geometry)
+- policy: https://github.com/google/material-design-icons/blob/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/policy/materialsymbolsoutlined/policy_24px.svg (redrawn as ArchSmith allow-listed monochrome 24x24 outline geometry)
+- hub: https://github.com/google/material-design-icons/blob/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/hub/materialsymbolsoutlined/hub_24px.svg (redrawn as ArchSmith allow-listed monochrome 24x24 outline geometry)
+- database: https://github.com/google/material-design-icons/blob/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/database/materialsymbolsoutlined/database_24px.svg (redrawn as ArchSmith allow-listed monochrome 24x24 outline geometry)
+- public: https://github.com/google/material-design-icons/blob/10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7/symbols/web/public/materialsymbolsoutlined/public_24px.svg (redrawn as ArchSmith allow-listed monochrome 24x24 outline geometry)
+The included source-inspired geometry is modified from the upstream SVGs. The original ArchSmith entity record-card geometry is not third-party artwork.
+The complete applicable Apache-2.0 license text follows. Preserve this metadata when redistributing the SVG or the marked geometry.
+
+Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      "License" shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      "Licensor" shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      "Legal Entity" shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      "control" means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      "You" (or "Your") shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      "Source" form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      "Object" form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      "Work" shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      "Derivative Works" shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      "Contribution" shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, "submitted"
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as "Not a Contribution."
+
+      "Contributor" shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a "NOTICE" text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+   END OF TERMS AND CONDITIONS
+
+   APPENDIX: How to apply the Apache License to your work.
+
+      To apply the Apache License to your work, attach the following
+      boilerplate notice, with the fields enclosed by brackets "[]"
+      replaced with your own identifying information. (Don't include
+      the brackets!)  The text should be enclosed in the appropriate
+      comment syntax for the file format. We also recommend that a
+      file or class name and description of purpose be included on the
+      same "printed page" as the copyright notice for easier
+      identification within third-party archives.
+
+   Copyright [yyyy] [name of copyright owner]
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.</metadata>
 <rect x="0" y="0" width="1916" height="734" rx="0" ry="0" fill="#FFFFFF"/>
 <text x="958" y="44" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" font-weight="700" fill="#182449" text-anchor="middle">API Gateway Front Door — Architecture</text>
 <text x="958" y="66" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="400" fill="#6B7280" text-anchor="middle">Ingress and external dependencies dominate, with minimal core business logic</text>
@@ -11,16 +225,19 @@
 <text x="1744" y="92" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="middle">EXTERNAL SYSTEMS</text>
 <rect x="30" y="118" width="260" height="444" rx="10" ry="10" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="1.4"/>
 <rect x="42" y="130" width="236" height="66" rx="10" ry="10" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.4"/>
-<circle cx="62" cy="148" r="4.5" fill="#5B3A9E"/>
-<text x="72" y="152" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Mobile App</text>
+<circle fill="none" stroke="#5B3A9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="66" cy="142.66666666666666" r="2.1666666666666665"/>
+<polyline fill="none" stroke="#5B3A9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="61.333333333333336,152 61.333333333333336,150.66666666666666 62.666666666666664,149.33333333333334 64,148.66666666666666 66,148 68,148.66666666666666 69.33333333333333,149.33333333333334 70.66666666666667,150.66666666666666 70.66666666666667,152"/>
+<text x="78" y="152" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Mobile App</text>
 <text x="58" y="172" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">Primary customer entry point</text>
 <rect x="42" y="216" width="236" height="66" rx="10" ry="10" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.4"/>
-<circle cx="62" cy="234" r="4.5" fill="#177F6B"/>
-<text x="72" y="238" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Partner Widget</text>
+<circle fill="none" stroke="#177F6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="66" cy="228.66666666666666" r="2.1666666666666665"/>
+<polyline fill="none" stroke="#177F6B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="61.333333333333336,238 61.333333333333336,236.66666666666666 62.666666666666664,235.33333333333334 64,234.66666666666666 66,234 68,234.66666666666666 69.33333333333333,235.33333333333334 70.66666666666667,236.66666666666666 70.66666666666667,238"/>
+<text x="78" y="238" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Partner Widget</text>
 <text x="58" y="258" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">Embedded partner experience</text>
 <rect x="42" y="302" width="236" height="83" rx="10" ry="10" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.4"/>
-<circle cx="62" cy="320" r="4.5" fill="#2B3350"/>
-<text x="72" y="324" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Support Desk</text>
+<circle fill="none" stroke="#2B3350" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="66" cy="314.6666666666667" r="2.1666666666666665"/>
+<polyline fill="none" stroke="#2B3350" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="61.333333333333336,324 61.333333333333336,322.6666666666667 62.666666666666664,321.3333333333333 64,320.6666666666667 66,320 68,320.6666666666667 69.33333333333333,321.3333333333333 70.66666666666667,322.6666666666667 70.66666666666667,324"/>
+<text x="78" y="324" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Support Desk</text>
 <text x="58" y="344" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">Internal assistance and account</text>
 <text x="58" y="361" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.8" font-weight="400" fill="#48506B" text-anchor="start">operations</text>
 <rect x="318" y="118" width="150" height="444" rx="10" ry="10" fill="#D9F2EC" stroke="#1E8A73" stroke-width="1.6"/>
@@ -39,24 +256,47 @@
 <rect x="758.09375" y="188" width="105.927734375" height="20" rx="10" ry="10" fill="#E4D9F7"/>
 <text x="811.0576171875" y="202" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#5B3A9E" text-anchor="middle">CONTROL PLANE</text>
 <rect x="546" y="214" width="800" height="54" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
-<text x="561" y="233" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">API Policy Control Plane</text>
+<polyline fill="none" stroke="#5B3A9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="569,220.33333333333334 574.3333333333334,222.66666666666666 573.6666666666666,227.66666666666666 571.6666666666666,230.33333333333334 569,233 566.3333333333334,230.33333333333334 564.3333333333334,227.66666666666666 563.6666666666666,222.66666666666666 569,220.33333333333334"/>
+<polyline fill="none" stroke="#5B3A9E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="566.3333333333334,226.66666666666666 568,228.33333333333334 571.6666666666666,224.66666666666666"/>
+<text x="581" y="233" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">API Policy Control Plane</text>
 <text x="561" y="253" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Route governance, throttling, and service exposure</text>
 <rect x="530" y="298" width="832" height="104" rx="10" ry="10" fill="#EAF7EC" stroke="#2F7D4F" stroke-width="1.6"/>
 <text x="546" y="323" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#2F7D4F" text-anchor="start">EXECUTION AND CAPABILITY LAYER</text>
 <rect x="546" y="334" width="800" height="54" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
-<text x="561" y="353" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Thin Facade Service</text>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="569" y1="345" x2="569" y2="343"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="570.7333333333333" y1="346" x2="572.5333333333333" y2="345"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="570.7333333333333" y1="348" x2="572.5333333333333" y2="349"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="567.2666666666667" y1="348" x2="565.4666666666667" y2="349"/>
+<line fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="567.2666666666667" y1="346" x2="565.4666666666667" y2="345"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="569" cy="347" r="2"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="569" cy="341.6666666666667" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="573.6666666666666" cy="344.3333333333333" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="573.6666666666666" cy="349.6666666666667" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="564.3333333333334" cy="349.6666666666667" r="1.3333333333333333"/>
+<circle fill="none" stroke="#2F7D4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="564.3333333333334" cy="344.3333333333333" r="1.3333333333333333"/>
+<text x="581" y="353" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Thin Facade Service</text>
 <text x="561" y="373" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Minimal orchestration and request translation</text>
 <rect x="514" y="436" width="864" height="110" rx="10" ry="10" fill="#FDF3D9" stroke="#92600E" stroke-width="1.6"/>
 <text x="530" y="461" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700" fill="#92600E" text-anchor="start">SYSTEMS OF RECORD AND KNOWLEDGE</text>
 <rect x="800.40673828125" y="446" width="98.1494140625" height="20" rx="10" ry="10" fill="#F7E4B0"/>
 <text x="849.4814453125" y="460" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#92600E" text-anchor="middle">DATA SOURCES</text>
 <rect x="530" y="478" width="406" height="54" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
-<text x="545" y="497" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Config Store</text>
-<rect x="630.993408203125" y="483" width="65.7421875" height="20" rx="10" ry="10" fill="#DFF3E4"/>
-<text x="663.864501953125" y="497" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#2F7D4F" text-anchor="middle">PRIMARY</text>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="553" cy="486.3333333333333" rx="5.333333333333333" ry="2"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="547.6666666666666" y1="486.3333333333333" x2="547.6666666666666" y2="495.6666666666667"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="558.3333333333334" y1="486.3333333333333" x2="558.3333333333334" y2="495.6666666666667"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="553" cy="491" rx="5.333333333333333" ry="2"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="553" cy="495.6666666666667" rx="5.333333333333333" ry="2"/>
+<text x="565" y="497" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Config Store</text>
+<rect x="650.993408203125" y="483" width="65.7421875" height="20" rx="10" ry="10" fill="#DFF3E4"/>
+<text x="683.864501953125" y="497" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#2F7D4F" text-anchor="middle">PRIMARY</text>
 <text x="545" y="517" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Feature flags, routes, and environment config</text>
 <rect x="956" y="478" width="406" height="54" rx="8" ry="8" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.3"/>
-<text x="971" y="497" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Request Log</text>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="979" cy="486.3333333333333" rx="5.333333333333333" ry="2"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="973.6666666666666" y1="486.3333333333333" x2="973.6666666666666" y2="495.6666666666667"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="984.3333333333334" y1="486.3333333333333" x2="984.3333333333334" y2="495.6666666666667"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="979" cy="491" rx="5.333333333333333" ry="2"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="979" cy="495.6666666666667" rx="5.333333333333333" ry="2"/>
+<text x="991" y="497" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Request Log</text>
 <text x="971" y="517" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.5" font-weight="400" fill="#48506B" text-anchor="start">Operational access logs and request history</text>
 <rect x="1424" y="118" width="150" height="444" rx="10" ry="10" fill="#D9F2EC" stroke="#1E8A73" stroke-width="1.6"/>
 <rect x="1436" y="290" width="126" height="100" rx="10" ry="10" fill="#FFFFFF" stroke="#1E8A73" stroke-width="1.6"/>
@@ -69,30 +309,46 @@
 <rect x="1602" y="118" width="284" height="444" rx="10" ry="10" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="1.4"/>
 <rect x="1614" y="130" width="260" height="220" rx="10" ry="10" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="1.5"/>
 <text x="1630" y="156" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Downstream SaaS</text>
-<circle cx="1634" cy="178" r="4.5" fill="#92600E"/>
-<text x="1646" y="182" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Identity Provider</text>
-<rect x="1748.0546875" y="168" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
-<text x="1782.517578125" y="182" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
-<text x="1646" y="199" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Authentication and token issuance</text>
+<circle fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="176" r="6"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="176" rx="2.6666666666666665" ry="6"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1632.3333333333333" y1="176" x2="1643.6666666666667" y2="176"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="173" x2="1642.3333333333333" y2="173"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="179" x2="1642.3333333333333" y2="179"/>
+<text x="1650" y="182" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Identity Provider</text>
+<rect x="1752.0546875" y="168" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
+<text x="1786.517578125" y="182" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
+<text x="1650" y="199" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Authentication and token issuance</text>
 <line x1="1630" y1="210" x2="1858" y2="210" stroke="#D9DCE7" stroke-width="1.3"/>
-<circle cx="1634" cy="230" r="4.5" fill="#92600E"/>
-<text x="1646" y="234" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Search API</text>
-<rect x="1715.49091796875" y="220" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
-<text x="1749.95380859375" y="234" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
-<text x="1646" y="251" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Query, discovery, and autocomplete</text>
+<circle fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="228" r="6"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="228" rx="2.6666666666666665" ry="6"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1632.3333333333333" y1="228" x2="1643.6666666666667" y2="228"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="225" x2="1642.3333333333333" y2="225"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="231" x2="1642.3333333333333" y2="231"/>
+<text x="1650" y="234" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Search API</text>
+<rect x="1719.49091796875" y="220" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
+<text x="1753.95380859375" y="234" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
+<text x="1650" y="251" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Query, discovery, and autocomplete</text>
 <line x1="1630" y1="262" x2="1858" y2="262" stroke="#D9DCE7" stroke-width="1.3"/>
-<circle cx="1634" cy="282" r="4.5" fill="#92600E"/>
-<text x="1646" y="286" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Recommendations API</text>
-<rect x="1784.504248046875" y="272" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
-<text x="1818.967138671875" y="286" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
-<text x="1646" y="303" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Personalized suggestions and ranking</text>
+<circle fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="280" r="6"/>
+<ellipse fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="280" rx="2.6666666666666665" ry="6"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1632.3333333333333" y1="280" x2="1643.6666666666667" y2="280"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="277" x2="1642.3333333333333" y2="277"/>
+<line fill="none" stroke="#92600E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="283" x2="1642.3333333333333" y2="283"/>
+<text x="1650" y="286" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Recommendations API</text>
+<rect x="1788.504248046875" y="272" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
+<text x="1822.967138671875" y="286" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
+<text x="1650" y="303" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Personalized suggestions and ranking</text>
 <rect x="1614" y="370" width="260" height="116" rx="10" ry="10" fill="#FFFFFF" stroke="#D9DCE7" stroke-width="1.5"/>
 <text x="1630" y="396" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13.5" font-weight="700" fill="#182449" text-anchor="start">Shared Platform Services</text>
-<circle cx="1634" cy="418" r="4.5" fill="#1E8A73"/>
-<text x="1646" y="422" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Feature Flags</text>
-<rect x="1730.9740234375" y="408" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
-<text x="1765.4369140625" y="422" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
-<text x="1646" y="439" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Operational toggles and rollout control</text>
+<circle fill="none" stroke="#1E8A73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="416" r="6"/>
+<ellipse fill="none" stroke="#1E8A73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="1638" cy="416" rx="2.6666666666666665" ry="6"/>
+<line fill="none" stroke="#1E8A73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1632.3333333333333" y1="416" x2="1643.6666666666667" y2="416"/>
+<line fill="none" stroke="#1E8A73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="413" x2="1642.3333333333333" y2="413"/>
+<line fill="none" stroke="#1E8A73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="1633.6666666666667" y1="419" x2="1642.3333333333333" y2="419"/>
+<text x="1650" y="422" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.3" font-weight="700" fill="#182449" text-anchor="start">Feature Flags</text>
+<rect x="1734.9740234375" y="408" width="68.92578125" height="20" rx="10" ry="10" fill="#D9F2EC"/>
+<text x="1769.4369140625" y="422" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" font-weight="700" fill="#1E8A73" text-anchor="middle">via egress</text>
+<text x="1650" y="439" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="400" fill="#6B7280" text-anchor="start">Operational toggles and rollout control</text>
 <rect x="30" y="586" width="886" height="118" rx="10" ry="10" fill="#FFFFFF" stroke="#1B2333" stroke-width="1.4"/>
 <text x="48" y="612" font-family="Arimo, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#182449" text-anchor="start">LEGEND</text>
 <rect x="48" y="624" width="16" height="16" rx="4" ry="4" fill="#F4EFFC" stroke="#5B3A9E" stroke-width="1.3"/>

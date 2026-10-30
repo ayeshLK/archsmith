@@ -33,6 +33,34 @@ test("render(ticket-booking/diagram.archsmith.json) matches the visually-QA'd go
   assert.equal(svg, golden);
 });
 
+test("SVG exports with Material-derived icons carry source, modification, and complete license metadata", () => {
+  const ir = loadFixture("ticket-booking/diagram.archsmith.json") as DiagramIR;
+  const svg = render(ir, { embedFonts: false });
+  const license = readFileSync(path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../licenses/MaterialSymbols-LICENSE.txt"), "utf-8").trim();
+
+  assert.ok(svg.includes('<metadata id="archsmith-icon-provenance">'));
+  assert.ok(svg.includes("Google Material Symbols Outlined"));
+  assert.ok(svg.includes("10ecc14790612ca8fd164e3f4ffe9c16fc50d5b7"));
+  assert.ok(svg.includes("redrawn as ArchSmith allow-listed monochrome 24x24 outline geometry"));
+  assert.ok(svg.includes(license.slice(0, 300)));
+  assert.ok(svg.includes("END OF TERMS AND CONDITIONS"));
+});
+
+test("an SVG using only original ArchSmith entity geometry has no third-party icon license metadata", () => {
+  const ir = structuredClone(loadFixture("minimal-valid/diagram.archsmith.json")) as DiagramIR;
+  const items = [
+    ...ir.columns.inboundActors.items,
+    ...ir.columns.corePlatform.subLayers.flatMap((layer) => layer.rows.flat()),
+    ...ir.columns.corePlatform.systemsOfRecord.items,
+    ...ir.columns.externalSystems.clusters.flatMap((cluster) => cluster.items),
+  ];
+  for (const item of items) delete item.icon;
+  ir.columns.corePlatform.subLayers[0].rows[0][0].icon = "entity";
+
+  const svg = render(ir, { embedFonts: false });
+  assert.ok(!svg.includes("archsmith-icon-provenance"));
+});
+
 test("accessible family changes governed accents throughout the render", () => {
   const ir = structuredClone(loadFixture("ticket-booking/diagram.archsmith.json")) as DiagramIR;
   ir.colorTheme.family = "accessible";
