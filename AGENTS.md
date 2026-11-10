@@ -175,3 +175,17 @@ The release workflow (`.github/workflows/release.yml`) runs on `workflow_dispatc
 - [packages/schema/README.md](packages/schema/README.md) — the schema/registry files themselves and what's still a placeholder.
 - [docs/demo/README.md](docs/demo/README.md) — how the README's demo GIFs (CLI, `archsmith author`, MCP) are recorded and regenerated, including the Ink/`expect` gotchas hit building the wizard recording.
 - [GitHub issues](https://github.com/ayeshLK/archsmith/issues) (`roadmap`, `schema`, `mcp-server`, `release` labels) — planned work and open directions.
+
+## Agent skills
+
+### Issue tracker
+
+Issues are tracked in GitHub Issues. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Triage uses the five default label names. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Domain documentation uses a single-context layout. See `docs/agents/domain.md`.
