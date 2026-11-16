@@ -25,7 +25,7 @@
     "@archsmith/schema": "^0.10.0",
     "ajv": "^8.17.1",
     "@fontsource/arimo": "^5.1.0",
-    "fontkit": "^2.0.4",
+    "fontkit": "^3.0.0",
     "harfbuzzjs": "^1.6.4",
     "woff2sfnt-sfnt2woff": "^1.0.0"
   },
